@@ -11,7 +11,7 @@ public class InputManager : MonoBehaviour
         buttonKeys = new Dictionary<string, KeyCode>();
 
         // TODO:  Consider reading these from a user preferences file
-        buttonKeys["Drag"] = KeyCode.Space;         
+        buttonKeys["Drag"] = KeyCode.Mouse1;         
         buttonKeys["Rotate"] = KeyCode.Mouse2;
 
         buttonKeys["Right"] = KeyCode.D;
