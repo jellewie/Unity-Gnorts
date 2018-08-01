@@ -6,14 +6,17 @@ using PublicCode;
 public class UserInput : MonoBehaviour
 {
     private Player _player;                                                                     //Reffrence to the player
+    public InputManager inputManager;
 
     private void Start()                                                                //On start
     {
         _player = transform.root.GetComponent<Player>();                                        //Fill the player reference
+        inputManager = GameObject.FindObjectOfType<InputManager>();
     }
 
     private void Update()                                                               //Update before frame
     {
+        
     }
 
 
@@ -25,10 +28,7 @@ public class UserInput : MonoBehaviour
         }
     }
 
-
-    private Vector3 MouseDragOrigin;                                                            //Mouse position when started with dragging
-    private bool Dragging = false;
-
+   
     private void MoveCamera()
     {
         float UD = Camera.main.transform.eulerAngles.x + 90;                                    //Get camera up and down in degrees
@@ -57,7 +57,7 @@ public class UserInput : MonoBehaviour
             Z += JelleWho.MoveEdgeScrollSpeed * Speed;                                          //Scroll a bit
         }
 
-        if (Input.GetMouseButton(1))                                                            //detect rotation amount
+        if (inputManager.GetButtonDown("Drag"))                                                            //If the Drag button is presse
         {
             int speed = 30;
             X = X - Input.GetAxisRaw("Mouse X") * Time.deltaTime * speed;
@@ -71,7 +71,7 @@ public class UserInput : MonoBehaviour
 
 
         }
-        Debug.Log(LR);
+        //Debug.Log(LR);
 
         float ScrollWheelChange = Input.GetAxis("Mouse ScrollWheel");                           //Get the scrollwheel location
         if (ScrollWheelChange != 0)                                                             //If the scrollwheel has changed
@@ -112,7 +112,7 @@ public class UserInput : MonoBehaviour
 
 
         
-        if (Input.GetMouseButton(2))                                                            //If Scroll wheel is clicked
+        if (inputManager.GetButtonDown("Rotate"))                                               //If the rotate button is pressed
         {
             Vector3 destination = Camera.main.transform.eulerAngles;
             destination.x -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeed;                   //Get the mouse movement

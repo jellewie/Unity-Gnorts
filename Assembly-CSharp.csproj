@@ -62,16 +62,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\_Code\Player.cs" />
+    <Compile Include="Assets\_Code\PublicCode\InputManager.cs" />
     <Compile Include="Assets\_Code\PublicCode\ResourceManager.cs" />
     <Compile Include="Assets\_Code\UserInput.cs" />
+    <Compile Include="Assets\KeybindDialogBox.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/user/Github/Unity-Gnorts/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/user/Github/Unity-Gnorts/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/user/Github/Unity-Gnorts/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.PackageManagerUI.Editor">
+      <HintPath>C:/Users/user/Github/Unity-Gnorts/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>C:/Users/user/Github/Unity-Gnorts/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>

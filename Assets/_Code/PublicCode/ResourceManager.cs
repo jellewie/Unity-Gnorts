@@ -16,3 +16,4 @@ namespace PublicCode {
         public static int ZoomScrollWheelSpeed = 2;             //The speed of the ScrollWheel when zooming in and out
     }
 }
+
