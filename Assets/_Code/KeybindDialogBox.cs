@@ -25,7 +25,7 @@ public class KeybindDialogBox : MonoBehaviour {
         {
             string bn;
             bn = buttonName[i];
-
+            
             GameObject go = (GameObject)Instantiate(keyItemPrefab);
             go.transform.SetParent(keyList.transform);
             go.transform.localScale = Vector3.one;
