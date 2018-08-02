@@ -9,21 +9,25 @@ public class KeybindDialogBox : MonoBehaviour {
 	void Start () 
     {
         inputManager = GameObject.FindObjectOfType<InputManager>();
-
         // Create one "Key List Item" per button in inputManager
+        buttonToLabel = new Dictionary<string, Text>();             
+        LoadList();                                             //Put all the entries in the list
+    }
 
-        string[] buttonNames = inputManager.GetButtonNames();
-        buttonToLabel = new Dictionary<string, Text>();
-
-
-        //foreach(string bn in buttonNames)
-        for(int i = 0; i < buttonNames.Length; i++)
+    void LoadList()
+    {
+        foreach (Transform child in keyList.transform)                                          //For each entry in the list
+        {
+            GameObject.Destroy(child.gameObject);                                               //Remove the entry
+        }
+        string[] buttonName = inputManager.GetButtonNames();                                    //Gets all button names and plot it in a array
+        for (int i = 0; i < buttonName.Length; i++)                                             //For each button name
         {
             string bn;
-            bn = buttonNames[i];
+            bn = buttonName[i];
 
             GameObject go = (GameObject)Instantiate(keyItemPrefab);
-            go.transform.SetParent( keyList.transform );
+            go.transform.SetParent(keyList.transform);
             go.transform.localScale = Vector3.one;
 
             Text buttonNameText = go.transform.Find("Button Name").GetComponent<Text>();
@@ -34,11 +38,9 @@ public class KeybindDialogBox : MonoBehaviour {
             buttonToLabel[bn] = keyNameText;
 
             Button keyBindButton = go.transform.Find("Button").GetComponent<Button>();
-            keyBindButton.onClick.AddListener( () => { StartRebindFor(bn); } );
+            keyBindButton.onClick.AddListener(() => { StartRebindFor(bn); });
         }
-
-	}
-
+    }
     InputManager inputManager;
     public GameObject keyItemPrefab;
     public GameObject keyList;
@@ -76,8 +78,11 @@ public class KeybindDialogBox : MonoBehaviour {
 
     void StartRebindFor(string buttonName)
     {
-        Debug.Log("StartRebindFor: " + buttonName);
-
         buttonToRebind = buttonName;
+    }
+    public void ResetAllKeys()
+    {
+        inputManager.ResetAllShotKeys();
+        LoadList();
     }
 }
