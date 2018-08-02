@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace PublicCode {
     public static class JelleWho {
-        public static float HeighSpeedIncrease = 0.1f;                                          //The height has X of speed increase per block
-        public static float MoveSpeedKeyboard = 0.4f;
+        public static float HeighSpeedIncrease = 0.05f;                                          //The height has X of speed increase per block
+        public static float MoveSpeedKeyboard = 0.7f;
         public static int RotateSpeed = 5;                                                      //The speed of rotating with the scroll wheel
         public static int MoveSpeedMouse = 1;                                                   //Speed of dragging the map with the mouse
         public static int MoveIfThisCloseToTheSides = 25;                                       //If the mouse is this close to the edge

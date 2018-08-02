@@ -5,12 +5,10 @@ using PublicCode;
 
 public class UserInput : MonoBehaviour
 {
-    private Player _player;                                                                     //Reffrence to the player
     public InputManager inputManager;
 
     private void Start()                                                                //On start
     {
-        _player = transform.root.GetComponent<Player>();                                        //Fill the player reference
         inputManager = GameObject.FindObjectOfType<InputManager>();
     }
 
@@ -28,13 +26,11 @@ public class UserInput : MonoBehaviour
    
     private void MoveCamera()
     {
-        float UD = Camera.main.transform.eulerAngles.x + 90;                                    //Get camera up and down in degrees
-        float LR = -1 * (Camera.main.transform.eulerAngles.y - 90);                             //Get left to right in degrees
-        float rUD = UD / 180 * Mathf.PI;                                                        //Convert from degrees to radians
-        float rLR = LR / 180 * Mathf.PI;                                                        //^
         float X = Camera.main.transform.position.x;                                             //Get main camera location
         float Y = Camera.main.transform.position.y;                                             //^
         float Z = Camera.main.transform.position.z;                                             //^
+        float Xr = Camera.main.transform.eulerAngles.x;                                         //Get main camera rotation
+        float Yr = Camera.main.transform.eulerAngles.y;                                         //^
         float Speed = Y * JelleWho.HeighSpeedIncrease;                                          //The height has X of speed increase per block
         //Edge scroll
         float xpos = Input.mousePosition.x;                                                     //Save mouse position
@@ -111,10 +107,6 @@ public class UserInput : MonoBehaviour
             X += XYZ.x;                                                                         //Move bit
             Z += XYZ.z;                                                                         //^
         }
-
-
-
-
         if (inputManager.GetButtonDown("Drag"))                                                 //If the Drag button is presse
         {
             Vector2 LookingAt = Camera.main.transform.eulerAngles;                              //The angles we are looking at
@@ -125,7 +117,6 @@ public class UserInput : MonoBehaviour
             X += XYZ.x;                                                                         //Move bit
             Z += XYZ.z;                                                                         //^
         }
-
         float ScrollWheelChange = Input.GetAxis("Mouse ScrollWheel");                           //Get the scrollwheel location
         if (ScrollWheelChange != 0)                                                             //If the scrollwheel has changed
         {                          
@@ -135,6 +126,20 @@ public class UserInput : MonoBehaviour
             Y += XYZ.y;                                                                         //^
             Z += XYZ.z;                                                                         //^
         }
+
+        
+
+        if (inputManager.GetButtonDown("Rotate"))                                               //If the rotate button is pressed
+        {
+            Vector3 destination = Camera.main.transform.eulerAngles;
+            Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeed;                   //Get the mouse movement
+            destination.y += Input.GetAxis("Mouse X") * JelleWho.RotateSpeed;                   //^
+
+
+        }
+
+
+
         if (X > JelleWho.MaxMoveHorizontalOnMap)                                                //Limit range North South(?)
         {
             X = JelleWho.MaxMoveHorizontalOnMap;                                                //^
@@ -159,29 +164,25 @@ public class UserInput : MonoBehaviour
         {
             Z = -1 * JelleWho.MaxMoveHorizontalOnMap;                                           //
         }
-        Camera.main.transform.position = new Vector3(X, Y, Z);                                  //Move the main camera
-
-        if (inputManager.GetButtonDown("Rotate"))                                               //If the rotate button is pressed
+        if (Xr < 5)                                                                             //If the camera rotation is to HIGH
         {
-            Vector3 destination = Camera.main.transform.eulerAngles;
-            destination.x -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeed;                   //Get the mouse movement
-            destination.y += Input.GetAxis("Mouse X") * JelleWho.RotateSpeed;                   //^
-            if (destination.x < 5)                                                              //If the camera points to HIGH
-            {
-                destination.x = 5;                                                              //Set camera to max HIGH level
-            }
-            if (destination.x > 85)                                                             //If the camera points to LOW
-            {
-                destination.x = 85;                                                             //Set camera to max LOW level
-            }
-            Camera.main.transform.eulerAngles = destination;
+            Xr = 5;                                                                             //Set camera to max HIGH level
         }
+        if (Xr > 85)                                                                            //If the camera rotation is to LOW
+        {
+            Xr = 85;                                                                            //Set camera to max LOW level
+        }
+        Camera.main.transform.position = new Vector3(X, Y, Z);                                  //Move the main camera
+        Camera.main.transform.eulerAngles = new Vector2(Xr, Yr);
     }
-    Vector3 PolarToCartesian(Vector2 polar, Vector3 Offset)     //Offset=(Left, Up, Forward)
+    Vector3 PolarToCartesian(Vector2 polar, Vector3 Offset)                                     //Offset=(Left, Up, Forward)
     {
-        var rotation = Quaternion.Euler(polar.x, polar.y, 0);   //Convert it
-        return rotation * Offset;                               //Return the Vector 3 of the target point
+        var rotation = Quaternion.Euler(polar.x, polar.y, 0);                                   //Convert it
+        return rotation * Offset;                                                               //Return the Vector 3 of the target point
     }
+}
+
+/*
     public GameObject Tempblock;
     void Temp()
     {
@@ -190,4 +191,4 @@ public class UserInput : MonoBehaviour
         Vector3 Range = new Vector3(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));     //The range where we need to go relative to the angles
         Tempblock.transform.position = OffsetXYZ + PolarToCartesian(LookingAt, Range);          //Calculate and move
     }
-}
+    */
