@@ -127,15 +127,22 @@ public class UserInput : MonoBehaviour
             Z += XYZ.z;                                                                         //^
         }
 
-        
+        if (inputManager.GetButtonDown("Rotate left"))
+        {
+
+        }
+        if (inputManager.GetButtonDown("Rotate right"))
+        {
+
+        }
+
+
 
         if (inputManager.GetButtonDown("Rotate"))                                               //If the rotate button is pressed
         {
             Vector3 destination = Camera.main.transform.eulerAngles;
-            Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeed;                   //Get the mouse movement
-            destination.y += Input.GetAxis("Mouse X") * JelleWho.RotateSpeed;                   //^
-
-
+            Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse;                              //Get the mouse movement
+            Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse;                   //^
         }
 
 
