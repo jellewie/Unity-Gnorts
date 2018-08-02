@@ -6,24 +6,33 @@ using PublicCode;
 public class UserInput : MonoBehaviour
 {
     public InputManager inputManager;
+    bool isPaused = false;
 
-    private void Start()                                                                //On start
+    private void Start()                                                                //Triggered on start
     {
         inputManager = GameObject.FindObjectOfType<InputManager>();
     }
-
-    private void Update()                                                               //Update before frame
+    private void Update()                                                               //Triggered before frame update
     {
         
     }
-
-
-    private void LateUpdate()                                                           //Update after frame
+    private void LateUpdate()                                                           //Triggered after frame update
     {
-        MoveCamera();                                                                           //Check if we need to move the camera
+        if (!isPaused)                                                                          //If the game isn't paused
+        {
+            MoveCamera();                                                                       //Check if we need to move the camera
+        }
+    }
+    void OnApplicationFocus(bool hasFocus)                                              //Triggered when the game is in focus
+    {
+        isPaused = !hasFocus;                                                                   //Set game to be in focus
     }
 
-   
+    void OnApplicationPause(bool pauseStatus)                                           //Triggered when the game is out focus
+    {
+        isPaused = pauseStatus;                                                                 //Set game to be out of focus
+    }
+
     private void MoveCamera()
     {
         float X = Camera.main.transform.position.x;                                             //Get main camera location
