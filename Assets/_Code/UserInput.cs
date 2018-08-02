@@ -129,20 +129,19 @@ public class UserInput : MonoBehaviour
 
         if (inputManager.GetButtonDown("Rotate left"))
         {
-
+            Yr -= JelleWho.RotateSpeedKeyboard;                                                 //Get the mouse movement
         }
         if (inputManager.GetButtonDown("Rotate right"))
         {
-
+            Yr += JelleWho.RotateSpeedKeyboard;                                                 //Get the mouse movement
         }
 
 
 
         if (inputManager.GetButtonDown("Rotate"))                                               //If the rotate button is pressed
         {
-            Vector3 destination = Camera.main.transform.eulerAngles;
-            Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse;                              //Get the mouse movement
-            Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse;                   //^
+            Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse;                         //Get the mouse movement
+            Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse;                         //^
         }
 
 
