@@ -5,11 +5,11 @@
 (just some ideas, and things that need to be done)
 1. Hide UI bar button
 2. UI interface placement 
-··* ~~Minimap~~ (Is made)
-··* Buildmenu
-··* Stock overview  (wood, food, stone etc) 
-··.* Items
-····* Wood
+..* ~~Minimap~~ (Is made)
+..* Buildmenu
+..* Stock overview  (wood, food, stone etc) 
+...* Items
+....* Wood
 ····* Stone
 ····* Iron/Steel
 ···* Food
