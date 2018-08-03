@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PublicCode {
     public static class JelleWho {
-        public static float HeighSpeedIncrease = 0.05f;                                          //The height has X of speed increase per block
+        public static float HeighSpeedIncrease = 0.05f;                                         //The height has X of speed increase per block
         public static int MoveIfThisCloseToTheSides = 25;                                       //If the mouse is this close to the edge
         public static float MoveEdgeScrollSpeed = 0.4f;                                         //The speed of the screen when moving with the screen edges
         public static int MoveSpeedMouse = 1;                                                   //The speed of dragging the map with the mouse

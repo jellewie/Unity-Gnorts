@@ -13,16 +13,16 @@ public class InputManager : MonoBehaviour
         int TotalKeys = 9;                                                                      //The total amount of keys, change accordingly
         Desc = new string[TotalKeys];
         Key_ = new string[TotalKeys];
-        Desc[0] = "Drag"; Key_[0] = "Mouse1";
-        Desc[1] = "Rotate"; Key_[1] = "Mouse2";
-        Desc[2] = "Left"; Key_[2] = "A";
-        Desc[3] = "Down"; Key_[3] = "S";
-        Desc[4] = "Right"; Key_[4] = "D";
-        Desc[5] = "Up"; Key_[5] = "W";
-        Desc[6] = "Rotate left"; Key_[6] = "E";
-        Desc[7] = "Rotate right"; Key_[7] = "Q";
+        Desc[0] = "Drag";           Key_[0] = "Mouse1";
+        Desc[1] = "Rotate";         Key_[1] = "Mouse2";
+        Desc[2] = "Left";           Key_[2] = "A";
+        Desc[3] = "Down";           Key_[3] = "S";
+        Desc[4] = "Right";          Key_[4] = "D";
+        Desc[5] = "Up";             Key_[5] = "W";
+        Desc[6] = "Rotate left";    Key_[6] = "E";
+        Desc[7] = "Rotate right";   Key_[7] = "Q";
 
-        Desc[8] = "Menu"; Key_[8] = "Escape";
+        Desc[8] = "Menu";           Key_[8] = "Escape";
 
         buttonKeys = new Dictionary<string, KeyCode>();
         for (int i = 0; i < Desc.Length; i++)                                                   //For each button name

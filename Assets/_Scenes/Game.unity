@@ -1111,7 +1111,7 @@ GameObject:
   - component: {fileID: 620742972}
   - component: {fileID: 620742971}
   m_Layer: 5
-  m_Name: Keybind Box
+  m_Name: Window Keybind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2673,6 +2673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputManager: {fileID: 981870571}
+  MenuBox: {fileID: 1791221444}
 --- !u!1 &1107932979
 GameObject:
   m_ObjectHideFlags: 0
@@ -2924,7 +2925,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1204101867}
-  - component: {fileID: 1204101866}
   m_Layer: 0
   m_Name: _Code_
   m_TagString: Untagged
@@ -2932,17 +2932,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1204101866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1204101865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a70058f73c2a254ea382e6767ce789e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1204101867
 Transform:
   m_ObjectHideFlags: 0
@@ -4206,7 +4195,7 @@ GameObject:
   - component: {fileID: 1791221447}
   - component: {fileID: 1791221446}
   m_Layer: 5
-  m_Name: Settings box
+  m_Name: Window Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

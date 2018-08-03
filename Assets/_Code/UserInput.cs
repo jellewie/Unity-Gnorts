@@ -6,11 +6,11 @@ using PublicCode;
 public class UserInput : MonoBehaviour
 {
     public InputManager inputManager;
+    public GameObject WindowMenu;
     bool isPaused = false;
 
     private void Start()                                                                //Triggered on start
     {
-        inputManager = GameObject.FindObjectOfType<InputManager>();
     }
     private void Update()                                                               //Triggered before frame update
     {
@@ -22,17 +22,24 @@ public class UserInput : MonoBehaviour
         {
             MoveCamera();                                                                       //Check if we need to move the camera
         }
+
+        OtherControls();
     }
     void OnApplicationFocus(bool hasFocus)                                              //Triggered when the game is in focus
     {
         isPaused = !hasFocus;                                                                   //Set game to be in focus
     }
-
     void OnApplicationPause(bool pauseStatus)                                           //Triggered when the game is out focus
     {
         isPaused = pauseStatus;                                                                 //Set game to be out of focus
     }
-
+    private void OtherControls()
+    {
+        if (inputManager.GetButtonDown("Menu"))
+        {
+            WindowMenu.SetActive(!WindowMenu.activeSelf);
+        }
+    }
     private void MoveCamera()
     {
         float X = Camera.main.transform.position.x;                                             //Get main camera location
