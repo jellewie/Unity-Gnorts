@@ -10,7 +10,7 @@ public class InputManager : MonoBehaviour
     private string[] Key_;
     void OnEnable()                                                                             //Runned before start and every time the parrent is enabled
     {
-        int TotalKeys = 9;                                                                      //The total amount of keys, change accordingly
+        int TotalKeys = 10;                                                                     //The total amount of keys, change accordingly
         Desc = new string[TotalKeys];
         Key_ = new string[TotalKeys];
         Desc[0] = "Drag";           Key_[0] = "Mouse1";
@@ -21,8 +21,8 @@ public class InputManager : MonoBehaviour
         Desc[5] = "Up";             Key_[5] = "W";
         Desc[6] = "Rotate left";    Key_[6] = "E";
         Desc[7] = "Rotate right";   Key_[7] = "Q";
-
         Desc[8] = "Menu";           Key_[8] = "Escape";
+        Desc[9] = "Toggle UI";      Key_[9] = "Tab";
 
         buttonKeys = new Dictionary<string, KeyCode>();
         for (int i = 0; i < Desc.Length; i++)                                                   //For each button name

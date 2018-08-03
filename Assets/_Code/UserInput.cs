@@ -7,6 +7,7 @@ public class UserInput : MonoBehaviour
 {
     public InputManager inputManager;
     public GameObject WindowMenu;
+    public GameObject WindowUI;
     bool isPaused = false;
     public bool StopCameraControls = false;
 
@@ -19,12 +20,12 @@ public class UserInput : MonoBehaviour
     }
     private void LateUpdate()                                                           //Triggered after frame update
     {
-        if (!isPaused)                                                                  //If the game isn't paused
+        if (!isPaused)                                                                          //If the game isn't paused
         {
-            OtherControls();
-            if (!StopCameraControls)
+            AlwaysControls();                                                                   //Controls that always need to be executed (like the ESC button)
+            if (!StopCameraControls)                                                            //If we are somewhere where we dont want to control the camera
             {
-                MoveCamera();                                                           //Check if we need to move the camera
+                ExecuteInputs();                                                                //Check if we need to move the camera                                       
             }
         }
     }
@@ -36,16 +37,20 @@ public class UserInput : MonoBehaviour
     {
         isPaused = pauseStatus;                                                                 //Set game to be out of focus
     }
-    private void OtherControls()                                                        //
+    private void AlwaysControls()                                                       //Triggered in LateUpdate (unless the game is out of focus)
     {
-        if (inputManager.GetButtonDownOnce("Menu"))
+        if (inputManager.GetButtonDownOnce("Menu"))                                             //If the Open/Close menu button is pressed
         {
-            StopCameraControls = !WindowMenu.activeSelf;
-            WindowMenu.SetActive(StopCameraControls);
+            StopCameraControls = !WindowMenu.activeSelf;                                        //Flag that the camera controls should be active or not
+            WindowMenu.SetActive(StopCameraControls);                                           //Set the menu's visibility
         }
     }
-    private void MoveCamera()                                                           //All movement of the camera
+    private void ExecuteInputs()                                                        //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
     {
+        if (inputManager.GetButtonDownOnce("Toggle UI"))                                        //If the Toggle UI button is pressed
+        {
+            WindowUI.SetActive(!WindowUI.activeSelf);                                           //Goggle the UI
+        }
         float X = Camera.main.transform.position.x;                                             //Get main camera location
         float Y = Camera.main.transform.position.y;                                             //^
         float Z = Camera.main.transform.position.z;                                             //^
@@ -146,7 +151,6 @@ public class UserInput : MonoBehaviour
             Y += XYZ.y;                                                                         //^
             Z += XYZ.z;                                                                         //^
         }
-
         if (inputManager.GetButtonDown("Rotate left"))
         {
             Yr -= JelleWho.RotateSpeedKeyboard;                                                 //Get the mouse movement
@@ -155,17 +159,12 @@ public class UserInput : MonoBehaviour
         {
             Yr += JelleWho.RotateSpeedKeyboard;                                                 //Get the mouse movement
         }
-
-
-
         if (inputManager.GetButtonDown("Rotate"))                                               //If the rotate button is pressed
         {
             Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse;                         //Get the mouse movement
             Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse;                         //^
         }
-
-
-
+        //Limit movement
         if (X > JelleWho.MaxMoveHorizontalOnMap)                                                //Limit range North South(?)
         {
             X = JelleWho.MaxMoveHorizontalOnMap;                                                //^
@@ -190,13 +189,13 @@ public class UserInput : MonoBehaviour
         {
             Z = -1 * JelleWho.MaxMoveHorizontalOnMap;                                           //
         }
-        if (Xr < 5)                                                                             //If the camera rotation is to HIGH
+        if (Xr < 0)                                                                             //If the camera rotation is to HIGH
         {
-            Xr = 5;                                                                             //Set camera to max HIGH level
+            Xr = 0;                                                                             //Set camera to max HIGH level
         }
-        if (Xr > 85)                                                                            //If the camera rotation is to LOW
+        if (Xr > 90)                                                                            //If the camera rotation is to LOW
         {
-            Xr = 85;                                                                            //Set camera to max LOW level
+            Xr = 90;                                                                            //Set camera to max LOW level
         }
         Camera.main.transform.position = new Vector3(X, Y, Z);                                  //Move the main camera
         Camera.main.transform.eulerAngles = new Vector2(Xr, Yr);
