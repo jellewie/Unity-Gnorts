@@ -8,6 +8,7 @@ public class UserInput : MonoBehaviour
     public InputManager inputManager;
     public GameObject WindowMenu;
     bool isPaused = false;
+    public bool StopCameraControls = false;
 
     private void Start()                                                                //Triggered on start
     {
@@ -18,12 +19,14 @@ public class UserInput : MonoBehaviour
     }
     private void LateUpdate()                                                           //Triggered after frame update
     {
-        if (!isPaused)                                                                          //If the game isn't paused
+        if (!isPaused)                                                                  //If the game isn't paused
         {
-            MoveCamera();                                                                       //Check if we need to move the camera
+            OtherControls();
+            if (!StopCameraControls)
+            {
+                MoveCamera();                                                           //Check if we need to move the camera
+            }
         }
-
-        OtherControls();
     }
     void OnApplicationFocus(bool hasFocus)                                              //Triggered when the game is in focus
     {
@@ -33,14 +36,22 @@ public class UserInput : MonoBehaviour
     {
         isPaused = pauseStatus;                                                                 //Set game to be out of focus
     }
-    private void OtherControls()
+    private void OtherControls()                                                        //
     {
         if (inputManager.GetButtonDown("Menu"))
         {
-            WindowMenu.SetActive(!WindowMenu.activeSelf);
+            StopCameraControls = true;
+            WindowMenu.SetActive(true);
+        }
+        else
+        {
+            if (!WindowMenu.activeSelf)
+            {
+                StopCameraControls = false;
+            }
         }
     }
-    private void MoveCamera()
+    private void MoveCamera()                                                           //All movement of the camera
     {
         float X = Camera.main.transform.position.x;                                             //Get main camera location
         float Y = Camera.main.transform.position.y;                                             //^

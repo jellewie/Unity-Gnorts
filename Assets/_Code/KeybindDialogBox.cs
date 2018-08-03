@@ -64,7 +64,7 @@ public class KeybindDialogBox : MonoBehaviour {
                     if(Input.GetKeyDown(kc))
                     {
                         // Yes!
-                        inputManager.SetButtonForKey( buttonToRebind, kc );
+                        inputManager.SetButtonForKey(buttonToRebind, kc );
                         buttonToLabel[buttonToRebind].text = kc.ToString();
                         buttonToRebind = null;
                         break;
