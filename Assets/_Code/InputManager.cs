@@ -6,12 +6,11 @@ using System;
 public class InputManager : MonoBehaviour
 {
     Dictionary<string, KeyCode> buttonKeys;
-
-    private static readonly int TotalKeys = 9;                                                  //The total amount of keys, change accordingly
-    private string[] Desc = new string[TotalKeys];
-    private string[] Key_ = new string[TotalKeys];
+    private string[] Desc;
+    private string[] Key_;
     void OnEnable()                                                                             //Runned before start and every time the parrent is enabled
     {
+        int TotalKeys = 9;                                                                      //The total amount of keys, change accordingly
         Desc = new string[TotalKeys];
         Key_ = new string[TotalKeys];
         Desc[0] = "Drag"; Key_[0] = "Mouse1";
@@ -20,9 +19,9 @@ public class InputManager : MonoBehaviour
         Desc[3] = "Down"; Key_[3] = "S";
         Desc[4] = "Right"; Key_[4] = "D";
         Desc[5] = "Up"; Key_[5] = "W";
-
         Desc[6] = "Rotate left"; Key_[6] = "E";
         Desc[7] = "Rotate right"; Key_[7] = "Q";
+
         Desc[8] = "Menu"; Key_[8] = "Escape";
 
         buttonKeys = new Dictionary<string, KeyCode>();
