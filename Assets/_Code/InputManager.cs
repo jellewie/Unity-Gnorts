@@ -7,9 +7,9 @@ public class InputManager : MonoBehaviour
 {
     Dictionary<string, KeyCode> buttonKeys;
 
-    static readonly int TotalKeys = 9;                                                          //The total amount of keys, change accordingly
-    public string[] Desc = new string[TotalKeys];
-    public string[] Key_ = new string[TotalKeys];
+    private static readonly int TotalKeys = 9;                                                  //The total amount of keys, change accordingly
+    private string[] Desc = new string[TotalKeys];
+    private string[] Key_ = new string[TotalKeys];
     void OnEnable()                                                                             //Runned before start and every time the parrent is enabled
     {
         Desc = new string[TotalKeys];
@@ -26,7 +26,7 @@ public class InputManager : MonoBehaviour
         Desc[8] = "Menu"; Key_[8] = "Escape";
 
         buttonKeys = new Dictionary<string, KeyCode>();
-        for (int i = 0; i < Desc.Length; i++)                           //For each button name
+        for (int i = 0; i < Desc.Length; i++)                                                   //For each button name
         {
             buttonKeys[Desc[i]] = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(Desc[i], Key_[i]));    //Get the key that should be connected
         }
