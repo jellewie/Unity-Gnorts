@@ -36,11 +36,9 @@ public class InputManager : MonoBehaviour
     void Update()                                                                               //Update is called once per frame
     {
     }
+
     public bool GetButtonDown(string buttonName)
     {
-        // TODO: Check to see if the game is supposed to be paused
-        //  Or maybe if you're in a different input mode (like a window
-        //  is open, or if the player is typing in a text box)
         if (buttonKeys.ContainsKey(buttonName) == false)                                        //If the button is not defined
         {
             Debug.LogError("InputManager::GetButtonDown -- No button named: " + buttonName);    //Show an error
@@ -48,6 +46,16 @@ public class InputManager : MonoBehaviour
         }
         return Input.GetKey(buttonKeys[buttonName]);                                            //Return the button state
     }
+    public bool GetButtonDownOnce(string buttonName)
+    {
+        if (buttonKeys.ContainsKey(buttonName) == false)                                        //If the button is not defined
+        {
+            Debug.LogError("InputManager::GetButtonDown -- No button named: " + buttonName);    //Show an error
+            return false;                                                                       //Return false, since the non existing button isn't pressed
+        }
+        return Input.GetKeyDown(buttonKeys[buttonName]);                                            //Return the button state
+    }
+
     public string[] GetButtonNames()
     {
         return buttonKeys.Keys.ToArray();

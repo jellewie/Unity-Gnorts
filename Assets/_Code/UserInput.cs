@@ -38,17 +38,10 @@ public class UserInput : MonoBehaviour
     }
     private void OtherControls()                                                        //
     {
-        if (inputManager.GetButtonDown("Menu"))
+        if (inputManager.GetButtonDownOnce("Menu"))
         {
-            StopCameraControls = true;
-            WindowMenu.SetActive(true);
-        }
-        else
-        {
-            if (!WindowMenu.activeSelf)
-            {
-                StopCameraControls = false;
-            }
+            StopCameraControls = !WindowMenu.activeSelf;
+            WindowMenu.SetActive(StopCameraControls);
         }
     }
     private void MoveCamera()                                                           //All movement of the camera
