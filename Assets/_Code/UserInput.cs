@@ -29,6 +29,10 @@ public class UserInput : MonoBehaviour
             }
         }
     }
+    public void CameraControls(bool SetTo)                                              //With this buttons can change the camera mode
+    {
+        StopCameraControls = !SetTo;                                                            //Set the camera mode to what ever there is given (CameraControls FALSE = Stop camera)
+    }
     void OnApplicationFocus(bool hasFocus)                                              //Triggered when the game is in focus
     {
         isPaused = !hasFocus;                                                                   //Set game to be in focus

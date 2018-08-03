@@ -10,19 +10,28 @@ public class InputManager : MonoBehaviour
     private string[] Key_;
     void OnEnable()                                                                             //Runned before start and every time the parrent is enabled
     {
-        int TotalKeys = 10;                                                                     //The total amount of keys, change accordingly
+        int TotalKeys = 16 + 1;                                                                 //The total amount of keys, change accordingly (+1 since we have a '0' entry too)
         Desc = new string[TotalKeys];
         Key_ = new string[TotalKeys];
-        Desc[0] = "Drag";           Key_[0] = "Mouse1";
-        Desc[1] = "Rotate";         Key_[1] = "Mouse2";
-        Desc[2] = "Left";           Key_[2] = "A";
-        Desc[3] = "Down";           Key_[3] = "S";
-        Desc[4] = "Right";          Key_[4] = "D";
-        Desc[5] = "Up";             Key_[5] = "W";
-        Desc[6] = "Rotate left";    Key_[6] = "E";
-        Desc[7] = "Rotate right";   Key_[7] = "Q";
-        Desc[8] = "Menu";           Key_[8] = "Escape";
-        Desc[9] = "Toggle UI";      Key_[9] = "Tab";
+        Desc[0] = "Drag";               Key_[0] = "Mouse1";
+        Desc[1] = "Rotate";             Key_[1] = "Mouse2";
+        Desc[2] = "Left";               Key_[2] = "A";
+        Desc[3] = "Down";               Key_[3] = "S";
+        Desc[4] = "Right";              Key_[4] = "D";
+        Desc[5] = "Up";                 Key_[5] = "W";
+        Desc[6] = "Rotate left";        Key_[6] = "E";
+        Desc[7] = "Rotate right";       Key_[7] = "Q";
+        Desc[8] = "Menu";               Key_[8] = "Escape";
+        Desc[9] = "Toggle UI";          Key_[9] = "Tab";
+
+        Desc[10] = "Rotate building";   Key_[10] = "R";
+        Desc[11] = "Trading";           Key_[11] = "T";
+        Desc[12] = "Stockpile";         Key_[12] = "F";
+        Desc[13] = "Granary";           Key_[13] = "G";
+        Desc[14] = "Church";            Key_[14] = "H";
+        Desc[15] = "Barracs";           Key_[15] = "B";
+        Desc[16] = "Castle";            Key_[16] = "C";
+
 
         buttonKeys = new Dictionary<string, KeyCode>();
         for (int i = 0; i < Desc.Length; i++)                                                   //For each button name
