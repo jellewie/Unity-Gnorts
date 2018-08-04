@@ -18,34 +18,29 @@ If you want to help on this game, or create your own with it, just contact me an
   * Stock overview  (wood, food, stone etc) 
   * Move the settings button, add remove button, ?info button/ trade button in mp?
 ###2. Key to hide UI bar 
-###3. Add prefab for buildings
+###3. Add prefab for buildings;
 
 ?Im not sure about this?
 
-* 
-* 
-* Trap pit
-* Fire pit (This will make arrows in radkius X be on fire and do a little bit more dammage)
-
 * __1 BATTLE__
-* 1 Barracks (Creates soldiers, with option to buy items if an soldier is ordered but the items are missing)
-* 2 Balista tower top
+* 1 Bridge for moat (only posible attached to a gate)
+* 2 Moat
 * 3 Mangonel tower top
-* 4 
+* 4 Balista tower top
 * 5 Town square (Boost happiness based on amount of homes near. Can have a party to temponary boost more)
-* 6 Moat
-* 7 Bridge for moat (only posible attached to a gate)
+* 6 Fire pit (This will make arrows in radkius X be on fire and do a little bit more dammage)
+* 7 Trap pit
 * 8 __C__astle (Hide if already placed, can change tax for happiness) 
 
-* __2 ARMOR__
+* __2 Military__
 * 1 Armory
-* 2 Swords maker
-* 3 Bow maker
-* 4 Spear maker
-* 5 Leather jacket maker
-* 6 Blacksmith (Iron/steel jacket maker)
-* 7 Blacksmith (Iron/steel Sword maker)
-* 8 BlackSmith (Ace maker) 
+* 2 Barracks (Creates soldiers, with option to buy items if an soldier is ordered but the items are missing)
+* 3 Swords maker
+* 4 Bow maker
+* 5 Spear maker
+* 6 Leather jacket maker
+* 7 Blacksmith (Iron/steel jacket maker)
+* 8 BlackSmith (Iron/steel Ace maker / Iron/steel Sword maker) 
 
 * __3 CASTLE STRUCTURES__
 * 1 Wooden walls
@@ -57,17 +52,17 @@ If you want to help on this game, or create your own with it, just contact me an
 * 7 Stone tower
 * 8 Stone stair
 
-* __4 PRODUCTION__
+* __4 INDUSTRIES__
 * 1 __f__Stockpile
-* 2 Woodcutter
-* 3 StoneMine
-* 4 IronMine
-* 5 Mover (moves wood, stone, or iron/steel. This is an option, and buildings like the woodcutter do have an option to move them thereself)
+* 2 Lumberjack
+* 3 Stone quarry
+* 4 Iron mine
+* 5 Ox transport (moves wood, stone, or iron/steel. This is an option, and buildings like the woodcutter do have an option to move them thereself)
 * 6 
 * 7 
 * 8 
 
-* __ 5 FOOD__
+* __5 FOOD__
 * 1 __G__ranary
 * 2 Apple farm
 * 3 Cheese/Cow farm
@@ -107,12 +102,13 @@ If you want to help on this game, or create your own with it, just contact me an
 * Crosbow
 * Leather armor
 * Iron armor
+and more...
 ###5. Double click to select all of the same thing on your screen (soldiers, buildings etc) 
 ###6. Hide heath above death troops, show above troops who are not yet death, (?Also create a 15/30min to full regen?)
 ###7. You can not build in a radius X of troops of the enemy
 ###8. Keyboard layout
-~~qTURNL~~ ~~wUP~~ ~~eTURNR~~ ~~ROTATEBUILDING~~ ~~TRADING~~ y u i o p
-~~aLEFT~~ ~~sUNDER~~ ~~dRIGHT~~ ~~fSTOCKPILE~~ ~~GRANARY~~ ~~ChURCH~~ j k l 
-z x ~~CASTLE~~ v ~~BARRACS~~ n m
-
+~~QturnL~~ ~~Qforward~~ ~~EturnR~~ ~~Rotate building~~ ~~Trading~~ y u i o ~~Pause~~
+~~Aleft~~ ~~Sback~~ ~~Dright~~ ~~Fstockpile~~ ~~granary~~ ~~cHurch~~ j k l 
+z x ~~Castle~~ v ~~Barracks~~ n m
 ###9. __R__ to rotate building 90 degrees
+###10. __p__ to pause game

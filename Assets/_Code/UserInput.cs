@@ -8,8 +8,9 @@ public class UserInput : MonoBehaviour
     public InputManager inputManager;
     public GameObject WindowMenu;
     public GameObject WindowUI;
-    bool isPaused = false;
-    public bool StopCameraControls = false;
+    bool IsOutOfFocus = false;
+    public bool GamePaused = false;
+    bool StopCameraControls = false;
 
     private void Start()                                                                //Triggered on start
     {
@@ -20,7 +21,7 @@ public class UserInput : MonoBehaviour
     }
     private void LateUpdate()                                                           //Triggered after frame update
     {
-        if (!isPaused)                                                                          //If the game isn't paused
+        if (!IsOutOfFocus)                                                                          //If the game isn't paused
         {
             AlwaysControls();                                                                   //Controls that always need to be executed (like the ESC button)
             if (!StopCameraControls)                                                            //If we are somewhere where we dont want to control the camera
@@ -35,11 +36,11 @@ public class UserInput : MonoBehaviour
     }
     void OnApplicationFocus(bool hasFocus)                                              //Triggered when the game is in focus
     {
-        isPaused = !hasFocus;                                                                   //Set game to be in focus
+        IsOutOfFocus = !hasFocus;                                                                   //Set game to be in focus
     }
     void OnApplicationPause(bool pauseStatus)                                           //Triggered when the game is out focus
     {
-        isPaused = pauseStatus;                                                                 //Set game to be out of focus
+        IsOutOfFocus = pauseStatus;                                                                 //Set game to be out of focus
     }
     private void AlwaysControls()                                                       //Triggered in LateUpdate (unless the game is out of focus)
     {
@@ -47,6 +48,10 @@ public class UserInput : MonoBehaviour
         {
             StopCameraControls = !WindowMenu.activeSelf;                                        //Flag that the camera controls should be active or not
             WindowMenu.SetActive(StopCameraControls);                                           //Set the menu's visibility
+        }
+        if (inputManager.GetButtonDownOnce("Pause"))                                            //If the Open/Close menu button is pressed
+        {
+            GamePaused = true;
         }
     }
     private void ExecuteInputs()                                                        //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
