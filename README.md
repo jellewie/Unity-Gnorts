@@ -117,7 +117,7 @@ and more...
 
 __QturnL__ __Qforward__ __EturnR__ __Rotatebuilding__ __Trading__ y u i o __Pause__
 
-__Aleft__ __Sback__ __Dright__ __Fstockpile__ __granary__ __cHurch__ j k l 
+__Aleft__ __Sback__ __Dright__ __Fstockpile__ __Granary__ __cHurch__ j k l 
 
 z x __Castle__ v __Barracks__ n m
 
