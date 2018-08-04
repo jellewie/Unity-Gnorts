@@ -107,8 +107,8 @@ and more...
 ###6. Hide heath above death troops, show above troops who are not yet death, (?Also create a 15/30min to full regen?)
 ###7. You can not build in a radius X of troops of the enemy
 ###8. Keyboard layout
-~~QturnL~~ ~~Qforward~~ ~~EturnR~~ ~~Rotate building~~ ~~Trading~~ y u i o ~~Pause~~
-~~Aleft~~ ~~Sback~~ ~~Dright~~ ~~Fstockpile~~ ~~granary~~ ~~cHurch~~ j k l 
-z x ~~Castle~~ v ~~Barracks~~ n m
+__QturnL__ __Qforward__ __EturnR__ __Rotate building__ __Trading__ y u i o __Pause__
+__Aleft__ __Sback__ __Dright__ __Fstockpile__ __granary__ __cHurch__ j k l 
+z x __Castle__ v __Barracks__ n m
 ###9. __R__ to rotate building 90 degrees
 ###10. __p__ to pause game
