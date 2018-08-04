@@ -5,5 +5,5 @@ I do NOT allow you or annyone to use my codes and sell it without my permission.
 If you want to help on this game, or create your own with it, just contact me and fork it.
 
 
-This is the Controls only version, where most controls are working like they do in the main branch.
-Easy for a new project
+# This is the Controls only version
+where most controls are working like they do in the main branch. Easy for a new project
