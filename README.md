@@ -115,7 +115,7 @@ and more...
 
 ###8. Keyboard layout
 
-__QturnL__ __Qforward__ __EturnR__ __Rotate building__ __Trading__ y u i o __Pause__
+__QturnL__ __Qforward__ __EturnR__ __Rotatebuilding__ __Trading__ y u i o __Pause__
 
 __Aleft__ __Sback__ __Dright__ __Fstockpile__ __granary__ __cHurch__ j k l 
 
