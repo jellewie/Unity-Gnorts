@@ -12,12 +12,15 @@ If you want to help on this game, or create your own with it, just contact me an
 
 
 ###1. UI interface placement 
-  * ~~Minimap~~ (Is made)
-  * Buildmenu
-  * Fight/command armor menu (just sums up the soliers you have selected)
-  * Stock overview  (wood, food, stone etc) 
-  * Move the settings button, add remove button, ?info button/ trade button in mp?
+
+* ~~Minimap~~ (Is made)
+* Buildmenu
+* Fight/command armor menu (just sums up the soliers you have selected)
+* Stock overview  (wood, food, stone etc) 
+* Move the settings button, add remove button, ?info button/ trade button in mp?
+  
 ###2. Key to hide UI bar 
+
 ###3. Add prefab for buildings;
 
 ?Im not sure about this?
@@ -85,6 +88,7 @@ If you want to help on this game, or create your own with it, just contact me an
 
 
 ###4. Add items
+
 * __Items__
 * Wood
 * Stone
@@ -103,12 +107,19 @@ If you want to help on this game, or create your own with it, just contact me an
 * Leather armor
 * Iron armor
 and more...
+
 ###5. Double click to select all of the same thing on your screen (soldiers, buildings etc) 
+
 ###6. Hide heath above death troops, show above troops who are not yet death, (?Also create a 15/30min to full regen?)
+
 ###7. You can not build in a radius X of troops of the enemy
+
 ###8. Keyboard layout
+
 __QturnL__ __Qforward__ __EturnR__ __Rotate building__ __Trading__ y u i o __Pause__
 __Aleft__ __Sback__ __Dright__ __Fstockpile__ __granary__ __cHurch__ j k l 
 z x __Castle__ v __Barracks__ n m
+
 ###9. __R__ to rotate building 90 degrees
+
 ###10. __p__ to pause game
