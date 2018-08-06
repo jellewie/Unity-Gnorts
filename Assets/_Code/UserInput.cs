@@ -60,106 +60,74 @@ public class UserInput : MonoBehaviour
         {
             WindowUI.SetActive(!WindowUI.activeSelf);                                           //Goggle the UI
         }
-        float X = Camera.main.transform.position.x;                                             //Get main camera location
-        float Y = Camera.main.transform.position.y;                                             //^
-        float Z = Camera.main.transform.position.z;                                             //^
+
         float Xr = Camera.main.transform.eulerAngles.x;                                         //Get main camera rotation
         float Yr = Camera.main.transform.eulerAngles.y;                                         //^
-        float Speed = Y * JelleWho.HeighSpeedIncrease;                                          //The height has X of speed increase per block
+        float Speed = Camera.main.transform.position.y * JelleWho.HeighSpeedIncrease;           //The height has X of speed increase per block
         //Edge scroll
         float xpos = Input.mousePosition.x;                                                     //Save mouse position
         float ypos = Input.mousePosition.y;                                                     //^
-        if (xpos >= 0 && xpos < JelleWho.MoveIfThisCloseToTheSides)                             //horizontal camera movement
+
+        Vector2 input = new Vector2(0f, 0f);
+
+
+        if (input == new Vector2(0f, 0f))                                                       //If no scrollby other means
         {
-            float R = -JelleWho.MoveEdgeScrollSpeed * Speed;                                    //Set the distance we need to move
-            Vector2 LookingAt = Camera.main.transform.eulerAngles;                              //The angles we are looking at
-            Vector3 Range = new Vector3(R, 0, 0);                                               //The range where we need to go relative to the angles
-            Vector3 XYZ = PolarToCartesian(LookingAt, Range);                                   //Calculate the XYZ values
-            X += XYZ.x;                                                                         //Move bit
-            Z += XYZ.z;                                                                         //^
+            if (xpos >= 0 && xpos < JelleWho.MoveIfThisCloseToTheSides)                         //Edge scroll left
+                input.x -= 1f * JelleWho.MoveEdgeScrollSpeed;
+            else if (xpos <= Screen.width && xpos > Screen.width - JelleWho.MoveIfThisCloseToTheSides)//Edge scroll right
+                input.x += 1f * JelleWho.MoveEdgeScrollSpeed;
+            if (ypos >= 0 && ypos < JelleWho.MoveIfThisCloseToTheSides)                         //Edge scroll down
+                input.y -= 1f * JelleWho.MoveEdgeScrollSpeed;
+            else if (ypos <= Screen.height && ypos > Screen.height - JelleWho.MoveIfThisCloseToTheSides)//Edge scrolll up
+                input.y += 1f * JelleWho.MoveEdgeScrollSpeed;
         }
-        else if (xpos <= Screen.width && xpos > Screen.width - JelleWho.MoveIfThisCloseToTheSides)
-        {
-            float R = +JelleWho.MoveEdgeScrollSpeed * Speed;                                    //Set the distance we need to move
-            Vector2 LookingAt = Camera.main.transform.eulerAngles;                              //The angles we are looking at
-            Vector3 Range = new Vector3(R, 0, 0);                                               //The range where we need to go relative to the angles
-            Vector3 XYZ = PolarToCartesian(LookingAt, Range);                                   //Calculate the XYZ values
-            X += XYZ.x;                                                                         //Move bit
-            Z += XYZ.z;                                                                         //^
-        }
-        if (ypos >= 0 && ypos < JelleWho.MoveIfThisCloseToTheSides)                             //vertical camera movement
-        {
-            float R = -JelleWho.MoveEdgeScrollSpeed * Speed;                                    //Set the distance we need to move
-            Vector2 LookingAt = Camera.main.transform.eulerAngles;                              //The angles we are looking at
-            Vector3 Range = new Vector3(0, 0, R);                                               //The range where we need to go relative to the angles
-            Vector3 XYZ = PolarToCartesian(LookingAt, Range);                                   //Calculate the XYZ values
-            X += XYZ.x;                                                                         //Move bit
-            Z += XYZ.z;                                                                         //^
-        }
-        else if (ypos <= Screen.height && ypos > Screen.height - JelleWho.MoveIfThisCloseToTheSides)
-        {
-            float R = +JelleWho.MoveEdgeScrollSpeed * Speed;                                    //Set the distance we need to move
-            Vector2 LookingAt = Camera.main.transform.eulerAngles;                              //The angles we are looking at
-            Vector3 Range = new Vector3(0, 0, R);                                               //The range where we need to go relative to the angles
-            Vector3 XYZ = PolarToCartesian(LookingAt, Range);                                   //Calculate the XYZ values
-            X += XYZ.x;                                                                         //Move bit
-            Z += XYZ.z;                                                                         //^
-        }
-        if (inputManager.GetButtonDown("Left"))
-        {
-            float R = -JelleWho.MoveSpeedKeyboard * Speed;                                      //Set the distance we need to move
-            Vector2 LookingAt = Camera.main.transform.eulerAngles;                              //The angles we are looking at
-            Vector3 Range = new Vector3(R, 0, 0);                                               //The range where we need to go relative to the angles
-            Vector3 XYZ = PolarToCartesian(LookingAt, Range);                                   //Calculate the XYZ values
-            X += XYZ.x;                                                                         //Move bit
-            Z += XYZ.z;                                                                         //^
-        }
-        if (inputManager.GetButtonDown("Right"))
-        {
-            float R = JelleWho.MoveSpeedKeyboard * Speed;                                       //Set the distance we need to move
-            Vector2 LookingAt = Camera.main.transform.eulerAngles;                              //The angles we are looking at
-            Vector3 Range = new Vector3(R, 0, 0);                                               //The range where we need to go relative to the angles
-            Vector3 XYZ = PolarToCartesian(LookingAt, Range);                                   //Calculate the XYZ values
-            X += XYZ.x;                                                                         //Move bit
-            Z += XYZ.z;                                                                         //^
-        }
-        if (inputManager.GetButtonDown("Down"))
-        {
-            float R = -JelleWho.MoveSpeedKeyboard * Speed;                                      //Set the distance we need to move
-            Vector2 LookingAt = Camera.main.transform.eulerAngles;                              //The angles we are looking at
-            Vector3 Range = new Vector3(0, 0, R);                                               //The range where we need to go relative to the angles
-            Vector3 XYZ = PolarToCartesian(LookingAt, Range);                                   //Calculate the XYZ values
-            X += XYZ.x;                                                                         //Move bit
-            Z += XYZ.z;                                                                         //^
-        }
-        if (inputManager.GetButtonDown("Up"))
-        {
-            float R = JelleWho.MoveSpeedKeyboard * Speed;                                       //Set the distance we need to move
-            Vector2 LookingAt = Camera.main.transform.eulerAngles;                              //The angles we are looking at
-            Vector3 Range = new Vector3(0, 0, R);                                               //The range where we need to go relative to the angles
-            Vector3 XYZ = PolarToCartesian(LookingAt, Range);                                   //Calculate the XYZ values
-            X += XYZ.x;                                                                         //Move bit
-            Z += XYZ.z;                                                                         //^
-        }
+       
+            
+
+
+        if (inputManager.GetButtonDown("Left"))                                                 //Keyboard scroll left
+            input.x -= 1f * JelleWho.MoveSpeedKeyboard;
+        if (inputManager.GetButtonDown("Right"))                                                //Keyboard scroll right
+            input.x += 1f * JelleWho.MoveSpeedKeyboard;
+        if (inputManager.GetButtonDown("Up"))                                                   //Keyboard scroll up
+            input.y += 1f * JelleWho.MoveSpeedKeyboard;
+        if (inputManager.GetButtonDown("Down"))                                                 //Keyboard scroll down
+            input.y -= 1f * JelleWho.MoveSpeedKeyboard;
         if (inputManager.GetButtonDown("Drag"))                                                 //If the Drag button is presse
         {
-            Vector2 LookingAt = Camera.main.transform.eulerAngles;                              //The angles we are looking at
-            float MovementX = -Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse * Speed;      //Calculate howmuch we need to move in the axes
-            float MovementY = -Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse * Speed;      //^
-            Vector3 Range = new Vector3(MovementX, 0, MovementY);                               //The range where we need to go relative to the angles
-            Vector3 XYZ = PolarToCartesian(LookingAt, Range);                                   //Calculate the XYZ values
-            X += XYZ.x;                                                                         //Move bit
-            Z += XYZ.z;                                                                         //^
+            input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse * Speed;              //Calculate howmuch we need to move in the axes 
+            input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse * Speed;              //^
+        }
+        if (Mathf.Abs(input.y) > Mathf.Epsilon)                                                 //Movement up/down relative to the screen
+        {
+            Vector3 horDir = Camera.main.transform.forward;                                     //Get the camera position
+            horDir.y = 0f;                                                                      //Set Up/Down movement to 0, so we ignore that direction
+            horDir.Normalize();                                                                 //If there is a value make it 1
+            Vector3 newCameraPos = Camera.main.transform.position + horDir * Speed * input.y;   //Get the new camera position
+            Camera.main.transform.position = newCameraPos;                                      //Set camera position
+        }
+        if (Mathf.Abs(input.x) > Mathf.Epsilon)                                                 //Movement left/right relative to the screen
+        {
+            Vector3 horDir = Camera.main.transform.right;                                       //Get the camera position 
+            horDir.y = 0f;                                                                      //Set Up/Down movement to 0, so we ignore that direction
+            horDir.Normalize();                                                                 //If there is a value make it 1
+            Vector3 newCameraPos = Camera.main.transform.position + horDir * Speed * input.x;   //Get the new camera position
+            Camera.main.transform.position = newCameraPos;                                      //Set camera position
         }
         float ScrollWheelChange = Input.GetAxis("Mouse ScrollWheel");                           //Get the scrollwheel location
         if (ScrollWheelChange != 0)                                                             //If the scrollwheel has changed
-        {                          
-            float R = ScrollWheelChange * JelleWho.ZoomScrollWheelSpeed * Speed;                //The radius from current camera
-            Vector3 XYZ = PolarToCartesian(Camera.main.transform.eulerAngles, new Vector3(0, 0, R)); //Calculate the Polar coord of the camera to the XYZ Cartesian coords
-            X += XYZ.x;                                                                         //Scroll a bit
-            Y += XYZ.y;                                                                         //^
-            Z += XYZ.z;                                                                         //^
+        {
+            Vector3 newCameraPos = Camera.main.transform.position;
+            Vector3 cameraForward = Camera.main.transform.forward;
+            newCameraPos += cameraForward * JelleWho.ZoomScrollWheelSpeed * ScrollWheelChange;
+            newCameraPos = new Vector3(
+                newCameraPos.x,
+                newCameraPos.y,
+                newCameraPos.z);
+            Camera.main.transform.position = newCameraPos;
         }
+
         if (inputManager.GetButtonDown("Rotate left"))
         {
             Yr -= JelleWho.RotateSpeedKeyboard;                                                 //Get the mouse movement
@@ -173,41 +141,17 @@ public class UserInput : MonoBehaviour
             Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse;                         //Get the mouse movement
             Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse;                         //^
         }
-        //Limit movement
-        if (X > JelleWho.MaxMoveHorizontalOnMap)                                                //Limit range North South(?)
-        {
-            X = JelleWho.MaxMoveHorizontalOnMap;                                                //^
-        }
-        else if (X < -1 * JelleWho.MaxMoveHorizontalOnMap)                                      //^
-        {
-            X = -1 * JelleWho.MaxMoveHorizontalOnMap;                                           //^
-        }
-        if (Y > JelleWho.MaxCameraHeight)                                                       //Limit height
-        {   
-            Y = JelleWho.MaxCameraHeight;                                                       //^
-        }
-        else if (Y < JelleWho.MinCameraHeight)                                                  //^
-        {
-            Y = JelleWho.MinCameraHeight;                                                       //^
-        }
-        if (Z > JelleWho.MaxMoveHorizontalOnMap)                                                //Limit range South West(?)
-        {
-            Z = JelleWho.MaxMoveHorizontalOnMap;                                                //
-        }
-        else if (Z < -1 * JelleWho.MaxMoveHorizontalOnMap)                                      //
-        {
-            Z = -1 * JelleWho.MaxMoveHorizontalOnMap;                                           //
-        }
-        if (Xr < 0)                                                                             //If the camera rotation is to HIGH
-        {
-            Xr = 0;                                                                             //Set camera to max HIGH level
-        }
-        if (Xr > 90)                                                                            //If the camera rotation is to LOW
-        {
-            Xr = 90;                                                                            //Set camera to max LOW level
-        }
-        Camera.main.transform.position = new Vector3(X, Y, Z);                                  //Move the main camera
-        Camera.main.transform.eulerAngles = new Vector2(Xr, Yr);
+
+        Vector3 v = Camera.main.transform.position;                                             //Get setted camera camera position
+        Camera.main.transform.position = new Vector3(                                           //Limit movement
+            Mathf.Clamp(v.x, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap),//Clamp X horizontal movement
+            Mathf.Clamp(v.y, JelleWho.MinCameraHeight, JelleWho.MaxCameraHeight),               //Clamp Y vertical movement
+            Mathf.Clamp(v.z, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap));//Clamp Z 
+
+        //Move the main camera
+        Camera.main.transform.eulerAngles = new Vector2(
+            Mathf.Clamp(Xr,0 ,90),
+            Mathf.Clamp(Yr, 0, 90));
     }
     Vector3 PolarToCartesian(Vector2 polar, Vector3 Offset)                                     //Offset=(Left, Up, Forward)
     {
