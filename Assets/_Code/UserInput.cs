@@ -72,7 +72,7 @@ public class UserInput : MonoBehaviour
             input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse * Speed;              //^
         } else if (input == new Vector2(0f, 0f))                                                //If camera doesn't need to move yet
         {
-            if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x02) != 0x02)//If EdgeScroll setting is on
+            if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x01) != 0x01)//If EdgeScroll setting is on
             {
                 float xpos = Input.mousePosition.x;                                             //Save mouse position
                 float ypos = Input.mousePosition.y;                                             //^        

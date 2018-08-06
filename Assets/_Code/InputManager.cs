@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using PublicCode;
 
 public class InputManager : MonoBehaviour
 {
     Dictionary<string, KeyCode> buttonKeys;
     private string[] Desc;
-    private string[] Key_;
+    private string[] Key_ = new string[5];
     void OnEnable()                                                                             //Runned before start and every time the parrent is enabled
     {
         int TotalKeys = 17 + 1;                                                                 //The total amount of keys, change accordingly (+1 since we have a '0' entry too)
@@ -90,4 +91,34 @@ public class InputManager : MonoBehaviour
             SetButtonForKey(Desc[i], (KeyCode)Enum.Parse(typeof(KeyCode), Key_[i]));            //reset the key
         }
     }
+
+    private bool[] Settings;
+    public string[] GetBoolSettings()
+    {
+        Settings = new bool[JelleWho.BoolSettingsLength];
+        for (int i = 0; i < Settings.Length; i++)                                             //For each button name
+        {
+            int X = 0x02;
+
+            //Above for each I do *2
+            //So i=3 = 1*2*2*2 = 0x08
+
+
+            if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & X) == X)
+                Settings[i] = true;
+            else
+                Settings[i] = false;
+
+            /*
+            0001 = 1	= 0x01
+            0010 = 2	= 0x02
+            0100 = 4	= 0x04
+            1000 = 8	= 0x08
+            */
+        }
+
+
+        return buttonKeys.Keys.ToArray();
+    }
+
 }

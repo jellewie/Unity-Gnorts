@@ -17,14 +17,15 @@ namespace PublicCode {
         public static int ZoomScrollWheelSpeed = 25;                                            //The speed of the ScrollWheel when zooming in and out
     
         public static int BoolSettingsDefault = 0x01;                                           //Set the default value of the Bool Settings
-        //public static bool[] A = new bool[3] { true, true, false };
+        public static int BoolSettingsLength = 1;                                               //How many settings we are storing
+
         /*
             Llayout of playerPrefs 'BoolSettings':
             Bit 1 = 0x02 = EdgeScroll (on/off)
             Bit 2 = 0x04 = 
 
             Read
-                if ((PlayerPrefs.GetInt("BoolSettings", BoolSettingsDefault) & 0x02) == 0x02){}
+                if ((PlayerPrefs.GetInt("BoolSettings",JelleWho.BoolSettingsDefault) & 0x02) == 0x02){}
             Set
                 PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) | 0x02));
             Clear
@@ -36,6 +37,6 @@ namespace PublicCode {
 
 
 
-        //public static bool EdgeScroll { get { if ((PlayerPrefs.GetInt("BoolSettings", 0) & 0x02) == 0x02) return true; else return false; } }
+        //public static bool EdgeScroll { get { if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x02) == 0x02) return true; else return false; } }
     }
 }
