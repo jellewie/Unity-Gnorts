@@ -16,6 +16,8 @@ namespace PublicCode {
         public static int MaxMoveHorizontalOnMap = 128;                                         //The max distance the camera can be moved away from the center
         public static int ZoomScrollWheelSpeed = 25;                                            //The speed of the ScrollWheel when zooming in and out
 
+        public static bool A { get { if ((PlayerPrefs.GetInt("BoolSettings", 0) & 0x02) == 0x02) return true; else return false; } }
+
     }
 }
 
