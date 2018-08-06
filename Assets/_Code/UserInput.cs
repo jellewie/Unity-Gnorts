@@ -9,7 +9,7 @@ public class UserInput : MonoBehaviour
     public GameObject WindowMenu;
     public GameObject WindowUI;
     bool IsOutOfFocus = false;
-    public bool GamePaused = false;
+    bool GamePaused = false;
     bool StopCameraControls = false;
 
     private void Start()                                                                //Triggered on start
@@ -21,7 +21,7 @@ public class UserInput : MonoBehaviour
     }
     private void LateUpdate()                                                           //Triggered after frame update
     {
-        if (!IsOutOfFocus)                                                                          //If the game isn't paused
+        if (!IsOutOfFocus)                                                                      //If the game isn't paused
         {
             AlwaysControls();                                                                   //Controls that always need to be executed (like the ESC button)
             if (!StopCameraControls)                                                            //If we are somewhere where we dont want to control the camera
@@ -50,42 +50,14 @@ public class UserInput : MonoBehaviour
             WindowMenu.SetActive(StopCameraControls);                                           //Set the menu's visibility
         }
         if (inputManager.GetButtonDownOnce("Pause"))                                            //If the Open/Close menu button is pressed
-        {
             GamePaused = true;
-        }
     }
     private void ExecuteInputs()                                                        //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
     {
         if (inputManager.GetButtonDownOnce("Toggle UI"))                                        //If the Toggle UI button is pressed
-        {
             WindowUI.SetActive(!WindowUI.activeSelf);                                           //Goggle the UI
-        }
-
-        float Xr = Camera.main.transform.eulerAngles.x;                                         //Get main camera rotation
-        float Yr = Camera.main.transform.eulerAngles.y;                                         //^
         float Speed = Camera.main.transform.position.y * JelleWho.HeighSpeedIncrease;           //The height has X of speed increase per block
-        //Edge scroll
-        float xpos = Input.mousePosition.x;                                                     //Save mouse position
-        float ypos = Input.mousePosition.y;                                                     //^
-
         Vector2 input = new Vector2(0f, 0f);
-
-
-        if (input == new Vector2(0f, 0f))                                                       //If no scrollby other means
-        {
-            if (xpos >= 0 && xpos < JelleWho.MoveIfThisCloseToTheSides)                         //Edge scroll left
-                input.x -= 1f * JelleWho.MoveEdgeScrollSpeed;
-            else if (xpos <= Screen.width && xpos > Screen.width - JelleWho.MoveIfThisCloseToTheSides)//Edge scroll right
-                input.x += 1f * JelleWho.MoveEdgeScrollSpeed;
-            if (ypos >= 0 && ypos < JelleWho.MoveIfThisCloseToTheSides)                         //Edge scroll down
-                input.y -= 1f * JelleWho.MoveEdgeScrollSpeed;
-            else if (ypos <= Screen.height && ypos > Screen.height - JelleWho.MoveIfThisCloseToTheSides)//Edge scrolll up
-                input.y += 1f * JelleWho.MoveEdgeScrollSpeed;
-        }
-       
-            
-
-
         if (inputManager.GetButtonDown("Left"))                                                 //Keyboard scroll left
             input.x -= 1f * JelleWho.MoveSpeedKeyboard;
         if (inputManager.GetButtonDown("Right"))                                                //Keyboard scroll right
@@ -98,6 +70,21 @@ public class UserInput : MonoBehaviour
         {
             input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse * Speed;              //Calculate howmuch we need to move in the axes 
             input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse * Speed;              //^
+        } else if (input == new Vector2(0f, 0f))                                                //If camera doesn't need to move yet
+        {
+            if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x02) != 0x02)//If EdgeScroll setting is on
+            {
+                float xpos = Input.mousePosition.x;                                             //Save mouse position
+                float ypos = Input.mousePosition.y;                                             //^        
+                if (xpos >= 0 && xpos < JelleWho.MoveIfThisCloseToTheSides)                     //Edge scroll left
+                    input.x -= 1f * JelleWho.MoveEdgeScrollSpeed;                               //
+                else if (xpos <= Screen.width && xpos > Screen.width - JelleWho.MoveIfThisCloseToTheSides)//Edge scroll right
+                    input.x += 1f * JelleWho.MoveEdgeScrollSpeed;                               //
+                if (ypos >= 0 && ypos < JelleWho.MoveIfThisCloseToTheSides)                     //Edge scroll down
+                    input.y -= 1f * JelleWho.MoveEdgeScrollSpeed;                               //
+                else if (ypos <= Screen.height && ypos > Screen.height - JelleWho.MoveIfThisCloseToTheSides)//Edge scrolll up
+                    input.y += 1f * JelleWho.MoveEdgeScrollSpeed;                               //
+            }
         }
         if (Mathf.Abs(input.y) > Mathf.Epsilon)                                                 //Movement up/down relative to the screen
         {
@@ -127,31 +114,24 @@ public class UserInput : MonoBehaviour
                 newCameraPos.z);
             Camera.main.transform.position = newCameraPos;
         }
-
+        float Xr = Camera.main.transform.eulerAngles.x;                                         //Get main camera rotation
+        float Yr = Camera.main.transform.eulerAngles.y;                                         
         if (inputManager.GetButtonDown("Rotate left"))
-        {
             Yr -= JelleWho.RotateSpeedKeyboard;                                                 //Get the mouse movement
-        }
         if (inputManager.GetButtonDown("Rotate right"))
-        {
             Yr += JelleWho.RotateSpeedKeyboard;                                                 //Get the mouse movement
-        }
         if (inputManager.GetButtonDown("Rotate"))                                               //If the rotate button is pressed
         {
             Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse;                         //Get the mouse movement
             Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse;                         //^
         }
-
-        Vector3 v = Camera.main.transform.position;                                             //Get setted camera camera position
+        Vector3 C = Camera.main.transform.position;                                             //Get setted camera camera position
         Camera.main.transform.position = new Vector3(                                           //Limit movement
-            Mathf.Clamp(v.x, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap),//Clamp X horizontal movement
-            Mathf.Clamp(v.y, JelleWho.MinCameraHeight, JelleWho.MaxCameraHeight),               //Clamp Y vertical movement
-            Mathf.Clamp(v.z, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap));//Clamp Z 
-
-        //Move the main camera
-        Camera.main.transform.eulerAngles = new Vector2(
-            Mathf.Clamp(Xr,0 ,90),
-            Mathf.Clamp(Yr, 0, 90));
+            Mathf.Clamp(C.x, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap),//Clamp X horizontal movement
+            Mathf.Clamp(C.y, JelleWho.MinCameraHeight, JelleWho.MaxCameraHeight),               //Clamp Y vertical movement
+            Mathf.Clamp(C.z, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap));//Clamp Z 
+        Camera.main.transform.eulerAngles = new Vector2(                                        //Limit camera look angles
+            Mathf.Clamp(Xr,0 ,90), Yr);                                                         //Clamp Up down looking angle 
     }
     Vector3 PolarToCartesian(Vector2 polar, Vector3 Offset)                                     //Offset=(Left, Up, Forward)
     {

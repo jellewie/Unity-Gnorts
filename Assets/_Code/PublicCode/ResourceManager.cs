@@ -15,10 +15,27 @@ namespace PublicCode {
         public static int MaxCameraHeight = 64;                                                 //The max heigh the camera can go
         public static int MaxMoveHorizontalOnMap = 128;                                         //The max distance the camera can be moved away from the center
         public static int ZoomScrollWheelSpeed = 25;                                            //The speed of the ScrollWheel when zooming in and out
+    
+        public static int BoolSettingsDefault = 0x01;                                           //Set the default value of the Bool Settings
+        //public static bool[] A = new bool[3] { true, true, false };
+        /*
+            Llayout of playerPrefs 'BoolSettings':
+            Bit 1 = 0x02 = EdgeScroll (on/off)
+            Bit 2 = 0x04 = 
 
-        public static bool A { get { if ((PlayerPrefs.GetInt("BoolSettings", 0) & 0x02) == 0x02) return true; else return false; } }
+            Read
+                if ((PlayerPrefs.GetInt("BoolSettings", BoolSettingsDefault) & 0x02) == 0x02){}
+            Set
+                PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) | 0x02));
+            Clear
+                 PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & ~0x02));
+            Toggle
+                PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) ^ 0x02));
+        */
 
+
+
+
+        //public static bool EdgeScroll { get { if ((PlayerPrefs.GetInt("BoolSettings", 0) & 0x02) == 0x02) return true; else return false; } }
     }
 }
-
-
