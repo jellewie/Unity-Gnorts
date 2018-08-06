@@ -86,7 +86,6 @@ If you want to help on this game, or create your own with it, just contact me an
 * 7 ?Hospital/ alchemist?	
 * 8 ?Treasury?
 
-
 ###4. Add items
 
 * __Items__
@@ -116,8 +115,10 @@ and more...
 
 ###8. Keyboard layout
 
-__QturnL__ __Qforward__ __EturnR__ __Rotate building__ __Trading__ y u i o __Pause__
-__Aleft__ __Sback__ __Dright__ __Fstockpile__ __granary__ __cHurch__ j k l 
+__QturnL__ __Qforward__ __EturnR__ __Rotatebuilding__ __Trading__ y u i o __Pause__
+
+__Aleft__ __Sback__ __Dright__ __Fstockpile__ __Granary__ __cHurch__ j k l 
+
 z x __Castle__ v __Barracks__ n m
 
 ###9. __R__ to rotate building 90 degrees
