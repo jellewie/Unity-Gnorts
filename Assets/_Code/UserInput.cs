@@ -131,17 +131,17 @@ public class UserInput : MonoBehaviour
             Mathf.Clamp(C.y, JelleWho.MinCameraHeight, JelleWho.MaxCameraHeight),               //Clamp Y vertical movement
             Mathf.Clamp(C.z, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap));//Clamp Z 
         Camera.main.transform.eulerAngles = new Vector2(                                        //Limit camera look angles
-            Mathf.Clamp(Xr,0 ,89.99f), Yr);                                                         //Clamp Up down looking angle 
+            Mathf.Clamp(Xr,0 ,89.99f), Yr);                                                     //Clamp Up down looking angle 
     }
     Vector3 PolarToCartesian(Vector2 polar, Vector3 Offset)                                     //Offset=(Left, Up, Forward)
     {
         var rotation = Quaternion.Euler(polar.x, polar.y, 0);                                   //Convert it
         return rotation * Offset;                                                               //Return the Vector 3 of the target point
     }
-    private bool EnableZoom;                                                                        //If Zoom is enabled
-    public void Zoom(bool Enabled)                                                                  //Enable or disable zoom
+    private bool EnableZoom = true;                                                             //If Zoom is enabled
+    public void Zoom(bool Enabled)                                                              //Enable or disable zoom
     {
-        EnableZoom = Enabled;                                                                       //Set the right state
+        EnableZoom = Enabled;                                                                   //Set the right state
     }
 }
 
