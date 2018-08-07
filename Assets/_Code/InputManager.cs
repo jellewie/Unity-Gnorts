@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
     Dictionary<string, KeyCode> buttonKeys;
     private string[] Desc;
     private string[] Key_ = new string[5];
+
     void OnEnable()                                                                             //Runned before start and every time the parrent is enabled
     {
         int TotalKeys = 17 + 1;                                                                 //The total amount of keys, change accordingly (+1 since we have a '0' entry too)
@@ -65,7 +66,6 @@ public class InputManager : MonoBehaviour
         }
         return Input.GetKeyDown(buttonKeys[buttonName]);                                            //Return the button state
     }
-
     public string[] GetButtonNames()
     {
         return buttonKeys.Keys.ToArray();
@@ -92,22 +92,20 @@ public class InputManager : MonoBehaviour
         }
     }
 
+
+
     private bool[] Settings;
     public string[] GetBoolSettings()
     {
         Settings = new bool[JelleWho.BoolSettingsLength];
-        for (int i = 0; i < Settings.Length; i++)                                             //For each button name
+        int X = 1;
+        for (int i = 0; i < Settings.Length; i++)                                           //For each button name
         {
-            int X = 0x02;
-
-            //Above for each I do *2
-            //So i=3 = 1*2*2*2 = 0x08
-
-
-            if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & X) == X)
-                Settings[i] = true;
+            X *= 2;                                                                         //Select the next bit
+            if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & X) == X)//Read the bit
+                Settings[i] = true;                                                         //Add this one as true to the array
             else
-                Settings[i] = false;
+                Settings[i] = false;                                                        //Add this one as false to the array
 
             /*
             0001 = 1	= 0x01
@@ -118,6 +116,11 @@ public class InputManager : MonoBehaviour
         }
 
 
+        return Settings.ToArray();
+    }
+
+    public string[] GetSettingsBoolNames()
+    {
         return buttonKeys.Keys.ToArray();
     }
 

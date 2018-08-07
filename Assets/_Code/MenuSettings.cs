@@ -21,7 +21,8 @@ public class MenuSettings : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);                                               //Remove the entry
         }
-        string[] buttonName = inputManager.GetButtonNames();                                    //Gets all button names and plot it in a array
+        string[] buttonName = inputManager.GetBoolSettings();                                   //Gets all button names and plot it in a array
+
         for (int i = 0; i < buttonName.Length; i++)                                             //For each button name
         {
             string bn;
@@ -37,12 +38,13 @@ public class MenuSettings : MonoBehaviour
 
             //TODO set the state of the toggle
 
+
             //Text keyNameText = go.transform.Find("Toggle").GetComponent<Text>();
             //keyNameText.text = inputManager.GetKeyNameForButton(bn);
             //buttonToLabel[bn] = keyNameText;
 
-            Button keyBindButton = go.transform.Find("Button").GetComponent<Button>();
-            keyBindButton.onClick.AddListener(() => { StartRebindFor(bn); });
+            //Button keyBindButton = go.transform.Find("Button").GetComponent<Button>();
+            //keyBindButton.onClick.AddListener(() => { StartRebindFor(bn); });
         }
     }
     InputManager inputManager;
