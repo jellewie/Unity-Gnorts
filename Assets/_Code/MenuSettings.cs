@@ -21,11 +21,11 @@ public class MenuSettings : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);                                               //Remove the entry
         }
-        string[] buttonName = inputManager.GetBoolSettings();                                   //Gets all button names and plot it in a array
+        bool[] buttonName = inputManager.GetBoolSettings();                                   //Gets all button names and plot it in a array
 
         for (int i = 0; i < buttonName.Length; i++)                                             //For each button name
         {
-            string bn;
+            bool bn;
             bn = buttonName[i];
 
             GameObject go = (GameObject)Instantiate(keyItemPrefab);
@@ -33,7 +33,7 @@ public class MenuSettings : MonoBehaviour
             go.transform.localScale = Vector3.one;
 
             Text buttonNameText = go.transform.Find("Button Name").GetComponent<Text>();
-            buttonNameText.text = bn;
+            //buttonNameText.text = bn;
 
 
             //TODO set the state of the toggle

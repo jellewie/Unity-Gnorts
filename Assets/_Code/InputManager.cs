@@ -95,7 +95,7 @@ public class InputManager : MonoBehaviour
 
 
     private bool[] Settings;
-    public string[] GetBoolSettings()
+    public bool[] GetBoolSettings()
     {
         Settings = new bool[JelleWho.BoolSettingsLength];
         int X = 1;
@@ -106,17 +106,8 @@ public class InputManager : MonoBehaviour
                 Settings[i] = true;                                                         //Add this one as true to the array
             else
                 Settings[i] = false;                                                        //Add this one as false to the array
-
-            /*
-            0001 = 1	= 0x01
-            0010 = 2	= 0x02
-            0100 = 4	= 0x04
-            1000 = 8	= 0x08
-            */
         }
-
-
-        return Settings.ToArray();
+        return Settings;                                                                    //Return the array with all the bools; (true, false) etc
     }
 
     public string[] GetSettingsBoolNames()

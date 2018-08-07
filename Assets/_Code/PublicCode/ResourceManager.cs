@@ -15,6 +15,7 @@ namespace PublicCode {
         public static int MaxCameraHeight = 64;                                                 //The max heigh the camera can go
         public static int MaxMoveHorizontalOnMap = 128;                                         //The max distance the camera can be moved away from the center
         public static int ZoomScrollWheelSpeed = 25;                                            //The speed of the ScrollWheel when zooming in and out
+        public static float MinimapScrollSpeed = 1;                                             //The speed of the ScrollWheel when zooming in and out on the minimap
     
         public static int BoolSettingsDefault = 0x01;                                           //Set the default value of the Bool Settings
         public static int BoolSettingsLength = 1;                                               //How many settings we are storing
