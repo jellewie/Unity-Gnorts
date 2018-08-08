@@ -25,7 +25,7 @@ If you want to help on this game, or create your own with it, just contact me an
 
 ?Im not sure about this?
 
-* __1 BATTLE__
+* __1 Battle__
 * 1 Bridge for moat (only posible attached to a gate)
 * 2 Moat
 * 3 Mangonel tower top
@@ -45,7 +45,7 @@ If you want to help on this game, or create your own with it, just contact me an
 * 7 Blacksmith (Iron/steel jacket maker)
 * 8 BlackSmith (Iron/steel Ace maker / Iron/steel Sword maker) 
 
-* __3 CASTLE STRUCTURES__
+* __3 Castle structures__
 * 1 Wooden walls
 * 2 Wooden gate
 * 3 Wooden tower
@@ -55,7 +55,7 @@ If you want to help on this game, or create your own with it, just contact me an
 * 7 Stone tower
 * 8 Stone stair
 
-* __4 INDUSTRIES__
+* __4 Industial__
 * 1 __f__Stockpile
 * 2 Lumberjack
 * 3 Stone quarry
@@ -65,7 +65,7 @@ If you want to help on this game, or create your own with it, just contact me an
 * 7 
 * 8 
 
-* __5 FOOD__
+* __5 Food__
 * 1 __G__ranary
 * 2 Apple farm
 * 3 Cheese/Cow farm
