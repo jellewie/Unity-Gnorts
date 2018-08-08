@@ -12,7 +12,7 @@ namespace PublicCode {
         public static int RotateSpeedMouse = 5;                                                 //The speed of rotating with the scroll wheel
         public static int RotateSpeedKeyboard = 1;                                              //The speed of the rotation when keyboard is used for rotation
         public static int MinCameraHeight = 1;                                                  //The min height the camera needs to be
-        public static int MaxCameraHeight = 64;                                                 //The max heigh the camera can go
+        public static int MaxCameraHeight = 128;                                                 //The max heigh the camera can go
         public static int MaxMoveHorizontalOnMap = 128;                                         //The max distance the camera can be moved away from the center
         public static int ZoomScrollWheelSpeed = 25;                                            //The speed of the ScrollWheel when zooming in and out
         public static float MinimapScrollSpeed = 1;                                             //The speed of the ScrollWheel when zooming in and out on the minimap

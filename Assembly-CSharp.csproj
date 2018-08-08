@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\_Code\HoverOver.cs" />
     <Compile Include="Assets\_Code\InputManager.cs" />
     <Compile Include="Assets\_Code\MenuKeybindings.cs" />
     <Compile Include="Assets\_Code\MenuSettings.cs" />
