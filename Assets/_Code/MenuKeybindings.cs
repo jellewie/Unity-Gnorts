@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
 /*
-A little help from @quill18creates at https://www.youtube.com/watch?v=HkmP7raUYi0&t=
-But adapted by JelleWho
+    A little help from @quill18creates at https://www.youtube.com/watch?v=HkmP7raUYi0&t=
+    But adapted by JelleWho
  */
 public class MenuKeybindings : MonoBehaviour {
 

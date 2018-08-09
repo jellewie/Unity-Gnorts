@@ -8,17 +8,21 @@ using PublicCode;
 public class UserInput : MonoBehaviour
 {
     public InputManager inputManager;
-    public GameObject WindowMenu;
-    public GameObject WindowUI;
+    public GameObject FolderMenu;                                                       //The folder to enable on MenuOpen
+    public GameObject FolderInfo;
+    public GameObject FolderTrading;
+    public GameObject FolderGraph;
+    public GameObject FolderUI;                                                         //The folder to hide on HideUI
+    public GameObject FolderSubMenu;                                                    //The folder to close when done building
+    public Transform FolderBuildings;                                                   //The folder where all the buildings should be put in
+
+    Quaternion PreviousRotation;
+
     bool IsOutOfFocus = false;
     bool GamePaused = false;
     bool StopCameraControls = false;
-
-    public GameObject Castle;               //Prefab of the Castle
-
-    public GameObject InHand;               //When placing down this is stuffed with the object
-    public Transform FolderBuildings;       //The folder where all the buildings should be put in
-    int IgnoreBuildingRaycast = 1 << 9;     //Ignore these when placing down buildings. 8 is the mask layer (1<< 4 = ob1000 = isgnore only layer 4)
+    private GameObject InHand;                                                          //When placing down this is stuffed with the object
+    int IgnoreBuildingRaycast = 1 << 9;                                                 //Ignore these when placing down buildings. 8 is the mask layer (1<< 4 = ob1000 = isgnore only layer 4)
 
     private void Start()                                                                //Triggered on start
     {
@@ -54,62 +58,61 @@ public class UserInput : MonoBehaviour
     {
         if (inputManager.GetButtonDownOnce("Menu"))                                             //If the Open/Close menu button is pressed
         {
-            StopCameraControls = !WindowMenu.activeSelf;                                        //Flag that the camera controls should be active or not
-            WindowMenu.SetActive(StopCameraControls);                                           //Set the menu's visibility
+            StopCameraControls = !FolderMenu.activeSelf;                                        //Flag that the camera controls should be active or not
+            FolderMenu.SetActive(StopCameraControls);                                           //Set the menu's visibility
         }
         if (inputManager.GetButtonDownOnce("Pause"))                                            //If the Open/Close menu button is pressed
             GamePaused = true;
     }
-    public void _PlaceBuilding(GameObject Prefab)
+    public void _PlaceBuilding(GameObject Prefab)                                       //Triggered by menu, with the object to build as prefab, this will hook in to the mouse cursor
     {
         Destroy(InHand);
         InHand = Instantiate(Prefab, new Vector3(0, -100, 0), Quaternion.identity);             //Create a building (we dont need to set it's position, will do later in this loop
+        InHand.transform.rotation = PreviousRotation;                                           //Restore the rotation
         InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
     }
     private void ExecuteInputs()                                                        //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
     {
-        if (InHand)                                                                             //If we have something in oure hands
+        if (InHand)                                                                             //If we have something in our hands
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                        //Set a Ray from the cursor + lookation
             RaycastHit hit;                                                                     //Create a output variable
             if (Physics.Raycast(ray, out hit, 512, IgnoreBuildingRaycast))                      //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
-                InHand.transform.position = hit.point;                                          //Move the block there
+
+
+                InHand.transform.position = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z)); //Move the block there
             if (inputManager.GetButtonDownOnce("Build"))                                        //If we need to build the object here
             {
                 if (inputManager.GetButtonDown("Alternative"))                                  //If we want to keep building
                 {
+                    PreviousRotation = InHand.transform.rotation;                               //Save the rotation
                     InHand = Instantiate(InHand, new Vector3(0, -100, 0), Quaternion.identity); //Create a new building (we dont need to set it's position, will do later in this loop
+                    InHand.transform.rotation = PreviousRotation;                               //Restore the rotation
                     InHand.transform.SetParent(FolderBuildings);                                //Sort the building in the right folder
                 }
                 else
+                {
                     InHand = null;                                                              //Clear our hand
+                    FolderSubMenu.SetActive(false);                                             //Hide the sub menu
+                }
             }
             else if (inputManager.GetButtonDownOnce("Cancel build"))                            //If we want to cancel the build
+            {
+                PreviousRotation = InHand.transform.rotation;                                   //Save the rotation
                 Destroy(InHand);                                                                //Destoy the building
+                FolderSubMenu.SetActive(false);                                                 //Hide the sub menu
+            }
             else if (inputManager.GetButtonDownOnce("Rotate building"))                         //If we want to rotate the building
             {
                 if (inputManager.GetButtonDown("Alternative"))                                  //If we want to rotate the other way
-                {
                     InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y - 90, 0);    //Rotate it 90 degrees counter clock wise
-                }
                 else
-                {
                     InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y + 90, 0);    //Rotate it 90 degrees clock wise
-                }
+                PreviousRotation = InHand.transform.rotation;                                   //Save the rotation
             }
         }
-
-
-
-
-
-
-
-
-
-
-            if (inputManager.GetButtonDownOnce("Toggle UI"))                                        //If the Toggle UI button is pressed
-            WindowUI.SetActive(!WindowUI.activeSelf);                                           //Goggle the UI
+        if (inputManager.GetButtonDownOnce("Toggle UI"))                                        //If the Toggle UI button is pressed
+            FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
         float Speed = Camera.main.transform.position.y * JelleWho.HeighSpeedIncrease;           //The height has X of speed increase per block
         Vector2 input = new Vector2(0f, 0f);
         if (inputManager.GetButtonDown("Left"))                                                 //Keyboard scroll left
