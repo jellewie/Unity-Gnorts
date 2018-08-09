@@ -2,9 +2,9 @@
 using UnityEngine.UI;                                                               //We need this to interact with the UI
 
 /*
-Written by JelleWho
-->Image With; code "HoverOver", "Content Size Fitter" Preffered, "Horizontal layout group" with your own spacing, Enabled!
---> Textbox
+    Written by JelleWho
+    ->Image With; code "HoverOver", "Content Size Fitter" Preffered, "Horizontal layout group" with your own spacing, Enabled!
+    --> Textbox
 */
 public class HoverOver : MonoBehaviour
 {

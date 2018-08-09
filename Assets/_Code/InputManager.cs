@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using PublicCode;
-
+/*
+    Written by JelleWho
+ */
 public class InputManager : MonoBehaviour
 {
     Dictionary<string, KeyCode> buttonKeys;
@@ -38,7 +40,7 @@ public class InputManager : MonoBehaviour
         Desc[17] = "Pause";             Key_[17] = "P";         //Not yet done
         Desc[18] = "Build";             Key_[18] = "Mouse0";
         Desc[19] = "Cancel build";      Key_[19] = "Mouse1";
-        Desc[20] = "Continue building"; Key_[20] = "LeftShift";
+        Desc[20] = "Alternative";       Key_[20] = "LeftShift";           //Continue building     //Inverse build rotation
 
         buttonKeys = new Dictionary<string, KeyCode>();
         for (int i = 0; i < Desc.Length; i++)                                                   //For each button name

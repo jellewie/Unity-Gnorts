@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PublicCode;
-
+/*
+    Written by JelleWho
+ */
 public class UserInput : MonoBehaviour
 {
     public InputManager inputManager;
@@ -74,7 +76,7 @@ public class UserInput : MonoBehaviour
                 InHand.transform.position = hit.point;                                          //Move the block there
             if (inputManager.GetButtonDownOnce("Build"))                                        //If we need to build the object here
             {
-                if (inputManager.GetButtonDown("Continue building"))                            //If we want to keep building
+                if (inputManager.GetButtonDown("Alternative"))                                  //If we want to keep building
                 {
                     InHand = Instantiate(InHand, new Vector3(0, -100, 0), Quaternion.identity); //Create a new building (we dont need to set it's position, will do later in this loop
                     InHand.transform.SetParent(FolderBuildings);                                //Sort the building in the right folder
@@ -85,13 +87,19 @@ public class UserInput : MonoBehaviour
             else if (inputManager.GetButtonDownOnce("Cancel build"))                            //If we want to cancel the build
                 Destroy(InHand);                                                                //Destoy the building
             else if (inputManager.GetButtonDownOnce("Rotate building"))                         //If we want to rotate the building
-                InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y + 90, 0);    //Rotate it 90 degrees
-            //TODO
-            //ADD A NEGATIVE ROTATION IS HOLDING SHIFT?
+            {
+                if (inputManager.GetButtonDown("Alternative"))                                  //If we want to rotate the other way
+                {
+                    InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y - 90, 0);    //Rotate it 90 degrees counter clock wise
+                }
+                else
+                {
+                    InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y + 90, 0);    //Rotate it 90 degrees clock wise
+                }
+            }
         }
 
 
-        
 
 
 
@@ -99,7 +107,8 @@ public class UserInput : MonoBehaviour
 
 
 
-        if (inputManager.GetButtonDownOnce("Toggle UI"))                                        //If the Toggle UI button is pressed
+
+            if (inputManager.GetButtonDownOnce("Toggle UI"))                                        //If the Toggle UI button is pressed
             WindowUI.SetActive(!WindowUI.activeSelf);                                           //Goggle the UI
         float Speed = Camera.main.transform.position.y * JelleWho.HeighSpeedIncrease;           //The height has X of speed increase per block
         Vector2 input = new Vector2(0f, 0f);
