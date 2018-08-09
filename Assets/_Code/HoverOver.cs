@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI;                                                               //We need this to interact with the UI
 
+/* 
+->Image With; code "HoverOver", "Content Size Fitter" Preffered, "Horizontal layout group" with your own spacing
+--> Textbox
+*/
 public class HoverOver : MonoBehaviour
 {
     private Text TextBox;                                                                       //The child textbox
@@ -11,7 +15,6 @@ public class HoverOver : MonoBehaviour
     void Start()                                                                    //Run on startup
     {
         img = this.gameObject;                                                                  //Set the gameObject link (Needed to enable / disable)
-        img.SetActive(false);                                                                   //The text/image should be hidden by default
         Image_RectTransform = GetComponent<RectTransform>();                                    //Set the RectTransform link (Needed for size measurement        
         TextBox = this.GetComponentInChildren<Text>();                                          //Set the Textbox link (This text will be changed)
     }
