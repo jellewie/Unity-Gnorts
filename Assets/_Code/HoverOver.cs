@@ -1,74 +1,71 @@
 ﻿using UnityEngine;
-//using System.Collections;
 using UnityEngine.UI;
-
 
 public class HoverOver : MonoBehaviour
 {
-    public Text TextBox;                                                                        //The child textbox
-    public GameObject img;                                                                      //The parrent image
-    public RectTransform Image_RectTransform;                                                   //The parrent image
-    private sbyte HorzontalOffzet;                                                              //Offset direction
-    bool Enabled;
+    private Text TextBox;                                                                       //The child textbox
+    private GameObject img;                                                                     //The parrent image
+    private RectTransform Image_RectTransform;                                                  //The parrent image
+    public Vector2 HorzontalOffzet;                                                             //Offset direction
 
-    void Start()
+    void Start()                                                                    //Run on startup
     {
         img = this.gameObject;                                                                  //Set the gameObject link (Needed to enable / disable)
         img.SetActive(false);                                                                   //The text/image should be hidden by default
         Image_RectTransform = GetComponent<RectTransform>();                                    //Set the RectTransform link (Needed for size measurement        
         TextBox = this.GetComponentInChildren<Text>();                                          //Set the Textbox link (This text will be changed)
     }
-    void Update()                   //Update every frame (only if active)
+    void Update()                                                                   //Update every frame (only if active)
     {
-        img.SetActive(true);
-        MoveToCursor();                                                                     //Move it to the cursor
+        MoveToCursos();                                                                         //Move the box to the mouse
     }
-    public void MoveToCursor()
+    private void MoveToCursos()                                                     //Move the box to the mouse
     {
-        /*
-        The "Image_RectTransform.rect.width" isn't updated yet the first time we call this with "_ShowHoverText"
-        Thats wby it's blinking once. Not sure how to fix this
-
-
-         */
-        img.transform.localPosition = new Vector2(
-            Input.mousePosition.x - Screen.width / 2 + HorzontalOffzet * (Image_RectTransform.rect.width / 2 + 10),
-            Input.mousePosition.y - Screen.height / 2 - 10
+        img.transform.localPosition = new Vector2(                                              //Let the box follow the mouse around
+            Input.mousePosition.x - Screen.width / 2 + HorzontalOffzet.x,                       //X position of box
+            Input.mousePosition.y - Screen.height / 2 - 10 + HorzontalOffzet.y                  //Y position of box
             );
     }
-    public void _ShowHoverText(string text)
+    public void _ShowHoverText(string text)                                         //If the state of the HoverText changes
     {
-        Debug.Log(text);
-        if (text == "")
+        if (text == "")                                                                         //If the text is emthy (then disabled hover,  we are done)
         {
-            img.SetActive(false);
+            img.SetActive(false);                                                               //Disable the box (We dont need it anymore)
         }
         else
         {
+            img.SetActive(false);                                                               //Temp diable it
             if (text.Substring(0, 1) == "R")                                                    //If text need to be on the Right side of the cursor
             {
-                TextBox.alignment = TextAnchor.MiddleLeft;                                      //Set the text aligment on the Left (that is closest to the mouse)
-                TextBox.text = text.Substring(1, text.Length -1);                               //Set the text
-                HorzontalOffzet = 1;                                                            //Set the offset direction
-                //Image_RectTransform.anchorMin = new Vector2(0, 0.5f);
-                //Image_RectTransform.anchorMax = new Vector2(0, 0.5f);
+                Image_RectTransform.pivot = new Vector2(0, 0.5f);                               //Set the pivit point (coords 0,0)
+                HorzontalOffzet = new Vector2(10, 0);                                           //Set the offset (So we are not below the cursor)
+                TextBox.text = text.Substring(1, text.Length - 1);                              //Set the text
             }
             else if (text.Substring(0, 1) == "L")                                               //If text need to be on the Left side of the cursor
             {
-                TextBox.alignment = TextAnchor.MiddleRight;                                     //Set the text aligment on the Right (that is closest to the mouse)
+                Image_RectTransform.pivot = new Vector2(1, 0.5f);                               //Set the pivit point (coords 0,0)
+                HorzontalOffzet = new Vector2(-10, 0);                                          //Set the offset (So we are not below the cursor)
                 TextBox.text = text.Substring(1, text.Length - 1);                              //Set the text
-
-                HorzontalOffzet = -1;                                                           //Set the offset direction
-
-                Image_RectTransform.anchorMin = new Vector2(1, 0.5f);
-                Image_RectTransform.anchorMax = new Vector2(1, 0.5f);
+            }
+            else if (text.Substring(0, 1) == "U")                                               //If text need to be on the top (Up) side of the cursor
+            {
+                Image_RectTransform.pivot = new Vector2(0.5f, 0);                               //Set the pivit point (coords 0,0)
+                HorzontalOffzet = new Vector2(0, 20);                                           //Set the offset (So we are not below the cursor)
+                TextBox.text = text.Substring(1, text.Length - 1);                              //Set the text
+            }
+            else if (text.Substring(0, 1) == "D")                                               //If text need to be on the bottom (Down) side of the cursor
+            {
+                Image_RectTransform.pivot = new Vector2(0.5f, 1);                               //Set the pivit point (coords 0,0)
+                HorzontalOffzet = new Vector2(0, -20);                                          //Set the offset (So we are not below the cursor)
+                TextBox.text = text.Substring(1, text.Length - 1);                              //Set the text
             }
             else
             {
-                TextBox.text = text;
-                Debug.LogError("No direction of HoverText given, using the last know direction");
+                TextBox.text = text;                                                            //Set the text
+                Debug.LogError("No direction of HoverText given, using the last know direction");//Show an error
             }
-            img.SetActive(true);
+            img.SetActive(true);                                                                //Enable the box
+            MoveToCursos();                                                                     //Move the box to the mouse
         }
     }
 }
