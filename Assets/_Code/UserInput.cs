@@ -12,6 +12,9 @@ public class UserInput : MonoBehaviour
     bool GamePaused = false;
     bool StopCameraControls = false;
 
+    public GameObject Castle;
+    public GameObject InHand;
+
     private void Start()                                                                //Triggered on start
     {
     }
@@ -54,6 +57,37 @@ public class UserInput : MonoBehaviour
     }
     private void ExecuteInputs()                                                        //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
     {
+        //if (InHand)
+        //{
+        //    Debug.Log("Holding something");
+        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
+        //    RaycastHit hit;
+        //    if (Physics.Raycast(ray, out hit, 512))                                     //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
+        //    {
+        //        InHand.transform.position = hit.point;                               //Move the block there
+        //    }
+        //}
+
+        if (inputManager.GetButtonDownOnce("Castle"))
+        {
+
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 512))                                     //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
+            {
+                Instantiate(Castle, hit.point, Quaternion.identity);                    //Create a castleblock there
+                //TestBlock.transform.position = hit.point;                               //Move the block there
+            }
+
+            //Vector3 mousePos = Input.mousePosition;
+            //mousePos.z = 10.0f;
+            //Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            //Debug.Log("Mouse pos: " + mousePos + "   World Pos: " + worldPos + "   Near Clip Plane: " + Camera.main.nearClipPlane);
+            //GameObject InHand = Instantiate(Castle, worldPos, Quaternion.identity);
+            //Castle.transform.position = worldPos;
+        }
+
+
         if (inputManager.GetButtonDownOnce("Toggle UI"))                                        //If the Toggle UI button is pressed
             WindowUI.SetActive(!WindowUI.activeSelf);                                           //Goggle the UI
         float Speed = Camera.main.transform.position.y * JelleWho.HeighSpeedIncrease;           //The height has X of speed increase per block

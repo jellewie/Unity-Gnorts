@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;                                                               //We need this to interact with the UI
 
-/* 
-->Image With; code "HoverOver", "Content Size Fitter" Preffered, "Horizontal layout group" with your own spacing
+/*
+Written by JelleWho
+->Image With; code "HoverOver", "Content Size Fitter" Preffered, "Horizontal layout group" with your own spacing, Enabled!
 --> Textbox
 */
 public class HoverOver : MonoBehaviour
@@ -14,9 +15,10 @@ public class HoverOver : MonoBehaviour
 
     void Start()                                                                    //Run on startup
     {
-        img = this.gameObject;                                                                  //Set the gameObject link (Needed to enable / disable)
-        Image_RectTransform = GetComponent<RectTransform>();                                    //Set the RectTransform link (Needed for size measurement        
-        TextBox = this.GetComponentInChildren<Text>();                                          //Set the Textbox link (This text will be changed)
+        img = this.gameObject;                                                                  //Set the gameObject reference (Needed to enable / disable)
+        Image_RectTransform = GetComponent<RectTransform>();                                    //Set the RectTransform reference (Needed for size measurement        
+        TextBox = this.GetComponentInChildren<Text>();                                          //Set the Textbox reference (This text will be changed)
+        img.SetActive(false);                                                                   //Disable on boot (but the references are set)
     }
     void Update()                                                                   //Update every frame (only if active)
     {
