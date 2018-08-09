@@ -12,8 +12,11 @@ public class UserInput : MonoBehaviour
     bool GamePaused = false;
     bool StopCameraControls = false;
 
-    public GameObject Castle;
-    public GameObject InHand;
+    public GameObject Castle;               //Prefab of the Castle
+
+    public GameObject InHand;               //When placing down this is stuffed with the object
+    public Transform FolderBuildings;       //The folder where all the buildings should be put in
+    int IgnoreBuildingRaycast = 1 << 9;     //Ignore these when placing down buildings. 8 is the mask layer (1<< 4 = ob1000 = isgnore only layer 4)
 
     private void Start()                                                                //Triggered on start
     {
@@ -55,37 +58,45 @@ public class UserInput : MonoBehaviour
         if (inputManager.GetButtonDownOnce("Pause"))                                            //If the Open/Close menu button is pressed
             GamePaused = true;
     }
+    public void _PlaceBuilding(GameObject Prefab)
+    {
+        Destroy(InHand);
+        InHand = Instantiate(Prefab, new Vector3(0, -100, 0), Quaternion.identity);             //Create a building (we dont need to set it's position, will do later in this loop
+        InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
+    }
     private void ExecuteInputs()                                                        //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
     {
-        //if (InHand)
-        //{
-        //    Debug.Log("Holding something");
-        //    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
-        //    RaycastHit hit;
-        //    if (Physics.Raycast(ray, out hit, 512))                                     //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
-        //    {
-        //        InHand.transform.position = hit.point;                               //Move the block there
-        //    }
-        //}
-
-        if (inputManager.GetButtonDownOnce("Castle"))
+        if (InHand)                                                                             //If we have something in oure hands
         {
-
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 512))                                     //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                        //Set a Ray from the cursor + lookation
+            RaycastHit hit;                                                                     //Create a output variable
+            if (Physics.Raycast(ray, out hit, 512, IgnoreBuildingRaycast))                      //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
+                InHand.transform.position = hit.point;                                          //Move the block there
+            if (inputManager.GetButtonDownOnce("Build"))                                        //If we need to build the object here
             {
-                Instantiate(Castle, hit.point, Quaternion.identity);                    //Create a castleblock there
-                //TestBlock.transform.position = hit.point;                               //Move the block there
+                if (inputManager.GetButtonDown("Continue building"))                            //If we want to keep building
+                {
+                    InHand = Instantiate(InHand, new Vector3(0, -100, 0), Quaternion.identity); //Create a new building (we dont need to set it's position, will do later in this loop
+                    InHand.transform.SetParent(FolderBuildings);                                //Sort the building in the right folder
+                }
+                else
+                    InHand = null;                                                              //Clear our hand
             }
-
-            //Vector3 mousePos = Input.mousePosition;
-            //mousePos.z = 10.0f;
-            //Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-            //Debug.Log("Mouse pos: " + mousePos + "   World Pos: " + worldPos + "   Near Clip Plane: " + Camera.main.nearClipPlane);
-            //GameObject InHand = Instantiate(Castle, worldPos, Quaternion.identity);
-            //Castle.transform.position = worldPos;
+            else if (inputManager.GetButtonDownOnce("Cancel build"))                            //If we want to cancel the build
+                Destroy(InHand);                                                                //Destoy the building
+            else if (inputManager.GetButtonDownOnce("Rotate building"))                         //If we want to rotate the building
+                InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y + 90, 0);    //Rotate it 90 degrees
+            //TODO
+            //ADD A NEGATIVE ROTATION IS HOLDING SHIFT?
         }
+
+
+        
+
+
+
+
+
 
 
         if (inputManager.GetButtonDownOnce("Toggle UI"))                                        //If the Toggle UI button is pressed
