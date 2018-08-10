@@ -106,47 +106,54 @@ public class InputManager : MonoBehaviour
 
 
 
-    class SettingsBool                                                              //Create a new Class data type to store the bools in
-    {
-        //Please see the next url if you don't get this. it was really helpfull for me
-        //https://unity3d.com/learn/tutorials/topics/scripting/classes
-        public string Name;                                                                     //(To GET data) 1th part of the array is a string,        The name
-        public bool Stat;                                                                       //(To GET data) 2nd part of the array is a is a bool,     The default state
-        public string Desc;                                                                     //(To GET data) 3rd part of the array is a is a string,   The description (hoverover text)
-        public SettingsBool(string name, bool default_status, string description)               //Create a way to add all data at once
-        {
-            this.Name = name;                                                                   //(To SET data) 1th part of the array is a string,        The name
-            this.Stat = default_status;                                                         //(To SET data) 2nd part of the array is a is a bool,     The default state
-            this.Desc = description;                                                            //(To SET data) 3rd part of the array is a is a string,   The description (hoverover text)
-        }
-    }
+    
     private SettingsBool[] SettingsBoolArray;                                                   //Create a new SettingsBool Array to store the data in
-
     private void InitaliseBoolSettings()                                            //Init the bool settings (set default values)
     {
-        bool[] DefSetting = GetBoolSettings();
-
+        bool[] DefSetting = InitBoolSettings();                                                  //Get default values
         int TotalSettingsBool = JelleWho.BoolSettingsLength;                                    //The total amount of entries, change accordingly in the "ResourceManager"
         SettingsBoolArray = new SettingsBool[TotalSettingsBool];                                //Create a new array with the proper length
         SettingsBoolArray[0] = new SettingsBool("EdgeScroll",   DefSetting[0], "Turn mouse on edge scroll on/off");  //Add some data
         SettingsBoolArray[1] = new SettingsBool("Option",       DefSetting[1], "Description");
     }
+    public SettingsBool GetSetting(int ArrayPosition)                               //Returns the current setting (name, stat, desc)
+    {
+        return new SettingsBool(SettingsBoolArray[ArrayPosition].Name, SettingsBoolArray[ArrayPosition].Stat, SettingsBoolArray[ArrayPosition].Desc);
+    }
+    public SettingsBool[] GetBoolSettings()                                         //Returns the full array
+    {
+        return SettingsBoolArray;
+    }
+    public void ResetBoolSettings()
+    {
+        int X = 1;
+        for (int i = 0; i < SettingsBoolArray.Length; i++)                                      //For each item
+        {
+            if ((JelleWho.BoolSettingsDefault & X) == X)//Read the bit
+                SettingsBoolArray[i].Stat = true;                                               //Set this one as true
+            else
+                SettingsBoolArray[i].Stat = false;                                              //Set this one as false
+            X *= 2;                                                                             //Select the next bit
+        }
+    }
+    public void SetSetting(bool SetTo)
+    {
 
-
+    }
 
 
 
     private bool[] Settings;
-    public bool[] GetBoolSettings() //Gets all settings out of the int (every bit of the INT is now returned as BOOL[#])
+    private bool[] InitBoolSettings() //Gets all settings out of the int (every bit of the INT is now returned as BOOL[#])
     {
         Settings = new bool[JelleWho.BoolSettingsLength];
         int X = 1;
-        for (int i = 0; i < Settings.Length; i++)                                           //For each button name
+        for (int i = 0; i < Settings.Length; i++)                                           //For each item
         {
             if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & X) == X)//Read the bit
-                Settings[i] = true;                                                         //Add this one as true to the array
+                Settings[i] = true;                                                         //Set this one as true
             else
-                Settings[i] = false;                                                        //Add this one as false to the array
+                Settings[i] = false;                                                        //Set this one as false
             X *= 2;                                                                         //Select the next bit
         }
         return Settings.ToArray();                                                                    //Return the array with all the bools; (true, false) etc

@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace PublicCode {
+﻿/*
+    Written by JelleWho
+ */
+ namespace PublicCode {
     public static class JelleWho {
         public static float HeighSpeedIncrease = 0.05f;                                         //The height has X of speed increase per block
         public static int MoveIfThisCloseToTheSides = 25;                                       //If the mouse is this close to the edge
@@ -40,10 +39,21 @@ namespace PublicCode {
             Toggle
                 PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) ^ 0x02));
         */
-
-
-
-
-        //public static bool EdgeScroll { get { if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x02) == 0x02) return true; else return false; } }
+    }
+    public class SettingsBool                                                           //Create a new Class data type to store the bools in
+    {
+        //Please see the next url if you don't get this. it was really helpfull for me
+        //https://unity3d.com/learn/tutorials/topics/scripting/classes
+        public string Name;                                                                     //(To GET data) 1th part of the array is a string,        The name
+        public bool Stat;                                                                       //(To GET data) 2nd part of the array is a is a bool,     The default state
+        public string Desc;                                                                     //(To GET data) 3rd part of the array is a is a string,   The description (hoverover text)
+        public SettingsBool(string name, bool default_status, string description)               //Create a way to add all data at once
+        {
+            this.Name = name;                                                                   //(To SET data) 1th part of the array is a string,        The name
+            this.Stat = default_status;                                                         //(To SET data) 2nd part of the array is a is a bool,     The default state
+            this.Desc = description;                                                            //(To SET data) 3rd part of the array is a is a string,   The description (hoverover text)
+        }
     }
 }
+
+//public static bool EdgeScroll { get { if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x02) == 0x02) return true; else return false; } }

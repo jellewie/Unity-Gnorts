@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using PublicCode;
 /*
     A little help from @quill18creates at https://www.youtube.com/watch?v=HkmP7raUYi0&t=
     But adapted by JelleWho
@@ -24,18 +25,18 @@ public class MenuSettings : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);                                               //Remove the entry
         }
-        bool[] buttonName = inputManager.GetBoolSettings();                                     //Gets all button names and plot it in a array
+        SettingsBool[] buttonName = inputManager.GetBoolSettings();                                     //Gets all button names and plot it in a array
 
         for (int i = 0; i < buttonName.Length; i++)                                             //For each button name
         {
-            bool bn;
-            bn = buttonName[i];
+            //bool bn;
+            //bn = buttonName[i];
+            //
+            //GameObject go = (GameObject)Instantiate(keyItemPrefab);
+            //go.transform.SetParent(keyList.transform);
+            //go.transform.localScale = Vector3.one;
 
-            GameObject go = (GameObject)Instantiate(keyItemPrefab);
-            go.transform.SetParent(keyList.transform);
-            go.transform.localScale = Vector3.one;
-
-            Text buttonNameText = go.transform.Find("Button Name").GetComponent<Text>();
+            //Text buttonNameText = go.transform.Find("Button Name").GetComponent<Text>();
             //buttonNameText.text = bn;
 
 
