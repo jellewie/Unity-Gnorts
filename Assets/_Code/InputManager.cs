@@ -104,58 +104,59 @@ public class InputManager : MonoBehaviour
 
 
 
-
-
-    
-    private SettingsBool[] SettingsBoolArray;                                                   //Create a new SettingsBool Array to store the data in
+    private SettingsBool[] SettingsBoolArray;                                       //SettingsBool Array to store the data in
     private void InitaliseBoolSettings()                                            //Init the bool settings (set default values)
     {
-        bool[] DefSetting = InitBoolSettings();                                                  //Get default values
+        bool[] DefSetting = new bool[JelleWho.BoolSettingsLength];                              //Gets all default settings out of the int (every bit of the INT is now returned as BOOL[#])
+        int X = 1;                                                                              //Set the first bit to read to be bit 1
+        for (int i = 0; i < DefSetting.Length; i++)                                             //For each item
+        {
+            if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & X) == X)    //Read the bit
+                DefSetting[i] = true;                                                           //Set this one as true
+            else
+                DefSetting[i] = false;                                                          //Set this one as false
+            X *= 2;                                                                             //Select the next bit
+        }
         int TotalSettingsBool = JelleWho.BoolSettingsLength;                                    //The total amount of entries, change accordingly in the "ResourceManager"
         SettingsBoolArray = new SettingsBool[TotalSettingsBool];                                //Create a new array with the proper length
         SettingsBoolArray[0] = new SettingsBool("EdgeScroll",   DefSetting[0], "Turn mouse on edge scroll on/off");  //Add some data
         SettingsBoolArray[1] = new SettingsBool("Option",       DefSetting[1], "Description");
     }
-    public SettingsBool GetSetting(int ArrayPosition)                               //Returns the current setting (name, stat, desc)
+    public void SetSetting(int Position, bool SetTo)                                //set a single setting
     {
-        return new SettingsBool(SettingsBoolArray[ArrayPosition].Name, SettingsBoolArray[ArrayPosition].Stat, SettingsBoolArray[ArrayPosition].Desc);
+        SettingsBoolArray[Position].Stat = SetTo;
+        if (SetTo)
+            PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) | 0x02));  //Set bit TRUE
+        else
+            PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & ~0x02)); //Set bit FALSE
+        Debug.LogWarning("BoolSettings SetSetting || Set " + Position + "to be " + SetTo);
+    }
+    public SettingsBool GetSetting(int Position)                                    //Returns the current setting (name, stat, desc)
+    {
+        return new SettingsBool(SettingsBoolArray[Position].Name, SettingsBoolArray[Position].Stat, SettingsBoolArray[Position].Desc);
     }
     public SettingsBool[] GetBoolSettings()                                         //Returns the full array
     {
-        return SettingsBoolArray;
+        return SettingsBoolArray;                                                               //Just return the array as currently is
     }
-    public void ResetBoolSettings()
+    public void ResetBoolSettings()                                                 //Reset all settings
     {
-        int X = 1;
+        int Hex = 1;                                                                            //Set the first bit to read to be bit 1
         for (int i = 0; i < SettingsBoolArray.Length; i++)                                      //For each item
         {
-            if ((JelleWho.BoolSettingsDefault & X) == X)//Read the bit
+            if ((JelleWho.BoolSettingsDefault & Hex) == Hex)                                    //Read the bit
+            {
                 SettingsBoolArray[i].Stat = true;                                               //Set this one as true
+                PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) | Hex));  //Set bit TRUE
+                Debug.LogWarning("BoolSettings ResetBoolSettings || Set Hex" + Hex + "to be TRUE");
+            }
             else
+            {
                 SettingsBoolArray[i].Stat = false;                                              //Set this one as false
-            X *= 2;                                                                             //Select the next bit
+                PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & ~Hex)); //Set bit FALSE
+                Debug.LogWarning("BoolSettings ResetBoolSettings || Set Hex" + Hex + "to be FALSE");
+            }
+            Hex *= 2;                                                                           //Select the next bit
         }
-    }
-    public void SetSetting(bool SetTo)
-    {
-
-    }
-
-
-
-    private bool[] Settings;
-    private bool[] InitBoolSettings() //Gets all settings out of the int (every bit of the INT is now returned as BOOL[#])
-    {
-        Settings = new bool[JelleWho.BoolSettingsLength];
-        int X = 1;
-        for (int i = 0; i < Settings.Length; i++)                                           //For each item
-        {
-            if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & X) == X)//Read the bit
-                Settings[i] = true;                                                         //Set this one as true
-            else
-                Settings[i] = false;                                                        //Set this one as false
-            X *= 2;                                                                         //Select the next bit
-        }
-        return Settings.ToArray();                                                                    //Return the array with all the bools; (true, false) etc
     }
 }

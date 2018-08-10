@@ -41,6 +41,10 @@ public class UserInput : MonoBehaviour
                 ExecuteInputs();                                                                //Check if we need to move the camera                                       
             }
         }
+        if (GamePaused)
+        {
+            //some IA stuff here
+        }
     }
     public void CameraControls(bool SetTo)                                              //With this buttons can change the camera mode
     {
