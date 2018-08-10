@@ -126,3 +126,7 @@ z x __Castle__ v __Barracks__ n m
 ###10. __p__ to pause game
 
 ###11. Center the minimap on the camera is looking at instead of where the camera is + ?Add a ourline of the screen range on the minimap?
+
+###12. Add Konami
+
+###13. FPSDisplay

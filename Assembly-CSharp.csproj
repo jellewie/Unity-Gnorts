@@ -61,14 +61,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\_Code\HoverOver.cs" />
     <Compile Include="Assets\_Code\InputManager.cs" />
     <Compile Include="Assets\_Code\MenuKeybindings.cs" />
     <Compile Include="Assets\_Code\MenuSettings.cs" />
-    <Compile Include="Assets\_Code\Minimap.cs" />
     <Compile Include="Assets\_Code\PublicCode\ResourceManager.cs" />
+    <Compile Include="Assets\_Code\Standalone\FPSDisplay.cs" />
+    <Compile Include="Assets\_Code\Standalone\HoverOver.cs" />
+    <Compile Include="Assets\_Code\Standalone\Minimap.cs" />
+    <Compile Include="Assets\_Code\Standalone\RotateMe.cs" />
+    <Compile Include="Assets\_Code\Standalone\ScreenRecorder.cs" />
     <Compile Include="Assets\_Code\UserInput.cs" />
-    <Compile Include="Assets\RotateMe.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/user/Github/Unity-Gnorts/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

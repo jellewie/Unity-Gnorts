@@ -22,7 +22,7 @@ public class UserInput : MonoBehaviour
     bool GamePaused = false;
     bool StopCameraControls = false;
     private GameObject InHand;                                                          //When placing down this is stuffed with the object
-    int IgnoreBuildingRaycast = 1 << 9;                                                 //Ignore these when placing down buildings. 8 is the mask layer (1<< 4 = ob1000 = isgnore only layer 4)
+    readonly int IgnoreBuildingRaycast = 1 << 9;                                                //Ignore these when placing down buildings. 8 is the mask layer (1<< 4 = ob1000 = isgnore only layer 4)
 
     private void Start()                                                                //Triggered on start
     {
@@ -75,13 +75,27 @@ public class UserInput : MonoBehaviour
     {
         if (InHand)                                                                             //If we have something in our hands
         {
+
+
+
+
+
+
+            //This just checks if anything is indise, we should apply a mask with the current item
+            bool isInside = Physics.CheckSphere(InHand.transform.position, 1);
+            Debug.Log(isInside);
+
+
+
+
+
+
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                        //Set a Ray from the cursor + lookation
             RaycastHit hit;                                                                     //Create a output variable
             if (Physics.Raycast(ray, out hit, 512, IgnoreBuildingRaycast))                      //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
-
-
-                InHand.transform.position = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z)); //Move the block there
-            if (inputManager.GetButtonDownOnce("Build"))                                        //If we need to build the object here
+            InHand.transform.position = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z)); //Move the block there
+            if (inputManager.GetButtonDown("Build"))                                            //If we need to build the object here
             {
                 if (inputManager.GetButtonDown("Alternative"))                                  //If we want to keep building
                 {
@@ -202,13 +216,57 @@ public class UserInput : MonoBehaviour
     }
 }
 
-/*
-    public GameObject Tempblock;
+/*  int resWidth = 2550;
+    int resHeight = 3300;
+    private bool takeHiResShot = false;
+    
+    public static string ScreenShotName(int width, int height)
+    {
+        return string.Format("{0}/screenshots/screen_{1}x{2}_{3}.png",
+                                  Application.dataPath,
+                                  width, height,
+                                  System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"));
+    }
+    
+    public void TakeHiResShot()
+    {
+        takeHiResShot = true;
+    }
+    
+    void LateUpdate()
+    {
+        takeHiResShot |= Input.GetKeyDown("k");
+        if (takeHiResShot)
+        {
+            RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
+            camera.targetTexture = rt;
+            Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+            camera.Render();
+            RenderTexture.active = rt;
+            screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
+            camera.targetTexture = null;
+            RenderTexture.active = null; // JC: added to avoid errors
+            Destroy(rt);
+            byte[] bytes = screenShot.EncodeToPNG();
+            string filename = ScreenShotName(resWidth, resHeight);
+            System.IO.File.WriteAllBytes(filename, bytes);
+            Debug.Log(string.Format("Took screenshot to: {0}", filename));
+            takeHiResShot = false;
+        }
+    
+    
+    
+        Debug.Log("TEST");
+        ScreenCapture.CaptureScreenshot("TestScreenshot.png");
+    }*/
+
+
+
+/*  public GameObject Tempblock;
     void Temp()
     {
         Vector3 OffsetXYZ = Camera.main.transform.position;                                     //The Starting position
         Vector2 LookingAt = Camera.main.transform.eulerAngles;                                  //The angles we are looking at
         Vector3 Range = new Vector3(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));     //The range where we need to go relative to the angles
         Tempblock.transform.position = OffsetXYZ + PolarToCartesian(LookingAt, Range);          //Calculate and move
-    }
-    */
+    }*/

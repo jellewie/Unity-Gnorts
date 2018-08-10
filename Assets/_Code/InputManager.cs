@@ -9,52 +9,53 @@ using PublicCode;
 public class InputManager : MonoBehaviour
 {
     Dictionary<string, KeyCode> buttonKeys;
+    private string[] Name;
+    private string[] Key_;
     private string[] Desc;
-    private string[] Key_ = new string[5];
 
     void OnEnable()                                                                             //Runned before start and every time the parrent is enabled
     {
-        int TotalKeys = 20 + 1;                                                                 //The total amount of keys, change accordingly (+1 since we have a '0' entry too)
-        Desc = new string[TotalKeys];
+        InitaliseKeybindings();
+        InitaliseBoolSettings();
+    }
+    private void InitaliseKeybindings()
+    {
+        int TotalKeys = 20 + 1;                                                                 //The total amount of entries, change accordingly (+1 since we have a '0' entry too)
+        Name = new string[TotalKeys];
         Key_ = new string[TotalKeys];
+        Desc = new string[TotalKeys];
 
         //TODO
         //Change Desc to name and add a (hover) description
-        Desc[0] = "Drag";               Key_[0] = "Mouse1";
-        Desc[1] = "Rotate";             Key_[1] = "Mouse2";
-        Desc[2] = "Left";               Key_[2] = "A";
-        Desc[3] = "Down";               Key_[3] = "S";
-        Desc[4] = "Right";              Key_[4] = "D";
-        Desc[5] = "Up";                 Key_[5] = "W";
-        Desc[6] = "Rotate left";        Key_[6] = "E";
-        Desc[7] = "Rotate right";       Key_[7] = "Q";
-        Desc[8] = "Menu";               Key_[8] = "Escape";
-        Desc[9] = "Toggle UI";          Key_[9] = "Tab";
-        Desc[10] = "Rotate building";   Key_[10] = "R";         //Not yet done
-        Desc[11] = "Trading";           Key_[11] = "T";         //Not yet done
-        Desc[12] = "Stockpile";         Key_[12] = "F";         //Not yet done
-        Desc[13] = "Granary";           Key_[13] = "G";         //Not yet done
-        Desc[14] = "Church";            Key_[14] = "H";         //Not yet done
-        Desc[15] = "Barracs";           Key_[15] = "B";         //Not yet done
-        Desc[16] = "Castle";            Key_[16] = "C";         //Not yet done
-        Desc[17] = "Pause";             Key_[17] = "P";         //Not yet done
-        Desc[18] = "Build";             Key_[18] = "Mouse0";
-        Desc[19] = "Cancel build";      Key_[19] = "Mouse1";
-        Desc[20] = "Alternative";       Key_[20] = "LeftShift";           //Continue building     //Inverse build rotation
+        Name[0] = "Drag";               Key_[0] = "Mouse1";             Desc[0] = "Drag the camera";
+        Name[1] = "Rotate";             Key_[1] = "Mouse2";             Desc[1] = "Rotatate the camera";
+        Name[2] = "Left";               Key_[2] = "A";                  Desc[2] = "Move camera left";
+        Name[3] = "Down";               Key_[3] = "S";                  Desc[3] = "Move camera backwards";
+        Name[4] = "Right";              Key_[4] = "D";                  Desc[4] = "Move camera right";
+        Name[5] = "Up";                 Key_[5] = "W";                  Desc[5] = "Move camera forward";
+        Name[6] = "Rotate left";        Key_[6] = "E";                  Desc[6] = "Rotatate the camera a bit left";
+        Name[7] = "Rotate right";       Key_[7] = "Q";                  Desc[7] = "Rotatate the camera a bit right";
+        Name[8] = "Menu";               Key_[8] = "Escape";             Desc[8] = "Open / close the menu";
+        Name[9] = "Toggle UI";          Key_[9] = "Tab";                Desc[9] = "Make the UI hidden/viseble";
+        Name[10] = "Rotate building";   Key_[10] = "R";                 //Not yet done
+        Name[11] = "Trading";           Key_[11] = "T";                 //Not yet done
+        Name[12] = "Stockpile";         Key_[12] = "F";                 //Not yet done
+        Name[13] = "Granary";           Key_[13] = "G";                 //Not yet done
+        Name[14] = "Church";            Key_[14] = "H";                 //Not yet done
+        Name[15] = "Barracs";           Key_[15] = "B";                 //Not yet done
+        Name[16] = "Castle";            Key_[16] = "C";                 //Not yet done
+        Name[17] = "Pause";             Key_[17] = "P";                 //Not yet done
+        Name[18] = "Build";             Key_[18] = "Mouse0";            Desc[18] = "Place the building";
+        Name[19] = "Cancel build";      Key_[19] = "Mouse1";            Desc[19] = "Cancel building";
+        Name[20] = "Alternative";       Key_[20] = "LeftShift";         Desc[20] = "Continue building & Inverse build rotation";
+        
 
         buttonKeys = new Dictionary<string, KeyCode>();
-        for (int i = 0; i < Desc.Length; i++)                                                   //For each button name
+        for (int i = 0; i < Name.Length; i++)                                                   //For each button name
         {
-            buttonKeys[Desc[i]] = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(Desc[i], Key_[i]));    //Get the key that should be connected
+            buttonKeys[Name[i]] = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(Name[i], Key_[i]));    //Get the key that should be connected
         }
     }
-    void Start()                                                                                //Use this for initialization
-    {
-    }
-    void Update()                                                                               //Update is called once per frame
-    {
-    }
-
     public bool GetButtonDown(string buttonName)
     {
         if (buttonKeys.ContainsKey(buttonName) == false)                                        //If the button is not defined
@@ -93,33 +94,61 @@ public class InputManager : MonoBehaviour
     }
     public void ResetAllShotKeys()
     {
-        for (int i = 0; i < Desc.Length; i++)                                                   //For each button name
+        for (int i = 0; i < Name.Length; i++)                                                   //For each button name
         {
-            SetButtonForKey(Desc[i], (KeyCode)Enum.Parse(typeof(KeyCode), Key_[i]));            //reset the key
+            SetButtonForKey(Name[i], (KeyCode)Enum.Parse(typeof(KeyCode), Key_[i]));            //reset the key
         }
     }
 
 
 
+
+
+
+
+    class SettingsBool                                                              //Create a new Class data type to store the bools in
+    {
+        //Please see the next url if you don't get this. it was really helpfull for me
+        //https://unity3d.com/learn/tutorials/topics/scripting/classes
+        public string Name;                                                                     //(To GET data) 1th part of the array is a string,        The name
+        public bool Stat;                                                                       //(To GET data) 2nd part of the array is a is a bool,     The default state
+        public string Desc;                                                                     //(To GET data) 3rd part of the array is a is a string,   The description (hoverover text)
+        public SettingsBool(string name, bool default_status, string description)               //Create a way to add all data at once
+        {
+            this.Name = name;                                                                   //(To SET data) 1th part of the array is a string,        The name
+            this.Stat = default_status;                                                         //(To SET data) 2nd part of the array is a is a bool,     The default state
+            this.Desc = description;                                                            //(To SET data) 3rd part of the array is a is a string,   The description (hoverover text)
+        }
+    }
+    private SettingsBool[] SettingsBoolArray;                                                   //Create a new SettingsBool Array to store the data in
+
+    private void InitaliseBoolSettings()                                            //Init the bool settings (set default values)
+    {
+        bool[] DefSetting = GetBoolSettings();
+
+        int TotalSettingsBool = JelleWho.BoolSettingsLength;                                    //The total amount of entries, change accordingly in the "ResourceManager"
+        SettingsBoolArray = new SettingsBool[TotalSettingsBool];                                //Create a new array with the proper length
+        SettingsBoolArray[0] = new SettingsBool("EdgeScroll",   DefSetting[0], "Turn mouse on edge scroll on/off");  //Add some data
+        SettingsBoolArray[1] = new SettingsBool("Option",       DefSetting[1], "Description");
+    }
+
+
+
+
+
     private bool[] Settings;
-    public bool[] GetBoolSettings()
+    public bool[] GetBoolSettings() //Gets all settings out of the int (every bit of the INT is now returned as BOOL[#])
     {
         Settings = new bool[JelleWho.BoolSettingsLength];
         int X = 1;
         for (int i = 0; i < Settings.Length; i++)                                           //For each button name
         {
-            X *= 2;                                                                         //Select the next bit
             if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & X) == X)//Read the bit
                 Settings[i] = true;                                                         //Add this one as true to the array
             else
                 Settings[i] = false;                                                        //Add this one as false to the array
+            X *= 2;                                                                         //Select the next bit
         }
-        return Settings;                                                                    //Return the array with all the bools; (true, false) etc
+        return Settings.ToArray();                                                                    //Return the array with all the bools; (true, false) etc
     }
-
-    public string[] GetSettingsBoolNames()
-    {
-        return buttonKeys.Keys.ToArray();
-    }
-
 }
