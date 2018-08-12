@@ -130,3 +130,6 @@ z x __Castle__ v __Barracks__ n m
 ###12. Add Konami
 
 ###13. FPSDisplay
+
+###14. Max fps
+	Application.targetFrameRate = PlayerPrefs.GetInt("MaxFrameRate");           //Set MaxFrame rate
