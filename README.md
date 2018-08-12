@@ -8,7 +8,7 @@ If you want to help on this game, or create your own with it, just contact me an
 
 
 
-?Im not sure about this?
+?Im not sure about this option?
 
 MENU LAYOUT
 ====================
@@ -63,7 +63,6 @@ MENU LAYOUT
 * 6 Mill (for wheat/grain)
 * 7 Baker (for floar)
 * 8 ?Fischer?
-
 
 * __6 MISC__
 * 1 __T__rading house (This building enables trading + Auto trading ?with an upgrade?; like buy wood if below 100, sell if above 200)
