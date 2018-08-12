@@ -18,17 +18,9 @@ public class ScreenShots : MonoBehaviour
     public GameObject[] Objects4;                                                               //The gameobjects to tame screenshots from   name = ICON4_#
     public GameObject[] Objects5;                                                               //The gameobjects to tame screenshots from   name = ICON5_#
     public GameObject[][] Objects;
-    byte TotalSubMenus = 6;
-
+    byte TotalSubMenus = 6;                                                                     //Dont change this unless you know what you are doing. The code needs more Objects# manually being added
     public int Size = 256;                                                                      //The size of the imgage
     public string folder = "/_textures/Images/UI/Menu/1/sub";                                   //output folder path (Datapath + this)
-
-
-    // optional game object to hide during screenshots (usually your scene canvas hud)
-    public GameObject hideGameObject;
-
-    // optimize for many screenshots will not destroy any objects so future screenshots will be fast
-    public bool optimizeForManyScreenshots = true;
 
     // configure with raw, jpg, png, or ppm (simple raw format)
     public enum Format {PNG};

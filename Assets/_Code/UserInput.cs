@@ -75,6 +75,13 @@ public class UserInput : MonoBehaviour
         InHand.transform.rotation = PreviousRotation;                                           //Restore the rotation
         InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
     }
+    public void _HideSubMenu()       //This will hide the full sub menu
+    {
+        foreach (Transform child in FolderSubMenu.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+    }
     private void ExecuteInputs()                                                        //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
     {
         if (InHand)                                                                             //If we have something in our hands
@@ -111,14 +118,14 @@ public class UserInput : MonoBehaviour
                 else
                 {
                     InHand = null;                                                              //Clear our hand
-                    FolderSubMenu.SetActive(false);                                             //Hide the sub menu
+                    _HideSubMenu();                                                              //Hide the sub menu
                 }
             }
             else if (inputManager.GetButtonDownOnce("Cancel build"))                            //If we want to cancel the build
             {
                 PreviousRotation = InHand.transform.rotation;                                   //Save the rotation
                 Destroy(InHand);                                                                //Destoy the building
-                FolderSubMenu.SetActive(false);                                                 //Hide the sub menu
+                _HideSubMenu();                                                                  //Hide the sub menu
             }
             else if (inputManager.GetButtonDownOnce("Rotate building"))                         //If we want to rotate the building
             {
