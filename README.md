@@ -121,8 +121,6 @@ __Aleft__ __Sback__ __Dright__ __Fstockpile__ __Granary__ __cHurch__ j k l
 
 z x __Castle__ v __Barracks__ n m
 
-###9. __R__ to rotate building 90 degrees
-
 ###10. __p__ to pause game
 
 ###11. Center the minimap on the camera is looking at instead of where the camera is + ?Add a ourline of the screen range on the minimap?
