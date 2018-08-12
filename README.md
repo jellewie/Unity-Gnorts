@@ -1,3 +1,4 @@
+# https://github.com/jellewie/Unity-Gnorts
 # This is an Real Time Strategy game in Unity
 Although the Code is public for people to see, if you want to use it in any commercial way you need to contact me.
 I do NOT allow you or annyone to use my codes and sell it without my permission.
