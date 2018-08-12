@@ -131,3 +131,5 @@ z x __Castle__ v __Barracks__ n m
 
 ###14. Max fps
 	Application.targetFrameRate = PlayerPrefs.GetInt("MaxFrameRate");           //Set MaxFrame rate
+	
+###15 add drawing buildings into the screen to build, instead of only clicking working
