@@ -137,7 +137,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4881991654658042}
   - component: {fileID: 65182300746702524}
-  - component: {fileID: 54993326444674824}
   m_Layer: 0
   m_Name: Castle
   m_TagString: Untagged
@@ -383,8 +382,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1169104244462936}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.05, z: -7.5}
-  m_LocalScale: {x: 7, y: 0.1, z: 8}
+  m_LocalPosition: {x: 0, y: 0.05, z: -7}
+  m_LocalScale: {x: 7, y: 0.1, z: 7}
   m_Children: []
   m_Father: {fileID: 4881991654658042}
   m_RootOrder: 3
@@ -487,7 +486,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1351036400950780}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 15.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4096701262821984}
@@ -585,7 +584,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 40f4f18052d7ed54d85d018844ceadbd, type: 2}
+  - {fileID: 2100000, guid: ba7655b874dd4f04ea77e3c72c7a0981, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1165,21 +1164,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1361378121166890}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &54993326444674824
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1351036400950780}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
 --- !u!65 &65182300746702524
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1190,5 +1174,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7, y: 10, z: 15}
-  m_Center: {x: 0, y: 5, z: -4}
+  m_Size: {x: 7, y: 9, z: 14}
+  m_Center: {x: 0, y: 4.5, z: -3.5}

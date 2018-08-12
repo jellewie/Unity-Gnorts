@@ -69,7 +69,7 @@
     <Compile Include="Assets\_Code\Standalone\HoverOver.cs" />
     <Compile Include="Assets\_Code\Standalone\Minimap.cs" />
     <Compile Include="Assets\_Code\Standalone\RotateMe.cs" />
-    <Compile Include="Assets\_Code\Standalone\ScreenRecorder.cs" />
+    <Compile Include="Assets\_Code\Standalone\ScreenShots.cs" />
     <Compile Include="Assets\_Code\UserInput.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/user/Github/Unity-Gnorts/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>

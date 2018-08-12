@@ -15,7 +15,7 @@ public class Minimap : MonoBehaviour {
             if (ScrollWheelChange != 0)                                                         //If the scrollwheel has changed
             {
                 float O = FollowCam.orthographicSize * ScrollWheelChange * JelleWho.MinimapScrollSpeed; //Set the amount to move
-                FollowCam.orthographicSize = Mathf.Clamp(FollowCam.orthographicSize - O, 10, JelleWho.MaxCameraHeight * 3); //Set and clamp minimap camera
+                FollowCam.orthographicSize = Mathf.Clamp(FollowCam.orthographicSize - O, 10, JelleWho.MaxCameraHeight * 1.5f); //Set and clamp minimap camera
             }
         }
     }
