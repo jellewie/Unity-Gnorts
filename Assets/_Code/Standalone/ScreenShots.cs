@@ -25,17 +25,22 @@ public class ScreenShots : MonoBehaviour
     // configure with raw, jpg, png, or ppm (simple raw format)
     public enum Format {PNG};
     public Format format = Format.PNG;
-
+    public GameObject CamersRotation;
     // private vars for screenshot
     private Rect rect;
     private RenderTexture renderTexture;
     private Texture2D screenShot;
 
+
+
+
+    public GameObject Test;
+
+
     private void Start()
     {
         folder = Application.dataPath + folder + "/";
         System.IO.Directory.CreateDirectory(folder);
-
         
         Objects = new GameObject[TotalSubMenus][];                                              //Make the Array (with arrrays of menu items) TotalSubMenus long
 
@@ -68,29 +73,40 @@ public class ScreenShots : MonoBehaviour
         {
             for (int i = 0; i < Objects[j].Length; i++)                                            //For all given gameobjects
             {
-                Debug.Log(j + ":" + i);
                 if (Objects[j][i])
                 {
                     GameObject CurrentGameObject = Instantiate(Objects[j][i], new Vector3(0, 0, 0), Quaternion.identity);  //Place the GameObject
-                    float SIZEX = Objects[j][i].GetComponent<BoxCollider>().size.x;
-                    float SIZEY = Objects[j][i].GetComponent<BoxCollider>().size.y;
-                    float BiggestSize = Objects[j][i].GetComponent<BoxCollider>().size.z;
-                    if (SIZEX < SIZEY)
-                    {
-                        if (SIZEY > BiggestSize)
-                        {
-                            BiggestSize = SIZEY;
-                        }
-                    }
-                    else
-                    {
-                        if (SIZEX > BiggestSize)
-                        {
-                            BiggestSize = SIZEX;
-                        }
-                    }
-                    CurrentGameObject.transform.position = new Vector3(0, -SIZEY / 2, 0);           //Move them a bit down so there in the middle
-                    Camera.main.transform.localPosition = new Vector3(0, 0, -BiggestSize);          //Change the camera zoom factor
+
+                    float A = Objects[j][i].GetComponent<BoxCollider>().size.y;     //Box size height
+                    float B = Objects[j][i].GetComponent<BoxCollider>().size.x;     //Box size with
+                    float C = Objects[j][i].GetComponent<BoxCollider>().size.z;     //Box with other with
+                    float D = Mathf.Sqrt(B * B + C * C);                            //The distance from front corner to back corner (diagonal)
+                    float I = 45;                                                   //Camera fov angle
+                    float J = CamersRotation.transform.eulerAngles.x;               //Camera angle donwnwards
+                    float y = Mathf.Tan(J / 180f * Mathf.PI) * D;                   //Extra height of the square thats on top (the height from top to bottom of that square) (J is in graden en moet in radialen)
+                    float x = y + A;                                                //Height of the box seen by the camera (including the twisted part on top)
+                    float YY = (x / Mathf.Sin(J)) * Mathf.Sin(90f + J - I);         //Camera offset from center
+                    Camera.main.transform.localPosition = new Vector3(0, 0, -YY);
+
+                    //float SIZEX = Objects[j][i].GetComponent<BoxCollider>().size.x;
+                    //float SIZEY = Objects[j][i].GetComponent<BoxCollider>().size.y;
+                    //float BiggestSize = Objects[j][i].GetComponent<BoxCollider>().size.z;
+                    //if (SIZEX < SIZEY)
+                    //{
+                    //    if (SIZEY > BiggestSize)
+                    //    {
+                    //        BiggestSize = SIZEY;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (SIZEX > BiggestSize)
+                    //    {
+                    //        BiggestSize = SIZEX;
+                    //    }
+                    //}
+                    //CurrentGameObject.transform.position = new Vector3(0, -SIZEY / 2, 0);           //Move them a bit down so there in the middle
+                    //Camera.main.transform.localPosition = new Vector3(0, 0, -BiggestSize);          //Change the camera zoom factor
                     TakeScreenShot(folder + "ICON" + j + "_" + i + "." + format.ToString().ToLower());
                     CurrentGameObject.SetActive(false);                                             //Cleanup - Hide GameObject 
                 }
@@ -100,13 +116,26 @@ public class ScreenShots : MonoBehaviour
                 }
             }
         }
-
-
-
-
         Destroy(renderTexture);                                                                 //Cleanup - Remove the renderTexture again
         renderTexture = null;                                                                   //Cleanup - Just in case
         screenShot = null;                                                                      //Cleanup - Just in case
+    }
+    public void _SetCamera(GameObject TheObject)
+    {
+        TheObject.transform.position = new Vector3(0, 0, 0);
+        float A = TheObject.GetComponent<BoxCollider>().size.y;     //Box size height
+        float B = TheObject.GetComponent<BoxCollider>().size.x;     //Box size with
+        float C = TheObject.GetComponent<BoxCollider>().size.z;     //Box with other with
+        float D = Mathf.Sqrt(B * B + C * C);                            //The distance from front corner to back corner (diagonal)
+        float I = 45;                                                   //Camera fov angle
+        float J = CamersRotation.transform.eulerAngles.x;               //Camera angle donwnwards
+        float y = Mathf.Tan(J / 180f * Mathf.PI) * D;                   //Extra height of the square thats on top (the height from top to bottom of that square) (J is in graden en moet in radialen)
+        float x = y + A;                                                //Height of the box seen by the camera (including the twisted part on top)
+        float YY = (x / Mathf.Sin(J)) * Mathf.Sin(90f + J - I);         //Camera offset from center
+
+        Debug.Log(YY);
+        Camera.main.transform.localPosition = new Vector3(0, 0, -YY);
+        Debug.Log("Focused");
     }
     void TakeScreenShot(string filename)
     {
