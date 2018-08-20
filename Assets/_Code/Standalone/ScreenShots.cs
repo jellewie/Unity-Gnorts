@@ -77,16 +77,18 @@ public class ScreenShots : MonoBehaviour
                 {
                     GameObject CurrentGameObject = Instantiate(Objects[j][i], new Vector3(0, 0, 0), Quaternion.identity);  //Place the GameObject
 
-                    float A = Objects[j][i].GetComponent<BoxCollider>().size.y;     //Box size height
-                    float B = Objects[j][i].GetComponent<BoxCollider>().size.x;     //Box size with
-                    float C = Objects[j][i].GetComponent<BoxCollider>().size.z;     //Box with other with
-                    float D = Mathf.Sqrt(B * B + C * C);                            //The distance from front corner to back corner (diagonal)
-                    float I = 45;                                                   //Camera fov angle
-                    float J = CamersRotation.transform.eulerAngles.x;               //Camera angle donwnwards
-                    float y = Mathf.Tan(J / 180f * Mathf.PI) * D;                   //Extra height of the square thats on top (the height from top to bottom of that square) (J is in graden en moet in radialen)
-                    float x = y + A;                                                //Height of the box seen by the camera (including the twisted part on top)
-                    float YY = (x / Mathf.Sin(J)) * Mathf.Sin(90f + J - I);         //Camera offset from center
-                    Camera.main.transform.localPosition = new Vector3(0, 0, -YY);
+                    _SetCamera(CurrentGameObject);
+
+                    //float A = Objects[j][i].GetComponent<BoxCollider>().size.y;     //Box size height
+                    //float B = Objects[j][i].GetComponent<BoxCollider>().size.x;     //Box size with
+                    //float C = Objects[j][i].GetComponent<BoxCollider>().size.z;     //Box with other with
+                    //float D = Mathf.Sqrt(B * B + C * C);                            //The distance from front corner to back corner (diagonal)
+                    //float I = 45;                                                   //Camera fov angle
+                    //float J = CamersRotation.transform.eulerAngles.x;               //Camera angle donwnwards
+                    //float y = Mathf.Tan(J / 180f * Mathf.PI) * D;                   //Extra height of the square thats on top (the height from top to bottom of that square) (J is in graden en moet in radialen)
+                    //float x = y + A;                                                //Height of the box seen by the camera (including the twisted part on top)
+                    //float YY = (x / Mathf.Sin(J)) * Mathf.Sin(90f + J - I);         //Camera offset from center
+                    //Camera.main.transform.localPosition = new Vector3(0, 0, -YY);
 
                     //float SIZEX = Objects[j][i].GetComponent<BoxCollider>().size.x;
                     //float SIZEY = Objects[j][i].GetComponent<BoxCollider>().size.y;
@@ -121,20 +123,20 @@ public class ScreenShots : MonoBehaviour
         screenShot = null;                                                                      //Cleanup - Just in case
     }
     public void _SetCamera(GameObject TheObject)
-    {
-        TheObject.transform.position = new Vector3(0, 0, 0);
-        float A = TheObject.GetComponent<BoxCollider>().size.y;     //Box size height
-        float B = TheObject.GetComponent<BoxCollider>().size.x;     //Box size with
-        float C = TheObject.GetComponent<BoxCollider>().size.z;     //Box with other with
-        float D = Mathf.Sqrt(B * B + C * C);                            //The distance from front corner to back corner (diagonal)
-        float I = 45;                                                   //Camera fov angle
+    {       
+        float H = TheObject.GetComponent<BoxCollider>().size.y;         //Box size height
+        float L = TheObject.GetComponent<BoxCollider>().size.x;         //Box size with
+        float B = TheObject.GetComponent<BoxCollider>().size.z;         //Box with other with
         float J = CamersRotation.transform.eulerAngles.x;               //Camera angle donwnwards
-        float y = Mathf.Tan(J / 180f * Mathf.PI) * D;                   //Extra height of the square thats on top (the height from top to bottom of that square) (J is in graden en moet in radialen)
-        float x = y + A;                                                //Height of the box seen by the camera (including the twisted part on top)
-        float YY = (x / Mathf.Sin(J)) * Mathf.Sin(90f + J - I);         //Camera offset from center
+        float I = 90f - J;                                              //The angle from the camera to the flat line /surface we are looking at
+        float S1 = (H / Mathf.Sin(90f / 180f * Mathf.PI)) * Mathf.Sin(I / 180f * Mathf.PI);     //The length of the screenpart that we need to cover this line/surface
+        float D = Mathf.Sqrt(L * L + B * B);                            //The distance from front corner to back corner (diagonal)
+        float S2 = (D / Mathf.Sin(90f / 180f * Mathf.PI)) * Mathf.Sin(J / 180f * Mathf.PI);     //The length of the screenpart that we need to cover the top
+        float S = S1 + S2;
 
-        Debug.Log(YY);
-        Camera.main.transform.localPosition = new Vector3(0, 0, -YY);
+        TheObject.transform.position = new Vector3(0, -H/2f, 0);        //Set the position of the object to be in th middle of the screen
+        Camera.main.orthographicSize = S / 2;                           //Set the camera size
+
         Debug.Log("Focused");
     }
     void TakeScreenShot(string filename)
