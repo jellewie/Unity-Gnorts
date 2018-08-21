@@ -124,18 +124,18 @@ public class ScreenShots : MonoBehaviour
     }
     public void _SetCamera(GameObject TheObject)
     {       
-        float H = TheObject.GetComponent<BoxCollider>().size.y;         //Box size height
-        float L = TheObject.GetComponent<BoxCollider>().size.x;         //Box size with
-        float B = TheObject.GetComponent<BoxCollider>().size.z;         //Box with other with
-        float J = CamersRotation.transform.eulerAngles.x;               //Camera angle donwnwards
-        float I = 90f - J;                                              //The angle from the camera to the flat line /surface we are looking at
+        float H = TheObject.GetComponent<BoxCollider>().size.y;                                 //Box size height
+        float L = TheObject.GetComponent<BoxCollider>().size.x;                                 //Box size with
+        float B = TheObject.GetComponent<BoxCollider>().size.z;                                 //Box with other with
+        float J = CamersRotation.transform.eulerAngles.x;                                       //Camera angle donwnwards
+        float I = 90f - J;                                                                      //The angle from the camera to the flat line /surface we are looking at
         float S1 = (H / Mathf.Sin(90f / 180f * Mathf.PI)) * Mathf.Sin(I / 180f * Mathf.PI);     //The length of the screenpart that we need to cover this line/surface
-        float D = Mathf.Sqrt(L * L + B * B);                            //The distance from front corner to back corner (diagonal)
+        float D = Mathf.Sqrt(L * L + B * B);                                                    //The distance from front corner to back corner (diagonal)
         float S2 = (D / Mathf.Sin(90f / 180f * Mathf.PI)) * Mathf.Sin(J / 180f * Mathf.PI);     //The length of the screenpart that we need to cover the top
         float S = S1 + S2;
 
-        TheObject.transform.position = new Vector3(0, -H/2f, 0);        //Set the position of the object to be in th middle of the screen
-        Camera.main.orthographicSize = S / 2;                           //Set the camera size
+        TheObject.transform.position = new Vector3(0, -H/2f, 0);                                //Set the position of the object to be in th middle of the screen
+        Camera.main.orthographicSize = S / 2;                                                   //Set the camera size
 
         Debug.Log("Focused");
     }
