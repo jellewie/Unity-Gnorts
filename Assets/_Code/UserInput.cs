@@ -106,9 +106,10 @@ public class UserInput : MonoBehaviour
             InHand.transform.position = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z)); //Move the block there
             if (inputManager.GetButtonDown("Build"))                                            //If we need to build the object here
             {
-                if (Hit.Length > 0)
+                if (Hit.Length > 0)                                                             //If there a building already there
                 {
-                    Debug.Log("Can not build on top of " + Hit[0].collider.name);
+                    Debug.Log("Can not build on top of " + Hit[0].collider.name);               //Just a debug 
+                    //TODO FIXME add an in screen popup (which doesnt trigger when shift building!) 
                 }
                 else
                 {
