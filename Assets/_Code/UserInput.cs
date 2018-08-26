@@ -82,20 +82,18 @@ public class UserInput : MonoBehaviour
             child.gameObject.SetActive(false);
         }
     }
-    private void ExecuteInputs()                                                        //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
+    private void ExecuteInputs()                                                                //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
     {
         if (InHand)                                                                             //If we have something in our hands
         {
+            InHand.layer = 0;                                                       //Set to default Layer 
+            
 
-
-
-
-
-
-            //This just checks if anything is indise, we should apply a mask with the current item
-            bool isInside = Physics.CheckSphere(InHand.transform.position, 1);
-            Debug.Log(isInside);
-
+            Quaternion Rotation = InHand.GetComponent<Collider>().transform.rotation;           //The orientation in Quaternion (Always in steps of 90 degrees)
+            Vector3 Origin = InHand.GetComponent<Collider>().bounds.center;                     //The center of the block
+            Vector3 Size = (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f); //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
+            var layerMask = 1 << LayerMask.NameToLayer("Building");                             //Only try to find buildings
+            RaycastHit[] Hit = Physics.BoxCastAll(Origin, Size, -transform.up, Rotation, 0f, layerMask);    //Cast a ray to see if there is already a building where we are hovering over
 
 
 
@@ -108,17 +106,26 @@ public class UserInput : MonoBehaviour
             InHand.transform.position = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z)); //Move the block there
             if (inputManager.GetButtonDown("Build"))                                            //If we need to build the object here
             {
-                if (inputManager.GetButtonDown("Alternative"))                                  //If we want to keep building
+                if (Hit.Length > 0)
                 {
-                    PreviousRotation = InHand.transform.rotation;                               //Save the rotation
-                    InHand = Instantiate(InHand, new Vector3(0, -100, 0), Quaternion.identity); //Create a new building (we dont need to set it's position, will do later in this loop
-                    InHand.transform.rotation = PreviousRotation;                               //Restore the rotation
-                    InHand.transform.SetParent(FolderBuildings);                                //Sort the building in the right folder
+                    Debug.Log("Can not build on top of " + Hit[0].collider.name);
                 }
                 else
                 {
-                    InHand = null;                                                              //Clear our hand
-                    _HideSubMenu();                                                              //Hide the sub menu
+                    if (inputManager.GetButtonDown("Alternative"))                           //If we want to keep building
+                    {
+                        InHand.layer = LayerMask.NameToLayer("Building");                           //Set this to be in the building layer (so we can't build on this anymore)
+                        PreviousRotation = InHand.transform.rotation;                               //Save the rotation
+                        InHand = Instantiate(InHand, new Vector3(0, -100, 0), Quaternion.identity); //Create a new building (we dont need to set it's position, will do later in this loop
+                        InHand.transform.rotation = PreviousRotation;                               //Restore the rotation
+                        InHand.transform.SetParent(FolderBuildings);                                //Sort the building in the right folder
+                    }
+                    else
+                    {
+                        InHand.layer = LayerMask.NameToLayer("Building");                           //Set this to be in the building layer (so we can't build on this anymore)
+                        InHand = null;                                                              //Clear our hand
+                        _HideSubMenu();                                                             //Hide the sub menu
+                    }
                 }
             }
             else if (inputManager.GetButtonDownOnce("Cancel build"))                            //If we want to cancel the build
