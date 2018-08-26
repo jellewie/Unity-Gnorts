@@ -112,19 +112,18 @@ public class UserInput : MonoBehaviour
                 }
                 else
                 {
-                    if (inputManager.GetButtonDown("Alternative"))                           //If we want to keep building
+                    InHand.layer = LayerMask.NameToLayer("Building");                           //Set this to be in the building layer (so we can't build on this anymore)
+                    PreviousRotation = InHand.transform.rotation;                               //Save the rotation
+                    if (inputManager.GetButtonDown("Alternative"))                              //If we want to keep building
                     {
-                        InHand.layer = LayerMask.NameToLayer("Building");                           //Set this to be in the building layer (so we can't build on this anymore)
-                        PreviousRotation = InHand.transform.rotation;                               //Save the rotation
-                        InHand = Instantiate(InHand, new Vector3(0, -100, 0), Quaternion.identity); //Create a new building (we dont need to set it's position, will do later in this loop
-                        InHand.transform.rotation = PreviousRotation;                               //Restore the rotation
-                        InHand.transform.SetParent(FolderBuildings);                                //Sort the building in the right folder
+                        InHand = Instantiate(InHand, new Vector3(0, -100, 0), Quaternion.identity); //Create a building (we dont need to set it's position, will do later in this loop
+                        InHand.transform.rotation = PreviousRotation;                           //Restore the rotation
+                        InHand.transform.SetParent(FolderBuildings);                            //Sort the building in the right folder
                     }
                     else
                     {
-                        InHand.layer = LayerMask.NameToLayer("Building");                           //Set this to be in the building layer (so we can't build on this anymore)
-                        InHand = null;                                                              //Clear our hand
-                        _HideSubMenu();                                                             //Hide the sub menu
+                        InHand = null;                                                          //Clear our hand (and place the building where it now it)
+                        _HideSubMenu();                                                         //Hide the sub menu
                     }
                 }
             }
