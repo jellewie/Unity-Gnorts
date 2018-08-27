@@ -88,14 +88,15 @@ public class UserInput : MonoBehaviour
         {
             InHand.layer = 0;                                                       //Set to default Layer 
 
-Debug.Log("Raycast");
+//Debug.Log("Raycast");
             Quaternion Rotation = InHand.GetComponent<Collider>().transform.rotation;           //The orientation in Quaternion (Always in steps of 90 degrees)
             Vector3 Origin = InHand.GetComponent<Collider>().bounds.center;                     //The center of the block
             Vector3 Size = (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f); //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
             var layerMask = 1 << LayerMask.NameToLayer("Building");                             //Only try to find buildings
             RaycastHit[] Hit = Physics.BoxCastAll(Origin, Size, -transform.up, Rotation, 0f, layerMask);    //Cast a ray to see if there is already a building where we are hovering over
 
-
+ //Debug.Log("                                    Raycast" + InHand.GetComponent<Collider>().name + "       " + InHand.layer);
+ Debug.Log("Raycast found: '" + Hit.Length + "' objects");
 
 
 
@@ -103,24 +104,26 @@ Debug.Log("Raycast");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                        //Set a Ray from the cursor + lookation
             RaycastHit hit;                                                                     //Create a output variable
             if (Physics.Raycast(ray, out hit, 512, IgnoreBuildingRaycast))                      //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
-            InHand.transform.position = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z)); //Move the block there
+                InHand.transform.position = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z)); //Move the block to the mouse position
             if (inputManager.GetButtonDown("Build"))                                            //If we need to build the object here
             {
-Debug.Log("Build" + Hit.Length);
+Debug.Log("Build");
                 if (Hit.Length > 0)                                                             //If there a building already there
                 {
-                    Debug.Log("Can not build on top of " + Hit[0].collider.name);               //Just a debug 
+                    Debug.Log("Can not build on top of " + Hit[0].collider.name + "       " + InHand.layer);               //Just a debug 
                     //TODO FIXME add an in screen popup (which doesnt trigger when shift building!) 
                 }
                 else
                 {
                     InHand.layer = LayerMask.NameToLayer("Building");                           //Set this to be in the building layer (so we can't build on this anymore)
                     PreviousRotation = InHand.transform.rotation;                               //Save the rotation
+Debug.Log("                                     Place block '" + InHand.GetComponent<Collider>().name + "'       " + InHand.layer);
                     if (inputManager.GetButtonDown("Alternative"))                              //If we want to keep building
                     {
                         InHand = Instantiate(InHand, new Vector3(0, -100, 0), Quaternion.identity); //Create a building (we dont need to set it's position, will do later in this loop
                         InHand.transform.rotation = PreviousRotation;                           //Restore the rotation
                         InHand.transform.SetParent(FolderBuildings);                            //Sort the building in the right folder
+Debug.Log("                                     Now in hand '" + InHand.GetComponent<Collider>().name + "'       " + InHand.layer);
                     }
                     else
                     {
