@@ -87,8 +87,8 @@ public class UserInput : MonoBehaviour
         if (InHand)                                                                             //If we have something in our hands
         {
             InHand.layer = 0;                                                       //Set to default Layer 
-            
 
+Debug.Log("Raycast");
             Quaternion Rotation = InHand.GetComponent<Collider>().transform.rotation;           //The orientation in Quaternion (Always in steps of 90 degrees)
             Vector3 Origin = InHand.GetComponent<Collider>().bounds.center;                     //The center of the block
             Vector3 Size = (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f); //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
@@ -106,6 +106,7 @@ public class UserInput : MonoBehaviour
             InHand.transform.position = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z)); //Move the block there
             if (inputManager.GetButtonDown("Build"))                                            //If we need to build the object here
             {
+Debug.Log("Build" + Hit.Length);
                 if (Hit.Length > 0)                                                             //If there a building already there
                 {
                     Debug.Log("Can not build on top of " + Hit[0].collider.name);               //Just a debug 
