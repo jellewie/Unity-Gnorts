@@ -51,7 +51,7 @@ MENU LAYOUT
 * 3 Stone quarry
 * 4 Iron mine
 * 5 Ox transport (moves wood, stone, or iron/steel. This is an option, and buildings like the woodcutter do have an option to move them thereself)
-* 6 
+* 6 Repair building (repairs structures for a little of the original cost, needs to be quite op compaired to real live, I dont want this to be a big focus point in the game)
 * 7 
 * 8 
 
@@ -75,6 +75,7 @@ MENU LAYOUT
 * 7 ?Hospital/ alchemist?	
 * 8 ?Treasury?
 
+* __7 REMOVE TOOL_
 ITEMS
 =====
 
