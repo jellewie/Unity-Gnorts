@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using PublicCode;
+using UnityEngine.EventSystems;                                                         //Used to: Check if hovering over UI while building,
 /*
     Written by JelleWho
  */
@@ -99,7 +100,7 @@ public class UserInput : MonoBehaviour
             RaycastHit hit;                                                                     //Create a output variable
             if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Terrain")))      //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over on the Terrain layer only)
                 InHand.transform.position = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z)); //Move the block to the mouse position
-            InHand.layer = 0;                                                                       //Set to default Layer
+            InHand.layer = 0;                                                                   //Set to default Layer
             RaycastHit[] Hit = Physics.BoxCastAll(                                              //Cast a ray to see if there is already a building where we are hovering over
                 InHand.GetComponent<Collider>().bounds.center,                                      //The center of the block
                 (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f),      //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
@@ -113,7 +114,7 @@ public class UserInput : MonoBehaviour
                 PreviousRotation = InHand.transform.rotation;                                   //Save the rotation
                 Destroy(InHand);                                                                //Destoy the building
             }
-            else if (inputManager.GetButtonDown("Build"))                                            //If we need to build the object here
+            else if (inputManager.GetButtonDown("Build"))                                       //If we need to build the object here
             {
                 if (Hit.Length > 0)                                                             //If there a building already there
                 {
@@ -123,8 +124,11 @@ public class UserInput : MonoBehaviour
                 }
                 else
                 {
-                    InHand.layer = LayerMask.NameToLayer("Building");                           //Set this to be in the building layer (so we can't build on this anymore)
-                    PlaceInHand(InHand);                                                        //Put a new building on our hands, and leave this one be (this one is now placed down)
+                    if (!EventSystem.current.IsPointerOverGameObject())                         //If mouse is not over an UI element
+                    {
+                        InHand.layer = LayerMask.NameToLayer("Building");                       //Set this to be in the building layer (so we can't build on this anymore)
+                        PlaceInHand(InHand);                                                        //Put a new building on our hands, and leave this one be (this one is now placed down)
+                    }
                 }
             }
             else if (inputManager.GetButtonDownOnce("Rotate building"))                         //If we want to rotate the building
