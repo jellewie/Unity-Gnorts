@@ -138,44 +138,27 @@ public class UserInput : MonoBehaviour
         }
         else if (RemoveToolEquiped)                                                             //If the remove tool is aquiped
         {
-            /*TODO FIXME 
-                Change 'GetButtonDownOnce' to 'GetButtonDown'
-                If the code is hit for more than <0.2 sec> than remove next object too
-            */
-            bool ContinueRemoving = false;
-            if (inputManager.GetButtonDown("Alternative"))
-                ContinueRemoving = true;
-
-
-            
-
-
-
             if (inputManager.GetButtonDown("Build"))                                            //If we want to Remove this building
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                    //Set a Ray from the cursor + lookation
                 RaycastHit hit;                                                                 //Create a output variable
-                bool ObjectHit = Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building")); //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
-
-
-                if (ObjectHit)
+                if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
                 {
-                    if (inputManager.GetButtonDownOnce("Build"))
-                        Destroy(hit.transform.gameObject);
-                    else if(ContinueRemoving)
-                        Destroy(hit.transform.gameObject);
+                    if (inputManager.GetButtonDownOnce("Build"))                                //If the button is pressed for the first time
+                        Destroy(hit.transform.gameObject);                                      //Remove the selected building
+                    else if(inputManager.GetButtonDown("Alternative"))                          //If the continue button is pressed
+                        Destroy(hit.transform.gameObject);                                      //Remove the selected building
                 }
             }
             else if (inputManager.GetButtonDownOnce("Cancel build"))                            //If we want to cancel Removing buildings
-                RemoveToolEquiped = false;
+                RemoveToolEquiped = false;                                                      //Stop the RemoveTool being equiped
         }
         if (inputManager.GetButtonDownOnce("Cancel build"))                                     //If we right click to cancel
             _HideSubMenu();                                                                     //Hide the sub menu
-
         if (inputManager.GetButtonDownOnce("Toggle UI"))                                        //If the Toggle UI button is pressed
             FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
         float Speed = Camera.main.transform.position.y * JelleWho.HeighSpeedIncrease;           //The height has X of speed increase per block
-        Vector2 input = new Vector2(0f, 0f);
+        Vector2 input = new Vector2(0f, 0f);                                                    //Create a new (emnthy) movement change vector
         if (inputManager.GetButtonDown("Left"))                                                 //Keyboard scroll left
             input.x -= 1f * JelleWho.MoveSpeedKeyboard;
         if (inputManager.GetButtonDown("Right"))                                                //Keyboard scroll right
