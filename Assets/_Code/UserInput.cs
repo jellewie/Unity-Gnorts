@@ -22,7 +22,7 @@ public class UserInput : MonoBehaviour
     bool GamePaused = false;
     bool StopCameraControls = false;
     private GameObject InHand;                                                          //When placing down this is stuffed with the object
-    readonly int IgnoreBuildingRaycast = 1 << 9;                                                //Ignore these when placing down buildings. 8 is the mask layer (1<< 4 = ob1000 = isgnore only layer 4)
+    bool RemoveToolEquiped;
 
     private void Start()                                                                //Triggered on start
     {
@@ -68,7 +68,7 @@ public class UserInput : MonoBehaviour
         if (inputManager.GetButtonDownOnce("Pause"))                                            //If the Open/Close menu button is pressed
             GamePaused = true;
     }
-    public void _PlaceInHand(GameObject Prefab)                                  //Triggered by menu, with the object to build as prefab, this will hook in to the mouse cursor
+    public void _PlaceInHand(GameObject Prefab)                                         //Triggered by menu, with the object to build as prefab, this will hook in to the mouse cursor
     {
         Destroy(InHand);                                                                        //Destroy the current held item (If any)
         PlaceInHand(Prefab);                                                                  //Place the new building on our hand
@@ -79,6 +79,10 @@ public class UserInput : MonoBehaviour
         InHand.transform.rotation = PreviousRotation;                                           //Restore the rotation
         InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
         InHand.layer = 0;                                                                       //Set to default Layer
+    }
+    public void _RemoveTool(bool Equiped)                                               //Triggered by menu, Equipe the remove tool
+    {
+        RemoveToolEquiped = Equiped;                                                            //Set the given state
     }
     public void _HideSubMenu()                                                          //This will hide the full sub menu
     {
@@ -93,10 +97,8 @@ public class UserInput : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                        //Set a Ray from the cursor + lookation
             RaycastHit hit;                                                                     //Create a output variable
-            if (Physics.Raycast(ray, out hit, 512, IgnoreBuildingRaycast))                      //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
+            if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Terrain")))      //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over on the Terrain layer only)
                 InHand.transform.position = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z)); //Move the block to the mouse position
-
-            var layerMask = 1 << LayerMask.NameToLayer("Building");
             InHand.layer = 0;                                                                       //Set to default Layer
             RaycastHit[] Hit = Physics.BoxCastAll(                                              //Cast a ray to see if there is already a building where we are hovering over
                 InHand.GetComponent<Collider>().bounds.center,                                      //The center of the block
@@ -104,7 +106,7 @@ public class UserInput : MonoBehaviour
                 -transform.up,                                                                      //Do the ray downwards (in to the ground basicly to check only it's own position)
                 InHand.GetComponent<Collider>().transform.rotation,                                 //The orientation in Quaternion (Always in steps of 90 degrees)
                 0f,                                                                                 //Dont go any depth, the building should be inside this block
-                layerMask);                                            //Only try to find buildings
+                1 << LayerMask.NameToLayer("Building"));                                            //Only try to find buildings
 
             if (inputManager.GetButtonDown("Build"))                                            //If we need to build the object here
             {
@@ -134,6 +136,28 @@ public class UserInput : MonoBehaviour
                     InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y + 90, 0);    //Rotate it 90 degrees clock wise
                 PreviousRotation = InHand.transform.rotation;                                   //Save the rotation
             }
+        }
+        else if (RemoveToolEquiped)                                                             //If the remove tool is aquiped
+        {
+            Debug.Log("remove Tool");
+            if (inputManager.GetButtonDown("Build"))                                        //If we want to Remove this building
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                        //Set a Ray from the cursor + lookation
+                RaycastHit hit;                                                                     //Create a output variable
+                if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building")))                      //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
+
+
+
+                    // HERE
+
+
+
+
+                    Destroy(hit.collider);
+                    Debug.Log(hit.collider.name);
+            }
+            else if (inputManager.GetButtonDownOnce("Cancel build"))                            //If we want to cancel Removing buildings
+                RemoveToolEquiped = false;
         }
         if (inputManager.GetButtonDownOnce("Toggle UI"))                                        //If the Toggle UI button is pressed
             FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
