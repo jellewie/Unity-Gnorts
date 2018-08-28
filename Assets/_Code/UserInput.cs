@@ -68,12 +68,12 @@ public class UserInput : MonoBehaviour
         if (inputManager.GetButtonDownOnce("Pause"))                                            //If the Open/Close menu button is pressed
             GamePaused = true;
     }
-    public void _HoverPlaceBuilding(GameObject Prefab)                                  //Triggered by menu, with the object to build as prefab, this will hook in to the mouse cursor
+    public void _PlaceInHand(GameObject Prefab)                                  //Triggered by menu, with the object to build as prefab, this will hook in to the mouse cursor
     {
         Destroy(InHand);                                                                        //Destroy the current held item (If any)
-        HoverPlaceBuilding(Prefab);                                                                  //Place the new building on our hand
+        PlaceInHand(Prefab);                                                                  //Place the new building on our hand
     }
-    private void HoverPlaceBuilding(GameObject Prefab)                                  //With the object to build as prefab, this will hook in to the mouse cursor
+    private void PlaceInHand(GameObject Prefab)                                         //With the object to build as prefab, this will hook in to the mouse cursor
     {
         InHand = Instantiate(Prefab, new Vector3(0, -100, 0), Quaternion.identity);             //Create a building (we dont need to set it's position, will do later in this loop
         InHand.transform.rotation = PreviousRotation;                                           //Restore the rotation
@@ -95,34 +95,29 @@ public class UserInput : MonoBehaviour
             RaycastHit hit;                                                                     //Create a output variable
             if (Physics.Raycast(ray, out hit, 512, IgnoreBuildingRaycast))                      //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
                 InHand.transform.position = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z)); //Move the block to the mouse position
+
+            var layerMask = 1 << LayerMask.NameToLayer("Building");
+            InHand.layer = 0;                                                                       //Set to default Layer
             RaycastHit[] Hit = Physics.BoxCastAll(                                              //Cast a ray to see if there is already a building where we are hovering over
                 InHand.GetComponent<Collider>().bounds.center,                                      //The center of the block
                 (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f),      //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
                 -transform.up,                                                                      //Do the ray downwards (in to the ground basicly to check only it's own position)
                 InHand.GetComponent<Collider>().transform.rotation,                                 //The orientation in Quaternion (Always in steps of 90 degrees)
                 0f,                                                                                 //Dont go any depth, the building should be inside this block
-                1 << LayerMask.NameToLayer("Building"));                                            //Only try to find buildings
+                layerMask);                                            //Only try to find buildings
 
             if (inputManager.GetButtonDown("Build"))                                            //If we need to build the object here
             {
                 if (Hit.Length > 0)                                                             //If there a building already there
                 {
-                    Debug.Log("Can not build on top of " + Hit[0].collider.name);               //Just a debug 
-                    //TODO FIXME add an in screen popup (which doesnt trigger when shift building!) 
+                    /*TODO FIXME 
+                    If this is hit for more than <1 sec> than show a message that we can't build there
+                     */
                 }
                 else
                 {
                     InHand.layer = LayerMask.NameToLayer("Building");                           //Set this to be in the building layer (so we can't build on this anymore)
-                    PreviousRotation = InHand.transform.rotation;                               //Save the rotation
-                    if (inputManager.GetButtonDown("Alternative"))                              //If we want to keep building
-                    {
-                        HoverPlaceBuilding(InHand);                                             //Put a new building on our hands, and leave this one be (this one is now placed down)
-                    }
-                    else
-                    {
-                        InHand = null;                                                          //Clear our hand (and place the building where it now it)
-                        _HideSubMenu();                                                         //Hide the sub menu
-                    }
+                    PlaceInHand(InHand);                                                        //Put a new building on our hands, and leave this one be (this one is now placed down)
                 }
             }
             else if (inputManager.GetButtonDownOnce("Cancel build"))                            //If we want to cancel the build

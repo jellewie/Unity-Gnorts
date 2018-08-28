@@ -3128,7 +3128,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1090648121}
-        m_MethodName: _HoverPlaceBuilding
+        m_MethodName: _PlaceInHand
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1076742404099274, guid: fb26230672eb9ae43bfeae8bc21ce75b,
@@ -6782,7 +6782,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1090648121}
-        m_MethodName: _HoverPlaceBuilding
+        m_MethodName: _PlaceInHand
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1218833079520110, guid: d9e0e96bd06be0e49b9acc54349362ac,
@@ -7523,7 +7523,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1090648121}
-        m_MethodName: _HoverPlaceBuilding
+        m_MethodName: _PlaceInHand
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1218833079520110, guid: d9e0e96bd06be0e49b9acc54349362ac,
@@ -8618,7 +8618,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1090648121}
-        m_MethodName: _HoverPlaceBuilding
+        m_MethodName: _PlaceInHand
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1218833079520110, guid: d9e0e96bd06be0e49b9acc54349362ac,
@@ -8959,7 +8959,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1090648121}
-        m_MethodName: _HoverPlaceBuilding
+        m_MethodName: _PlaceInHand
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1745047805458212, guid: d22ffed4f20bb0141a910122ef16b853,
@@ -10046,10 +10046,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1090648121}
-        m_MethodName: _HoverPlaceBuilding
+        m_MethodName: _PlaceInHand
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 1073011646557830, guid: 86035fefacec54b48af1d1e43b855c6d,
+            type: 2}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -10988,7 +10989,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1090648121}
-        m_MethodName: _HoverPlaceBuilding
+        m_MethodName: _PlaceInHand
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1152311152674546, guid: f6a14ca6c81471548a805b365fcc7842,
@@ -13136,7 +13137,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1090648121}
-        m_MethodName: _HoverPlaceBuilding
+        m_MethodName: _PlaceInHand
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1249431971649880, guid: 515cc4b2c1b188f4ab39bd02a3bd2528,
@@ -13642,7 +13643,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1090648121}
-        m_MethodName: _HoverPlaceBuilding
+        m_MethodName: _PlaceInHand
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1776771673142434, guid: 15d4323707a352a47a4a9b123caae998,
@@ -13997,7 +13998,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1090648121}
-        m_MethodName: _HoverPlaceBuilding
+        m_MethodName: _PlaceInHand
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1351036400950780, guid: 6491bbd1b0352394dbc6552aa30d0f56,
