@@ -68,62 +68,55 @@ public class UserInput : MonoBehaviour
         if (inputManager.GetButtonDownOnce("Pause"))                                            //If the Open/Close menu button is pressed
             GamePaused = true;
     }
-    public void _PlaceBuilding(GameObject Prefab)                                       //Triggered by menu, with the object to build as prefab, this will hook in to the mouse cursor
+    public void _HoverPlaceBuilding(GameObject Prefab)                                  //Triggered by menu, with the object to build as prefab, this will hook in to the mouse cursor
     {
-        Destroy(InHand);
+        Destroy(InHand);                                                                        //Destroy the current held item (If any)
+        HoverPlaceBuilding(Prefab);                                                                  //Place the new building on our hand
+    }
+    private void HoverPlaceBuilding(GameObject Prefab)                                  //With the object to build as prefab, this will hook in to the mouse cursor
+    {
         InHand = Instantiate(Prefab, new Vector3(0, -100, 0), Quaternion.identity);             //Create a building (we dont need to set it's position, will do later in this loop
         InHand.transform.rotation = PreviousRotation;                                           //Restore the rotation
         InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
+        InHand.layer = 0;                                                                       //Set to default Layer
     }
-    public void _HideSubMenu()       //This will hide the full sub menu
+    public void _HideSubMenu()                                                          //This will hide the full sub menu
     {
-        foreach (Transform child in FolderSubMenu.transform)
+        foreach (Transform child in FolderSubMenu.transform)                                    //Do for each SubMenu
         {
-            child.gameObject.SetActive(false);
+            child.gameObject.SetActive(false);                                                  //Hide the SubMenu
         }
     }
     private void ExecuteInputs()                                                                //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
     {
         if (InHand)                                                                             //If we have something in our hands
         {
-            InHand.layer = 0;                                                       //Set to default Layer 
-
-//Debug.Log("Raycast");
-            Quaternion Rotation = InHand.GetComponent<Collider>().transform.rotation;           //The orientation in Quaternion (Always in steps of 90 degrees)
-            Vector3 Origin = InHand.GetComponent<Collider>().bounds.center;                     //The center of the block
-            Vector3 Size = (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f); //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
-            var layerMask = 1 << LayerMask.NameToLayer("Building");                             //Only try to find buildings
-            RaycastHit[] Hit = Physics.BoxCastAll(Origin, Size, -transform.up, Rotation, 0f, layerMask);    //Cast a ray to see if there is already a building where we are hovering over
-
- //Debug.Log("                                    Raycast" + InHand.GetComponent<Collider>().name + "       " + InHand.layer);
- Debug.Log("Raycast found: '" + Hit.Length + "' objects");
-
-
-
-
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                        //Set a Ray from the cursor + lookation
             RaycastHit hit;                                                                     //Create a output variable
             if (Physics.Raycast(ray, out hit, 512, IgnoreBuildingRaycast))                      //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
                 InHand.transform.position = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z)); //Move the block to the mouse position
+            RaycastHit[] Hit = Physics.BoxCastAll(                                              //Cast a ray to see if there is already a building where we are hovering over
+                InHand.GetComponent<Collider>().bounds.center,                                      //The center of the block
+                (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f),      //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
+                -transform.up,                                                                      //Do the ray downwards (in to the ground basicly to check only it's own position)
+                InHand.GetComponent<Collider>().transform.rotation,                                 //The orientation in Quaternion (Always in steps of 90 degrees)
+                0f,                                                                                 //Dont go any depth, the building should be inside this block
+                1 << LayerMask.NameToLayer("Building"));                                            //Only try to find buildings
+
             if (inputManager.GetButtonDown("Build"))                                            //If we need to build the object here
             {
-Debug.Log("Build");
                 if (Hit.Length > 0)                                                             //If there a building already there
                 {
-                    Debug.Log("Can not build on top of " + Hit[0].collider.name + "       " + InHand.layer);               //Just a debug 
+                    Debug.Log("Can not build on top of " + Hit[0].collider.name);               //Just a debug 
                     //TODO FIXME add an in screen popup (which doesnt trigger when shift building!) 
                 }
                 else
                 {
                     InHand.layer = LayerMask.NameToLayer("Building");                           //Set this to be in the building layer (so we can't build on this anymore)
                     PreviousRotation = InHand.transform.rotation;                               //Save the rotation
-Debug.Log("                                     Place block '" + InHand.GetComponent<Collider>().name + "'       " + InHand.layer);
                     if (inputManager.GetButtonDown("Alternative"))                              //If we want to keep building
                     {
-                        InHand = Instantiate(InHand, new Vector3(0, -100, 0), Quaternion.identity); //Create a building (we dont need to set it's position, will do later in this loop
-                        InHand.transform.rotation = PreviousRotation;                           //Restore the rotation
-                        InHand.transform.SetParent(FolderBuildings);                            //Sort the building in the right folder
-Debug.Log("                                     Now in hand '" + InHand.GetComponent<Collider>().name + "'       " + InHand.layer);
+                        HoverPlaceBuilding(InHand);                                             //Put a new building on our hands, and leave this one be (this one is now placed down)
                     }
                     else
                     {
@@ -136,7 +129,7 @@ Debug.Log("                                     Now in hand '" + InHand.GetCompo
             {
                 PreviousRotation = InHand.transform.rotation;                                   //Save the rotation
                 Destroy(InHand);                                                                //Destoy the building
-                _HideSubMenu();                                                                  //Hide the sub menu
+                _HideSubMenu();                                                                 //Hide the sub menu
             }
             else if (inputManager.GetButtonDownOnce("Rotate building"))                         //If we want to rotate the building
             {
