@@ -252,11 +252,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Objects2:
+  - {fileID: 1694769588477578, guid: 902764a20dfa34541ada2cfc1874467f, type: 2}
+  - {fileID: 1772977213243242, guid: 9cc77d332f2fecd40b4fbc3043d56906, type: 2}
+  - {fileID: 1449597463970802, guid: d59882d978470644a8d8d0bff6166a83, type: 2}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1125421582085338, guid: 400e3ec5102d3e74392f65cc92dfddd0, type: 2}
   - {fileID: 1073011646557830, guid: 86035fefacec54b48af1d1e43b855c6d, type: 2}
   - {fileID: 1745047805458212, guid: d22ffed4f20bb0141a910122ef16b853, type: 2}
   - {fileID: 1076742404099274, guid: fb26230672eb9ae43bfeae8bc21ce75b, type: 2}
@@ -272,7 +272,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Objects4:
-  - {fileID: 0}
+  - {fileID: 1687879694447944, guid: 9ae5f0300bacade46a6641e5469e8875, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

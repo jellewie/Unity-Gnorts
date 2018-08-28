@@ -24,6 +24,7 @@ public class UserInput : MonoBehaviour
     bool StopCameraControls = false;
     private GameObject InHand;                                                          //When placing down this is stuffed with the object
     bool RemoveToolEquiped;
+    private bool EnableZoom = true;                                                             //If Zoom is enabled
 
     private void Start()                                                                //Triggered on start
     {
@@ -91,6 +92,10 @@ public class UserInput : MonoBehaviour
             child.gameObject.SetActive(false);                                                  //Hide the SubMenu
         }
     }
+    public void _Zoom(bool Enabled)                                                     //Enable or disable zoom (used by minimap)
+    {
+        EnableZoom = Enabled;                                                                   //Set the right state
+    }
     private void ExecuteInputs()                                                                //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
     {
         if (InHand)                                                                             //If we have something in our hands
@@ -98,16 +103,21 @@ public class UserInput : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                        //Set a Ray from the cursor + lookation
             RaycastHit hit;                                                                     //Create a output variable
             if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Terrain")))      //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over on the Terrain layer only)
-                InHand.transform.position = new Vector3(Mathf.Round(hit.point.x), hit.point.y, Mathf.Round(hit.point.z)); //Move the block to the mouse position
+            {
+                InHand.transform.position = new Vector3(                                        //Move the block to the mouse position
+                    Mathf.Round(hit.point.x),
+                    hit.point.y,
+                    Mathf.Round(hit.point.z));
+            }
+                
             InHand.layer = 0;                                                                   //Set to default Layer
             RaycastHit[] Hit = Physics.BoxCastAll(                                              //Cast a ray to see if there is already a building where we are hovering over
                 InHand.GetComponent<Collider>().bounds.center,                                      //The center of the block
                 (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f),      //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
                 -transform.up,                                                                      //Do the ray downwards (in to the ground basicly to check only it's own position)
                 InHand.GetComponent<Collider>().transform.rotation,                                 //The orientation in Quaternion (Always in steps of 90 degrees)
-                0f,                                                                                 //Dont go any depth, the building should be inside this block
+                1f,                                                                                 //Dont go any depth, the building should be inside this block
                 1 << LayerMask.NameToLayer("Building"));                                            //Only try to find buildings
-
             if (inputManager.GetButtonDownOnce("Cancel build"))                                 //If we want to cancel the build
             {
                 PreviousRotation = InHand.transform.rotation;                                   //Save the rotation
@@ -241,11 +251,6 @@ public class UserInput : MonoBehaviour
     {
         var rotation = Quaternion.Euler(polar.x, polar.y, 0);                                   //Convert it
         return rotation * Offset;                                                               //Return the Vector 3 of the target point
-    }
-    private bool EnableZoom = true;                                                             //If Zoom is enabled
-    public void Zoom(bool Enabled)                                                      //Enable or disable zoom
-    {
-        EnableZoom = Enabled;                                                                   //Set the right state
     }
 }
 

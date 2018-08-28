@@ -46,7 +46,7 @@ MENU LAYOUT
 * 10 Stone stair
 
 * __4 Industial__
-* 1 __f__Stockphile
+* 1 __f__Stockpile
 * 2 Lumberjack
 * 3 Stone quarry
 * 4 Iron mine
