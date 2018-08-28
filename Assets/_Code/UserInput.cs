@@ -108,7 +108,12 @@ public class UserInput : MonoBehaviour
                 0f,                                                                                 //Dont go any depth, the building should be inside this block
                 1 << LayerMask.NameToLayer("Building"));                                            //Only try to find buildings
 
-            if (inputManager.GetButtonDown("Build"))                                            //If we need to build the object here
+            if (inputManager.GetButtonDownOnce("Cancel build"))                                 //If we want to cancel the build
+            {
+                PreviousRotation = InHand.transform.rotation;                                   //Save the rotation
+                Destroy(InHand);                                                                //Destoy the building
+            }
+            else if (inputManager.GetButtonDown("Build"))                                            //If we need to build the object here
             {
                 if (Hit.Length > 0)                                                             //If there a building already there
                 {
@@ -122,12 +127,6 @@ public class UserInput : MonoBehaviour
                     PlaceInHand(InHand);                                                        //Put a new building on our hands, and leave this one be (this one is now placed down)
                 }
             }
-            else if (inputManager.GetButtonDownOnce("Cancel build"))                            //If we want to cancel the build
-            {
-                PreviousRotation = InHand.transform.rotation;                                   //Save the rotation
-                Destroy(InHand);                                                                //Destoy the building
-                _HideSubMenu();                                                                 //Hide the sub menu
-            }
             else if (inputManager.GetButtonDownOnce("Rotate building"))                         //If we want to rotate the building
             {
                 if (inputManager.GetButtonDown("Alternative"))                                  //If we want to rotate the other way
@@ -139,26 +138,40 @@ public class UserInput : MonoBehaviour
         }
         else if (RemoveToolEquiped)                                                             //If the remove tool is aquiped
         {
-            Debug.Log("remove Tool");
-            if (inputManager.GetButtonDown("Build"))                                        //If we want to Remove this building
+            /*TODO FIXME 
+                Change 'GetButtonDownOnce' to 'GetButtonDown'
+                If the code is hit for more than <0.2 sec> than remove next object too
+            */
+            bool ContinueRemoving = false;
+            if (inputManager.GetButtonDown("Alternative"))
+                ContinueRemoving = true;
+
+
+            
+
+
+
+            if (inputManager.GetButtonDown("Build"))                                            //If we want to Remove this building
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                        //Set a Ray from the cursor + lookation
-                RaycastHit hit;                                                                     //Create a output variable
-                if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building")))                      //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                    //Set a Ray from the cursor + lookation
+                RaycastHit hit;                                                                 //Create a output variable
+                bool ObjectHit = Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building")); //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over
 
 
-
-                    // HERE
-
-
-
-
-                    Destroy(hit.collider);
-                    Debug.Log(hit.collider.name);
+                if (ObjectHit)
+                {
+                    if (inputManager.GetButtonDownOnce("Build"))
+                        Destroy(hit.transform.gameObject);
+                    else if(ContinueRemoving)
+                        Destroy(hit.transform.gameObject);
+                }
             }
             else if (inputManager.GetButtonDownOnce("Cancel build"))                            //If we want to cancel Removing buildings
                 RemoveToolEquiped = false;
         }
+        if (inputManager.GetButtonDownOnce("Cancel build"))                                     //If we right click to cancel
+            _HideSubMenu();                                                                     //Hide the sub menu
+
         if (inputManager.GetButtonDownOnce("Toggle UI"))                                        //If the Toggle UI button is pressed
             FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
         float Speed = Camera.main.transform.position.y * JelleWho.HeighSpeedIncrease;           //The height has X of speed increase per block
