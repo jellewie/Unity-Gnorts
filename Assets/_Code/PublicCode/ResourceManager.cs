@@ -6,7 +6,7 @@
         public static float HeighSpeedIncrease = 0.05f;                                         //The height has X of speed increase per block
         public static int MoveIfThisCloseToTheSides = 25;                                       //If the mouse is this close to the edge
         public static float MoveEdgeScrollSpeed = 1.5f;                                         //The speed of the screen when moving with the screen edges
-        public static float MoveSpeedMouse = 0.5f;                                              //The speed of dragging the map with the mouse
+        public static float MoveSpeedMouse = 1f;                                              //The speed of dragging the map with the mouse
         public static float MoveSpeedKeyboard = 0.7f;                                           //The speed of dragging the map with the keyboard
         public static int RotateSpeedMouse = 5;                                                 //The speed of rotating with the scroll wheel
         public static int RotateSpeedKeyboard = 1;                                              //The speed of the rotation when keyboard is used for rotation

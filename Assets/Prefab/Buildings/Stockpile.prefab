@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1687879694447944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5, y: 0.25, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -111,7 +111,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 5, y: 0.5, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114302723397390272
 MonoBehaviour:
@@ -147,7 +147,7 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 0
-      localPivot: {x: 2.5, y: -2.5}
+      localPivot: {x: 0, y: 0}
       localSize: {x: 0, y: 0}
       anchor: 9
     _mat: {fileID: 2100000, guid: 88ee23156b86f9247bda807b2c1ec699, type: 2}
@@ -175,7 +175,7 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 0
-      localPivot: {x: -2.5, y: -2.5}
+      localPivot: {x: 0, y: 0}
       localSize: {x: 0, y: 0}
       anchor: 9
     _mat: {fileID: 2100000, guid: 88ee23156b86f9247bda807b2c1ec699, type: 2}
@@ -203,7 +203,7 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 0
-      localPivot: {x: -2.5, y: 0.25}
+      localPivot: {x: 0, y: 0}
       localSize: {x: 0, y: 0}
       anchor: 9
     _mat: {fileID: 2100000, guid: 88ee23156b86f9247bda807b2c1ec699, type: 2}
@@ -231,7 +231,7 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 0
-      localPivot: {x: 2.5, y: 0.25}
+      localPivot: {x: 0, y: 0}
       localSize: {x: 0, y: 0}
       anchor: 9
     _mat: {fileID: 2100000, guid: 88ee23156b86f9247bda807b2c1ec699, type: 2}
@@ -259,7 +259,7 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 0
-      localPivot: {x: -2.5, y: 0.25}
+      localPivot: {x: 0, y: 0}
       localSize: {x: 0, y: 0}
       anchor: 9
     _mat: {fileID: 2100000, guid: 88ee23156b86f9247bda807b2c1ec699, type: 2}
@@ -287,7 +287,7 @@ MonoBehaviour:
       offset: {x: 0, y: 0}
       rotation: 0
       justify: 0
-      localPivot: {x: 2.5, y: 0.25}
+      localPivot: {x: 0, y: 0}
       localSize: {x: 0, y: 0}
       anchor: 9
     _mat: {fileID: 2100000, guid: 88ee23156b86f9247bda807b2c1ec699, type: 2}
@@ -303,55 +303,55 @@ MonoBehaviour:
   - array: 030000000d00000014000000
   - array: 040000000f00000016000000
   _vertices:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: -5}
-  - {x: -5, y: 0, z: -5}
-  - {x: -5, y: 0, z: 0}
-  - {x: -5, y: 0.5, z: 0}
-  - {x: 0, y: 0.5, z: -5}
-  - {x: 0, y: 0.5, z: 0}
-  - {x: -5, y: 0.5, z: -5}
-  - {x: 0, y: 0, z: -5}
-  - {x: -5, y: 0, z: -5}
-  - {x: 0, y: 0.5, z: -5}
-  - {x: -5, y: 0.5, z: -5}
-  - {x: -5, y: 0, z: -5}
-  - {x: -5, y: 0, z: 0}
-  - {x: -5, y: 0.5, z: -5}
-  - {x: -5, y: 0.5, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: -5}
-  - {x: 0, y: 0.5, z: 0}
-  - {x: 0, y: 0.5, z: -5}
-  - {x: -5, y: 0, z: 0}
-  - {x: 0, y: 0, z: 0}
-  - {x: -5, y: 0.5, z: 0}
-  - {x: 0, y: 0.5, z: 0}
+  - {x: 2.5, y: -0.25, z: 2.5}
+  - {x: 2.5, y: -0.25, z: -2.5}
+  - {x: -2.5, y: -0.25, z: -2.5}
+  - {x: -2.5, y: -0.25, z: 2.5}
+  - {x: -2.5, y: 0.25, z: 2.5}
+  - {x: 2.5, y: 0.25, z: -2.5}
+  - {x: 2.5, y: 0.25, z: 2.5}
+  - {x: -2.5, y: 0.25, z: -2.5}
+  - {x: 2.5, y: -0.25, z: -2.5}
+  - {x: -2.5, y: -0.25, z: -2.5}
+  - {x: 2.5, y: 0.25, z: -2.5}
+  - {x: -2.5, y: 0.25, z: -2.5}
+  - {x: -2.5, y: -0.25, z: -2.5}
+  - {x: -2.5, y: -0.25, z: 2.5}
+  - {x: -2.5, y: 0.25, z: -2.5}
+  - {x: -2.5, y: 0.25, z: 2.5}
+  - {x: 2.5, y: -0.25, z: 2.5}
+  - {x: 2.5, y: -0.25, z: -2.5}
+  - {x: 2.5, y: 0.25, z: 2.5}
+  - {x: 2.5, y: 0.25, z: -2.5}
+  - {x: -2.5, y: -0.25, z: 2.5}
+  - {x: 2.5, y: -0.25, z: 2.5}
+  - {x: -2.5, y: 0.25, z: 2.5}
+  - {x: 2.5, y: 0.25, z: 2.5}
   _uv:
-  - {x: 0, y: 0}
-  - {x: 0, y: -5}
-  - {x: 5, y: -5}
-  - {x: 5, y: 0}
-  - {x: -5, y: 0}
-  - {x: 0, y: -5}
-  - {x: 0, y: 0}
-  - {x: -5, y: -5}
-  - {x: 0, y: 0}
-  - {x: -5, y: 0}
-  - {x: 0, y: 0.5}
-  - {x: -5, y: 0.5}
-  - {x: 5, y: 0}
-  - {x: 0, y: 0}
-  - {x: 5, y: 0.5}
-  - {x: 0, y: 0.5}
-  - {x: 0, y: 0}
-  - {x: -5, y: 0}
-  - {x: 0, y: 0.5}
-  - {x: -5, y: 0.5}
-  - {x: 5, y: 0}
-  - {x: 0, y: 0}
-  - {x: 5, y: 0.5}
-  - {x: 0, y: 0.5}
+  - {x: -2.5, y: 2.5}
+  - {x: -2.5, y: -2.5}
+  - {x: 2.5, y: -2.5}
+  - {x: 2.5, y: 2.5}
+  - {x: -2.5, y: 2.5}
+  - {x: 2.5, y: -2.5}
+  - {x: 2.5, y: 2.5}
+  - {x: -2.5, y: -2.5}
+  - {x: 2.5, y: -0.25}
+  - {x: -2.5, y: -0.25}
+  - {x: 2.5, y: 0.25}
+  - {x: -2.5, y: 0.25}
+  - {x: 2.5, y: -0.25}
+  - {x: -2.5, y: -0.25}
+  - {x: 2.5, y: 0.25}
+  - {x: -2.5, y: 0.25}
+  - {x: 2.5, y: -0.25}
+  - {x: -2.5, y: -0.25}
+  - {x: 2.5, y: 0.25}
+  - {x: -2.5, y: 0.25}
+  - {x: 2.5, y: -0.25}
+  - {x: -2.5, y: -0.25}
+  - {x: 2.5, y: 0.25}
+  - {x: -2.5, y: 0.25}
   _uv3:
   - {x: 0, y: 0, z: 0, w: 0}
   - {x: 0, y: 0, z: 0, w: 0}
