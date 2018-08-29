@@ -158,9 +158,11 @@ public class UserInput : MonoBehaviour
                 if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
                 {
                     if (inputManager.GetButtonDownOnce("Build"))                                //If the button is pressed for the first time
-                        Destroy(hit.transform.gameObject);                                      //Remove the selected building
+                        if (!EventSystem.current.IsPointerOverGameObject())                     //If mouse is not over an UI element
+                            Destroy(hit.transform.gameObject);                                  //Remove the selected building
                     else if(inputManager.GetButtonDown("Alternative"))                          //If the continue button is pressed
-                        Destroy(hit.transform.gameObject);                                      //Remove the selected building
+                            if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
+                                Destroy(hit.transform.gameObject);                              //Remove the selected building
                 }
             }
             else if (inputManager.GetButtonDownOnce("Cancel build"))                            //If we want to cancel Removing buildings
