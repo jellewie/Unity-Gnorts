@@ -44,16 +44,35 @@
     {
         //Please see the next url if you don't get this. it was really helpfull for me
         //https://unity3d.com/learn/tutorials/topics/scripting/classes
-        public string Name;                                                                     //(To GET data) 1th part of the array is a string,        The name
-        public bool Stat;                                                                       //(To GET data) 2nd part of the array is a is a bool,     The default state
-        public string Desc;                                                                     //(To GET data) 3rd part of the array is a is a string,   The description (hoverover text)
+        public string Name;                                                                     //(To GET data) 1th part is a string,   The name
+        public bool Stat;                                                                       //(To GET data) 2nd part is a bool,     The default state
+        public string Desc;                                                                     //(To GET data) 3rd part is a string,   The description (hoverover text)
         public SettingsBool(string name, bool default_status, string description)               //Create a way to add all data at once
         {
-            this.Name = name;                                                                   //(To SET data) 1th part of the array is a string,        The name
-            this.Stat = default_status;                                                         //(To SET data) 2nd part of the array is a is a bool,     The default state
-            this.Desc = description;                                                            //(To SET data) 3rd part of the array is a is a string,   The description (hoverover text)
+            this.Name = name;                                                                   //(To SET data) 1th part is a string,   The name
+            this.Stat = default_status;                                                         //(To SET data) 2nd part is a bool,     The default state
+            this.Desc = description;                                                            //(To SET data) 3rd part is a string,   The description (hoverover text)
         }
     }
+    public class Building
+    {
+        public string Name;                                                                     //The name of the building (for later lookup)
+        public byte Cost_Wood;                                                                  //(To GET data) 1th part is a byte,     The cost of the building when it's being build
+        public byte Cost_Stone;                                                                 //^
+        public byte Cost_Iron;                                                                  //^
+        public byte Cost_Money;                                                                 //^
+        public bool FirstFree;                                                                  //(To GET data)                         If the first one is free is you can't pay for it (Stockpile, woodcutter)
+        public Building(string Name, byte Cost_Wood, byte Cost_Stone, byte Cost_Iron, byte Cost_Money, bool FirstFree)   //Create a way to add all data at once
+        {
+            this.Name = Name;                                                                   //(To SET data) 1th part is a string
+            this.Cost_Wood = Cost_Wood;                                                         //^
+            this.Cost_Stone = Cost_Stone;                                                       //^
+            this.Cost_Iron = Cost_Iron;                                                         //^
+            this.Cost_Money = Cost_Money;                                                       //^
+            this.FirstFree = FirstFree;                                                         //^
+        }
+    }
+
 }
 
 //public static bool EdgeScroll { get { if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x02) == 0x02) return true; else return false; } }

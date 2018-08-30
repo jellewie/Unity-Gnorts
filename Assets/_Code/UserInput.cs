@@ -258,6 +258,49 @@ public class UserInput : MonoBehaviour
         var rotation = Quaternion.Euler(polar.x, polar.y, 0);                                   //Convert it
         return rotation * Offset;                                                               //Return the Vector 3 of the target point
     }
+
+
+
+    
+
+
+
+    //https://answers.unity.com/questions/580381/how-to-get-the-value-of-a-boolean-in-game-object-t.html
+    public void _Test()
+    {
+        foreach (Transform child in FolderBuildings)
+        {
+            Building BuildingInformation = inputManager.GetInfo(child.GetComponent<BuildingOption>().BuildingName);
+            Debug.Log(
+                "Type="         + BuildingInformation.Name          +
+                " SelectedOption" + child.GetComponent<BuildingOption>().SelectedOption +
+                " Used"         + child.GetComponent<BuildingOption>().Used +
+                " Cost_Wood="   + BuildingInformation.Cost_Wood     +
+                " Cost_Stone="  + BuildingInformation.Cost_Stone    +
+                " Cost_Iron="   + BuildingInformation.Cost_Iron     +
+                " Cost_Money="  + BuildingInformation.Cost_Money    +
+                " Real name="   + child.gameObject.name
+                );
+        }
+    }
+
+
+
+
+    //https://answers.unity.com/questions/546045/how-can-i-access-a-bool-for-a-specific-gameobject.html
+    //public class MyNewClass
+    //{
+    //    public bool aBool;
+    //}
+    //public BuildingSettings[] myNewClassArray;
+    //public void _Test()
+    //{
+    //    foreach (BuildingSettings thisClass in myNewClassArray)
+    //    {
+    //        thisClass.aBool = !thisClass.aBool;
+    //        Debug.Log(thisClass.aBool);
+    //    }
+    //}
 }
 
 /*  public GameObject Tempblock;

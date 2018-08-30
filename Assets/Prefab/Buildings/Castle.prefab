@@ -361,6 +361,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4312831739221264}
+  - component: {fileID: 114837512881984918}
   - component: {fileID: 65600892962672006}
   m_Layer: 0
   m_Name: Castle
@@ -11603,6 +11604,19 @@ MonoBehaviour:
   m_selectedFaces: 
   m_SelectedEdges: []
   m_selectedTriangles: 
+--- !u!114 &114837512881984918
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1952451221755246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 673f0e666dd3483488064867e6d253e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BuildingName: Castle
+  SelectedOption: 0
 --- !u!114 &114871091306916940
 MonoBehaviour:
   m_ObjectHideFlags: 1

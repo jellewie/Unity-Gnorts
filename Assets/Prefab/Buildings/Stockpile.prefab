@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4795901386708954}
   - component: {fileID: 65466701279911410}
+  - component: {fileID: 114366193249647946}
   m_Layer: 0
   m_Name: Stockpile
   m_TagString: Untagged
@@ -2317,6 +2318,19 @@ MonoBehaviour:
   m_selectedFaces: 
   m_SelectedEdges: []
   m_selectedTriangles: 
+--- !u!114 &114366193249647946
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1687879694447944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 673f0e666dd3483488064867e6d253e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BuildingName: Stockpile
+  SelectedOption: 0
 --- !u!114 &114861567807894400
 MonoBehaviour:
   m_ObjectHideFlags: 1
