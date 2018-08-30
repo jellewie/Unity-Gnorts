@@ -30,7 +30,8 @@ public class UserInput : MonoBehaviour
     {
     }
     private void Update()                                                               //Triggered before frame update
-    {  
+    {
+        Debug.Log(~(1 << LayerMask.NameToLayer("Terrain")));
     }
     private void LateUpdate()                                                           //Triggered after frame update
     {
@@ -83,6 +84,7 @@ public class UserInput : MonoBehaviour
     }
     public void _RemoveTool(bool Equiped)                                               //Triggered by menu, Equipe the remove tool
     {
+        Destroy(InHand);                                                                        //Destoy the building
         RemoveToolEquiped = Equiped;                                                            //Set the given state
     }
     public void _HideSubMenu()                                                          //This will hide the full sub menu
@@ -116,11 +118,10 @@ public class UserInput : MonoBehaviour
                 (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f),      //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
                 -transform.up,                                                                      //Do the ray downwards (in to the ground basicly to check only it's own position)
                 InHand.GetComponent<Collider>().transform.rotation,                                 //The orientation in Quaternion (Always in steps of 90 degrees)
-                1f,                                                                                 //Dont go any depth, the building should be inside this block
+                0.1f,                                                                               //Dont go much depth, the building should be inside this block
                 1 << LayerMask.NameToLayer("Building"));                                            //Only try to find buildings
             if (inputManager.GetButtonDownOnce("Cancel build"))                                 //If we want to cancel the build
             {
-                PreviousRotation = InHand.transform.rotation;                                   //Save the rotation
                 Destroy(InHand);                                                                //Destoy the building
             }
             else if (inputManager.GetButtonDown("Build"))                                       //If we need to build the object here
@@ -157,12 +158,17 @@ public class UserInput : MonoBehaviour
                 RaycastHit hit;                                                                 //Create a output variable
                 if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
                 {
+                    Debug.Log("test");
                     if (inputManager.GetButtonDownOnce("Build"))                                //If the button is pressed for the first time
+                    {
                         if (!EventSystem.current.IsPointerOverGameObject())                     //If mouse is not over an UI element
                             Destroy(hit.transform.gameObject);                                  //Remove the selected building
-                    else if(inputManager.GetButtonDown("Alternative"))                          //If the continue button is pressed
-                            if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
-                                Destroy(hit.transform.gameObject);                              //Remove the selected building
+                    }
+                    else if (inputManager.GetButtonDown("Alternative"))                          //If the continue button is pressed
+                    {
+                        if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
+                            Destroy(hit.transform.gameObject);                              //Remove the selected building
+                    }
                 }
             }
             else if (inputManager.GetButtonDownOnce("Cancel build"))                            //If we want to cancel Removing buildings

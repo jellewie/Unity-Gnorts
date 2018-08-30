@@ -20,6 +20,7 @@ MENU LAYOUT
 * 4 Balista tower top
 * 5 Town square (Boost happiness based on amount of homes near. Can have a party to temponary boost more)
 * 6 Fire pit (This will make arrows in radkius X be on fire and do a little bit more dammage)(can only be build on stone structures)
+* 6 Fire pit (This will make arrows in radkius X be on fire and do a little bit more dammage)(can only be build on stone structures)
 * 7 Trap pit
 * 8 __C__astle (Hide if already placed, can change tax for happiness) 
 
@@ -36,7 +37,7 @@ MENU LAYOUT
 * __3 Castle structures__
 * 1 Wooden walls
 * 2 Wooden Walls spiked
-* 3 Wooden gate
+* 3 Wooden gate			(Gates give a pop-up window to open/close the gate)
 * 4 Wooden tower
 * 5 Wooden stair
 * 6 Stone walls
