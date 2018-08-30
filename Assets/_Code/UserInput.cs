@@ -31,7 +31,6 @@ public class UserInput : MonoBehaviour
     }
     private void Update()                                                               //Triggered before frame update
     {
-        Debug.Log(~(1 << LayerMask.NameToLayer("Terrain")));
     }
     private void LateUpdate()                                                           //Triggered after frame update
     {
@@ -111,23 +110,23 @@ public class UserInput : MonoBehaviour
                     hit.point.y,
                     Mathf.Round(hit.point.z));
             }
-                
-            InHand.layer = 0;                                                                   //Set to default Layer
-            RaycastHit[] Hit = Physics.BoxCastAll(                                              //Cast a ray to see if there is already a building where we are hovering over
-                InHand.GetComponent<Collider>().bounds.center,                                      //The center of the block
-                (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f),      //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
-                -transform.up,                                                                      //Do the ray downwards (in to the ground basicly to check only it's own position)
-                InHand.GetComponent<Collider>().transform.rotation,                                 //The orientation in Quaternion (Always in steps of 90 degrees)
-                0.1f,                                                                               //Dont go much depth, the building should be inside this block
-                1 << LayerMask.NameToLayer("Building"));                                            //Only try to find buildings
             if (inputManager.GetButtonDownOnce("Cancel build"))                                 //If we want to cancel the build
             {
                 Destroy(InHand);                                                                //Destoy the building
             }
             else if (inputManager.GetButtonDown("Build"))                                       //If we need to build the object here
             {
+                InHand.layer = 0;                                                               //Set to default Layer
+                RaycastHit[] Hit = Physics.BoxCastAll(                                          //Cast a ray to see if there is already a building where we are hovering over
+                    InHand.GetComponent<Collider>().bounds.center,                                  //The center of the block
+                    (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f),  //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
+                    -transform.up,                                                                  //Do the ray downwards (in to the ground basicly to check only it's own position)
+                    InHand.GetComponent<Collider>().transform.rotation,                             //The orientation in Quaternion (Always in steps of 90 degrees)
+                    0.5f,                                                                           //Dont go much depth, the building should be inside this block
+                    1 << LayerMask.NameToLayer("Building"));                                        //Only try to find buildings
                 if (Hit.Length > 0)                                                             //If there a building already there
                 {
+                    //Debug.Log("Can't build on top " + Hit[0].transform.name);
                     /*TODO FIXME 
                     If this is hit for more than <1 sec> than show a message that we can't build there
                      */
@@ -158,16 +157,15 @@ public class UserInput : MonoBehaviour
                 RaycastHit hit;                                                                 //Create a output variable
                 if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
                 {
-                    Debug.Log("test");
                     if (inputManager.GetButtonDownOnce("Build"))                                //If the button is pressed for the first time
                     {
                         if (!EventSystem.current.IsPointerOverGameObject())                     //If mouse is not over an UI element
                             Destroy(hit.transform.gameObject);                                  //Remove the selected building
                     }
-                    else if (inputManager.GetButtonDown("Alternative"))                          //If the continue button is pressed
+                    else if (inputManager.GetButtonDown("Alternative"))                         //If the continue button is pressed
                     {
-                        if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
-                            Destroy(hit.transform.gameObject);                              //Remove the selected building
+                        if (!EventSystem.current.IsPointerOverGameObject())                     //If mouse is not over an UI element
+                            Destroy(hit.transform.gameObject);                                  //Remove the selected building
                     }
                 }
             }
