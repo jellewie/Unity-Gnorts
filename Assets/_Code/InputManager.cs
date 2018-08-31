@@ -195,7 +195,7 @@ public class InputManager : MonoBehaviour
         BuildingCostArray[25] = new Building("Stone_Stair",             0,  5,  0,  0,  false);
 
         BuildingCostArray[26] = new Building("Stockpile",               0,  5,  0,  0,  true );
-        BuildingCostArray[27] = new Building("Lumberjack",              10, 0,  0,  0,  true );
+        BuildingCostArray[27] = new Building("Lumberjack_Hut",          10, 0,  0,  0,  true );
         BuildingCostArray[28] = new Building("Stone_Quarry",            20, 0,  0,  0,  false);
         BuildingCostArray[29] = new Building("Iron_Mine",               20, 0,  0,  0,  false);
         BuildingCostArray[30] = new Building("Ox_Transport",            3,  0,  0,  5,  false);

@@ -47,7 +47,7 @@ MENU LAYOUT
 
 * __4 Industial__
 * 1 Stockpile [F key]
-* 2 Lumberjack
+* 2 Lumberjack_Hut
 * 3 Stone_Quarry
 * 4 Iron_Mine
 * 5 Ox_Transport (moves wood, stone, or iron/steel. This is an option, and buildings like the woodcutter do have an option to move them thereself)
@@ -62,8 +62,8 @@ MENU LAYOUT
 * 4 Hunter (Hunters can shoor ground animals (Deers, Rabbits, wolfs, Bears)
 * 5 Wheat/grain farm
 * 6 Mill (for wheat/grain)
-* 7 Baker (for floar)
-* 8 ?Fischer?
+* 7 Baker (for flour)
+* 8 Fischer
 
 * __6 MISC__
 * 1 __T__rading house (This building enables trading + Auto trading ?with an upgrade?; like buy wood if below 100, sell if above 200)
