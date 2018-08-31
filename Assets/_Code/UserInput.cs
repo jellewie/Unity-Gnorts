@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using PublicCode;
 using UnityEngine.EventSystems;                                                         //Used to: Check if hovering over UI while building,
 using System;
+using UnityEngine.UI;                                                               //We need this to interact with the UI
 /*
     Written by JelleWho
  */
 public class UserInput : MonoBehaviour
 {
     public InputManager inputManager;
-    public GameObject CodeUserStats;
+    public GameObject CodeUserStats;                                                    //The GameObject with the code on it
     public GameObject FolderMenu;                                                       //The folder to enable on MenuOpen
     public GameObject FolderInfo;
     public GameObject FolderTrading;
@@ -18,6 +17,7 @@ public class UserInput : MonoBehaviour
     public GameObject FolderUI;                                                         //The folder to hide on HideUI
     public GameObject FolderSubMenu;                                                    //The folder to close when done building
     public Transform FolderBuildings;                                                   //The folder where all the buildings should be put in
+    public GameObject TextMessage;
 
     Quaternion PreviousRotation;
 
@@ -83,7 +83,7 @@ public class UserInput : MonoBehaviour
         InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
         InHand.layer = 0;                                                                       //Set to default Layer
     }
-    public void _DeconstructTool(bool Equiped)                                               //Triggered by menu, Equipe the Deconstruct tool
+    public void _DeconstructTool(bool Equiped)                                          //Triggered by menu, Equipe the Deconstruct tool
     {
         Destroy(InHand);                                                                        //Destoy the building
         DeconstructToolEquiped = Equiped;                                                            //Set the given state
@@ -146,6 +146,8 @@ public class UserInput : MonoBehaviour
                         else
                         {
                             Debug.Log("Not enough " + Pay + " to build that");
+                            TextMessage.SetActive(true);
+                            TextMessage.GetComponentInChildren<Text>().text = "Not enough " + Pay + " to build that";
                         }
                     }
                 }
@@ -277,17 +279,17 @@ public class UserInput : MonoBehaviour
         Building BuildingInfo = inputManager.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName);  //Get the buildings info (like cost etc)
         if (TheBuilding.GetComponent<BuildingOption>().Used)                                    //If the building is not brand new
         {
-            CodeUserStats.GetComponent<UserStats>().Wood  += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUsed));  //Return some percentage
-            CodeUserStats.GetComponent<UserStats>().Stone += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUsed));  //^
-            CodeUserStats.GetComponent<UserStats>().Iron  += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUsed));  //^
-            CodeUserStats.GetComponent<UserStats>().Money += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUsed));  //^
+            CodeUserStats.GetComponent<UserStats>().ChangeWood (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUsed)));  //Return some percentage
+            CodeUserStats.GetComponent<UserStats>().ChangeStone(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUsed)));  //^
+            CodeUserStats.GetComponent<UserStats>().ChangeIron (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUsed)));  //^
+            CodeUserStats.GetComponent<UserStats>().ChangeMoney(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUsed)));  //^
         }
         else
         {
-            CodeUserStats.GetComponent<UserStats>().Wood  += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUnused));//Return some percentage
-            CodeUserStats.GetComponent<UserStats>().Stone += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUnused));//^
-            CodeUserStats.GetComponent<UserStats>().Iron  += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUnused));//^
-            CodeUserStats.GetComponent<UserStats>().Money += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUnused));//^
+            CodeUserStats.GetComponent<UserStats>().ChangeWood (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUnused)));  //Return some percentage
+            CodeUserStats.GetComponent<UserStats>().ChangeStone(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUnused)));  //^
+            CodeUserStats.GetComponent<UserStats>().ChangeIron (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUnused)));  //^
+            CodeUserStats.GetComponent<UserStats>().ChangeMoney(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUnused)));  //^
         }
         Destroy(TheBuilding);                                                                   //Destroy the building
     }
@@ -306,10 +308,10 @@ public class UserInput : MonoBehaviour
                 {
                     if (CodeUserStats.GetComponent<UserStats>().Money >= BuildingInfo.Cost_Money)
                     {
-                        CodeUserStats.GetComponent<UserStats>().Wood  -= BuildingInfo.Cost_Wood;
-                        CodeUserStats.GetComponent<UserStats>().Stone -= BuildingInfo.Cost_Stone;
-                        CodeUserStats.GetComponent<UserStats>().Iron  -= BuildingInfo.Cost_Iron;
-                        CodeUserStats.GetComponent<UserStats>().Money -= BuildingInfo.Cost_Money;
+                        CodeUserStats.GetComponent<UserStats>().ChangeWood (-BuildingInfo.Cost_Wood);
+                        CodeUserStats.GetComponent<UserStats>().ChangeStone(-BuildingInfo.Cost_Stone);
+                        CodeUserStats.GetComponent<UserStats>().ChangeIron (-BuildingInfo.Cost_Iron);
+                        CodeUserStats.GetComponent<UserStats>().ChangeMoney(-BuildingInfo.Cost_Money);
                         return "Done";
                     }
                     else

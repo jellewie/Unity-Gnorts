@@ -65,6 +65,7 @@
     <Compile Include="Assets\_Code\MenuKeybindings.cs" />
     <Compile Include="Assets\_Code\MenuSettings.cs" />
     <Compile Include="Assets\_Code\PublicCode\ResourceManager.cs" />
+    <Compile Include="Assets\_Code\Standalone\AutoHide.cs" />
     <Compile Include="Assets\_Code\Standalone\BuildingOption.cs" />
     <Compile Include="Assets\_Code\Standalone\FPSDisplay.cs" />
     <Compile Include="Assets\_Code\Standalone\HoverOver.cs" />
