@@ -19,6 +19,9 @@
         public static int BoolSettingsDefault = 0x01;                                           //Set the default value of the Bool Settings
         public static int BoolSettingsLength = 4;                                               //How many settings we are storing
 
+
+        public static float DeconstructUnused = 0.9f;
+        public static float DeconstructUsed = 0.5f;
         /*
             Layout of playerPrefs 'BoolSettings' (1/0):
                 Bit 1 = 0x01 = EdgeScroll (on/off)
@@ -54,7 +57,7 @@
             this.Desc = description;                                                            //(To SET data) 3rd part is a string,   The description (hoverover text)
         }
     }
-    public class Building
+    public class Building                                                               //Creeta a new Class data type to store buildings build price and settings
     {
         public string Name;                                                                     //The name of the building (for later lookup)
         public byte Cost_Wood;                                                                  //(To GET data) 1th part is a byte,     The cost of the building when it's being build
@@ -72,7 +75,6 @@
             this.FirstFree = FirstFree;                                                         //^
         }
     }
-
 }
 
 //public static bool EdgeScroll { get { if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x02) == 0x02) return true; else return false; } }

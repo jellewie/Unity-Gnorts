@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000028, guid: 2455d75f39311cf4cb559f0ab6c856eb,
+  m_LightingDataAsset: {fileID: 112000006, guid: 2455d75f39311cf4cb559f0ab6c856eb,
     type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -6763,7 +6763,7 @@ GameObject:
   - component: {fileID: 803767417}
   - component: {fileID: 803767416}
   m_Layer: 5
-  m_Name: Lumberjack
+  m_Name: Lumberjack_Hut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6813,7 +6813,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: LLumberjack
+            m_StringArgument: LLumberjack Hut
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -9467,6 +9467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputManager: {fileID: 981870571}
+  CodeUserStats: {fileID: 1686145420}
   FolderMenu: {fileID: 2018067084}
   FolderInfo: {fileID: 1195261788}
   FolderTrading: {fileID: 440119727}
@@ -10430,6 +10431,7 @@ Transform:
   - {fileID: 1090648120}
   - {fileID: 981870570}
   - {fileID: 1848419496}
+  - {fileID: 1686145421}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11850,7 +11852,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: LRemove Buildings
+            m_StringArgument: LDeconstruct buildings
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -11913,7 +11915,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1090648121}
-        m_MethodName: _RemoveTool
+        m_MethodName: _DeconstructTool
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14874,6 +14876,59 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1677842737}
   m_CullTransparentMesh: 0
+--- !u!1 &1686145420
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1686145421}
+  - component: {fileID: 1686145422}
+  m_Layer: 0
+  m_Name: UserStats
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1686145421
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1686145420}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1204101867}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1686145422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1686145420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f48885baf1b6d74d8782cdb0d5c81ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Wood: 999
+  Stone: 999
+  Iron: 999
+  Money: 999
+  Grain: 0
+  flour: 0
+  Apple: 0
+  Cheese: 0
+  Meat: 0
+  Bread: 0
+  Fish: 0
+  Population: 0
+  MaxPopulation: 0
 --- !u!1 &1693336890
 GameObject:
   m_ObjectHideFlags: 0

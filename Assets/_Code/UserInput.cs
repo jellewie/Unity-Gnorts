@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using PublicCode;
 using UnityEngine.EventSystems;                                                         //Used to: Check if hovering over UI while building,
+using System;
 /*
     Written by JelleWho
  */
 public class UserInput : MonoBehaviour
 {
     public InputManager inputManager;
+    public GameObject CodeUserStats;
     public GameObject FolderMenu;                                                       //The folder to enable on MenuOpen
     public GameObject FolderInfo;
     public GameObject FolderTrading;
@@ -23,7 +25,7 @@ public class UserInput : MonoBehaviour
     bool GamePaused = false;
     bool StopCameraControls = false;
     private GameObject InHand;                                                          //When placing down this is stuffed with the object
-    bool RemoveToolEquiped;
+    bool DeconstructToolEquiped;
     private bool EnableZoom = true;                                                             //If Zoom is enabled
 
     private void Start()                                                                //Triggered on start
@@ -81,10 +83,10 @@ public class UserInput : MonoBehaviour
         InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
         InHand.layer = 0;                                                                       //Set to default Layer
     }
-    public void _RemoveTool(bool Equiped)                                               //Triggered by menu, Equipe the remove tool
+    public void _DeconstructTool(bool Equiped)                                               //Triggered by menu, Equipe the Deconstruct tool
     {
         Destroy(InHand);                                                                        //Destoy the building
-        RemoveToolEquiped = Equiped;                                                            //Set the given state
+        DeconstructToolEquiped = Equiped;                                                            //Set the given state
     }
     public void _HideSubMenu()                                                          //This will hide the full sub menu
     {
@@ -135,8 +137,16 @@ public class UserInput : MonoBehaviour
                 {
                     if (!EventSystem.current.IsPointerOverGameObject())                         //If mouse is not over an UI element
                     {
-                        InHand.layer = LayerMask.NameToLayer("Building");                       //Set this to be in the building layer (so we can't build on this anymore)
-                        PlaceInHand(InHand);                                                        //Put a new building on our hands, and leave this one be (this one is now placed down)
+                        string Pay = CanWePayFor(InHand); //Create a new string, will return what we are missing if we can't build
+                        if (Pay == "Done")                                                          //If we do have enough to build this building
+                        {
+                            InHand.layer = LayerMask.NameToLayer("Building");                       //Set this to be in the building layer (so we can't build on this anymore)
+                            PlaceInHand(InHand);                                                    //Put a new building on our hands, and leave this one be (this one is now placed down)
+                        }
+                        else
+                        {
+                            Debug.Log("Not enough " + Pay + " to build that");
+                        }
                     }
                 }
             }
@@ -149,9 +159,9 @@ public class UserInput : MonoBehaviour
                 PreviousRotation = InHand.transform.rotation;                                   //Save the rotation
             }
         }
-        else if (RemoveToolEquiped)                                                             //If the remove tool is aquiped
+        else if (DeconstructToolEquiped)                                                             //If the Deconstruct tool is aquiped
         {
-            if (inputManager.GetButtonDown("Build"))                                            //If we want to Remove this building
+            if (inputManager.GetButtonDown("Build"))                                            //If we want to Deconstruct this building
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                    //Set a Ray from the cursor + lookation
                 RaycastHit hit;                                                                 //Create a output variable
@@ -160,17 +170,17 @@ public class UserInput : MonoBehaviour
                     if (inputManager.GetButtonDownOnce("Build"))                                //If the button is pressed for the first time
                     {
                         if (!EventSystem.current.IsPointerOverGameObject())                     //If mouse is not over an UI element
-                            Destroy(hit.transform.gameObject);                                  //Remove the selected building
+                            DeconstructBuilding(hit.transform.gameObject);                      //Deconstruct the selected building
                     }
                     else if (inputManager.GetButtonDown("Alternative"))                         //If the continue button is pressed
                     {
                         if (!EventSystem.current.IsPointerOverGameObject())                     //If mouse is not over an UI element
-                            Destroy(hit.transform.gameObject);                                  //Remove the selected building
+                            DeconstructBuilding(hit.transform.gameObject);                      //Deconstruct the selected building
                     }
                 }
             }
             else if (inputManager.GetButtonDownOnce("Cancel build"))                            //If we want to cancel Removing buildings
-                RemoveToolEquiped = false;                                                      //Stop the RemoveTool being equiped
+                DeconstructToolEquiped = false;                                                 //Stop the DeconstructTool being equiped
         }
         if (inputManager.GetButtonDownOnce("Cancel build"))                                     //If we right click to cancel
             _HideSubMenu();                                                                     //Hide the sub menu
@@ -262,28 +272,58 @@ public class UserInput : MonoBehaviour
 
 
     
-
+    public void DeconstructBuilding(GameObject TheBuilding)                             //This code will give stuff back and deconstruct the building
+    {
+        Building BuildingInfo = inputManager.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName);  //Get the buildings info (like cost etc)
+        if (TheBuilding.GetComponent<BuildingOption>().Used)                                    //If the building is not brand new
+        {
+            CodeUserStats.GetComponent<UserStats>().Wood  += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUsed));  //Return some percentage
+            CodeUserStats.GetComponent<UserStats>().Stone += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUsed));  //^
+            CodeUserStats.GetComponent<UserStats>().Iron  += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUsed));  //^
+            CodeUserStats.GetComponent<UserStats>().Money += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUsed));  //^
+        }
+        else
+        {
+            CodeUserStats.GetComponent<UserStats>().Wood  += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUnused));//Return some percentage
+            CodeUserStats.GetComponent<UserStats>().Stone += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUnused));//^
+            CodeUserStats.GetComponent<UserStats>().Iron  += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUnused));//^
+            CodeUserStats.GetComponent<UserStats>().Money += Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUnused));//^
+        }
+        Destroy(TheBuilding);                                                                   //Destroy the building
+    }
 
 
     //https://answers.unity.com/questions/580381/how-to-get-the-value-of-a-boolean-in-game-object-t.html
-    public void _Test()
+    private string CanWePayFor(GameObject TheBuilding)
     {
-        foreach (Transform child in FolderBuildings)
+        Building BuildingInfo = inputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName);
+        //Debug.Log("Type=" + BuildingInfo.Name +" Cost_Wood=" + BuildingInfo.Cost_Wood +" Cost_Stone=" + BuildingInfo.Cost_Stone +" Cost_Iron=" + BuildingInfo.Cost_Iron +" Cost_Money=" + BuildingInfo.Cost_Money);
+        if (CodeUserStats.GetComponent<UserStats>().Wood >= BuildingInfo.Cost_Wood)
         {
-            Building BuildingInformation = inputManager.GetInfo(child.GetComponent<BuildingOption>().BuildingName);
-            Debug.Log(
-                "Type="         + BuildingInformation.Name          +
-                " SelectedOption" + child.GetComponent<BuildingOption>().SelectedOption +
-                " Used"         + child.GetComponent<BuildingOption>().Used +
-                " Cost_Wood="   + BuildingInformation.Cost_Wood     +
-                " Cost_Stone="  + BuildingInformation.Cost_Stone    +
-                " Cost_Iron="   + BuildingInformation.Cost_Iron     +
-                " Cost_Money="  + BuildingInformation.Cost_Money    +
-                " Real name="   + child.gameObject.name
-                );
+            if (CodeUserStats.GetComponent<UserStats>().Stone >= BuildingInfo.Cost_Stone)
+            {
+                if (CodeUserStats.GetComponent<UserStats>().Iron >= BuildingInfo.Cost_Iron)
+                {
+                    if (CodeUserStats.GetComponent<UserStats>().Money >= BuildingInfo.Cost_Money)
+                    {
+                        CodeUserStats.GetComponent<UserStats>().Wood  -= BuildingInfo.Cost_Wood;
+                        CodeUserStats.GetComponent<UserStats>().Stone -= BuildingInfo.Cost_Stone;
+                        CodeUserStats.GetComponent<UserStats>().Iron  -= BuildingInfo.Cost_Iron;
+                        CodeUserStats.GetComponent<UserStats>().Money -= BuildingInfo.Cost_Money;
+                        return "Done";
+                    }
+                    else
+                        return "Money";
+                }
+                else
+                    return "Iron";
+            }
+            else
+                return "Stone";
         }
+        else
+            return "Wood";
     }
-
 
 
 
