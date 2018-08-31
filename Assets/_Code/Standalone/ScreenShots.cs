@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.IO;
+using UnityEngine.UI;                                                               //We need this to interact with the UI
 //Credits to @toddmoore https://answers.unity.com/questions/22954/how-to-save-a-picture-take-screenshot-from-a-camer.html
 
 // Screen Recorder will save individual images of active scene in any resolution and of a specific image format
@@ -11,6 +11,9 @@ using System.IO;
 
 public class ScreenShots : MonoBehaviour
 {
+    public bool StartOnBoot = true;
+    public Text Textbox;
+
     public GameObject[] Objects0;                                                               //The gameobjects to tame screenshots from   name = ICON0_#
     public GameObject[] Objects1;                                                               //The gameobjects to tame screenshots from   name = ICON1_#
     public GameObject[] Objects2;                                                               //The gameobjects to tame screenshots from   name = ICON2_#
@@ -30,7 +33,7 @@ public class ScreenShots : MonoBehaviour
     private Rect rect;
     private RenderTexture renderTexture;
     private Texture2D screenShot;
-
+    
 
 
 
@@ -57,6 +60,14 @@ public class ScreenShots : MonoBehaviour
         Objects[3] = Objects3;                                                                  //^
         Objects[4] = Objects4;                                                                  //^
         Objects[5] = Objects5;                                                                  //^
+        if (StartOnBoot)
+        {
+            _StartCreatingIcons();
+            if (Textbox != null)
+            {
+                Textbox.text = "Done";
+            }
+        }
     }
     public void _StartCreatingIcons()
     {
