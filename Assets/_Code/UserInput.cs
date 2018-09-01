@@ -77,7 +77,7 @@ public class UserInput : MonoBehaviour
     }
     private void PlaceInHand(GameObject Prefab)                                         //With the object to build as prefab, this will hook in to the mouse cursor
     {
-        InHand = Instantiate(Prefab, new Vector3(0, -100, 0), Quaternion.identity);             //Create a building (we dont need to set it's position, will do later in this loop
+        InHand = Instantiate(Prefab, new Vector3(0, -100, 0), Quaternion.identity);             //Create a new building and put it in our hands (coord will be set later)
         InHand.transform.rotation = PreviousRotation;                                           //Restore the rotation
         InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
         InHand.layer = 0;                                                                       //Set to default Layer
@@ -107,6 +107,20 @@ public class UserInput : MonoBehaviour
                     hit.point.y,
                     Mathf.Round(hit.point.z));
             }
+
+
+
+
+            
+
+
+
+
+
+
+
+
+
             if (CodeInputManager.GetButtonDownOnce("Cancel build"))                             //If we want to cancel the build
             {
                 Destroy(InHand);                                                                //Destoy the building
@@ -240,12 +254,12 @@ public class UserInput : MonoBehaviour
             Camera.main.transform.position = newCameraPos;
         }
         float Xr = Camera.main.transform.eulerAngles.x;                                         //Get main camera rotation
-        float Yr = Camera.main.transform.eulerAngles.y;                                         
-        if (CodeInputManager.GetButtonDown("Rotate left"))
+        float Yr = Camera.main.transform.eulerAngles.y;                                         //^
+        if (CodeInputManager.GetButtonDown("Rotate left"))                                      //If the given key has been pressed
             Yr -= JelleWho.RotateSpeedKeyboard;                                                 //Get the mouse movement
-        if (CodeInputManager.GetButtonDown("Rotate right"))
+        if (CodeInputManager.GetButtonDown("Rotate right"))                                     //If the given key has been pressed
             Yr += JelleWho.RotateSpeedKeyboard;                                                 //Get the mouse movement
-        if (CodeInputManager.GetButtonDown("Rotate"))                                               //If the rotate button is pressed
+        if (CodeInputManager.GetButtonDown("Rotate"))                                           //If the given key has been pressed
         {
             Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse;                         //Get the mouse movement
             Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse;                         //^
@@ -263,14 +277,11 @@ public class UserInput : MonoBehaviour
         var rotation = Quaternion.Euler(polar.x, polar.y, 0);                                   //Convert it
         return rotation * Offset;                                                               //Return the Vector 3 of the target point
     }
-
-
-    private void ShowMessage(string Message)
+    private void ShowMessage(string Message)                                            //If we need to show the player a message
     {
         TextMessage.GetComponentInChildren<Text>().text = Message;                              //Give the user the message
         TextMessage.SetActive(true);                                                            //Show the message (This objects auto hides)
     }
-    
     public void DeconstructBuilding(GameObject TheBuilding)                             //This code will give stuff back and deconstruct the building
     {
         Building BuildingInfo = CodeInputManager.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName);  //Get the buildings info (like cost etc)
@@ -290,46 +301,35 @@ public class UserInput : MonoBehaviour
         }
         Destroy(TheBuilding);                                                                   //Destroy the building
     }
-
-
-    //https://answers.unity.com/questions/580381/how-to-get-the-value-of-a-boolean-in-game-object-t.html
-    private string CanWePayFor(GameObject TheBuilding)
+    private string CanWePayFor(GameObject TheBuilding)                                  //Checks if we can pay for a building, and pays if posible. else it will return what we don't have enough off
     {
-        try                                                                                     //This is to catch the error that the object we are trying to pya for doesnt have a tag specifiying the payment
+        Building BuildingInfo = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName);
+        //Debug.Log("Type=" + BuildingInfo.Name +" Cost_Wood=" + BuildingInfo.Cost_Wood +" Cost_Stone=" + BuildingInfo.Cost_Stone +" Cost_Iron=" + BuildingInfo.Cost_Iron +" Cost_Money=" + BuildingInfo.Cost_Money);
+        if (CodeUserStats.GetComponent<UserStats>().Wood >= BuildingInfo.Cost_Wood)             //If we have enough Wood
         {
-            Building BuildingInfo = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName);
-            //Debug.Log("Type=" + BuildingInfo.Name +" Cost_Wood=" + BuildingInfo.Cost_Wood +" Cost_Stone=" + BuildingInfo.Cost_Stone +" Cost_Iron=" + BuildingInfo.Cost_Iron +" Cost_Money=" + BuildingInfo.Cost_Money);
-            if (CodeUserStats.GetComponent<UserStats>().Wood >= BuildingInfo.Cost_Wood)         //If we have enough Wood
+            if (CodeUserStats.GetComponent<UserStats>().Stone >= BuildingInfo.Cost_Stone)       //If we have enough Stone
             {
-                if (CodeUserStats.GetComponent<UserStats>().Stone >= BuildingInfo.Cost_Stone)   //If we have enough Stone
+                if (CodeUserStats.GetComponent<UserStats>().Iron >= BuildingInfo.Cost_Iron)     //If we have enough Iron
                 {
-                    if (CodeUserStats.GetComponent<UserStats>().Iron >= BuildingInfo.Cost_Iron) //If we have enough Iron
+                    if (CodeUserStats.GetComponent<UserStats>().Money >= BuildingInfo.Cost_Money)//If we have enough Money
                     {
-                        if (CodeUserStats.GetComponent<UserStats>().Money >= BuildingInfo.Cost_Money)//If we have enough Money
-                        {
-                            CodeUserStats.GetComponent<UserStats>().ChangeWood(-BuildingInfo.Cost_Wood);    //Remove the cost from the wood the player has
-                            CodeUserStats.GetComponent<UserStats>().ChangeStone(-BuildingInfo.Cost_Stone);  //^
-                            CodeUserStats.GetComponent<UserStats>().ChangeIron(-BuildingInfo.Cost_Iron);    //^
-                            CodeUserStats.GetComponent<UserStats>().ChangeMoney(-BuildingInfo.Cost_Money);  //^
-                            return "Done";                                                      //Return with; the payed = Done command
-                        }
-                        else
-                            return "Money";                                                     //Return with; We dont have enough of this
+                        CodeUserStats.GetComponent<UserStats>().ChangeWood(-BuildingInfo.Cost_Wood);    //Remove the cost from the wood the player has
+                        CodeUserStats.GetComponent<UserStats>().ChangeStone(-BuildingInfo.Cost_Stone);  //^
+                        CodeUserStats.GetComponent<UserStats>().ChangeIron(-BuildingInfo.Cost_Iron);    //^
+                        CodeUserStats.GetComponent<UserStats>().ChangeMoney(-BuildingInfo.Cost_Money);  //^
+                        return "Done";                                                          //Return with; the payed = Done command
                     }
                     else
-                        return "Iron";                                                          //Return with; We dont have enough of this
+                        return "Money";                                                         //Return with; We dont have enough of this
                 }
                 else
-                    return "Stone";                                                             //Return with; We dont have enough of this
+                    return "Iron";                                                              //Return with; We dont have enough of this
             }
             else
-                return "Wood";                                                                  //Return with; We dont have enough of this
+                return "Stone";                                                                 //Return with; We dont have enough of this
         }
-        catch (NullReferenceException e)
-        {
-            Debug.LogWarning("UserInput::CanWePayFor -- This object has no know settings tag: " + TheBuilding.name);    //Log error, object not found
-            return "ERRORS";
-        }
+        else
+            return "Wood";                                                                      //Return with; We dont have enough of this
     }
 
 
