@@ -114,21 +114,35 @@ public class UserInput : MonoBehaviour
 
                 if (InHand.GetComponent<BuildingOption>().BuildingName == "Stone_Stair")
                 {
-                    //Do a rayvast N E S W of the object and check for more stairs
-                    Vector3 N = InHand.transform.position + new Vector3(1, 0, 0);
-                    Vector3 S = InHand.transform.position + new Vector3(-1, 0, 0);
-                    Vector3 E = InHand.transform.position + new Vector3(0, 0, 1);
-                    Vector3 W = InHand.transform.position + new Vector3(0, 0, -1);
+                    Vector3 N = new Vector3(
+                        0,InHand.GetComponent<Collider>().bounds.size.y + 0.6f, 0) +              //No X change, Y size + a bit to make sure we see the surface (Top of the wall) if there is any
+                        (InHand.transform.position - (InHand.transform.forward * 0.9f));                              //
 
 
-                    Debug.DrawLine(N, N + transform.up, Color.red);
-                    if (Physics.Raycast(N, transform.up, out hit, 1f))
+
+                    //clean this mess op and comment about it (hope i still know what is what)
+
+
+
+
+
+
+                    byte Length = 4;
+                    //Debug.DrawRay(N, -transform.up * Length, Color.green);
+                    if (Physics.Raycast(N, -transform.up, out hit, Length, 1 << LayerMask.NameToLayer("Building")))
                     {
-                        Debug.Log(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName);
-                        if (hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName == "Stone_Stair")
+                        int Distance = Mathf.RoundToInt(hit.distance);
+                        if(Distance < InHand.GetComponent<Collider>().bounds.size.y)
                         {
-                            InHand.transform.position += new Vector3(0, -1, 0);
+                            if (hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName == "Stone_Stair")
+                            {
+                                InHand.transform.position += new Vector3(0, -Distance, 0);
+                            }
+                        } else
+                        {
+                            Debug.Log("to low");
                         }
+                        
                     }
 
 
