@@ -6,79 +6,68 @@ using PublicCode;
 public class HoverOver : MonoBehaviour, 
 IPointerClickHandler,
 IPointerEnterHandler,
-IPointerExitHandler,
-ISelectHandler
+IPointerExitHandler
 {
-    
-
     public GameObject Prefab;                                                                   //The preab that needs to be placed when clicked on     Leave emthy to not place anything
     public string Direction = "L";                                                              //The direction of the text                             Can be; Left Righ Up Down
     public string HoverText;                                                                    //The text to show
 
     private GameObject ParentHoverOver;                                                         //The parrent
-    private GameObject OBJHoverOver;
+    private GameObject OBJHoverOver;                                                            //The child we are going to move and enable/disable (We can't to the parent or we will lose track of the parent)
     private GameObject CodeUserInput;                                                           //The GameObject with the code on it
-    private GameObject CodeInputManager;
-
+    private GameObject CodeInputManager;                                                        //The GameObject with the code on it
     private Text TextBox;                                                                       //The child textbox
-    private bool MouseIsOver;
+    private bool MouseIsOver;                                                                   //A bool that keeps track if the mouse is over this object
     private Vector2 HorzontalOffzet;                                                            //Offset direction
-
-    private void Start()
+    private void Start()                                                            //Run once on startup
     {
-        ParentHoverOver = GameObject.Find("HoverOver");
-        CodeInputManager = GameObject.Find("InputManager");
-        CodeUserInput = GameObject.Find("UserInput");
-
-        OBJHoverOver = ParentHoverOver.transform.GetChild(0).gameObject;
-
-
-        Image_RectTransform = OBJHoverOver.GetComponent<RectTransform>();                          //Set the RectTransform reference (Needed for size measurement        
-        TextBox = OBJHoverOver.GetComponentInChildren<Text>();                                     //Set the Textbox reference (This text will be changed)
-        if(HoverText == "")
+        ParentHoverOver = GameObject.Find("HoverOver");                                         //Get the Code HoverOver
+        CodeInputManager = GameObject.Find("InputManager");                                     //Get the Code InputManager
+        CodeUserInput = GameObject.Find("UserInput");                                           //Get the Code UserInput
+        OBJHoverOver = ParentHoverOver.transform.GetChild(0).gameObject;                        //Get the object we are going to move and enable/disable
+        Image_RectTransform = OBJHoverOver.GetComponent<RectTransform>();                       //Set the RectTransform reference (Needed for size measurement        
+        TextBox = OBJHoverOver.GetComponentInChildren<Text>();                                  //Set the Textbox reference (This text will be changed)
+        if(HoverText == "" && Prefab != null)                                                   //If no HoverText is given, and there is a Prefab
         {
-            HoverText = Prefab.name;
+            HoverText = Prefab.name;                                                            //Use the Prefab name 
         }
     }
     private void MoveToCursos()                                                     //Move the box to the mouse
     {
-        OBJHoverOver.transform.localPosition = new Vector2(                                              //Let the box follow the mouse around
+        OBJHoverOver.transform.localPosition = new Vector2(                                     //Let the box follow the mouse around
             Input.mousePosition.x - Screen.width / 2 + HorzontalOffzet.x,                       //X position of box
             Input.mousePosition.y - Screen.height / 2 - 10 + HorzontalOffzet.y                  //Y position of box
             );
     }
-    private RectTransform Image_RectTransform;                                                  //The parrent image
-    public void OnPointerEnter(PointerEventData evd)
+    private RectTransform Image_RectTransform;                                      //The parrent image
+    public void OnPointerEnter(PointerEventData evd)                                //Run each time the mouse enters this object
     {
-        MouseIsOver = true;
-
-        TextBox.text = (
+        MouseIsOver = true;                                                                     //Flag that the mouse is over this object
+        TextBox.text = (                                                                        //Set the text of the textbox
                 (
-                    HoverText.Substring(0, 1).ToUpper() +
-                    HoverText.Substring(1, HoverText.Length - 1).ToLower()
-                ).Replace("_", " ")
+                    HoverText.Substring(0, 1).ToUpper() +                                       //Make sure the first letter is UPPER CASE
+                    HoverText.Substring(1, HoverText.Length - 1).ToLower()                      //Make sure the others are lower case
+                ).Replace("_", " ")                                                             //Replace all underlines by spaces
             );
-        if (Prefab != null)
+        if (Prefab != null)                                                                     //If a Prefab is set
         {
-            Building BuildingInfo = CodeInputManager.GetComponent<InputManager>().GetInfo(Prefab.name);
-            if (BuildingInfo.Name != "N/A")
+            Building BuildingInfo = CodeInputManager.GetComponent<InputManager>().GetInfo(Prefab.name); //Get the building info
+            if (BuildingInfo.Name != "N/A")                                                     //If we have not encountered an error
             {
-                if (BuildingInfo.Cost_Wood > 0)
+                if (BuildingInfo.Cost_Wood > 0)                                                 //If this building needs wood
                 {
-                    TextBox.text += "\n" + BuildingInfo.Cost_Wood + " Wood";
+                    TextBox.text += "\n" + BuildingInfo.Cost_Wood + " Wood";                    //Show howmuch wood it needs to be build
                 }
-                if (BuildingInfo.Cost_Stone > 0)
+                if (BuildingInfo.Cost_Stone > 0)                                                //If this building needs Stone
                 {
-                    TextBox.text += "\n" + BuildingInfo.Cost_Stone + " Stone";
+                    TextBox.text += "\n" + BuildingInfo.Cost_Stone + " Stone";                  //Show howmuch Stone it needs to be build
                 }
-                if (BuildingInfo.Cost_Money > 0)
+                if (BuildingInfo.Cost_Money > 0)                                                //If this building needs Stone
                 {
-                    TextBox.text += "\n" + BuildingInfo.Cost_Money + " Money";
+                    TextBox.text += "\n" + BuildingInfo.Cost_Money + " Money";                  //Show howmuch Money it needs to be build
                 }
             }
         }
-        
-
         if (Direction == "R")                                                                   //If text need to be on the Right side of the cursor
         {
             Image_RectTransform.pivot = new Vector2(0, 0.5f);                                   //Set the pivit point (coords 0,0)
@@ -102,27 +91,23 @@ ISelectHandler
         OBJHoverOver.SetActive(true);
         MoveToCursos();                                                                         //Move the box to the mouse
     }
-    public void OnPointerExit(PointerEventData evd)
+    public void OnPointerExit(PointerEventData evd)                                 //Run each time the mouse leaves this object
     {
-        MouseIsOver = false;
-        OBJHoverOver.SetActive(false);                         //Disable the box (We dont need it anymore)
+        MouseIsOver = false;                                                                    //Flag that the mouse is NOT over this object
+        OBJHoverOver.SetActive(false);                                                          //Disable the box (We dont need it anymore)
     }
-    public void OnPointerClick(PointerEventData evd)
+    public void OnPointerClick(PointerEventData evd)                                //Run each time the mouse clicks on this object
     {
-        if (Prefab != null)
+        if (Prefab != null)                                                                     //If a Prefab is set
         {
-            CodeUserInput.GetComponent<UserInput>()._PlaceInHand(Prefab);
+            CodeUserInput.GetComponent<UserInput>()._PlaceInHand(Prefab);                       //Put the Prefab in our hands
         }
     }
-    public void OnSelect(BaseEventData evd)
+    private void Update()                                                           //Run each frame
     {
-        Debug.Log("OnSelect");
-    }
-    private void Update()
-    {
-        if (MouseIsOver)
+        if (MouseIsOver)                                                                        //If the mouse is over this object
         {
-            MoveToCursos();                                                                         //Move the box to the mouse
+            MoveToCursos();                                                                     //Move the HoverOver box to the mouse
         }
     }
 }
