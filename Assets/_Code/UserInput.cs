@@ -106,15 +106,43 @@ public class UserInput : MonoBehaviour
                     Mathf.Round(hit.point.x),
                     hit.point.y,
                     Mathf.Round(hit.point.z));
+
+
+
+
+                //Add a check somewhere to check if the object has an "BuildingOption" code attached to it
+
+                if (InHand.GetComponent<BuildingOption>().BuildingName == "Stone_Stair")
+                {
+                    //Do a rayvast N E S W of the object and check for more stairs
+                    Vector3 N = InHand.transform.position + new Vector3(1, 0, 0);
+                    Vector3 S = InHand.transform.position + new Vector3(-1, 0, 0);
+                    Vector3 E = InHand.transform.position + new Vector3(0, 0, 1);
+                    Vector3 W = InHand.transform.position + new Vector3(0, 0, -1);
+
+
+                    Debug.DrawLine(N, N + transform.up, Color.red);
+                    if (Physics.Raycast(N, transform.up, out hit, 1f))
+                    {
+                        Debug.Log(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName);
+                        if (hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName == "Stone_Stair")
+                        {
+                            InHand.transform.position += new Vector3(0, -1, 0);
+                        }
+                    }
+
+
+                    //Debug.Log("B" + InHand.transform.position);
+                    //InHand.transform.position += new Vector3(0, 3, 0);
+                    //Debug.Log("A" + InHand.transform.position);
+                }
+
+                
             }
 
 
-
-
             
-
-
-
+            
 
 
 
