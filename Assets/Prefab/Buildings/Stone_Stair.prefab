@@ -2253,3 +2253,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BuildingName: Stone_Stair
   SelectedOption: 0
+  Used: 0
+  FlagAsUsedAfterSeconds: 10

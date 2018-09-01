@@ -1285,6 +1285,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BuildingName: Stone_Gate
   SelectedOption: 0
+  Used: 0
+  FlagAsUsedAfterSeconds: 10
 --- !u!114 &114029853561721544
 MonoBehaviour:
   m_ObjectHideFlags: 1

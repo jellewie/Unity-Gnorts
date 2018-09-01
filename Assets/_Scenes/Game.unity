@@ -936,7 +936,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &169315537
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1541,7 +1541,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: LWooden wall spiked
+            m_StringArgument: LWooden_Wall_Spiked
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -2016,7 +2016,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: LWooden wall
+            m_StringArgument: LWooden_Wall
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -3657,6 +3657,7 @@ GameObject:
   - component: {fileID: 450758162}
   - component: {fileID: 450758161}
   - component: {fileID: 450758160}
+  - component: {fileID: 450758159}
   m_Layer: 5
   m_Name: Message
   m_TagString: Untagged
@@ -3683,6 +3684,19 @@ RectTransform:
   m_AnchoredPosition: {x: 8, y: 284}
   m_SizeDelta: {x: 147, y: 43}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &450758159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 450758157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 917c85c345a16b648b144ce5bc5de74c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HideAfterSeconds: 2
+  HideOnBoot: 1
 --- !u!114 &450758160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3841,7 +3855,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &457799948
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3880,7 +3894,7 @@ GameObject:
   - component: {fileID: 458341100}
   - component: {fileID: 458341099}
   m_Layer: 5
-  m_Name: Stone gate
+  m_Name: Stone_Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3930,7 +3944,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: LStone gate
+            m_StringArgument: LStone_Gate
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -4694,7 +4708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 679429212}
-  m_Horizontal: 0
+  m_Horizontal: 1
   m_Vertical: 1
   m_MovementType: 2
   m_Elasticity: 0.1
@@ -4935,7 +4949,7 @@ GameObject:
   - component: {fileID: 583684117}
   - component: {fileID: 583684116}
   m_Layer: 5
-  m_Name: Wood stairs
+  m_Name: Wooden_Stair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4985,7 +4999,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: LWooden stairs
+            m_StringArgument: LWooden_Stair
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -5652,7 +5666,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &658366121
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6921,7 +6935,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: LLumberjack Hut
+            m_StringArgument: LLumberjack_Hut
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -8707,7 +8721,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1025998008
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9649,7 +9663,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 031049a2894554e4bbe12190bddace02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputManager: {fileID: 981870571}
+  CodeInputManager: {fileID: 981870571}
   CodeUserStats: {fileID: 1686145420}
   FolderMenu: {fileID: 2018067084}
   FolderInfo: {fileID: 1195261788}
@@ -10634,7 +10648,7 @@ GameObject:
   - component: {fileID: 1214778958}
   - component: {fileID: 1214778957}
   m_Layer: 5
-  m_Name: Stone wall spiked
+  m_Name: Stone_Wall_Spiked
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10684,7 +10698,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: LStone wall spiked
+            m_StringArgument: LStone_Wall_Spiked
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -11027,6 +11041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HorzontalOffzet: {x: 0, y: 0}
+  CodeInputManager: {fileID: 981870571}
 --- !u!114 &1242901064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11789,7 +11804,7 @@ GameObject:
   - component: {fileID: 1311646416}
   - component: {fileID: 1311646415}
   m_Layer: 5
-  m_Name: Stone wall
+  m_Name: Stone_Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11839,7 +11854,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: LWooded wall
+            m_StringArgument: LStone_Wall
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -12818,7 +12833,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1426283697
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15204,7 +15219,7 @@ GameObject:
   - component: {fileID: 1707395974}
   - component: {fileID: 1707395973}
   m_Layer: 5
-  m_Name: Stone stairs
+  m_Name: Stone_Stair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15254,7 +15269,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: LStone stairs
+            m_StringArgument: LStone_Stair
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -15744,7 +15759,7 @@ GameObject:
   - component: {fileID: 1796159569}
   - component: {fileID: 1796159568}
   m_Layer: 5
-  m_Name: Stone tower
+  m_Name: Stone_Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15794,7 +15809,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: LStone tower
+            m_StringArgument: LStone_Tower
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -16940,7 +16955,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1960868028
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17096,7 +17111,7 @@ GameObject:
   - component: {fileID: 1965801797}
   - component: {fileID: 1965801796}
   m_Layer: 5
-  m_Name: Wood gate
+  m_Name: Wooden_Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17146,7 +17161,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: LWooden gate
+            m_StringArgument: LWooden_Gate
             m_BoolArgument: 0
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
@@ -18077,7 +18092,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2108499944
 RectTransform:
   m_ObjectHideFlags: 0

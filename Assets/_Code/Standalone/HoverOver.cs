@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;                                                               //We need this to interact with the UI
+using PublicCode;
 
 /*
     Written by JelleWho
@@ -12,6 +13,7 @@ public class HoverOver : MonoBehaviour
     private GameObject img;                                                                     //The parrent image
     private RectTransform Image_RectTransform;                                                  //The parrent image
     public Vector2 HorzontalOffzet;                                                             //Offset direction
+    public InputManager CodeInputManager;
 
     void Start()                                                                    //Run on startup
     {
@@ -40,29 +42,51 @@ public class HoverOver : MonoBehaviour
         else
         {
             img.SetActive(false);                                                               //Temp diable it
+            TextBox.text = (
+                    (
+                    text.Substring(1, 1).ToUpper() +
+                    text.Substring(2, text.Length - 2).ToLower()
+                    ).Replace("_", " ")
+                );                                  //Set the text
+
+
+            Building BuildingInfo = CodeInputManager.GetInfo(text.Substring(1, text.Length - 1));
+            if(BuildingInfo.Name != "N/A")
+            {
+                if(BuildingInfo.Cost_Wood > 0)
+                {
+                    TextBox.text += "\n" + BuildingInfo.Cost_Wood + " Wood";
+                }
+                if (BuildingInfo.Cost_Stone > 0)
+                {
+                    TextBox.text += "\n" + BuildingInfo.Cost_Stone + " Stone";
+                }
+                if (BuildingInfo.Cost_Money > 0)
+                {
+                    TextBox.text += "\n" + BuildingInfo.Cost_Money + " Money";
+                }
+            }
+
+
             if (text.Substring(0, 1) == "R")                                                    //If text need to be on the Right side of the cursor
             {
                 Image_RectTransform.pivot = new Vector2(0, 0.5f);                               //Set the pivit point (coords 0,0)
                 HorzontalOffzet = new Vector2(10, 0);                                           //Set the offset (So we are not below the cursor)
-                TextBox.text = text.Substring(1, text.Length - 1);                              //Set the text
             }
             else if (text.Substring(0, 1) == "L")                                               //If text need to be on the Left side of the cursor
             {
                 Image_RectTransform.pivot = new Vector2(1, 0.5f);                               //Set the pivit point (coords 0,0)
                 HorzontalOffzet = new Vector2(-10, 0);                                          //Set the offset (So we are not below the cursor)
-                TextBox.text = text.Substring(1, text.Length - 1);                              //Set the text
             }
             else if (text.Substring(0, 1) == "U")                                               //If text need to be on the top (Up) side of the cursor
             {
                 Image_RectTransform.pivot = new Vector2(0.5f, 0);                               //Set the pivit point (coords 0,0)
                 HorzontalOffzet = new Vector2(0, 20);                                           //Set the offset (So we are not below the cursor)
-                TextBox.text = text.Substring(1, text.Length - 1);                              //Set the text
             }
             else if (text.Substring(0, 1) == "D")                                               //If text need to be on the bottom (Down) side of the cursor
             {
                 Image_RectTransform.pivot = new Vector2(0.5f, 1);                               //Set the pivit point (coords 0,0)
                 HorzontalOffzet = new Vector2(0, -20);                                          //Set the offset (So we are not below the cursor)
-                TextBox.text = text.Substring(1, text.Length - 1);                              //Set the text
             }
             else
             {

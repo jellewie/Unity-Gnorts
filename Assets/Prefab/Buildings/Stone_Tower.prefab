@@ -3751,6 +3751,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BuildingName: Stone_Tower
   SelectedOption: 0
+  Used: 0
+  FlagAsUsedAfterSeconds: 10
 --- !u!114 &114469824627904402
 MonoBehaviour:
   m_ObjectHideFlags: 1

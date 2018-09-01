@@ -776,6 +776,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BuildingName: Stone_Wall_Spiked
   SelectedOption: 0
+  Used: 0
+  FlagAsUsedAfterSeconds: 10
 --- !u!114 &114852020537642488
 MonoBehaviour:
   m_ObjectHideFlags: 1

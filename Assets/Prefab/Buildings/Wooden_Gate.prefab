@@ -7561,6 +7561,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BuildingName: Wooden_Gate
   SelectedOption: 0
+  Used: 0
+  FlagAsUsedAfterSeconds: 10
 --- !u!114 &114698099826333636
 MonoBehaviour:
   m_ObjectHideFlags: 1
