@@ -62,12 +62,12 @@ public class UserInput : MonoBehaviour
     }
     private void AlwaysControls()                                                       //Triggered in LateUpdate (unless the game is out of focus)
     {
-        if (CodeInputManager.GetButtonDownOnce("Menu"))                                             //If the Open/Close menu button is pressed
+        if (CodeInputManager.GetButtonDownOnce("Menu"))                                         //If the Open/Close menu button is pressed
         {
             StopCameraControls = !FolderMenu.activeSelf;                                        //Flag that the camera controls should be active or not
             FolderMenu.SetActive(StopCameraControls);                                           //Set the menu's visibility
         }
-        if (CodeInputManager.GetButtonDownOnce("Pause"))                                            //If the Open/Close menu button is pressed
+        if (CodeInputManager.GetButtonDownOnce("Pause"))                                        //If the Open/Close menu button is pressed
             GamePaused = true;
     }
     public void _PlaceInHand(GameObject Prefab)                                         //Triggered by menu, with the object to build as prefab, this will hook in to the mouse cursor
@@ -85,7 +85,7 @@ public class UserInput : MonoBehaviour
     public void _DeconstructTool(bool Equiped)                                          //Triggered by menu, Equipe the Deconstruct tool
     {
         Destroy(InHand);                                                                        //Destoy the building
-        DeconstructToolEquiped = Equiped;                                                            //Set the given state
+        DeconstructToolEquiped = Equiped;                                                       //Set the given state
     }
     public void _HideSubMenu()                                                          //This will hide the full sub menu
     {
@@ -107,20 +107,20 @@ public class UserInput : MonoBehaviour
                     hit.point.y,
                     Mathf.Round(hit.point.z));
             }
-            if (CodeInputManager.GetButtonDownOnce("Cancel build"))                                 //If we want to cancel the build
+            if (CodeInputManager.GetButtonDownOnce("Cancel build"))                             //If we want to cancel the build
             {
                 Destroy(InHand);                                                                //Destoy the building
             }
-            else if (CodeInputManager.GetButtonDown("Build"))                                       //If we need to build the object here
+            else if (CodeInputManager.GetButtonDown("Build"))                                   //If we need to build the object here
             {
                 InHand.layer = 0;                                                               //Set to default Layer
                 RaycastHit[] Hit = Physics.BoxCastAll(                                          //Cast a ray to see if there is already a building where we are hovering over
-                    InHand.GetComponent<Collider>().bounds.center,                                  //The center of the block
+                    InHand.GetComponent<Collider>().bounds.center,                              //The center of the block
                     (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f),  //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
-                    -transform.up,                                                                  //Do the ray downwards (in to the ground basicly to check only it's own position)
-                    InHand.GetComponent<Collider>().transform.rotation,                             //The orientation in Quaternion (Always in steps of 90 degrees)
-                    0.5f,                                                                           //Dont go much depth, the building should be inside this block
-                    1 << LayerMask.NameToLayer("Building"));                                        //Only try to find buildings
+                    -transform.up,                                                              //Do the ray downwards (in to the ground basicly to check only it's own position)
+                    InHand.GetComponent<Collider>().transform.rotation,                         //The orientation in Quaternion (Always in steps of 90 degrees)
+                    0.5f,                                                                       //Dont go much depth, the building should be inside this block
+                    1 << LayerMask.NameToLayer("Building"));                                    //Only try to find buildings
                 if (Hit.Length > 0)                                                             //If there a building already there
                 {
                     //Debug.Log("Can't build on top " + Hit[0].transform.name);
@@ -132,71 +132,69 @@ public class UserInput : MonoBehaviour
                 {
                     if (!EventSystem.current.IsPointerOverGameObject())                         //If mouse is not over an UI element
                     {
-                        string Pay = CanWePayFor(InHand); //Create a new string, will return what we are missing if we can't build
-                        if (Pay == "Done")                                                          //If we do have enough to build this building
+                        string Pay = CanWePayFor(InHand);                                       //Create a new string, will return what we are missing if we can't build
+                        if (Pay == "Done")                                                      //If we do have enough to build this building
                         {
-                            InHand.layer = LayerMask.NameToLayer("Building");                       //Set this to be in the building layer (so we can't build on this anymore)
-                            PlaceInHand(InHand);                                                    //Put a new building on our hands, and leave this one be (this one is now placed down)
+                            InHand.layer = LayerMask.NameToLayer("Building");                   //Set this to be in the building layer (so we can't build on this anymore)
+                            PlaceInHand(InHand);                                                //Put a new building on our hands, and leave this one be (this one is now placed down)
                         }
                         else
                         {
-                            Debug.Log("Not enough " + Pay + " to build that");
-                            TextMessage.SetActive(true);
-                            TextMessage.GetComponentInChildren<Text>().text = "Not enough " + Pay + " to build that";
+                            ShowMessage("Not enough " + Pay + " to build that");                //Give the user the warning message
                         }
                     }
                 }
             }
-            else if (CodeInputManager.GetButtonDownOnce("Rotate building"))                         //If we want to rotate the building
+            else if (CodeInputManager.GetButtonDownOnce("Rotate building"))                     //If we want to rotate the building
             {
-                if (CodeInputManager.GetButtonDown("Alternative"))                                  //If we want to rotate the other way
+                if (CodeInputManager.GetButtonDown("Alternative"))                              //If we want to rotate the other way
                     InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y - 90, 0);    //Rotate it 90 degrees counter clock wise
                 else
                     InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y + 90, 0);    //Rotate it 90 degrees clock wise
                 PreviousRotation = InHand.transform.rotation;                                   //Save the rotation
             }
         }
-        else if (DeconstructToolEquiped)                                                             //If the Deconstruct tool is aquiped
+        else if (DeconstructToolEquiped)                                                        //If the Deconstruct tool is aquiped
         {
-            if (CodeInputManager.GetButtonDown("Build"))                                            //If we want to Deconstruct this building
+            if (CodeInputManager.GetButtonDown("Build"))                                        //If we want to Deconstruct this building
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                    //Set a Ray from the cursor + lookation
                 RaycastHit hit;                                                                 //Create a output variable
                 if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
                 {
-                    if (CodeInputManager.GetButtonDownOnce("Build"))                                //If the button is pressed for the first time
+                    if (CodeInputManager.GetButtonDownOnce("Build"))                            //If the button is pressed for the first time
                     {
                         if (!EventSystem.current.IsPointerOverGameObject())                     //If mouse is not over an UI element
                             DeconstructBuilding(hit.transform.gameObject);                      //Deconstruct the selected building
                     }
-                    else if (CodeInputManager.GetButtonDown("Alternative"))                         //If the continue button is pressed
+                    else if (CodeInputManager.GetButtonDown("Alternative"))                     //If the continue button is pressed
                     {
                         if (!EventSystem.current.IsPointerOverGameObject())                     //If mouse is not over an UI element
                             DeconstructBuilding(hit.transform.gameObject);                      //Deconstruct the selected building
                     }
                 }
             }
-            else if (CodeInputManager.GetButtonDownOnce("Cancel build"))                            //If we want to cancel Removing buildings
+            else if (CodeInputManager.GetButtonDownOnce("Cancel build"))                        //If we want to cancel Removing buildings
                 DeconstructToolEquiped = false;                                                 //Stop the DeconstructTool being equiped
         }
-        if (CodeInputManager.GetButtonDownOnce("Cancel build"))                                     //If we right click to cancel
+        if (CodeInputManager.GetButtonDownOnce("Cancel build"))                                 //If we right click to cancel
             _HideSubMenu();                                                                     //Hide the sub menu
-        if (CodeInputManager.GetButtonDownOnce("Toggle UI"))                                        //If the Toggle UI button is pressed
+        if (CodeInputManager.GetButtonDownOnce("Toggle UI"))                                    //If the Toggle UI button is pressed
             FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
         float Speed = Camera.main.transform.position.y * JelleWho.HeighSpeedIncrease;           //The height has X of speed increase per block
         Vector2 input = new Vector2(0f, 0f);                                                    //Create a new (emnthy) movement change vector
-        if (CodeInputManager.GetButtonDown("Left"))                                                 //Keyboard scroll left
+        if (CodeInputManager.GetButtonDown("Left"))                                             //Keyboard scroll left
             input.x -= 1f * JelleWho.MoveSpeedKeyboard;
-        if (CodeInputManager.GetButtonDown("Right"))                                                //Keyboard scroll right
+        if (CodeInputManager.GetButtonDown("Right"))                                            //Keyboard scroll right
             input.x += 1f * JelleWho.MoveSpeedKeyboard;
-        if (CodeInputManager.GetButtonDown("Up"))                                                   //Keyboard scroll up
+        if (CodeInputManager.GetButtonDown("Up"))                                               //Keyboard scroll up
             input.y += 1f * JelleWho.MoveSpeedKeyboard;
-        if (CodeInputManager.GetButtonDown("Down"))                                                 //Keyboard scroll down
+        if (CodeInputManager.GetButtonDown("Down"))                                             //Keyboard scroll down
             input.y -= 1f * JelleWho.MoveSpeedKeyboard;
-        if (CodeInputManager.GetButtonDown("Drag"))                                                 //If the Drag button is presse
+        if (CodeInputManager.GetButtonDown("Drag"))                                             //If the Drag button is presse
         {
-            input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse * Speed;              //Calculate howmuch we need to move in the axes 
-            input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse * Speed;              //^
+            input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse * (Speed / 2);        //Calculate howmuch we need to move in the axes 
+            input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse * (Speed / 2);        //^
         } else if (input == new Vector2(0f, 0f))                                                //If camera doesn't need to move yet
         {
             if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x01) != 0x01)//If EdgeScroll setting is on
@@ -230,7 +228,7 @@ public class UserInput : MonoBehaviour
             Camera.main.transform.position = newCameraPos;                                      //Set camera position
         }
         float ScrollWheelChange = Input.GetAxis("Mouse ScrollWheel");                           //Get the scrollwheel location
-        if (ScrollWheelChange != 0 && !EventSystem.current.IsPointerOverGameObject())                                               //If the scrollwheel has changed (and zoom is enabled)
+        if (ScrollWheelChange != 0 && !EventSystem.current.IsPointerOverGameObject())           //If the scrollwheel has changed (and zoom is enabled)
         {
             Vector3 newCameraPos = Camera.main.transform.position;
             Vector3 cameraForward = Camera.main.transform.forward;
@@ -267,7 +265,11 @@ public class UserInput : MonoBehaviour
     }
 
 
-
+    private void ShowMessage(string Message)
+    {
+        TextMessage.GetComponentInChildren<Text>().text = Message;                              //Give the user the message
+        TextMessage.SetActive(true);                                                            //Show the message (This objects auto hides)
+    }
     
     public void DeconstructBuilding(GameObject TheBuilding)                             //This code will give stuff back and deconstruct the building
     {
@@ -293,33 +295,41 @@ public class UserInput : MonoBehaviour
     //https://answers.unity.com/questions/580381/how-to-get-the-value-of-a-boolean-in-game-object-t.html
     private string CanWePayFor(GameObject TheBuilding)
     {
-        Building BuildingInfo = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName);
-        //Debug.Log("Type=" + BuildingInfo.Name +" Cost_Wood=" + BuildingInfo.Cost_Wood +" Cost_Stone=" + BuildingInfo.Cost_Stone +" Cost_Iron=" + BuildingInfo.Cost_Iron +" Cost_Money=" + BuildingInfo.Cost_Money);
-        if (CodeUserStats.GetComponent<UserStats>().Wood >= BuildingInfo.Cost_Wood)
+        try                                                                                     //This is to catch the error that the object we are trying to pya for doesnt have a tag specifiying the payment
         {
-            if (CodeUserStats.GetComponent<UserStats>().Stone >= BuildingInfo.Cost_Stone)
+            Building BuildingInfo = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName);
+            //Debug.Log("Type=" + BuildingInfo.Name +" Cost_Wood=" + BuildingInfo.Cost_Wood +" Cost_Stone=" + BuildingInfo.Cost_Stone +" Cost_Iron=" + BuildingInfo.Cost_Iron +" Cost_Money=" + BuildingInfo.Cost_Money);
+            if (CodeUserStats.GetComponent<UserStats>().Wood >= BuildingInfo.Cost_Wood)         //If we have enough Wood
             {
-                if (CodeUserStats.GetComponent<UserStats>().Iron >= BuildingInfo.Cost_Iron)
+                if (CodeUserStats.GetComponent<UserStats>().Stone >= BuildingInfo.Cost_Stone)   //If we have enough Stone
                 {
-                    if (CodeUserStats.GetComponent<UserStats>().Money >= BuildingInfo.Cost_Money)
+                    if (CodeUserStats.GetComponent<UserStats>().Iron >= BuildingInfo.Cost_Iron) //If we have enough Iron
                     {
-                        CodeUserStats.GetComponent<UserStats>().ChangeWood (-BuildingInfo.Cost_Wood);
-                        CodeUserStats.GetComponent<UserStats>().ChangeStone(-BuildingInfo.Cost_Stone);
-                        CodeUserStats.GetComponent<UserStats>().ChangeIron (-BuildingInfo.Cost_Iron);
-                        CodeUserStats.GetComponent<UserStats>().ChangeMoney(-BuildingInfo.Cost_Money);
-                        return "Done";
+                        if (CodeUserStats.GetComponent<UserStats>().Money >= BuildingInfo.Cost_Money)//If we have enough Money
+                        {
+                            CodeUserStats.GetComponent<UserStats>().ChangeWood(-BuildingInfo.Cost_Wood);    //Remove the cost from the wood the player has
+                            CodeUserStats.GetComponent<UserStats>().ChangeStone(-BuildingInfo.Cost_Stone);  //^
+                            CodeUserStats.GetComponent<UserStats>().ChangeIron(-BuildingInfo.Cost_Iron);    //^
+                            CodeUserStats.GetComponent<UserStats>().ChangeMoney(-BuildingInfo.Cost_Money);  //^
+                            return "Done";                                                      //Return with; the payed = Done command
+                        }
+                        else
+                            return "Money";                                                     //Return with; We dont have enough of this
                     }
                     else
-                        return "Money";
+                        return "Iron";                                                          //Return with; We dont have enough of this
                 }
                 else
-                    return "Iron";
+                    return "Stone";                                                             //Return with; We dont have enough of this
             }
             else
-                return "Stone";
+                return "Wood";                                                                  //Return with; We dont have enough of this
         }
-        else
-            return "Wood";
+        catch (NullReferenceException e)
+        {
+            Debug.LogWarning("UserInput::CanWePayFor -- This object has no know settings tag: " + TheBuilding.name);    //Log error, object not found
+            return "ERRORS";
+        }
     }
 
 
