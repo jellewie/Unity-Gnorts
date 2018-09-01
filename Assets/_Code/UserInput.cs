@@ -26,7 +26,6 @@ public class UserInput : MonoBehaviour
     bool StopCameraControls = false;
     private GameObject InHand;                                                          //When placing down this is stuffed with the object
     bool DeconstructToolEquiped;
-    private bool EnableZoom = true;                                                     //If Zoom is enabled
 
     private void Start()                                                                //Triggered on start
     {
@@ -94,10 +93,6 @@ public class UserInput : MonoBehaviour
         {
             child.gameObject.SetActive(false);                                                  //Hide the SubMenu
         }
-    }
-    public void _Zoom(bool Enabled)                                                     //Enable or disable zoom (used by minimap)
-    {
-        EnableZoom = Enabled;                                                                   //Set the right state
     }
     private void ExecuteInputs()                                                                //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
     {
@@ -235,7 +230,7 @@ public class UserInput : MonoBehaviour
             Camera.main.transform.position = newCameraPos;                                      //Set camera position
         }
         float ScrollWheelChange = Input.GetAxis("Mouse ScrollWheel");                           //Get the scrollwheel location
-        if (ScrollWheelChange != 0 && EnableZoom)                                               //If the scrollwheel has changed (and zoom is enabled)
+        if (ScrollWheelChange != 0 && !EventSystem.current.IsPointerOverGameObject())                                               //If the scrollwheel has changed (and zoom is enabled)
         {
             Vector3 newCameraPos = Camera.main.transform.position;
             Vector3 cameraForward = Camera.main.transform.forward;
