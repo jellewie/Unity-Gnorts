@@ -19,6 +19,7 @@ public class UserInput : MonoBehaviour
     public Transform FolderBuildings;                                                   //The folder where all the buildings should be put in
     public GameObject TextMessage;
 
+
     Quaternion PreviousRotation;
 
     bool IsOutOfFocus = false;
@@ -111,15 +112,19 @@ public class UserInput : MonoBehaviour
                     InHand.GetComponent<BuildingOption>().BuildingName == "Wooden_Stair")       //or the object is a Wooden_Stair
                 {
                     Vector3 N = new Vector3(                                                    //A point 0.5 blocks away from the heigest part of the stair
-                        InHand.transform.position.x - (InHand.transform.forward.x),             //InHand position + forward
+                        InHand.transform.position.x + (InHand.transform.forward.x),             //InHand position + forward
                         InHand.transform.position.y + InHand.GetComponent<Collider>().bounds.size.y + 0.6f, //Height of the stair + a bit
-                        InHand.transform.position.z - (InHand.transform.forward.z)              //InHand position + forward
+                        InHand.transform.position.z + (InHand.transform.forward.z)              //InHand position + forward
                         );
                     //Debug.DrawRay(N, -transform.up * InHand.GetComponent<Collider>().bounds.size.y, Color.red);   //Just a debug line 
                     if (Physics.Raycast(N, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from (N= 1 back) towards the ground, and mesaure the length to a building
                     {
                         InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance), 0);    //Move the stair down, so the top surface would match
                     }
+                }
+                else
+                {
+
                 }
             }
 
@@ -161,6 +166,7 @@ public class UserInput : MonoBehaviour
                         if (Pay == "Done")                                                      //If we do have enough to build this building
                         {
                             InHand.layer = LayerMask.NameToLayer("Building");                   //Set this to be in the building layer (so we can't build on this anymore)
+                            InHand.GetComponent<BuildingOption>().StartTimer();                 //Start the 'Used' after timer if this object
                             PlaceInHand(InHand);                                                //Put a new building on our hands, and leave this one be (this one is now placed down)
                         }
                         else

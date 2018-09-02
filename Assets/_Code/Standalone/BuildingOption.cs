@@ -8,14 +8,14 @@ public class BuildingOption : MonoBehaviour {
     public byte FlagAsUsedAfterSeconds;                                                         //Flag the object as used after this amount of seconds (0 to ignore) This will effect the deconstruct return
     public bool Active;                                                                         //Flag false when building, and when sleeping
 
-    private void Start()                                                                //Triggered on start
+    public void StartTimer()                                                            //This code will start the 'Used' after x seconds timer
     {
-        if (FlagAsUsedAfterSeconds > 0)                                                         //If used has been flagged
+        if (FlagAsUsedAfterSeconds > 0)                                                         //If used has been flagged. This is called upon placement
         {
             StartCoroutine(ExecuteAfterTime(FlagAsUsedAfterSeconds));                           //Start a Coroutine to trigger
         }
     }
-    IEnumerator ExecuteAfterTime(float time)                                            //This will be (repearetly) called if the object needs to be flagged as used after x seconds
+    IEnumerator ExecuteAfterTime(float time)                                            //This will be called if the object needs to be flagged as used after x seconds
     {
         yield return new WaitForSeconds(time);                                                  //Only go though if we waited X seconds
         Used = true;                                                                            //Set the building to be used

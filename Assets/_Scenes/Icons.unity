@@ -180,7 +180,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Camera test
+  m_Text: Take 1 WIP
 --- !u!222 &69746283
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -257,8 +257,8 @@ MonoBehaviour:
   - {fileID: 1694769588477578, guid: 902764a20dfa34541ada2cfc1874467f, type: 2}
   - {fileID: 1772977213243242, guid: 9cc77d332f2fecd40b4fbc3043d56906, type: 2}
   - {fileID: 1449597463970802, guid: d59882d978470644a8d8d0bff6166a83, type: 2}
-  - {fileID: 1518189309683664, guid: 400e3ec5102d3e74392f65cc92dfddd0, type: 2}
   - {fileID: 0}
+  - {fileID: 1518189309683664, guid: 400e3ec5102d3e74392f65cc92dfddd0, type: 2}
   - {fileID: 1073011646557830, guid: 86035fefacec54b48af1d1e43b855c6d, type: 2}
   - {fileID: 1745047805458212, guid: d22ffed4f20bb0141a910122ef16b853, type: 2}
   - {fileID: 1076742404099274, guid: fb26230672eb9ae43bfeae8bc21ce75b, type: 2}
