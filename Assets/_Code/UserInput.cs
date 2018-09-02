@@ -18,7 +18,7 @@ public class UserInput : MonoBehaviour
     public GameObject FolderSubMenu;                                                    //The folder to close when done building
     public Transform FolderBuildings;                                                   //The folder where all the buildings should be put in
     public GameObject TextMessage;
-
+    private SByte WallHeight = 0;                                //Howmuch blocks lower the wall is set by the user
 
     Quaternion PreviousRotation;
 
@@ -111,27 +111,77 @@ public class UserInput : MonoBehaviour
                 if (InHand.GetComponent<BuildingOption>().BuildingName == "Stone_Stair" ||      //If the object is a Stone_Stair
                     InHand.GetComponent<BuildingOption>().BuildingName == "Wooden_Stair")       //or the object is a Wooden_Stair
                 {
-                    Vector3 N = new Vector3(                                                    //A point 0.5 blocks away from the heigest part of the stair
+                    Vector3 OneForward = new Vector3(                                           //A point 0.5 blocks away from the heigest part of the stair
                         InHand.transform.position.x + (InHand.transform.forward.x),             //InHand position + forward
                         InHand.transform.position.y + InHand.GetComponent<Collider>().bounds.size.y + 0.6f, //Height of the stair + a bit
                         InHand.transform.position.z + (InHand.transform.forward.z)              //InHand position + forward
                         );
-                    //Debug.DrawRay(N, -transform.up * InHand.GetComponent<Collider>().bounds.size.y, Color.red);   //Just a debug line 
-                    if (Physics.Raycast(N, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from (N= 1 back) towards the ground, and mesaure the length to a building
+                    Debug.DrawRay(OneForward, -transform.up * InHand.GetComponent<Collider>().bounds.size.y, Color.red);   //Just a debug line 
+                    if (Physics.Raycast(OneForward, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from OneForward towards the ground, and mesaure the length to a building
                     {
-                        InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance), 0);    //Move the stair down, so the top surface would match
+                        if ((hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName == "Stone_Stair" ||  //If the object hit is a Stone_Stair
+                            hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName == "Wooden_Stair") && //or the object hit is a Wooden_Stair
+                            (Mathf.RoundToInt(Mathf.Abs(hit.transform.eulerAngles.y - InHand.transform.eulerAngles.y)) == 180)) //If the stair is in the oposide way
+                        {
+                                Debug.Log("yes");
+                            InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance) + 1, 0); //Move the stair down, so the top surface would match
+                        }
+                        else
+                        {
+                            InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance), 0); //Move the stair down, so the top surface would match
+                        }
+                    }
+                    else
+                    {
+                        Vector3 OneBackwards = new Vector3(                                     //A point 0.5 blocks away from the heigest part of the stair
+                            InHand.transform.position.x - (InHand.transform.forward.x),         //InHand position + forward
+                            InHand.transform.position.y + InHand.GetComponent<Collider>().bounds.size.y - 0.4f, //Height of the stair + a bit
+                            InHand.transform.position.z - (InHand.transform.forward.z)          //InHand position + forward
+                            );
+                        Debug.DrawRay(OneBackwards, -transform.up * (InHand.GetComponent<Collider>().bounds.size.y), Color.red);   //Just a debug line 
+                        if (Physics.Raycast(OneBackwards, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from OneBackwards towards the ground, and mesaure the length to a building
+                        {
+                           
+                            if (hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName == "Stone_Stair" || //If the object hit is a Stone_Stair
+                                hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName == "Wooden_Stair")  //or the object hit is a Wooden_Stair
+                            {
+                                InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance) + 1, 0); //Move the stair down, so the top surface would match
+                            }
+                            else
+                            {
+                                InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance), 0); //Move the stair down, so the top surface would match
+                            }
+                        } else
+                        {
+                            InHand.transform.position += new Vector3(0, -InHand.GetComponent<Collider>().bounds.size.y + 0.5f, 0); //Move the stair down
+                        }
                     }
                 }
-                else
-                {
 
+
+
+
+
+                else if (InHand.GetComponent<BuildingOption>().BuildingName == "Stone_Wall" ||  //If the object is a Stone_Stair
+                         InHand.GetComponent<BuildingOption>().BuildingName == "Wooden_Wall")   //or the object is a Wooden_Stair
+                {
+                    InHand.transform.position += new Vector3(0, WallHeight, 0);                 //Move the wall to it's set hight
                 }
             }
 
 
-            
-            
 
+
+            if (CodeInputManager.GetButtonDownOnce("Walls higher"))                             //
+            {
+                if (WallHeight < 0)                                                             //
+                    WallHeight++;                                                               //
+            }
+            else if (CodeInputManager.GetButtonDownOnce("Walls lower"))                         //
+            {
+                if (WallHeight > -InHand.GetComponent<Collider>().bounds.size.y +2)                                                            //
+                    WallHeight--;                                                               //
+            }
 
 
 

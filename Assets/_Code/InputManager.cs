@@ -21,7 +21,7 @@ public class InputManager : MonoBehaviour
     }
     private void InitaliseKeybindings()
     {
-        int TotalKeys = 20 + 1;                                                                 //The total amount of entries, change accordingly (+1 since we have a '0' entry too)
+        int TotalKeys = 22 + 1;                                                                 //The total amount of entries, change accordingly (+1 since we have a '0' entry too)
         Name = new string[TotalKeys];
         Key_ = new string[TotalKeys];
         Desc = new string[TotalKeys];
@@ -49,7 +49,8 @@ public class InputManager : MonoBehaviour
         Name[18] = "Build";             Key_[18] = "Mouse0";            Desc[18] = "Place the building";
         Name[19] = "Cancel build";      Key_[19] = "Mouse1";            Desc[19] = "Cancel building";
         Name[20] = "Alternative";       Key_[20] = "LeftShift";         Desc[20] = "Continue building & Inverse build rotation";
-        
+        Name[21] = "Walls higher";      Key_[21] = "KeypadPlus";        Desc[21] = "Make the walls higher";
+        Name[22] = "Walls lower";       Key_[22] = "KeypadMinus";       Desc[22] = "Make the walls lower";
 
         buttonKeys = new Dictionary<string, KeyCode>();
         for (int i = 0; i < Name.Length; i++)                                                   //For each button name
