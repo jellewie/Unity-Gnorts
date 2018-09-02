@@ -103,55 +103,24 @@ public class UserInput : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Terrain")))      //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over on the Terrain layer only)
             {
                 InHand.transform.position = new Vector3(                                        //Move the block to the mouse position
-                    Mathf.Round(hit.point.x),
-                    hit.point.y,
-                    Mathf.Round(hit.point.z));
+                    Mathf.Round(hit.point.x),                                                   //the rounded X mouse position
+                    Mathf.Round(hit.point.y),                                                   //the rounded Y mouse position
+                    Mathf.Round(hit.point.z));                                                  //the rounded Z mouse position
 
-
-
-
-                //Add a check somewhere to check if the object has an "BuildingOption" code attached to it
-
-                if (InHand.GetComponent<BuildingOption>().BuildingName == "Stone_Stair")
+                if (InHand.GetComponent<BuildingOption>().BuildingName == "Stone_Stair" ||      //If the object is a Stone_Stair
+                    InHand.GetComponent<BuildingOption>().BuildingName == "Wooden_Stair")       //or the object is a Wooden_Stair
                 {
-                    Vector3 N = new Vector3(
-                        0,InHand.GetComponent<Collider>().bounds.size.y + 0.6f, 0) +              //No X change, Y size + a bit to make sure we see the surface (Top of the wall) if there is any
-                        (InHand.transform.position - (InHand.transform.forward * 0.9f));                              //
-
-
-
-                    //clean this mess op and comment about it (hope i still know what is what)
-
-
-
-
-
-
-                    byte Length = 4;
-                    //Debug.DrawRay(N, -transform.up * Length, Color.green);
-                    if (Physics.Raycast(N, -transform.up, out hit, Length, 1 << LayerMask.NameToLayer("Building")))
+                    Vector3 N = new Vector3(                                                    //A point 0.5 blocks away from the heigest part of the stair
+                        InHand.transform.position.x - (InHand.transform.forward.x),             //InHand position + forward
+                        InHand.transform.position.y + InHand.GetComponent<Collider>().bounds.size.y + 0.6f, //Height of the stair + a bit
+                        InHand.transform.position.z - (InHand.transform.forward.z)              //InHand position + forward
+                        );
+                    //Debug.DrawRay(N, -transform.up * InHand.GetComponent<Collider>().bounds.size.y, Color.red);   //Just a debug line 
+                    if (Physics.Raycast(N, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from (N= 1 back) towards the ground, and mesaure the length to a building
                     {
-                        int Distance = Mathf.RoundToInt(hit.distance);
-                        if(Distance < InHand.GetComponent<Collider>().bounds.size.y)
-                        {
-                            if (hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName == "Stone_Stair")
-                            {
-                                InHand.transform.position += new Vector3(0, -Distance, 0);
-                            }
-                        } else
-                        {
-                            Debug.Log("to low");
-                        }
-                        
+                        InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance), 0);    //Move the stair down, so the top surface would match
                     }
-
-
-                    //Debug.Log("B" + InHand.transform.position);
-                    //InHand.transform.position += new Vector3(0, 3, 0);
-                    //Debug.Log("A" + InHand.transform.position);
                 }
-
-                
             }
 
 
@@ -326,6 +295,7 @@ public class UserInput : MonoBehaviour
     }
     public void DeconstructBuilding(GameObject TheBuilding)                             //This code will give stuff back and deconstruct the building
     {
+        //If this line gives an error. Check if 'TheBuilding' had the code 'BuildingOption' attached to it. Also check that only this parrent is on the 'Building' layer 
         Building BuildingInfo = CodeInputManager.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName);  //Get the buildings info (like cost etc)
         if (TheBuilding.GetComponent<BuildingOption>().Used)                                    //If the building is not brand new
         {

@@ -9,48 +9,77 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1678148327927748}
+  m_RootGameObject: {fileID: 1566477341485188}
   m_IsPrefabAsset: 1
---- !u!1 &1678148327927748
+--- !u!1 &1566477341485188
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4433971042126946}
-  - component: {fileID: 23933665047115460}
-  - component: {fileID: 33730796562235112}
-  - component: {fileID: 114573243556904080}
-  - component: {fileID: 64612050857197760}
-  - component: {fileID: 65451981669038500}
-  - component: {fileID: 114852944341854788}
+  - component: {fileID: 4820737632482642}
+  - component: {fileID: 65885350930894094}
+  - component: {fileID: 114781162486521078}
   m_Layer: 10
   m_Name: Stone_Stair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1944839051393286
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4779210719023386}
+  - component: {fileID: 23764782351022810}
+  - component: {fileID: 33123876678472156}
+  - component: {fileID: 114712748663053260}
+  - component: {fileID: 64835602636620276}
+  m_Layer: 0
+  m_Name: Main
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
   m_StaticEditorFlags: 127
   m_IsActive: 1
---- !u!4 &4433971042126946
+--- !u!4 &4779210719023386
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1678148327927748}
+  m_GameObject: {fileID: 1944839051393286}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
+  m_Father: {fileID: 4820737632482642}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4820737632482642
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1566477341485188}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -13.542316, y: -9.104201e-18, z: 10.120536}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4779210719023386}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23933665047115460
+--- !u!23 &23764782351022810
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1678148327927748}
+  m_GameObject: {fileID: 1944839051393286}
   m_Enabled: 1
   m_CastShadows: 2
   m_ReceiveShadows: 1
@@ -80,19 +109,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33730796562235112
+--- !u!33 &33123876678472156
 MeshFilter:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1678148327927748}
+  m_GameObject: {fileID: 1944839051393286}
   m_Mesh: {fileID: 0}
---- !u!64 &64612050857197760
+--- !u!64 &64835602636620276
 MeshCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1678148327927748}
+  m_GameObject: {fileID: 1944839051393286}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -101,24 +130,24 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 0}
---- !u!65 &65451981669038500
+--- !u!65 &65885350930894094
 BoxCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1678148327927748}
+  m_GameObject: {fileID: 1566477341485188}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 5, z: 1}
-  m_Center: {x: 0, y: 2.5, z: 0}
---- !u!114 &114573243556904080
+  m_Size: {x: 1, y: 4.5, z: 1}
+  m_Center: {x: 0, y: 2.25, z: 0}
+--- !u!114 &114712748663053260
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1678148327927748}
+  m_GameObject: {fileID: 1944839051393286}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 232430130, guid: 4f0627da958b4bb78c260446066f065f, type: 3}
@@ -814,10 +843,10 @@ MonoBehaviour:
   - {x: 2, y: 0}
   - {x: 3, y: 0.5}
   - {x: 2, y: 0.5}
-  - {x: 1.5, y: 5.5}
-  - {x: 0.5, y: 5.5}
-  - {x: 1.5, y: 6}
-  - {x: 0.5, y: 6}
+  - {x: 1, y: 6.5}
+  - {x: 2, y: 6.5}
+  - {x: 1, y: 6}
+  - {x: 2, y: 6}
   - {x: 2, y: 5.5}
   - {x: 1.5, y: 5.5}
   - {x: 2, y: 6}
@@ -1126,12 +1155,12 @@ MonoBehaviour:
   m_selectedFaces: 
   m_SelectedEdges: []
   m_selectedTriangles: 
---- !u!114 &114852944341854788
+--- !u!114 &114781162486521078
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1678148327927748}
+  m_GameObject: {fileID: 1566477341485188}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 673f0e666dd3483488064867e6d253e0, type: 3}
@@ -1140,5 +1169,5 @@ MonoBehaviour:
   BuildingName: Stone_Stair
   SelectedOption: 0
   Used: 0
-  FlagAsUsedAfterSeconds: 0
+  FlagAsUsedAfterSeconds: 10
   Active: 0

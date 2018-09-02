@@ -2331,6 +2331,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BuildingName: Stockpile
   SelectedOption: 0
+  Used: 0
+  FlagAsUsedAfterSeconds: 10
+  Active: 0
 --- !u!114 &114861567807894400
 MonoBehaviour:
   m_ObjectHideFlags: 1

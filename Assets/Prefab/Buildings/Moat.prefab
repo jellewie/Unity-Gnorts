@@ -434,3 +434,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BuildingName: Moat
   SelectedOption: 0
+  Used: 0
+  FlagAsUsedAfterSeconds: 10
+  Active: 0
