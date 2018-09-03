@@ -223,6 +223,20 @@ public class UserInput : MonoBehaviour
             else if (CodeInputManager.GetButtonDownOnce("Cancel build"))                        //If we want to cancel Removing buildings
                 DeconstructToolEquiped = false;                                                 //Stop the DeconstructTool being equiped
         }
+        else
+        {
+            //this code will purpose as open UI of building if any code
+
+            if (CodeInputManager.GetButtonDownOnce("Build"))                            //If the button is pressed for the first time
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                        //Set a Ray from the cursor + lookation
+                RaycastHit hit;                                                                     //Create a output variable
+                if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building")))     //Send the Ray 
+                {
+                    Debug.Log("You've clicked on " + hit.collider.name);
+                }
+            }
+        }
 
         if (CodeInputManager.GetButtonDownOnce("Walls higher") && LowerObjectBy > 0)            //If we want to higher the object && the object is lower than the max heigth
             LowerObjectBy--;                                                                    //higher the object
