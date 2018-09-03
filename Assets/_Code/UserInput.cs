@@ -89,14 +89,15 @@ public class UserInput : MonoBehaviour
         Destroy(InHand);                                                                        //Destoy the building
         DeconstructToolEquiped = Equiped;                                                       //Set the given state
     }
-    public void _HideSubMenu()                                                          //This will hide the full sub menu
+    public void _HideMenus()                                                            //This will hide the full sub menu
     {
+        FolderBuildingPopUp.SetActive(false);                                                   //Hide BuildingPopUp
         foreach (Transform child in FolderSubMenu.transform)                                    //Do for each SubMenu
         {
             child.gameObject.SetActive(false);                                                  //Hide the SubMenu
         }
     }
-    private void ExecuteInputs()                                                                //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
+    private void ExecuteInputs()                                                        //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
     {
         if (!EventSystem.current.IsPointerOverGameObject())                                     //If mouse is not over an UI element
         {
@@ -156,7 +157,6 @@ public class UserInput : MonoBehaviour
                         InHand.transform.position -= new Vector3(0, LowerObjectBy, 0);          //Move the wall to it's set hight
                     }
                 }
-
                 if (CodeInputManager.GetButtonDownOnce("Cancel build"))                         //If we want to cancel the build
                 {
                     Destroy(InHand);                                                            //Destoy the building
@@ -188,9 +188,7 @@ public class UserInput : MonoBehaviour
                             PlaceInHand(InHand);                                                //Put a new building on our hands, and leave this one be (this one is now placed down)
                         }
                         else
-                        {
                             ShowMessage("Not enough " + Pay + " to build that");                //Give the user the warning message
-                        }
                     }
                 }
                 else if (CodeInputManager.GetButtonDownOnce("Rotate building"))                 //If we want to rotate the building
@@ -233,6 +231,7 @@ public class UserInput : MonoBehaviour
                     RaycastHit hit;                                                             //Create a output variable
                     if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray 
                     {
+                        _HideMenus();                                                           //Hide the Menu's
                         FolderBuildingPopUp.SetActive(true);                                    //Show BuildingPopUp
                         FolderBuildingPopUp.GetComponent<BuildingPopUp>().SelectBuilding(       //Open Pop-up window
                             hit.collider.gameObject,                                            //Send the gameobject that we have clicked on
@@ -240,16 +239,6 @@ public class UserInput : MonoBehaviour
 
 
 
-
-
-                        //Above line does not give the special of the wooden gate? not sure
-
-
-
-
-
-
-                        
                         Debug.Log("You've clicked on " + hit.collider.name);
                     }
                 }
@@ -260,10 +249,7 @@ public class UserInput : MonoBehaviour
         else if (CodeInputManager.GetButtonDownOnce("Walls lower"))                             //If we want to lower the object
             LowerObjectBy++;                                                                    //lower the object
         if (CodeInputManager.GetButtonDownOnce("Cancel build"))                                 //If we right click to cancel
-        {
-            _HideSubMenu();                                                                     //Hide the sub menu
-            FolderBuildingPopUp.SetActive(false);                                               //Show BuildingPopUp
-        }
+            _HideMenus();                                                                       //Hide the Menu's
         if (CodeInputManager.GetButtonDownOnce("Toggle UI"))                                    //If the Toggle UI button is pressed
             FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
         float Speed = Camera.main.transform.position.y * JelleWho.HeighSpeedIncrease;           //The height has X of speed increase per block
