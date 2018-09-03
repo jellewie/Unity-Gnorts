@@ -107,8 +107,9 @@ public class UserInput : MonoBehaviour
                     Mathf.Round(hit.point.x),                                                   //the rounded X mouse position
                     Mathf.Round(hit.point.y),                                                   //the rounded Y mouse position
                     Mathf.Round(hit.point.z));                                                  //the rounded Z mouse position
-               
-                if (CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName).Special == "/") //If this building is a stair
+
+                String Special = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName).Special;
+                if (Special == "/")                                                             //If this building is a stair
                 {
                     Vector3 OneForward = new Vector3(                                           //A point 0.5 blocks away from the heigest part of the stair
                         InHand.transform.position.x + (InHand.transform.forward.x),             //InHand position + forward
@@ -143,32 +144,13 @@ public class UserInput : MonoBehaviour
                             InHand.transform.position += new Vector3(0, -InHand.GetComponent<Collider>().bounds.size.y + 0.5f, 0); //Move the stair down
                     }
                 }
-                else if (CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName).Special == "+") //If this building can move up and down
+                else if (Special == "+")                                                        //If this building can move up and down
                 {
-                    if(LowerObjectBy > InHand.GetComponent<Collider>().bounds.size.y -2)         //If this building is off the ground
-                    {
+                    if (LowerObjectBy > InHand.GetComponent<Collider>().bounds.size.y - 2)      //If this building is off the ground
                         LowerObjectBy = System.Convert.ToByte(InHand.GetComponent<Collider>().bounds.size.y - 2); //set HigherObject to max height of this object
-                    }
-                    InHand.transform.position -= new Vector3(0, LowerObjectBy, 0);               //Move the wall to it's set hight
+                    InHand.transform.position -= new Vector3(0, LowerObjectBy, 0);              //Move the wall to it's set hight
                 }
             }
-
-
-
-
-            if (CodeInputManager.GetButtonDownOnce("Walls higher"))                             //If we want to higher the object
-            {
-                if (LowerObjectBy > 0)                                                          //If the object is lower than the max heigth
-                    LowerObjectBy--;                                                            //higher the object
-            }
-            else if (CodeInputManager.GetButtonDownOnce("Walls lower"))                         //If we want to lower the object
-            {
-                LowerObjectBy++;                                                                //lower the object
-            }
-
-
-
-
 
             if (CodeInputManager.GetButtonDownOnce("Cancel build"))                             //If we want to cancel the build
             {
@@ -241,6 +223,11 @@ public class UserInput : MonoBehaviour
             else if (CodeInputManager.GetButtonDownOnce("Cancel build"))                        //If we want to cancel Removing buildings
                 DeconstructToolEquiped = false;                                                 //Stop the DeconstructTool being equiped
         }
+
+        if (CodeInputManager.GetButtonDownOnce("Walls higher") && LowerObjectBy > 0)            //If we want to higher the object && the object is lower than the max heigth
+            LowerObjectBy--;                                                                    //higher the object
+        else if (CodeInputManager.GetButtonDownOnce("Walls lower"))                             //If we want to lower the object
+            LowerObjectBy++;                                                                    //lower the object
         if (CodeInputManager.GetButtonDownOnce("Cancel build"))                                 //If we right click to cancel
             _HideSubMenu();                                                                     //Hide the sub menu
         if (CodeInputManager.GetButtonDownOnce("Toggle UI"))                                    //If the Toggle UI button is pressed
@@ -259,7 +246,8 @@ public class UserInput : MonoBehaviour
         {
             input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse * (Speed / 2);        //Calculate howmuch we need to move in the axes 
             input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse * (Speed / 2);        //^
-        } else if (input == new Vector2(0f, 0f))                                                //If camera doesn't need to move yet
+        }
+        else if (input == new Vector2(0f, 0f))                                                //If camera doesn't need to move yet
         {
             if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x01) != 0x01)//If EdgeScroll setting is on
             {
