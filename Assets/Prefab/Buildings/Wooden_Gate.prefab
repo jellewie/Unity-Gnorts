@@ -3244,10 +3244,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BuildingName: Wooden_Gate
-  SelectedOption: 0
-  Used: 0
   FlagAsUsedAfterSeconds: 0
+  MaxHealth: 100
+  Options:
+  - Open
+  - Close
+  Used: 0
   Active: 0
+  SelectedOption: 0
+  Health: 0
 --- !u!114 &114324891116817168
 MonoBehaviour:
   m_ObjectHideFlags: 1

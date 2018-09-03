@@ -17,8 +17,9 @@ public class UserInput : MonoBehaviour
     public GameObject FolderUI;                                                         //The folder to hide on HideUI
     public GameObject FolderSubMenu;                                                    //The folder to close when done building
     public Transform FolderBuildings;                                                   //The folder where all the buildings should be put in
+    public GameObject FolderBuildingPopUp;                                              //The folder with the pop-up stuff in it
     public GameObject TextMessage;
-    private Byte LowerObjectBy = 0;                                                      //Howmuch the gameobject should be higher (this is used for walls as example)
+    private Byte LowerObjectBy = 0;                                                     //Howmuch the gameobject should be higher (this is used for walls as example)
 
     Quaternion PreviousRotation;
 
@@ -97,85 +98,85 @@ public class UserInput : MonoBehaviour
     }
     private void ExecuteInputs()                                                                //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
     {
-        if (InHand)                                                                             //If we have something in our hands
+        if (!EventSystem.current.IsPointerOverGameObject())                                     //If mouse is not over an UI element
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                        //Set a Ray from the cursor + lookation
-            RaycastHit hit;                                                                     //Create a output variable
-            if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Terrain")))      //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over on the Terrain layer only)
+            if (InHand)                                                                         //If we have something in our hands
             {
-                InHand.transform.position = new Vector3(                                        //Move the block to the mouse position
-                    Mathf.Round(hit.point.x),                                                   //the rounded X mouse position
-                    Mathf.Round(hit.point.y),                                                   //the rounded Y mouse position
-                    Mathf.Round(hit.point.z));                                                  //the rounded Z mouse position
-
-                String Special = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName).Special;
-                if (Special == "/")                                                             //If this building is a stair
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                    //Set a Ray from the cursor + lookation
+                RaycastHit hit;                                                                 //Create a output variable
+                if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Terrain")))  //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over on the Terrain layer only)
                 {
-                    Vector3 OneForward = new Vector3(                                           //A point 0.5 blocks away from the heigest part of the stair
-                        InHand.transform.position.x + (InHand.transform.forward.x),             //InHand position + forward
-                        InHand.transform.position.y + InHand.GetComponent<Collider>().bounds.size.y + 0.6f, //Height of the stair + a bit
-                        InHand.transform.position.z + (InHand.transform.forward.z)              //InHand position + forward
-                        );
-                    Debug.DrawRay(OneForward, -transform.up * InHand.GetComponent<Collider>().bounds.size.y, Color.red);   //Just a debug line 
-                    if (Physics.Raycast(OneForward, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from OneForward towards the ground, and mesaure the length to a building
+                    InHand.transform.position = new Vector3(                                    //Move the block to the mouse position
+                        Mathf.Round(hit.point.x),                                               //the rounded X mouse position
+                        Mathf.Round(hit.point.y),                                               //the rounded Y mouse position
+                        Mathf.Round(hit.point.z));                                              //the rounded Z mouse position
+
+                    byte Special = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName).BuildSpecial; //Save this for easy use
+                    if (Special == 2)                                                         //If this building is a stair
                     {
-                        if (CodeInputManager.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).Special == "/" //if the object hit is a stair
-                        && Mathf.RoundToInt(Mathf.Abs(hit.transform.eulerAngles.y - InHand.transform.eulerAngles.y)) == 180) //an the stair is in the oposide direction
-                            InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance) + 1, 0); //Move the stair down, so the top surface would match
-                        else
-                            InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance), 0); //Move the stair down, so the top surface would match
-                    }
-                    else
-                    {
-                        Vector3 OneBackwards = new Vector3(                                     //A point 0.5 blocks away from the heigest part of the stair
-                            InHand.transform.position.x - (InHand.transform.forward.x),         //InHand position + forward
-                            InHand.transform.position.y + InHand.GetComponent<Collider>().bounds.size.y - 0.4f, //Height of the stair + a bit
-                            InHand.transform.position.z - (InHand.transform.forward.z)          //InHand position + forward
+                        Vector3 OneForward = new Vector3(                                       //A point 0.5 blocks away from the heigest part of the stair
+                            InHand.transform.position.x + (InHand.transform.forward.x),         //InHand position + forward
+                            InHand.transform.position.y + InHand.GetComponent<Collider>().bounds.size.y + 0.6f, //Height of the stair + a bit
+                            InHand.transform.position.z + (InHand.transform.forward.z)          //InHand position + forward
                             );
-                        Debug.DrawRay(OneBackwards, -transform.up * (InHand.GetComponent<Collider>().bounds.size.y), Color.red); //Just a debug line 
-                        if (Physics.Raycast(OneBackwards, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building"))) //Do a raycast from OneBackwards towards the ground, and mesaure the length to a building
+                        Debug.DrawRay(OneForward, -transform.up * InHand.GetComponent<Collider>().bounds.size.y, Color.red);   //Just a debug line 
+                        if (Physics.Raycast(OneForward, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from OneForward towards the ground, and mesaure the length to a building
                         {
-                            if (CodeInputManager.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).Special == "/") //if the object hit is a stair
+                            if (CodeInputManager.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).BuildSpecial == 2 //if the object hit is a stair
+                            && Mathf.RoundToInt(Mathf.Abs(hit.transform.eulerAngles.y - InHand.transform.eulerAngles.y)) == 180) //an the stair is in the oposide direction
                                 InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance) + 1, 0); //Move the stair down, so the top surface would match
                             else
                                 InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance), 0); //Move the stair down, so the top surface would match
                         }
                         else
-                            InHand.transform.position += new Vector3(0, -InHand.GetComponent<Collider>().bounds.size.y + 0.5f, 0); //Move the stair down
+                        {
+                            Vector3 OneBackwards = new Vector3(                                 //A point 0.5 blocks away from the heigest part of the stair
+                                InHand.transform.position.x - (InHand.transform.forward.x),     //InHand position + forward
+                                InHand.transform.position.y + InHand.GetComponent<Collider>().bounds.size.y - 0.4f, //Height of the stair + a bit
+                                InHand.transform.position.z - (InHand.transform.forward.z)      //InHand position + forward
+                                );
+                            Debug.DrawRay(OneBackwards, -transform.up * (InHand.GetComponent<Collider>().bounds.size.y), Color.red); //Just a debug line 
+                            if (Physics.Raycast(OneBackwards, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building"))) //Do a raycast from OneBackwards towards the ground, and mesaure the length to a building
+                            {
+                                if (CodeInputManager.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).BuildSpecial == 2) //if the object hit is a stair
+                                    InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance) + 1, 0); //Move the stair down, so the top surface would match
+                                else
+                                    InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance), 0); //Move the stair down, so the top surface would match
+                            }
+                            else
+                                InHand.transform.position += new Vector3(0, -InHand.GetComponent<Collider>().bounds.size.y + 0.5f, 0); //Move the stair down
+                        }
+                    }
+                    else if (Special == 1)                                                        //If this building can move up and down
+                    {
+                        if (LowerObjectBy > InHand.GetComponent<Collider>().bounds.size.y - 2)      //If this building is off the ground
+                            LowerObjectBy = System.Convert.ToByte(InHand.GetComponent<Collider>().bounds.size.y - 2); //set HigherObject to max height of this object
+                        InHand.transform.position -= new Vector3(0, LowerObjectBy, 0);              //Move the wall to it's set hight
                     }
                 }
-                else if (Special == "+")                                                        //If this building can move up and down
-                {
-                    if (LowerObjectBy > InHand.GetComponent<Collider>().bounds.size.y - 2)      //If this building is off the ground
-                        LowerObjectBy = System.Convert.ToByte(InHand.GetComponent<Collider>().bounds.size.y - 2); //set HigherObject to max height of this object
-                    InHand.transform.position -= new Vector3(0, LowerObjectBy, 0);              //Move the wall to it's set hight
-                }
-            }
 
-            if (CodeInputManager.GetButtonDownOnce("Cancel build"))                             //If we want to cancel the build
-            {
-                Destroy(InHand);                                                                //Destoy the building
-            }
-            else if (CodeInputManager.GetButtonDown("Build"))                                   //If we need to build the object here
-            {
-                InHand.layer = 0;                                                               //Set to default Layer
-                RaycastHit[] Hit = Physics.BoxCastAll(                                          //Cast a ray to see if there is already a building where we are hovering over
-                    InHand.GetComponent<Collider>().bounds.center,                              //The center of the block
-                    (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f),  //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
-                    -transform.up,                                                              //Do the ray downwards (in to the ground basicly to check only it's own position)
-                    InHand.GetComponent<Collider>().transform.rotation,                         //The orientation in Quaternion (Always in steps of 90 degrees)
-                    0.5f,                                                                       //Dont go much depth, the building should be inside this block
-                    1 << LayerMask.NameToLayer("Building"));                                    //Only try to find buildings
-                if (Hit.Length > 0)                                                             //If there a building already there
+                if (CodeInputManager.GetButtonDownOnce("Cancel build"))                         //If we want to cancel the build
                 {
-                    //Debug.Log("Can't build on top " + Hit[0].transform.name);
-                    /*TODO FIXME 
-                    If this is hit for more than <1 sec> than show a message that we can't build there
-                     */
+                    Destroy(InHand);                                                            //Destoy the building
                 }
-                else
+                else if (CodeInputManager.GetButtonDown("Build"))                               //If we need to build the object here
                 {
-                    if (!EventSystem.current.IsPointerOverGameObject())                         //If mouse is not over an UI element
+                    InHand.layer = 0;                                                           //Set to default Layer
+                    RaycastHit[] Hit = Physics.BoxCastAll(                                      //Cast a ray to see if there is already a building where we are hovering over
+                        InHand.GetComponent<Collider>().bounds.center,                          //The center of the block
+                        (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f),  //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
+                        -transform.up,                                                          //Do the ray downwards (in to the ground basicly to check only it's own position)
+                        InHand.GetComponent<Collider>().transform.rotation,                     //The orientation in Quaternion (Always in steps of 90 degrees)
+                        0.5f,                                                                   //Dont go much depth, the building should be inside this block
+                        1 << LayerMask.NameToLayer("Building"));                                //Only try to find buildings
+                    if (Hit.Length > 0)                                                         //If there a building already there
+                    {
+                        //Debug.Log("Can't build on top " + Hit[0].transform.name);
+                        /*TODO FIXME 
+                        If this is hit for more than <1 sec> than show a message that we can't build there
+                         */
+                    }
+                    else
                     {
                         string Pay = CanWePayFor(InHand);                                       //Create a new string, will return what we are missing if we can't build
                         if (Pay == "Done")                                                      //If we do have enough to build this building
@@ -190,60 +191,77 @@ public class UserInput : MonoBehaviour
                         }
                     }
                 }
-            }
-            else if (CodeInputManager.GetButtonDownOnce("Rotate building"))                     //If we want to rotate the building
-            {
-                if (CodeInputManager.GetButtonDown("Alternative"))                              //If we want to rotate the other way
-                    InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y - 90, 0);    //Rotate it 90 degrees counter clock wise
-                else
-                    InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y + 90, 0);    //Rotate it 90 degrees clock wise
-                PreviousRotation = InHand.transform.rotation;                                   //Save the rotation
-            }
-        }
-        else if (DeconstructToolEquiped)                                                        //If the Deconstruct tool is aquiped
-        {
-            if (CodeInputManager.GetButtonDown("Build"))                                        //If we want to Deconstruct this building
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                    //Set a Ray from the cursor + lookation
-                RaycastHit hit;                                                                 //Create a output variable
-                if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
+                else if (CodeInputManager.GetButtonDownOnce("Rotate building"))                 //If we want to rotate the building
                 {
-                    if (CodeInputManager.GetButtonDownOnce("Build"))                            //If the button is pressed for the first time
+                    if (CodeInputManager.GetButtonDown("Alternative"))                          //If we want to rotate the other way
+                        InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y - 90, 0);    //Rotate it 90 degrees counter clock wise
+                    else
+                        InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y + 90, 0);    //Rotate it 90 degrees clock wise
+                    PreviousRotation = InHand.transform.rotation;                               //Save the rotation
+                }
+            }
+            else if (DeconstructToolEquiped)                                                    //If the Deconstruct tool is aquiped
+            {
+                if (CodeInputManager.GetButtonDown("Build"))                                    //If we want to Deconstruct this building
+                {
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
+                    RaycastHit hit;                                                             //Create a output variable
+                    if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
                     {
-                        if (!EventSystem.current.IsPointerOverGameObject())                     //If mouse is not over an UI element
-                            DeconstructBuilding(hit.transform.gameObject);                      //Deconstruct the selected building
+                        if (CodeInputManager.GetButtonDownOnce("Build"))                        //If the button is pressed for the first time
+                        {
+                            if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
+                                DeconstructBuilding(hit.transform.gameObject);                  //Deconstruct the selected building
+                        }
+                        else if (CodeInputManager.GetButtonDown("Alternative"))                 //If the continue button is pressed
+                        {
+                            if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
+                                DeconstructBuilding(hit.transform.gameObject);                  //Deconstruct the selected building
+                        }
                     }
-                    else if (CodeInputManager.GetButtonDown("Alternative"))                     //If the continue button is pressed
+                }
+                else if (CodeInputManager.GetButtonDownOnce("Cancel build"))                    //If we want to cancel Removing buildings
+                    DeconstructToolEquiped = false;                                             //Stop the DeconstructTool being equiped
+            }
+            else
+            {
+                if (CodeInputManager.GetButtonDownOnce("Build"))                                //If the button is pressed for the first time
+                {
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
+                    RaycastHit hit;                                                             //Create a output variable
+                    if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray 
                     {
-                        if (!EventSystem.current.IsPointerOverGameObject())                     //If mouse is not over an UI element
-                            DeconstructBuilding(hit.transform.gameObject);                      //Deconstruct the selected building
+                        FolderBuildingPopUp.SetActive(true);                                    //Show BuildingPopUp
+                        FolderBuildingPopUp.GetComponent<BuildingPopUp>().SelectBuilding(       //Open Pop-up window
+                            hit.collider.gameObject,                                            //Send the gameobject that we have clicked on
+                            CodeInputManager.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial); //And it's special stats
+
+
+
+
+
+                        //Above line does not give the special of the wooden gate? not sure
+
+
+
+
+
+
+                        
+                        Debug.Log("You've clicked on " + hit.collider.name);
                     }
                 }
             }
-            else if (CodeInputManager.GetButtonDownOnce("Cancel build"))                        //If we want to cancel Removing buildings
-                DeconstructToolEquiped = false;                                                 //Stop the DeconstructTool being equiped
         }
-        else
-        {
-            //this code will purpose as open UI of building if any code
-
-            if (CodeInputManager.GetButtonDownOnce("Build"))                            //If the button is pressed for the first time
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                        //Set a Ray from the cursor + lookation
-                RaycastHit hit;                                                                     //Create a output variable
-                if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building")))     //Send the Ray 
-                {
-                    Debug.Log("You've clicked on " + hit.collider.name);
-                }
-            }
-        }
-
         if (CodeInputManager.GetButtonDownOnce("Walls higher") && LowerObjectBy > 0)            //If we want to higher the object && the object is lower than the max heigth
             LowerObjectBy--;                                                                    //higher the object
         else if (CodeInputManager.GetButtonDownOnce("Walls lower"))                             //If we want to lower the object
             LowerObjectBy++;                                                                    //lower the object
         if (CodeInputManager.GetButtonDownOnce("Cancel build"))                                 //If we right click to cancel
+        {
             _HideSubMenu();                                                                     //Hide the sub menu
+            FolderBuildingPopUp.SetActive(false);                                               //Show BuildingPopUp
+        }
         if (CodeInputManager.GetButtonDownOnce("Toggle UI"))                                    //If the Toggle UI button is pressed
             FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
         float Speed = Camera.main.transform.position.y * JelleWho.HeighSpeedIncrease;           //The height has X of speed increase per block
@@ -261,7 +279,7 @@ public class UserInput : MonoBehaviour
             input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse * (Speed / 2);        //Calculate howmuch we need to move in the axes 
             input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse * (Speed / 2);        //^
         }
-        else if (input == new Vector2(0f, 0f))                                                //If camera doesn't need to move yet
+        else if (input == new Vector2(0f, 0f))                                                  //If camera doesn't need to move yet
         {
             if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x01) != 0x01)//If EdgeScroll setting is on
             {
