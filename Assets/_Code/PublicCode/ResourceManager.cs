@@ -66,7 +66,8 @@ namespace PublicCode {
         public byte Cost_Iron;                                                                  //^
         public byte Cost_Money;                                                                 //^
         public bool FirstFree;                                                                  //(To GET data)                         If the first one is free is you can't pay for it (Stockpile, woodcutter)
-        public Building(string Name, byte Cost_Wood, byte Cost_Stone, byte Cost_Iron, byte Cost_Money, bool FirstFree)   //Create a way to add all data at once
+        public string Special;                                                                  //(To GET data)                         If this building has special code (like walls; higher lower)
+        public Building(string Name, byte Cost_Wood, byte Cost_Stone, byte Cost_Iron, byte Cost_Money, bool FirstFree, string Special)   //Create a way to add all data at once
         {
             this.Name = Name;                                                                   //(To SET data) 1th part is a string
             this.Cost_Wood = Cost_Wood;                                                         //^
@@ -74,6 +75,7 @@ namespace PublicCode {
             this.Cost_Iron = Cost_Iron;                                                         //^
             this.Cost_Money = Cost_Money;                                                       //^
             this.FirstFree = FirstFree;                                                         //^
+            this.Special = Special;                                                             //^
         }
     }
     public class Keys                                                                   //Create a new Class data type to store all keybindings in

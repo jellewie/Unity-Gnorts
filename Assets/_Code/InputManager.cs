@@ -167,43 +167,43 @@ public class InputManager : MonoBehaviour
     {
         int ArrayLength = 32 + 1;
         BuildingCostArray = new Building[ArrayLength];                                          //Create a new array with the proper length
-                                                                   //Wood Stone Iron Money 1Free
-        BuildingCostArray[0] = new Building("Bridge",                   0,  10, 0,  0,  false); //Add some data
-        BuildingCostArray[1] = new Building("Moat",                     0,  0,  0,  2,  false);
-        BuildingCostArray[2] = new Building("Mangonel_Tower",           0,  0,  0,  100,false);
-        BuildingCostArray[3] = new Building("Balista_Tower",            0,  0,  0,  100,false);
-        BuildingCostArray[4] = new Building("Town_Square",              10, 10, 0,  0,  false);
-        BuildingCostArray[5] = new Building("Fire_Pit",                 0,  0,  0,  10, false);
-        BuildingCostArray[6] = new Building("Trap_Pit",                 5,  0,  0,  0,  false);
-        BuildingCostArray[7] = new Building("Castle",                   0,  0,  0,  0,  false);
+                                                                   //Wood Stone Iron Money 1Free Special
+        BuildingCostArray[0] = new Building("Bridge",                   0,  10, 0,  0,  false	, ""); //Add some data
+        BuildingCostArray[1] = new Building("Moat",                     0,  0,  0,  2,  false	, "");
+        BuildingCostArray[2] = new Building("Mangonel_Tower",           0,  0,  0,  100,false	, "");
+        BuildingCostArray[3] = new Building("Balista_Tower",            0,  0,  0,  100,false	, "");
+        BuildingCostArray[4] = new Building("Town_Square",              10, 10, 0,  0,  false	, "");
+        BuildingCostArray[5] = new Building("Fire_Pit",                 0,  0,  0,  10, false	, "");
+        BuildingCostArray[6] = new Building("Trap_Pit",                 5,  0,  0,  0,  false	, "");
+        BuildingCostArray[7] = new Building("Castle",                   0,  0,  0,  0,  false	, "");
 
-        BuildingCostArray[8] = new Building("Armory",                   10, 5,  0,  0,  false);
-        BuildingCostArray[9] = new Building("Barracks",                 5,  15, 0,  0,  false);
-        BuildingCostArray[10] = new Building("Swords_Maker",            0,  0,  0,  150,false);
-        BuildingCostArray[11] = new Building("Bow_Maker",               0,  0,  0,  150,false);
-        BuildingCostArray[12] = new Building("Spear_Maker",             0,  0,  0,  150,false);
-        BuildingCostArray[13] = new Building("Leather_Jacket_Maker",    0,  0,  0,  150,false);
-        BuildingCostArray[14] = new Building("Blacksmith_Armor",        0,  0,  0,  150,false);
-        BuildingCostArray[15] = new Building("Blacksmith_Tools",        0,  0,  0,  150,false);
+        BuildingCostArray[8] = new Building("Armory",                   10, 5,  0,	0,  false	, "");
+        BuildingCostArray[9] = new Building("Barracks",                 5,  15, 0,  0,  false	, "");
+        BuildingCostArray[10] = new Building("Swords_Maker",            0,  0,  0,  150,false	, "");
+        BuildingCostArray[11] = new Building("Bow_Maker",               0,  0,  0,  150,false	, "");
+        BuildingCostArray[12] = new Building("Spear_Maker",             0,  0,  0,  150,false	, "");
+        BuildingCostArray[13] = new Building("Leather_Jacket_Maker",    0,  0,  0,  150,false	, "");
+        BuildingCostArray[14] = new Building("Blacksmith_Armor",        0,  0,  0,  150,false	, "");
+        BuildingCostArray[15] = new Building("Blacksmith_Tools",        0,  0,  0,  150,false	, "");
 
-        BuildingCostArray[16] = new Building("Wooden_Wall",             1,  0,  0,  0,  false);
-        BuildingCostArray[17] = new Building("Wooden_Wall_Spiked",      1,  0,  0,  0,  false);
-        BuildingCostArray[18] = new Building("Wooden_Gate",             15, 0,  0,  0,  false);
-        BuildingCostArray[19] = new Building("Wooden_Tower",            20, 0,  0,  0,  false);
-        BuildingCostArray[20] = new Building("Wooden_Stair",            5,  0,  0,  0,  false);
-        BuildingCostArray[21] = new Building("Stone_Wall",              0,  1,  0,  0,  false);
-        BuildingCostArray[22] = new Building("Stone_Wall_Spiked",       0,  1,  0,  0,  false);
-        BuildingCostArray[23] = new Building("Stone_Gate",              0,  30, 0,  0,  false);
-        BuildingCostArray[24] = new Building("Stone_Tower",             0,  40, 0,  0,  false);
-        BuildingCostArray[25] = new Building("Stone_Stair",             0,  5,  0,  0,  false);
+        BuildingCostArray[16] = new Building("Wooden_Wall",             1,  0,  0,  0,  false	, "+");
+        BuildingCostArray[17] = new Building("Wooden_Wall_Spiked",      1,  0,  0,  0,  false	, "+");
+        BuildingCostArray[18] = new Building("Wooden_Gate",             15, 0,  0,  0,  false	, "");
+        BuildingCostArray[19] = new Building("Wooden_Tower",            20, 0,  0,  0,  false	, "");
+        BuildingCostArray[20] = new Building("Wooden_Stair",            5,  0,  0,  0,  false	, "/");
+        BuildingCostArray[21] = new Building("Stone_Wall",              0,  1,  0,  0,  false	, "+");
+        BuildingCostArray[22] = new Building("Stone_Wall_Spiked",       0,  1,  0,  0,  false	, "+");
+        BuildingCostArray[23] = new Building("Stone_Gate",              0,  30, 0,  0,  false	, "");
+        BuildingCostArray[24] = new Building("Stone_Tower",             0,  40, 0,  0,  false	, "");
+        BuildingCostArray[25] = new Building("Stone_Stair",             0,  5,  0,  0,  false	, "/");
 
-        BuildingCostArray[26] = new Building("Stockpile",               0,  5,  0,  0,  true );
-        BuildingCostArray[27] = new Building("Lumberjack_Hut",          10, 0,  0,  0,  true );
-        BuildingCostArray[28] = new Building("Stone_Quarry",            20, 0,  0,  0,  false);
-        BuildingCostArray[29] = new Building("Iron_Mine",               20, 0,  0,  0,  false);
-        BuildingCostArray[30] = new Building("Ox_Transport",            3,  0,  0,  5,  false);
-        BuildingCostArray[31] = new Building("Repair_Building",         10, 5,  0,  0,  false);
-        BuildingCostArray[32] = new Building("ddddd",                   0,  0,  0,  0,  false);
+        BuildingCostArray[26] = new Building("Stockpile",               0,  5,  0,  0,  true 	, "");
+        BuildingCostArray[27] = new Building("Lumberjack_Hut",          10, 0,  0,  0,  true 	, "");
+        BuildingCostArray[28] = new Building("Stone_Quarry",            20, 0,  0,  0,  false	, "");
+        BuildingCostArray[29] = new Building("Iron_Mine",               20, 0,  0,  0,  false	, "");
+        BuildingCostArray[30] = new Building("Ox_Transport",            3,  0,  0,  5,  false	, "");
+        BuildingCostArray[31] = new Building("Repair_Building",         10, 5,  0,  0,  false	, "");
+        BuildingCostArray[32] = new Building("ddddd",                   0,  0,  0,  0,  false	, "");
     }
     public Building GetInfo(String ItemName)                                        //Get building information about a building
     {
@@ -213,6 +213,6 @@ public class InputManager : MonoBehaviour
                 return BuildingCostArray[i];                                                    //Return this object
         }
         Debug.LogError("InputManager::GetInfo -- No object named: '" + ItemName + "' in the BuildingCostArray");  //Log error, object not found
-        return new Building("N/A", 255, 255, 255, 255, false);                                  //Just give something 'random' back
+        return new Building("N/A", 255, 255, 255, 255, false, "");                                  //Just give something 'random' back
     }
 }
