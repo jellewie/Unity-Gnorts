@@ -112,7 +112,7 @@ public class UserInput : MonoBehaviour
                         Mathf.Round(hit.point.z));                                              //the rounded Z mouse position
 
                     byte Special = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName).BuildSpecial; //Save this for easy use
-                    if (Special == 2)                                                         //If this building is a stair
+                    if (Special == 2)                                                           //If this building is a stair
                     {
                         Vector3 OneForward = new Vector3(                                       //A point 0.5 blocks away from the heigest part of the stair
                             InHand.transform.position.x + (InHand.transform.forward.x),         //InHand position + forward
@@ -123,7 +123,7 @@ public class UserInput : MonoBehaviour
                         if (Physics.Raycast(OneForward, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from OneForward towards the ground, and mesaure the length to a building
                         {
                             if (CodeInputManager.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).BuildSpecial == 2 //if the object hit is a stair
-                            && Mathf.RoundToInt(Mathf.Abs(hit.transform.eulerAngles.y - InHand.transform.eulerAngles.y)) == 180) //an the stair is in the oposide direction
+                            && Mathf.RoundToInt(Mathf.Abs(hit.transform.eulerAngles.y - InHand.transform.eulerAngles.y)) == 180) //And the stair is in the oposide direction
                                 InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance) + 1, 0); //Move the stair down, so the top surface would match
                             else
                                 InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance), 0); //Move the stair down, so the top surface would match
@@ -138,8 +138,10 @@ public class UserInput : MonoBehaviour
                             Debug.DrawRay(OneBackwards, -transform.up * (InHand.GetComponent<Collider>().bounds.size.y), Color.red); //Just a debug line 
                             if (Physics.Raycast(OneBackwards, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building"))) //Do a raycast from OneBackwards towards the ground, and mesaure the length to a building
                             {
-                                if (CodeInputManager.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).BuildSpecial == 2) //if the object hit is a stair
-                                    InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance) + 1, 0); //Move the stair down, so the top surface would match
+                                
+                                if (CodeInputManager.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).BuildSpecial == 2 //if the object hit is a stair
+                                && Mathf.RoundToInt(Mathf.Abs(hit.transform.eulerAngles.y - InHand.transform.eulerAngles.y)) != 180) //And the stair is not in the oposide direction
+                                    InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance) + 1, 0); //Move the stair up, the stair is going up  
                                 else
                                     InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance), 0); //Move the stair down, so the top surface would match
                             }
@@ -147,11 +149,11 @@ public class UserInput : MonoBehaviour
                                 InHand.transform.position += new Vector3(0, -InHand.GetComponent<Collider>().bounds.size.y + 0.5f, 0); //Move the stair down
                         }
                     }
-                    else if (Special == 1)                                                        //If this building can move up and down
+                    else if (Special == 1)                                                      //If this building can move up and down
                     {
-                        if (LowerObjectBy > InHand.GetComponent<Collider>().bounds.size.y - 2)      //If this building is off the ground
+                        if (LowerObjectBy > InHand.GetComponent<Collider>().bounds.size.y - 2)  //If this building is off the ground
                             LowerObjectBy = System.Convert.ToByte(InHand.GetComponent<Collider>().bounds.size.y - 2); //set HigherObject to max height of this object
-                        InHand.transform.position -= new Vector3(0, LowerObjectBy, 0);              //Move the wall to it's set hight
+                        InHand.transform.position -= new Vector3(0, LowerObjectBy, 0);          //Move the wall to it's set hight
                     }
                 }
 
