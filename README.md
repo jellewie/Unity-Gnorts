@@ -21,7 +21,7 @@ MENU LAYOUT
 * 5 Town_Square (Boost happiness based on amount of homes near. Can have a party to temponary boost more)
 * 6 Fire_Pit (This will make arrows in radkius X be on fire and do a little bit more dammage)(can only be build on stone structures)
 * 7 Trap_Pit
-* 8 Castle [C key] (Hide if already placed, can change tax for happiness) 
+* 8 Castle [C key] (Hide if already placed, can change tax for happiness) (Will hold 8 people)
 
 * __2 Military__
 * 1 Armory
@@ -56,24 +56,24 @@ MENU LAYOUT
 * 8 
 
 * __5 Food__
-* 1 __G__ranary
-* 2 Apple farm
-* 3 Cheese/Cow farm
+* 1 Granary [G key]
+* 2 Apple_Farm
+* 3 Cow_Farm
 * 4 Hunter (Hunters can shoor ground animals (Deers, Rabbits, wolfs, Bears)
-* 5 Wheat/grain farm
+* 5 Wheat_Farm
 * 6 Mill (for wheat/grain)
 * 7 Baker (for flour)
 * 8 Fischer
 
 * __6 MISC__
-* 1 __T__rading house (This building enables trading + Auto trading ?with an upgrade?; like buy wood if below 100, sell if above 200)
-* 2 C__h__urch (Boost happiness based on amount of homes near. can be bribed to temponary boost more)
-* 3 Homes (Closer to the castle = bigger home??)
-* 4 Water well (exsinquise fire. ?and makes people more happy?)
-* 5 
+* 1 Home (Closer to the castle = bigger home??)
+* 2 Trading_House [T key] (This building enables trading + Auto trading ?with an upgrade?; like buy wood if below 100, sell if above 200)
+* 3 Church [H key] (Boost happiness based on amount of homes near. can be bribed to temponary boost more)
+* 4 Water_Well (exsinquise fire. ?and makes people more happy?)
+* 5 Alchemist
 * 6 
-* 7 ?Hospital/ alchemist?	
-* 8 ?Treasury?
+* 7 
+* 8 
 
 * __7 REMOVE TOOL_
 ITEMS

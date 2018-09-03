@@ -74,6 +74,7 @@
     <Compile Include="Assets\_Code\Standalone\ScreenShots.cs" />
     <Compile Include="Assets\_Code\Standalone\UserStats.cs" />
     <Compile Include="Assets\_Code\UserInput.cs" />
+    <None Include="Assets\NewUnlitShader.shader" />
     <Reference Include="Unity.ProBuilder.AddOns.Editor">
       <HintPath>S:/Documents/Github/Unity-Gnorts/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
     </Reference>
