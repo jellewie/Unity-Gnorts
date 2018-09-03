@@ -1,7 +1,8 @@
 ﻿/*
     Written by JelleWho
  */
- namespace PublicCode {
+
+namespace PublicCode {
     public static class JelleWho {
         public static float HeighSpeedIncrease = 0.05f;                                         //The height has X of speed increase per block
         public static int MoveIfThisCloseToTheSides = 25;                                       //If the mouse is this close to the edge
@@ -57,7 +58,7 @@
             this.Desc = description;                                                            //(To SET data) 3rd part is a string,   The description (hoverover text)
         }
     }
-    public class Building                                                               //Creeta a new Class data type to store buildings build price and settings
+    public class Building                                                               //Create a new Class data type to store buildings build price and settings
     {
         public string Name;                                                                     //The name of the building (for later lookup)
         public byte Cost_Wood;                                                                  //(To GET data) 1th part is a byte,     The cost of the building when it's being build
@@ -73,6 +74,18 @@
             this.Cost_Iron = Cost_Iron;                                                         //^
             this.Cost_Money = Cost_Money;                                                       //^
             this.FirstFree = FirstFree;                                                         //^
+        }
+    }
+    public class Keys                                                                   //Create a new Class data type to store all keybindings in
+    {
+        public string Name;                                                                     //(To GET data) 1th part is a string,   The name
+        public UnityEngine.KeyCode Key_;                                                                     //(To GET data) 1th part is a string,   The set key
+        public string Desc;                                                                     //(To GET data) 1th part is a string,   The description (hoverover text)
+        public Keys(string Name, UnityEngine.KeyCode Key_, string Desc)                                       //Create a way to add all data at once
+        {
+            this.Name = Name;                                                                    //(To SET data) 1th part is a string,   The name
+            this.Key_ = Key_;                                                                    //(To SET data) 2nd part is a bool,     The default state
+            this.Desc = Desc;                                                                    //(To SET data) 3rd part is a string,   The description (hoverover text)
         }
     }
 }

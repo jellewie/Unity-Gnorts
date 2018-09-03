@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using PublicCode;
 /*
     A little help from @quill18creates at https://www.youtube.com/watch?v=HkmP7raUYi0&t=
     But adapted by JelleWho
@@ -23,12 +24,12 @@ public class MenuKeybindings : MonoBehaviour {
         {
             GameObject.Destroy(child.gameObject);                                               //Remove the entry
         }
-        string[] buttonName = inputManager.GetButtonNames();                                    //Gets all button names and plot it in a array
-        for (int i = 0; i < buttonName.Length; i++)                                             //For each button name
+        Keys[] KeysArray = inputManager.GetAllKeys();
+        for (int i = 0; i < KeysArray.Length; i++)
         {
             string bn;
-            bn = buttonName[i];
-            
+            bn = KeysArray[i].Name;
+
             GameObject go = (GameObject)Instantiate(keyItemPrefab);
             go.transform.SetParent(keyList.transform);
             go.transform.localScale = Vector3.one;
@@ -37,7 +38,7 @@ public class MenuKeybindings : MonoBehaviour {
             buttonNameText.text = bn;
 
             Text keyNameText = go.transform.Find("Button/Key Name").GetComponent<Text>();
-            keyNameText.text = inputManager.GetKeyNameForButton(bn);
+            keyNameText.text = KeysArray[i].Key_.ToString();
             buttonToLabel[bn] = keyNameText;
 
             Button keyBindButton = go.transform.Find("Button").GetComponent<Button>();

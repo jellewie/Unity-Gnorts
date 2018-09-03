@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
 using System;
 using PublicCode;
 /*
@@ -8,107 +6,99 @@ using PublicCode;
  */
 public class InputManager : MonoBehaviour
 {
-    Dictionary<string, KeyCode> buttonKeys;
-    private string[] Name;
-    private string[] Key_;
-    private string[] Desc;
-
     void OnEnable()                                                                 //Runned before start and every time the parrent is enabled
     {
-        InitaliseKeybindings();
+        InitaliseKeybindings(false);
         InitaliseBoolSettings();
         InitaliseBuildingCost();
     }
-    private void InitaliseKeybindings()
-    {
-        int TotalKeys = 22 + 1;                                                                 //The total amount of entries, change accordingly (+1 since we have a '0' entry too)
-        Name = new string[TotalKeys];
-        Key_ = new string[TotalKeys];
-        Desc = new string[TotalKeys];
 
-        //TODO
-        //Change Desc to name and add a (hover) description
-        Name[0] = "Drag";               Key_[0] = "Mouse1";             Desc[0] = "Drag the camera";
-        Name[1] = "Rotate";             Key_[1] = "Mouse2";             Desc[1] = "Rotatate the camera";
-        Name[2] = "Left";               Key_[2] = "A";                  Desc[2] = "Move camera left";
-        Name[3] = "Down";               Key_[3] = "S";                  Desc[3] = "Move camera backwards";
-        Name[4] = "Right";              Key_[4] = "D";                  Desc[4] = "Move camera right";
-        Name[5] = "Up";                 Key_[5] = "W";                  Desc[5] = "Move camera forward";
-        Name[6] = "Rotate left";        Key_[6] = "E";                  Desc[6] = "Rotatate the camera a bit left";
-        Name[7] = "Rotate right";       Key_[7] = "Q";                  Desc[7] = "Rotatate the camera a bit right";
-        Name[8] = "Menu";               Key_[8] = "Escape";             Desc[8] = "Open / close the menu";
-        Name[9] = "Toggle UI";          Key_[9] = "Tab";                Desc[9] = "Make the UI hidden/viseble";
-        Name[10] = "Rotate building";   Key_[10] = "R";                 //Not yet done
-        Name[11] = "Trading";           Key_[11] = "T";                 //Not yet done
-        Name[12] = "Stockpile";         Key_[12] = "F";                 //Not yet done
-        Name[13] = "Granary";           Key_[13] = "G";                 //Not yet done
-        Name[14] = "Church";            Key_[14] = "H";                 //Not yet done
-        Name[15] = "Barracs";           Key_[15] = "B";                 //Not yet done
-        Name[16] = "Castle";            Key_[16] = "C";                 //Not yet done
-        Name[17] = "Pause";             Key_[17] = "P";                 //Not yet done
-        Name[18] = "Build";             Key_[18] = "Mouse0";            Desc[18] = "Place the building";
-        Name[19] = "Cancel build";      Key_[19] = "Mouse1";            Desc[19] = "Cancel building";
-        Name[20] = "Alternative";       Key_[20] = "LeftShift";         Desc[20] = "Continue building & Inverse build rotation";
-        Name[21] = "Walls higher";      Key_[21] = "KeypadPlus";        Desc[21] = "Make the walls higher";
-        Name[22] = "Walls lower";       Key_[22] = "KeypadMinus";       Desc[22] = "Make the walls lower";
+    private Keys[] KeysArray;                                                       //KeysArray Array to store the data in
+    private void InitaliseKeybindings(bool ToDefault)                               //Init the bool settings (set default values)
+    {
+        int ArrayLength = 22 + 1;                                                               //The total amount of entries, change accordingly (+1 since we have a '0' entry too)
+        KeysArray = new Keys[ArrayLength];                                                      //Create a new array with the proper length
 
-        buttonKeys = new Dictionary<string, KeyCode>();
-        for (int i = 0; i < Name.Length; i++)                                                   //For each button name
-        {
-            buttonKeys[Name[i]] = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(Name[i], Key_[i]));    //Get the key that should be connected
-        }
-    }
-    public bool GetButtonDown(string buttonName)
-    {
-        if (buttonKeys.ContainsKey(buttonName) == false)                                        //If the button is not defined
-        {
-            Debug.LogError("InputManager::GetButtonDown -- No button named: " + buttonName);    //Show an error
-            return false;                                                                       //Return false, since the non existing button isn't pressed
-        }
-        return Input.GetKey(buttonKeys[buttonName]);                                            //Return the button state
-    }
-    public bool GetButtonDownOnce(string buttonName)
-    {
-        if (buttonKeys.ContainsKey(buttonName) == false)                                        //If the button is not defined
-        {
-            Debug.LogError("InputManager::GetButtonDown -- No button named: " + buttonName);    //Show an error
-            return false;                                                                       //Return false, since the non existing button isn't pressed
-        }
-        return Input.GetKeyDown(buttonKeys[buttonName]);                                            //Return the button state
-    }
-    public string[] GetButtonNames()
-    {
-        return buttonKeys.Keys.ToArray();
-    }
-    public string GetKeyNameForButton(string buttonName)
-    {
-        if (buttonKeys.ContainsKey(buttonName) == false)
-        {
-            Debug.LogError("InputManager::GetKeyNameForButton -- No button named: " + buttonName);
-            return "N/A";
-        }
-        return buttonKeys[buttonName].ToString();
-    }
-    public void SetButtonForKey(string buttonName, KeyCode keyCode)
-    {
-        buttonKeys[buttonName] = keyCode;                                                       //Set the KeyCode, so it will be used in the shortkut
-        PlayerPrefs.SetString(buttonName, keyCode.ToString());                                  //Save the button to Playerprefs
-    }
-    public void ResetAllShotKeys()
-    {
-        for (int i = 0; i < Name.Length; i++)                                                   //For each button name
-        {
-            SetButtonForKey(Name[i], (KeyCode)Enum.Parse(typeof(KeyCode), Key_[i]));            //reset the key
-        }
-    }
+        KeysArray[0] = new Keys("Drag",             KeyCode.Mouse1,         "Drag the camera"); //Add some data
+        KeysArray[1] = new Keys("Rotate",           KeyCode.Mouse2,         "Rotatate the camera");
+        KeysArray[2] = new Keys("Left",             KeyCode.A,              "Move camera left");
+        KeysArray[3] = new Keys("Down",             KeyCode.S,              "Move camera backwards");
+        KeysArray[4] = new Keys("Right",            KeyCode.D,              "Move camera right");
+        KeysArray[5] = new Keys("Up",               KeyCode.W,              "Move camera forward");
+        KeysArray[6] = new Keys("Rotate left",      KeyCode.E,              "Rotatate the camera a bit left");
+        KeysArray[7] = new Keys("Rotate right",     KeyCode.Q,              "Rotatate the camera a bit right");
+        KeysArray[8] = new Keys("Menu",             KeyCode.Escape,         "Open / close the menu");
+        KeysArray[9] = new Keys("Toggle UI",        KeyCode.Tab,            "Make the UI hidden/viseble");
+        KeysArray[10] = new Keys("Rotate building", KeyCode.R,              "");
+        KeysArray[11] = new Keys("Trading",         KeyCode.T,              "");
+        KeysArray[12] = new Keys("Stockpile",       KeyCode.F,              "");
+        KeysArray[13] = new Keys("Granary",         KeyCode.G,              "");
+        KeysArray[14] = new Keys("Church",          KeyCode.H,              "");
+        KeysArray[15] = new Keys("Barracs",         KeyCode.B,              "");
+        KeysArray[16] = new Keys("Castle",          KeyCode.C,              "");
+        KeysArray[17] = new Keys("Pause",           KeyCode.P,              "");
+        KeysArray[18] = new Keys("Build",           KeyCode.Mouse0,         "Place the building");
+        KeysArray[19] = new Keys("Cancel build",    KeyCode.Mouse1,         "Cancel building");
+        KeysArray[20] = new Keys("Alternative",     KeyCode.LeftShift,      "Continue building & Inverse build rotation");
+        KeysArray[21] = new Keys("Walls higher",    KeyCode.KeypadPlus,     "Make the walls higher");
+        KeysArray[22] = new Keys("Walls lower",     KeyCode.KeypadMinus,    "Make the walls lower");
 
+        if (!ToDefault)                                                                         //If we need to load Playerdata instead of default settings
+        {
+            for (int i = 0; i < KeysArray.Length; i++)                                          //For each entry in the array
+            {
+                KeysArray[i].Key_ = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(KeysArray[i].Name, KeysArray[i].Key_.ToString()));   //Set the key to the Users bind key, or leave it
+            }
+        }
+    }
+    public bool GetButtonDown(string buttonName)                                    //Checks if the button has been pressed
+    {
+        for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
+        {
+            if (KeysArray[i].Name == buttonName)                                                //If this is the button we are looking for
+                return Input.GetKey(KeysArray[i].Key_);                                         //Return the button state
+        }
+        Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error
+        return false;
+    }
+    public bool GetButtonDownOnce(string buttonName)                                //Checks if the button is pressed (and flag it as processed)
+    {
+        for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
+        {
+            if (KeysArray[i].Name == buttonName)                                                //If this is the button we are looking for
+                return Input.GetKeyDown(KeysArray[i].Key_);                                     //Return the button state
+        }
+        Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error
+        return false;
+    }
+    public void SetButtonForKey(String buttonName, KeyCode keyCode)                 //Set a keybinding
+    {
+        for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
+        {
+            if (KeysArray[i].Name == buttonName)                                                //If this is the button we are looking for
+            {
+                KeysArray[i].Key_ = keyCode;                                                    //Set the KeyCode, so it will be used in the shortkut
+                PlayerPrefs.SetString(KeysArray[i].Name, keyCode.ToString());                   //Save the button to Playerprefs
+                return;
+            }
+        }
+        Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error      
+    }
+    public Keys[] GetAllKeys()                                                      //Returns the whole array
+    {
+        return KeysArray;                                                                       //Return the whole array
+    }
+    public void ResetAllShotKeys()                                                  //Reset all Keybindings
+    {
+        InitaliseKeybindings(true);                                                             //Call the init and set set it to default
+    }
 
     private SettingsBool[] SettingsBoolArray;                                       //SettingsBool Array to store the data in
     private void InitaliseBoolSettings()                                            //Init the bool settings (set default values)
     {
         bool[] DefSetting = new bool[JelleWho.BoolSettingsLength];                              //Gets all default settings out of the int (every bit of the INT is now returned as BOOL[#])
         int X = 1;                                                                              //Set the first bit to read to be bit 1
-        for (int i = 0; i < DefSetting.Length; i++)                                             //For each item
+        for (int i = 0; i < DefSetting.Length; i++)                                             //For each entry in the array
         {
             if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & X) == X)    //Read the bit
                 DefSetting[i] = true;                                                           //Set this one as true
@@ -123,12 +113,12 @@ public class InputManager : MonoBehaviour
     }
     public void SetSetting(int Position, bool SetTo)                                //set a single setting
     {
-        SettingsBoolArray[Position].Stat = SetTo;
+        SettingsBoolArray[Position].Stat = SetTo;                                               //Update our array with this new info
         if (SetTo)
             PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) | 0x02));  //Set bit TRUE
         else
             PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & ~0x02)); //Set bit FALSE
-        Debug.LogWarning("BoolSettings SetSetting || Set " + Position + "to be " + SetTo);
+        Debug.Log("BoolSettings SetSetting || Set " + Position + "to be " + SetTo);
     }
     public SettingsBool GetSetting(int Position)                                    //Returns the current setting (name, stat, desc)
     {
@@ -159,8 +149,7 @@ public class InputManager : MonoBehaviour
         }
     }
 
-
-    private Building[] BuildingCostArray;
+    private Building[] BuildingCostArray;                                           //BuildingCostArray Array to store the data in
     private void InitaliseBuildingCost()                                            //Init the bool settings (set default values)
     {
         int ArrayLength = 32 + 1;
@@ -203,14 +192,12 @@ public class InputManager : MonoBehaviour
         BuildingCostArray[31] = new Building("Repair_Building",         10, 5,  0,  0,  false);
         BuildingCostArray[32] = new Building("ddddd",                   0,  0,  0,  0,  false);
     }
-    public Building GetInfo(String ItemName)
+    public Building GetInfo(String ItemName)                                        //Get building information about a building
     {
         for (int i = 0; i < BuildingCostArray.Length; i++)                                      //Do for all objects in the array
         {
             if (BuildingCostArray[i].Name == ItemName)                                          //If this object has the name we want
-            {
                 return BuildingCostArray[i];                                                    //Return this object
-            }
         }
         Debug.LogError("InputManager::GetInfo -- No object named: '" + ItemName + "' in the BuildingCostArray");  //Log error, object not found
         return new Building("N/A", 255, 255, 255, 255, false);                                  //Just give something 'random' back
