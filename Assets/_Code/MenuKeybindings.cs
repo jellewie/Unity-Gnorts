@@ -9,6 +9,7 @@ using PublicCode;
  */
 public class MenuKeybindings : MonoBehaviour {
 
+    
 	// Use this for initialization
 	void Start () 
     {
@@ -48,36 +49,37 @@ public class MenuKeybindings : MonoBehaviour {
     InputManager inputManager;
     public GameObject keyItemPrefab;
     public GameObject keyList;
-
+    public GameObject TextPressAKey;                                                        //Text to show when a user is doing a keybind
     string buttonToRebind = null;
     Dictionary<string, Text> buttonToLabel;
 	
 	// Update is called once per frame
 	void Update () {
-	
         if(buttonToRebind != null)
         {
-            if(Input.anyKeyDown)
+            TextPressAKey.SetActive(true);
+            if (Input.anyKeyDown)                                                            //If a key has been pressed
             {
-                // WHICH key was pressed down?!?
-
-                // Loop through all possible keys and see if it was pressed down
-                foreach(KeyCode kc in Enum.GetValues( typeof(KeyCode) ) )
+                foreach(KeyCode kc in Enum.GetValues( typeof(KeyCode)))                     //ForEach posible key
                 {
-                    // Is this key down?
-                    if(Input.GetKeyDown(kc))
+                    if(Input.GetKeyDown(kc))                                                //Check if this key is pressed down
                     {
-                        // Yes!
-                        inputManager.SetButtonForKey(buttonToRebind, kc );
-                        buttonToLabel[buttonToRebind].text = kc.ToString();
+                        if(inputManager.SetButtonForKey(buttonToRebind, kc))                //Set the key, and check if this key has been used before
+                        {
+                            buttonToLabel[buttonToRebind].color = new Color(1f, 0.5f, 0.16f);  //Warn user that this key has more than one function
+                        }
+                        else
+                        {
+                            buttonToLabel[buttonToRebind].color = Color.black;              //Key hasn't been used for something, so just make the color default black
+                        }
+                        buttonToLabel[buttonToRebind].text = kc.ToString();                 //Set the 
                         buttonToRebind = null;
+                        TextPressAKey.SetActive(false);
                         break;
                     }
                 }
-
             }
         }
-
 	}
 
     void StartRebindFor(string buttonName)

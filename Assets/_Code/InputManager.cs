@@ -71,18 +71,27 @@ public class InputManager : MonoBehaviour
         Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error
         return false;
     }
-    public void SetButtonForKey(String buttonName, KeyCode keyCode)                 //Set a keybinding
+    public bool SetButtonForKey(String buttonName, KeyCode keyCode)                 //Set a keybinding
     {
+        bool UsedBefore = false;
         for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
         {
+            if (KeysArray[i].Key_ == keyCode)                                                   //If we alread have set a usecase for this key
+                UsedBefore = true;                                                              //Flag that we have used this key already
             if (KeysArray[i].Name == buttonName)                                                //If this is the button we are looking for
             {
-                KeysArray[i].Key_ = keyCode;                                                    //Set the KeyCode, so it will be used in the shortkut
+                for (int j = i + 1; j < KeysArray.Length; j++)                                  //Continue with the loop
+                {
+                    if (KeysArray[j].Key_ == keyCode)                                           //If we alread have set a usecase for this key
+                        UsedBefore = true;                                                      //Flag that we have used this key already
+                }
+                KeysArray[i].Key_ = keyCode;                                                    //Set the KeyCode, so it will be used in the shortcut
                 PlayerPrefs.SetString(KeysArray[i].Name, keyCode.ToString());                   //Save the button to Playerprefs
-                return;
+                return UsedBefore;
             }
         }
         Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error      
+        return false;
     }
     public Keys[] GetAllKeys()                                                      //Returns the whole array
     {
@@ -91,6 +100,10 @@ public class InputManager : MonoBehaviour
     public void ResetAllShotKeys()                                                  //Reset all Keybindings
     {
         InitaliseKeybindings(true);                                                             //Call the init and set set it to default
+        for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
+        {
+            PlayerPrefs.SetString(KeysArray[i].Name, KeysArray[i].Key_.ToString());             //Save the default value to PlayerPrefs
+        }
     }
 
     private SettingsBool[] SettingsBoolArray;                                       //SettingsBool Array to store the data in
