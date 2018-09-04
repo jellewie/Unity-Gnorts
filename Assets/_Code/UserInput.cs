@@ -139,7 +139,6 @@ public class UserInput : MonoBehaviour
                             //Debug.DrawRay(OneBackwards, -transform.up * (InHand.GetComponent<Collider>().bounds.size.y), Color.red); //Just a debug line 
                             if (Physics.Raycast(OneBackwards, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building"))) //Do a raycast from OneBackwards towards the ground, and mesaure the length to a building
                             {
-                                
                                 if (CodeInputManager.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).BuildSpecial == 2 //if the object hit is a stair
                                 && Mathf.RoundToInt(Mathf.Abs(hit.transform.eulerAngles.y - InHand.transform.eulerAngles.y)) != 180) //And the stair is not in the oposide direction
                                     InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance) + 1, 0); //Move the stair up, the stair is going up  
@@ -153,17 +152,12 @@ public class UserInput : MonoBehaviour
                     else if (Special == 1)                                                      //If this building can move up and down
                     {
                         if (LowerObjectBy > InHand.GetComponent<Collider>().bounds.size.y - 2)  //If this building is off the ground
-                        {
-                            Debug.Log(InHand.GetComponent<Collider>().bounds.size.y);
                             LowerObjectBy = System.Convert.ToByte(InHand.GetComponent<Collider>().bounds.size.y - 2); //set HigherObject to max height of this object
-                        }
                         InHand.transform.position -= new Vector3(0, LowerObjectBy, 0);          //Move the wall to it's set hight
                     }
                 }
                 if (CodeInputManager.GetButtonDownOnce("Cancel build"))                         //If we want to cancel the build
-                {
                     Destroy(InHand);                                                            //Destoy the building
-                }
                 else if (CodeInputManager.GetButtonDown("Build"))                               //If we need to build the object here
                 {
                     InHand.layer = 0;                                                           //Set to default Layer
@@ -240,10 +234,7 @@ public class UserInput : MonoBehaviour
                         FolderBuildingPopUp.GetComponent<BuildingPopUp>().SelectBuilding(       //Open Pop-up window
                             hit.collider.gameObject,                                            //Send the gameobject that we have clicked on
                             CodeInputManager.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial); //And it's special stats
-
-
-
-                        Debug.Log("You've clicked on " + hit.collider.name);
+Debug.Log("You've clicked on " + hit.collider.name);
                     }
                 }
             }

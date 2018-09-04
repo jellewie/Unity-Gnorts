@@ -24,17 +24,18 @@ public class BuildingOption : MonoBehaviour {
         yield return new WaitForSeconds(time);                                                  //Only go though if we waited X seconds
         Used = true;                                                                            //Set the building to be used
     }
-    public void _RemoveHealth(byte RemoveAmount)
+    public void _RemoveHealth(byte RemoveAmount)                                        //Called when damage is dealth to this building
     {
-        Health -= RemoveAmount;
-        if (Health == 0)
+        Health -= RemoveAmount;                                                                 //Remove the set amount of the health
+        if (Health == 0)                                                                        //If the building is out of health
         {
-            _Destroy();
+            Debug.Log("The building " + this.gameObject.name + " is destroyed");
+            _Destroy();                                                                         //Call the Destroy code
         }
     }
-    public void _Destroy()
+    public void _Destroy()                                                              //If the building needs to be Destroyed
     {
         //Here could be some code that moved NPC's down and remove a bit from there health  
-        Destroy(this.gameObject);
+        Destroy(this.gameObject);                                                               //Destroy the object
     }
 }
