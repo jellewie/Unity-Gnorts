@@ -153,7 +153,10 @@ public class UserInput : MonoBehaviour
                     else if (Special == 1)                                                      //If this building can move up and down
                     {
                         if (LowerObjectBy > InHand.GetComponent<Collider>().bounds.size.y - 2)  //If this building is off the ground
+                        {
+                            Debug.Log(InHand.GetComponent<Collider>().bounds.size.y);
                             LowerObjectBy = System.Convert.ToByte(InHand.GetComponent<Collider>().bounds.size.y - 2); //set HigherObject to max height of this object
+                        }
                         InHand.transform.position -= new Vector3(0, LowerObjectBy, 0);          //Move the wall to it's set hight
                     }
                 }
@@ -202,6 +205,7 @@ public class UserInput : MonoBehaviour
             }
             else if (DeconstructToolEquiped)                                                    //If the Deconstruct tool is aquiped
             {
+                Debug.Log("Deconstruct active");
                 if (CodeInputManager.GetButtonDown("Build"))                                    //If we want to Deconstruct this building
                 {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
@@ -344,7 +348,7 @@ public class UserInput : MonoBehaviour
     {
         //If this line gives an error. Check if 'TheBuilding' had the code 'BuildingOption' attached to it. Also check that only this parrent is on the 'Building' layer 
         Building BuildingInfo = CodeInputManager.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName);  //Get the buildings info (like cost etc)
-        if (TheBuilding.GetComponent<BuildingOption>().Used)                                    //If the building is not brand new
+        if (TheBuilding.GetComponent<BuildingOption>().Used)                            //If the building is not brand new
         {
             CodeUserStats.GetComponent<UserStats>().ChangeWood (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUsed)));  //Return some percentage
             CodeUserStats.GetComponent<UserStats>().ChangeStone(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUsed)));  //^
@@ -358,7 +362,7 @@ public class UserInput : MonoBehaviour
             CodeUserStats.GetComponent<UserStats>().ChangeIron (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUnused)));  //^
             CodeUserStats.GetComponent<UserStats>().ChangeMoney(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUnused)));  //^
         }
-        Destroy(TheBuilding);                                                                   //Destroy the building
+        TheBuilding.GetComponent<BuildingOption>()._Destroy();                           //Destroy the building
     }
     private string CanWePayFor(GameObject TheBuilding)                                  //Checks if we can pay for a building, and pays if posible. else it will return what we don't have enough off
     {

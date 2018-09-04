@@ -24,4 +24,17 @@ public class BuildingOption : MonoBehaviour {
         yield return new WaitForSeconds(time);                                                  //Only go though if we waited X seconds
         Used = true;                                                                            //Set the building to be used
     }
+    public void _RemoveHealth(byte RemoveAmount)
+    {
+        Health -= RemoveAmount;
+        if (Health == 0)
+        {
+            _Destroy();
+        }
+    }
+    public void _Destroy()
+    {
+        //Here could be some code that moved NPC's down and remove a bit from there health  
+        Destroy(this.gameObject);
+    }
 }
