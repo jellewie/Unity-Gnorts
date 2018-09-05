@@ -8,19 +8,22 @@ public class FPSDisplay : MonoBehaviour
 
     void Update()
     {
-            deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
+        deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
     }
     void Start()
     {
-        if (PlayerPrefs.GetInt("FPSCounter", 0) == 1)                       //If FPS it set to show
-        {
-            InvokeRepeating("FPS", 0, 0.1f);                                //Repeatedly show FPS count (refresh every 0.01s)
-        }
+        InvokeRepeating("CalculateFPS", 0, 0.1f);                                //Repeatedly update FPS count (refresh every 0.01s)
     }
-    void FPS()
+    void CalculateFPS()
     {
-    float msec = deltaTime * 1000.0f;
-    float fps = 1.0f / deltaTime;
-    FPSCounter.text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
+        float msec = deltaTime * 1000.0f;
+        float fps = 1.0f / deltaTime;
+        FPSCounter.text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
+    }
+    public void _SetTargetFrameRate(int MaxFPS)
+    {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = MaxFPS;
+        Debug.Log(Application.targetFrameRate);
     }
 }
