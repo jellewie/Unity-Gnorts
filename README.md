@@ -13,7 +13,7 @@ v
 
 MENU LAYOUT
 ====================
-* __1 Battle__
+* __1 Battle__																																			//Change this to "Castle"?
 * 1 Bridge for moat (only posible attached to a gate)
 * 2 Moat
 * 3 Mangonel_Tower (for on top of stone towers)
@@ -33,7 +33,7 @@ MENU LAYOUT
 * 7 Blacksmith_Armor (Iron/steel jacket maker)
 * 8 Blacksmith_Tools (Iron/steel Ace maker / Iron/steel Sword maker) 
 
-* __3 Castle structures__
+* __3 Castle structures__																																//Change this to "Wall_Buildings"?
 * 1 Wooden_Wall
 * 2 Wooden_Wall_Spiked
 * 3 Wooden_Gate			(Gates give a pop-up window to open/close the gate)

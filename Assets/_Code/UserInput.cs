@@ -23,17 +23,21 @@ public class UserInput : MonoBehaviour
 
     Quaternion PreviousRotation;
 
-    bool IsOutOfFocus = false;
-    bool GamePaused = false;
-    bool StopCameraControls = false;
+    private bool IsOutOfFocus = false;
+    private bool GamePaused = false;
+    private bool StopCameraControls = false;
     private GameObject InHand;                                                          //When placing down this is stuffed with the object
-    bool DeconstructToolEquiped;
+    private bool DeconstructToolEquiped;
+    private float deltaTime = 0.0f;
+
+    public float Speed;
 
     private void Start()                                                                //Triggered on start
     {
     }
     private void Update()                                                               //Triggered before frame update
     {
+        deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;                               //Calculate time elapsed since last frame
     }
     private void LateUpdate()                                                           //Triggered after frame update
     {
@@ -247,20 +251,20 @@ Debug.Log("You've clicked on " + hit.collider.name);
             _HideMenus();                                                                       //Hide the Menu's
         if (CodeInputManager.GetButtonDownOnce("Toggle UI"))                                    //If the Toggle UI button is pressed
             FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
-        float Speed = Camera.main.transform.position.y * JelleWho.HeighSpeedIncrease;           //The height has X of speed increase per block
+        Speed = (JelleWho.SpeedC * Camera.main.transform.position.y + JelleWho.SpeedD); //The height has X of speed increase per block (times the time elapsed since last frame)
         Vector2 input = new Vector2(0f, 0f);                                                    //Create a new (emnthy) movement change vector
-        if (CodeInputManager.GetButtonDown("Left"))                                             //Keyboard scroll left
-            input.x -= 1f * JelleWho.MoveSpeedKeyboard;
-        if (CodeInputManager.GetButtonDown("Right"))                                            //Keyboard scroll right
-            input.x += 1f * JelleWho.MoveSpeedKeyboard;
-        if (CodeInputManager.GetButtonDown("Up"))                                               //Keyboard scroll up
-            input.y += 1f * JelleWho.MoveSpeedKeyboard;
-        if (CodeInputManager.GetButtonDown("Down"))                                             //Keyboard scroll down
-            input.y -= 1f * JelleWho.MoveSpeedKeyboard;
+        if (CodeInputManager.GetButtonDown("Left"))                                             //Keyboard move left
+            input.x -= JelleWho.MoveSpeedKeyboard ;
+        if (CodeInputManager.GetButtonDown("Right"))                                            //Keyboard move right
+            input.x += JelleWho.MoveSpeedKeyboard;
+        if (CodeInputManager.GetButtonDown("Up"))                                               //Keyboard move up
+            input.y += JelleWho.MoveSpeedKeyboard;
+        if (CodeInputManager.GetButtonDown("Down"))                                             //Keyboard move down
+            input.y -= JelleWho.MoveSpeedKeyboard;
         if (CodeInputManager.GetButtonDown("Drag"))                                             //If the Drag button is presse
         {
-            input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse * (Speed / 2);        //Calculate howmuch we need to move in the axes 
-            input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse * (Speed / 2);        //^
+            input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse;                      //Calculate howmuch we need to move in the axes 
+            input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse;                      //^
         }
         else if (input == new Vector2(0f, 0f))                                                  //If camera doesn't need to move yet
         {
@@ -269,13 +273,13 @@ Debug.Log("You've clicked on " + hit.collider.name);
                 float xpos = Input.mousePosition.x;                                             //Save mouse position
                 float ypos = Input.mousePosition.y;                                             //^        
                 if (xpos >= 0 && xpos < JelleWho.MoveIfThisCloseToTheSides)                     //Edge scroll left
-                    input.x -= 1f * JelleWho.MoveEdgeScrollSpeed;                               //
+                    input.x -= JelleWho.MoveEdgeScrollSpeed;                                    //
                 else if (xpos <= Screen.width && xpos > Screen.width - JelleWho.MoveIfThisCloseToTheSides)//Edge scroll right
-                    input.x += 1f * JelleWho.MoveEdgeScrollSpeed;                               //
+                    input.x += JelleWho.MoveEdgeScrollSpeed;                                    //
                 if (ypos >= 0 && ypos < JelleWho.MoveIfThisCloseToTheSides)                     //Edge scroll down
-                    input.y -= 1f * JelleWho.MoveEdgeScrollSpeed;                               //
+                    input.y -= JelleWho.MoveEdgeScrollSpeed;                                    //
                 else if (ypos <= Screen.height && ypos > Screen.height - JelleWho.MoveIfThisCloseToTheSides)//Edge scrolll up
-                    input.y += 1f * JelleWho.MoveEdgeScrollSpeed;                               //
+                    input.y += JelleWho.MoveEdgeScrollSpeed;                                    //
             }
         }
         if (Mathf.Abs(input.y) > Mathf.Epsilon)                                                 //Movement up/down relative to the screen
