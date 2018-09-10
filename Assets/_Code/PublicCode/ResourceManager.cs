@@ -6,10 +6,10 @@ namespace PublicCode {
     public static class JelleWho {
 
         //https://www.desmos.com/calculator     y=\frac{-C}{99}\cdot x+B+\frac{C}{99}      X = height     B =SpeedAtHeigh1    and C = SpeedAtHeigh100     //Current added Speed = y=C\cdot x\ +D
-        private static float SpeedAtHeigh1 = 0.003f;                                               //A This times heigth = speed at that height
-        private static float SpeedAtHeigh100 = 0.08f;                                              //B  This times heigth = speed at that height
-        public static float SpeedC = -SpeedAtHeigh100 / 99;                                     //C=\frac{-B}{99}       //99 = height 100 - height 1
-        public static float SpeedD = SpeedAtHeigh1 + (SpeedAtHeigh100 / 99);                    //D=A+\frac{B}{99}
+        private static readonly float SpeedAtHeigh1 = 0.0025f;                                   //A This times heigth = speed at that height
+        private static readonly float SpeedAtHeigh100 = 0.08f;                                  //B  This times heigth = speed at that height
+        public static float SpeedC = SpeedAtHeigh100 / 99f;                                    //C=\frac{-B}{99}       //99 = height 100 - height 1
+        public static float SpeedD = SpeedAtHeigh1 + (SpeedAtHeigh100 / 99f);                   //D=A+\frac{B}{99}
 
         public static int MoveIfThisCloseToTheSides = 25;                                       //If the mouse is this close to the edge
         public static float RotateSpeedMouse = 5;                                               //The speed of rotating with the scroll wheel

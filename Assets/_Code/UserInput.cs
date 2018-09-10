@@ -251,7 +251,7 @@ Debug.Log("You've clicked on " + hit.collider.name);
             _HideMenus();                                                                       //Hide the Menu's
         if (CodeInputManager.GetButtonDownOnce("Toggle UI"))                                    //If the Toggle UI button is pressed
             FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
-        Speed = (JelleWho.SpeedC * Camera.main.transform.position.y + JelleWho.SpeedD); //The height has X of speed increase per block (times the time elapsed since last frame)
+        Speed = (JelleWho.SpeedC * Camera.main.transform.position.y + JelleWho.SpeedD);         //The height has X of speed increase per block (times the time elapsed since last frame)
         Vector2 input = new Vector2(0f, 0f);                                                    //Create a new (emnthy) movement change vector
         if (CodeInputManager.GetButtonDown("Left"))                                             //Keyboard move left
             input.x -= JelleWho.MoveSpeedKeyboard ;
