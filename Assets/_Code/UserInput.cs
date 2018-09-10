@@ -31,15 +31,6 @@ public class UserInput : MonoBehaviour
     private float deltaTime = 0.0f;                                                     //The time between this and the last frame
     public float Speed;                                                                 //Speed multiblecation for controls (zoom out slowdown)
 
-
-
-    public GameObject Wooden_Wall;
-    public GameObject Wooden_Gate;
-    public InputField SaveLoadTXT;
-
-
-
-
     private void Start()                                                                //Triggered on start
     {
     }
@@ -415,6 +406,14 @@ Debug.Log("You've clicked on " + hit.collider.name);
         StaticBatchingUtility.Combine(FolderBuildings.gameObject);
     }
 
+
+
+
+
+    //These next lines should be moved to it's owm code page
+    public GameObject Wooden_Wall;
+    public GameObject Wooden_Gate;
+    public InputField SaveLoadTXT;
     public void _SaveToFile()
     {
         SaveLoadTXT.text = "";
@@ -443,6 +442,10 @@ Debug.Log("You've clicked on " + hit.collider.name);
     }
     private void LoadFromData(string TextFromTheFile)
     {
+        foreach (Transform child in FolderBuildings)
+        {
+            Destroy(child.gameObject);
+        }
         string[] SplitBlocks = TextFromTheFile.Split(new string[] { "\r" }, StringSplitOptions.None);   //Split at line end (building)
         for (int B = 0; B < SplitBlocks.Length; B++)                                //Do for each line (building)
         {
@@ -465,6 +468,11 @@ Debug.Log("You've clicked on " + hit.collider.name);
             }
         }
     }
+
+
+
+
+
 
     public void _TempSetUserStats()
     {
