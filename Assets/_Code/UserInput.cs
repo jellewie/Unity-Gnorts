@@ -419,21 +419,31 @@ Debug.Log("You've clicked on " + hit.collider.name);
         SaveLoadTXT.text = "";
         foreach (Transform child in FolderBuildings)
         {
+            /*The format buildup of the string
+                Each new Line (Lines end at "\r") is a new building that consisting of: (each seperated by ",")
+                        BuildingName,       Or rather the type name
+                        Coordinate x,
+                        Coordinate y,
+                        Coordinate z,
+                        Active,             If this building is NOT in sleep mode
+                        SelectedOption,     Which option is selected (like for Gates)
+                        Health,             The current health level
+
+                'FlagAsUsedAfterSeconds' and 'Used' are ignored, all buildings are flagged as Used to conserve some data and make things easier
+                'MaxHealth' is grabbed from the <BuildingOption>
+             */
             Building BuildingInfo = CodeInputManager.GetInfo(child.GetComponent<BuildingOption>().BuildingName);
-            string BuildingSaveInfo = child.GetComponent<BuildingOption>().BuildingName.ToString() + "," +
-                child.transform.position.x + "," +
-                child.transform.position.y + "," +
-                child.transform.position.z + "," +
-                child.eulerAngles.y;
-            //Also add special states, like gate is Open/Closed
-            if (SaveLoadTXT.text == "")
-            {
-                SaveLoadTXT.text = SaveLoadTXT.text + BuildingSaveInfo;
-            }
-            else
-            {
-                SaveLoadTXT.text = SaveLoadTXT.text + "\r" + BuildingSaveInfo;
-            }
+            string BuildingSaveInfo = child.GetComponent<BuildingOption>().BuildingName.ToString()
+                 + "," + child.transform.position.x                         
+                 + "," + child.transform.position.y                         
+                 + "," + child.transform.position.z                         
+                 + "," + child.eulerAngles.y                                
+                 + "," + child.GetComponent<BuildingOption>().Active        
+                 + "," + child.GetComponent<BuildingOption>().SelectedOption
+                 + "," + child.GetComponent<BuildingOption>().Health;
+            if (SaveLoadTXT.text != "")                                             //If if this is the first entry
+                SaveLoadTXT.text += "\r";                                           //Put a enter after this current data
+            SaveLoadTXT.text += BuildingSaveInfo;                                   //add this data
         }
     }
     public void _Load()
@@ -455,17 +465,25 @@ Debug.Log("You've clicked on " + hit.collider.name);
             int DataY = System.Convert.ToInt32(SplitBlockData[2]);
             int DataZ = System.Convert.ToInt32(SplitBlockData[3]);
             int DataRotation = System.Convert.ToInt32(SplitBlockData[4]);
+            bool DataActive = System.Convert.ToBoolean(SplitBlockData[5]);
+            byte DataSelectedOption = System.Convert.ToByte(SplitBlockData[4]);
+            byte DataHealth = System.Convert.ToByte(SplitBlockData[4]);
+
 
             if (BuildingTypeName == "Wooden_Wall")
             {
                 var a = Instantiate(Wooden_Wall, new Vector3(DataX, DataY, DataZ), Quaternion.Euler(0, DataRotation, 0)); //Create object and select it
                 a.transform.SetParent(FolderBuildings);                             //Sort the object in to the Blocks folder
+                a.GetComponent<BuildingOption>().SetStats(DataActive, DataSelectedOption, DataHealth);
             }
             else if(BuildingTypeName == "Wooden_Gate")
             {
                 var a = Instantiate(Wooden_Gate, new Vector3(DataX, DataY, DataZ), Quaternion.Euler(0, DataRotation, 0)); //Create object and select it
                 a.transform.SetParent(FolderBuildings);                             //Sort the object in to the Blocks folder
+                a.GetComponent<BuildingOption>().SetStats(DataActive, DataSelectedOption, DataHealth);
             }
+
+
         }
     }
 

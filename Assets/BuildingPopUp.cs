@@ -26,6 +26,7 @@ public class BuildingPopUp : MonoBehaviour {
                 DropDownMenu.value = 1;                                                         //Set the value to 1 (Open)
             else                                                                                
                 DropDownMenu.value = 0;                                                         //Set the value to 0 (Close)
+            SelectedBuilding.GetComponent<BuildingOption>().SelectedOption = System.Convert.ToByte(DropDownMenu.value);
         }                                                                                       
         else                                                                                    
             this.gameObject.SetActive(false);                                                   //This object doesn't have a dropdown menu, so hide 
@@ -39,6 +40,7 @@ public class BuildingPopUp : MonoBehaviour {
                 Gate.SetActive(false);                                                          //Hide Gate
             else
                 Gate.SetActive(true);                                                           //Show Gate
+            SelectedBuilding.GetComponent<BuildingOption>().SelectedOption = System.Convert.ToByte(DropDownMenu.value);
         }
     }
 }

@@ -11,6 +11,7 @@ public class BuildingOption : MonoBehaviour {
     public byte SelectedOption;                                                                 //Which option is selected (if this option has options, examples Lumberjack(ox), castle(tax), ox(trapsport), etc
     public byte Health;                                                                         //The current health of th building
 
+
     public void StartTimer()                                                            //This code will start the 'Used' after x seconds timer
     {
         Health = MaxHealth;                                                                     //Set the current health level to max
@@ -37,5 +38,11 @@ public class BuildingOption : MonoBehaviour {
     {
         //Here could be some code that moved NPC's down and remove a bit from there health  
         Destroy(this.gameObject);                                                               //Destroy the object
+    }
+    public void SetStats(bool SetActive, byte SetSelectedOption, byte SetHealth)        //Set the settings (for boot & loading)
+    {
+        Active = SetActive;                                                                     //Set active flag
+        SelectedOption = SetSelectedOption;                                                     //Set selected option
+        Health = SetHealth;                                                                     //Set Health
     }
 }
