@@ -390,6 +390,10 @@ Debug.Log("You've clicked on " + hit.collider.name);
             return "Wood";                                                                      //Return with; We dont have enough of this
     }
 
+    public void _Opti()
+    {
+        StaticBatchingUtility.Combine(FolderBuildings.gameObject);
+    }
 
 
     //https://answers.unity.com/questions/546045/how-can-i-access-a-bool-for-a-specific-gameobject.html

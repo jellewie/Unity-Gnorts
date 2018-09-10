@@ -62,4 +62,12 @@ public class UserStats : MonoBehaviour {
         Money += Amount;
         TextMoney.text = Money.ToString();
     }
+
+    public void _TempReset()
+    {
+        ChangeWood (999999);
+        ChangeStone(999999);
+        ChangeIron (999999);
+        ChangeMoney(999999);
+    }
 }

@@ -28,7 +28,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 127
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1745047805458212
 GameObject:
@@ -50,7 +50,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 127
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4506653641508190
 Transform:
@@ -775,10 +775,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BuildingName: Stone_Wall_Spiked
-  SelectedOption: 0
-  Used: 0
   FlagAsUsedAfterSeconds: 10
+  MaxHealth: 100
+  Used: 0
   Active: 0
+  SelectedOption: 0
+  Health: 0
 --- !u!114 &114852020537642488
 MonoBehaviour:
   m_ObjectHideFlags: 1
