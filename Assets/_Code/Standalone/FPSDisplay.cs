@@ -4,6 +4,7 @@ using UnityEngine.UI;                   //Required when Using UI elements.
 public class FPSDisplay : MonoBehaviour
 {
     public Text FPSCounter;                                                //Text that shows FPS amount
+    public InputField Input;
     float deltaTime = 0.0f;
 
     void Update()
@@ -20,10 +21,10 @@ public class FPSDisplay : MonoBehaviour
         float fps = 1.0f / deltaTime;
         FPSCounter.text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
     }
-    public void _SetTargetFrameRate(int MaxFPS)
+    public void _SetTargetFrameRate()
     {
         QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = MaxFPS;
+        Application.targetFrameRate = int.Parse(Input.text);
         Debug.Log(Application.targetFrameRate);
     }
 }

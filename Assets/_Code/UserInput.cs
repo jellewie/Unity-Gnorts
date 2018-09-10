@@ -251,10 +251,37 @@ Debug.Log("You've clicked on " + hit.collider.name);
             _HideMenus();                                                                       //Hide the Menu's
         if (CodeInputManager.GetButtonDownOnce("Toggle UI"))                                    //If the Toggle UI button is pressed
             FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
-        Speed = (JelleWho.SpeedC * Camera.main.transform.position.y + JelleWho.SpeedD);         //The height has X of speed increase per block (times the time elapsed since last frame)
+
+
+
+        Speed = (JelleWho.SpeedC * Camera.main.transform.position.y + JelleWho.SpeedD) * deltaTime; //The height has X of speed increase per block (times the time elapsed since last frame)
         Vector2 input = new Vector2(0f, 0f);                                                    //Create a new (emnthy) movement change vector
+
+        float Xr = Camera.main.transform.eulerAngles.x;                                         //Get main camera rotation
+        float Yr = Camera.main.transform.eulerAngles.y;                                         //^
+        if (CodeInputManager.GetButtonDown("Rotate left"))                                      //If the given key has been pressed
+        {
+            Yr -= JelleWho.RotateSpeedKeyboard * deltaTime;                                     //Get the mouse movement
+            input.x = JelleWho.MoveSpeedKeyboard;                                               //Also move camera to the left
+        }
+        if (CodeInputManager.GetButtonDown("Rotate right"))                                     //If the given key has been pressed
+        {
+            Yr += JelleWho.RotateSpeedKeyboard * deltaTime;                                     //Get the mouse movement
+            input.x -= JelleWho.MoveSpeedKeyboard;                                              //Also move camera to the right
+        }
+        if (CodeInputManager.GetButtonDown("Rotate"))                                           //If the given key has been pressed
+        {
+            Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse * deltaTime;             //Get the mouse movement
+            Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse * deltaTime;             //^
+        }
+        Vector3 C = Camera.main.transform.position;                                             //Get setted camera camera position
+        Camera.main.transform.position = new Vector3(                                           //Limit movement
+            Mathf.Clamp(C.x, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap),//Clamp X horizontal movement
+            Mathf.Clamp(C.y, JelleWho.MinCameraHeight, JelleWho.MaxCameraHeight),               //Clamp Y vertical movement
+            Mathf.Clamp(C.z, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap));//Clamp Z 
+        Camera.main.transform.eulerAngles = new Vector2(Mathf.Clamp(Xr, 0, 89.99f), Yr);        //Clamp Up Down looking angle 
         if (CodeInputManager.GetButtonDown("Left"))                                             //Keyboard move left
-            input.x -= JelleWho.MoveSpeedKeyboard ;
+            input.x -= JelleWho.MoveSpeedKeyboard;
         if (CodeInputManager.GetButtonDown("Right"))                                            //Keyboard move right
             input.x += JelleWho.MoveSpeedKeyboard;
         if (CodeInputManager.GetButtonDown("Up"))                                               //Keyboard move up
@@ -303,31 +330,13 @@ Debug.Log("You've clicked on " + hit.collider.name);
         {
             Vector3 newCameraPos = Camera.main.transform.position;
             Vector3 cameraForward = Camera.main.transform.forward;
-            newCameraPos += cameraForward * JelleWho.ZoomScrollWheelSpeed * ScrollWheelChange;
+            newCameraPos += cameraForward * JelleWho.ZoomScrollWheelSpeed * ScrollWheelChange * Speed;
             newCameraPos = new Vector3(
                 newCameraPos.x,
                 newCameraPos.y,
                 newCameraPos.z);
             Camera.main.transform.position = newCameraPos;
         }
-        float Xr = Camera.main.transform.eulerAngles.x;                                         //Get main camera rotation
-        float Yr = Camera.main.transform.eulerAngles.y;                                         //^
-        if (CodeInputManager.GetButtonDown("Rotate left"))                                      //If the given key has been pressed
-            Yr -= JelleWho.RotateSpeedKeyboard;                                                 //Get the mouse movement
-        if (CodeInputManager.GetButtonDown("Rotate right"))                                     //If the given key has been pressed
-            Yr += JelleWho.RotateSpeedKeyboard;                                                 //Get the mouse movement
-        if (CodeInputManager.GetButtonDown("Rotate"))                                           //If the given key has been pressed
-        {
-            Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse;                         //Get the mouse movement
-            Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse;                         //^
-        }
-        Vector3 C = Camera.main.transform.position;                                             //Get setted camera camera position
-        Camera.main.transform.position = new Vector3(                                           //Limit movement
-            Mathf.Clamp(C.x, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap),//Clamp X horizontal movement
-            Mathf.Clamp(C.y, JelleWho.MinCameraHeight, JelleWho.MaxCameraHeight),               //Clamp Y vertical movement
-            Mathf.Clamp(C.z, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap));//Clamp Z 
-        Camera.main.transform.eulerAngles = new Vector2(                                        //Limit camera look angles
-            Mathf.Clamp(Xr,0 ,89.99f), Yr);                                                     //Clamp Up down looking angle 
     }
     Vector3 PolarToCartesian(Vector2 polar, Vector3 Offset)                             //Offset=(Left, Up, Forward)
     {
