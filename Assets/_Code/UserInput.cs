@@ -27,10 +27,18 @@ public class UserInput : MonoBehaviour
     private bool GamePaused = false;
     private bool StopCameraControls = false;
     private GameObject InHand;                                                          //When placing down this is stuffed with the object
-    private bool DeconstructToolEquiped;
-    private float deltaTime = 0.0f;
+    private bool DeconstructToolEquiped;                                                //If the DeconstructTool is Equiped
+    private float deltaTime = 0.0f;                                                     //The time between this and the last frame
+    public float Speed;                                                                 //Speed multiblecation for controls (zoom out slowdown)
 
-    public float Speed;
+
+
+    public GameObject Wooden_Wall;
+    public GameObject Wooden_Gate;
+    public InputField SaveLoadTXT;
+
+
+
 
     private void Start()                                                                //Triggered on start
     {
@@ -83,6 +91,7 @@ public class UserInput : MonoBehaviour
     }
     private void PlaceInHand(GameObject Prefab)                                         //With the object to build as prefab, this will hook in to the mouse cursor
     {
+        DeconstructToolEquiped = false;                                                         //Make sure the DeconstructTool is NOT Equiped
         InHand = Instantiate(Prefab, new Vector3(0, -100, 0), Quaternion.identity);             //Create a new building and put it in our hands (coord will be set later)
         InHand.transform.rotation = PreviousRotation;                                           //Restore the rotation
         InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
@@ -243,6 +252,7 @@ Debug.Log("You've clicked on " + hit.collider.name);
                 }
             }
         }
+
         if (CodeInputManager.GetButtonDownOnce("Walls higher") && LowerObjectBy > 0)            //If we want to higher the object && the object is lower than the max heigth
             LowerObjectBy--;                                                                    //higher the object
         else if (CodeInputManager.GetButtonDownOnce("Walls lower"))                             //If we want to lower the object
@@ -252,91 +262,92 @@ Debug.Log("You've clicked on " + hit.collider.name);
         if (CodeInputManager.GetButtonDownOnce("Toggle UI"))                                    //If the Toggle UI button is pressed
             FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
 
-
-
-        Speed = (JelleWho.SpeedC * Camera.main.transform.position.y + JelleWho.SpeedD) * deltaTime; //The height has X of speed increase per block (times the time elapsed since last frame)
-        Vector2 input = new Vector2(0f, 0f);                                                    //Create a new (emnthy) movement change vector
-
-        float Xr = Camera.main.transform.eulerAngles.x;                                         //Get main camera rotation
-        float Yr = Camera.main.transform.eulerAngles.y;                                         //^
-        if (CodeInputManager.GetButtonDown("Rotate left"))                                      //If the given key has been pressed
-        {
-            Yr -= JelleWho.RotateSpeedKeyboard * deltaTime;                                     //Get the mouse movement
-            input.x = JelleWho.MoveSpeedKeyboard;                                               //Also move camera to the left
-        }
-        if (CodeInputManager.GetButtonDown("Rotate right"))                                     //If the given key has been pressed
-        {
-            Yr += JelleWho.RotateSpeedKeyboard * deltaTime;                                     //Get the mouse movement
-            input.x -= JelleWho.MoveSpeedKeyboard;                                              //Also move camera to the right
-        }
-        if (CodeInputManager.GetButtonDown("Rotate"))                                           //If the given key has been pressed
-        {
-            Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse * deltaTime;             //Get the mouse movement
-            Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse * deltaTime;             //^
-        }
-        Vector3 C = Camera.main.transform.position;                                             //Get setted camera camera position
-        Camera.main.transform.position = new Vector3(                                           //Limit movement
-            Mathf.Clamp(C.x, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap),//Clamp X horizontal movement
-            Mathf.Clamp(C.y, JelleWho.MinCameraHeight, JelleWho.MaxCameraHeight),               //Clamp Y vertical movement
-            Mathf.Clamp(C.z, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap));//Clamp Z 
-        Camera.main.transform.eulerAngles = new Vector2(Mathf.Clamp(Xr, 0, 89.99f), Yr);        //Clamp Up Down looking angle 
-        if (CodeInputManager.GetButtonDown("Left"))                                             //Keyboard move left
-            input.x -= JelleWho.MoveSpeedKeyboard;
-        if (CodeInputManager.GetButtonDown("Right"))                                            //Keyboard move right
-            input.x += JelleWho.MoveSpeedKeyboard;
-        if (CodeInputManager.GetButtonDown("Up"))                                               //Keyboard move up
-            input.y += JelleWho.MoveSpeedKeyboard;
-        if (CodeInputManager.GetButtonDown("Down"))                                             //Keyboard move down
-            input.y -= JelleWho.MoveSpeedKeyboard;
-        if (CodeInputManager.GetButtonDown("Drag"))                                             //If the Drag button is presse
-        {
-            input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse;                      //Calculate howmuch we need to move in the axes 
-            input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse;                      //^
-        }
-        else if (input == new Vector2(0f, 0f))                                                  //If camera doesn't need to move yet
-        {
-            if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x01) != 0x01)//If EdgeScroll setting is on
+        {                                                                                       //Camera stuff
+            Speed = (JelleWho.SpeedC * Camera.main.transform.position.y + JelleWho.SpeedD) * deltaTime; //The height has X of speed increase per block (times the time elapsed since last frame)
+            Vector2 input = new Vector2(0f, 0f);                                                //Create a new (emnthy) movement change vector
+            float Xr = Camera.main.transform.eulerAngles.x;                                     //Get main camera rotation
+            float Yr = Camera.main.transform.eulerAngles.y;                                     //^
+            if (CodeInputManager.GetButtonDown("Rotate left"))                                  //If the given key has been pressed
             {
-                float xpos = Input.mousePosition.x;                                             //Save mouse position
-                float ypos = Input.mousePosition.y;                                             //^        
-                if (xpos >= 0 && xpos < JelleWho.MoveIfThisCloseToTheSides)                     //Edge scroll left
-                    input.x -= JelleWho.MoveEdgeScrollSpeed;                                    //
-                else if (xpos <= Screen.width && xpos > Screen.width - JelleWho.MoveIfThisCloseToTheSides)//Edge scroll right
-                    input.x += JelleWho.MoveEdgeScrollSpeed;                                    //
-                if (ypos >= 0 && ypos < JelleWho.MoveIfThisCloseToTheSides)                     //Edge scroll down
-                    input.y -= JelleWho.MoveEdgeScrollSpeed;                                    //
-                else if (ypos <= Screen.height && ypos > Screen.height - JelleWho.MoveIfThisCloseToTheSides)//Edge scrolll up
-                    input.y += JelleWho.MoveEdgeScrollSpeed;                                    //
+                Yr -= JelleWho.RotateSpeedKeyboard * deltaTime;                                 //Get the mouse movement
+                input.x = JelleWho.MoveSpeedKeyboard;                                           //Also move camera to the left
             }
-        }
-        if (Mathf.Abs(input.y) > Mathf.Epsilon)                                                 //Movement up/down relative to the screen
-        {
-            Vector3 horDir = Camera.main.transform.forward;                                     //Get the camera position
-            horDir.y = 0f;                                                                      //Set Up/Down movement to 0, so we ignore that direction
-            horDir.Normalize();                                                                 //If there is a value make it 1
-            Vector3 newCameraPos = Camera.main.transform.position + horDir * Speed * input.y;   //Get the new camera position
-            Camera.main.transform.position = newCameraPos;                                      //Set camera position
-        }
-        if (Mathf.Abs(input.x) > Mathf.Epsilon)                                                 //Movement left/right relative to the screen
-        {
-            Vector3 horDir = Camera.main.transform.right;                                       //Get the camera position 
-            horDir.y = 0f;                                                                      //Set Up/Down movement to 0, so we ignore that direction
-            horDir.Normalize();                                                                 //If there is a value make it 1
-            Vector3 newCameraPos = Camera.main.transform.position + horDir * Speed * input.x;   //Get the new camera position
-            Camera.main.transform.position = newCameraPos;                                      //Set camera position
-        }
-        float ScrollWheelChange = Input.GetAxis("Mouse ScrollWheel");                           //Get the scrollwheel location
-        if (ScrollWheelChange != 0 && !EventSystem.current.IsPointerOverGameObject())           //If the scrollwheel has changed (and zoom is enabled)
-        {
-            Vector3 newCameraPos = Camera.main.transform.position;
-            Vector3 cameraForward = Camera.main.transform.forward;
-            newCameraPos += cameraForward * JelleWho.ZoomScrollWheelSpeed * ScrollWheelChange * Speed;
-            newCameraPos = new Vector3(
-                newCameraPos.x,
-                newCameraPos.y,
-                newCameraPos.z);
-            Camera.main.transform.position = newCameraPos;
-        }
+            if (CodeInputManager.GetButtonDown("Rotate right"))                                 //If the given key has been pressed
+            {
+                Yr += JelleWho.RotateSpeedKeyboard * deltaTime;                                 //Get the mouse movement
+                input.x -= JelleWho.MoveSpeedKeyboard;                                          //Also move camera to the right
+            }
+            if (CodeInputManager.GetButtonDown("Rotate"))                                       //If the given key has been pressed
+            {
+                Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse * deltaTime;         //Get the mouse movement
+                Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse * deltaTime;         //^
+            }
+            Vector3 C = Camera.main.transform.position;                                         //Get setted camera camera position
+            Camera.main.transform.position = new Vector3(                                       //Limit movement
+                Mathf.Clamp(C.x, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap),//Clamp X horizontal movement
+                Mathf.Clamp(C.y, JelleWho.MinCameraHeight, JelleWho.MaxCameraHeight),           //Clamp Y vertical movement
+                Mathf.Clamp(C.z, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap));//Clamp Z 
+            Camera.main.transform.eulerAngles = new Vector2(Mathf.Clamp(Xr, 0, 89.99f), Yr);    //Clamp Up Down looking angle 
+            if (CodeInputManager.GetButtonDown("Left"))                                         //Keyboard move left
+                input.x -= JelleWho.MoveSpeedKeyboard;
+            if (CodeInputManager.GetButtonDown("Right"))                                        //Keyboard move right
+                input.x += JelleWho.MoveSpeedKeyboard;
+            if (CodeInputManager.GetButtonDown("Up"))                                           //Keyboard move up
+                input.y += JelleWho.MoveSpeedKeyboard;
+            if (CodeInputManager.GetButtonDown("Down"))                                         //Keyboard move down
+                input.y -= JelleWho.MoveSpeedKeyboard;
+            if (CodeInputManager.GetButtonDown("Drag"))                                         //If the Drag button is presse
+            {
+                input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse;                  //Calculate howmuch we need to move in the axes 
+                input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse;                  //^
+            }
+            else if (input == new Vector2(0f, 0f))                                              //If camera doesn't need to move yet
+            {
+                if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x01) != 0x01)//If EdgeScroll setting is on
+                {
+                    float xpos = Input.mousePosition.x;                                         //Save mouse position
+                    float ypos = Input.mousePosition.y;                                         //^        
+                    if (xpos >= 0 && xpos < JelleWho.MoveIfThisCloseToTheSides)                 //Edge scroll left
+                        input.x -= JelleWho.MoveEdgeScrollSpeed;                                //
+                    else if (xpos <= Screen.width && xpos > Screen.width - JelleWho.MoveIfThisCloseToTheSides)//Edge scroll right
+                        input.x += JelleWho.MoveEdgeScrollSpeed;                                //
+                    if (ypos >= 0 && ypos < JelleWho.MoveIfThisCloseToTheSides)                 //Edge scroll down
+                        input.y -= JelleWho.MoveEdgeScrollSpeed;                                //
+                    else if (ypos <= Screen.height && ypos > Screen.height - JelleWho.MoveIfThisCloseToTheSides)//Edge scrolll up
+                        input.y += JelleWho.MoveEdgeScrollSpeed;                                //
+                }
+            }
+            if (Mathf.Abs(input.y) > Mathf.Epsilon)                                             //Movement up/down relative to the screen
+            {
+                Vector3 horDir = Camera.main.transform.forward;                                 //Get the camera position
+                horDir.y = 0f;                                                                  //Set Up/Down movement to 0, so we ignore that direction
+                horDir.Normalize();                                                             //If there is a value make it 1
+                Vector3 newCameraPos = Camera.main.transform.position + horDir * Speed * input.y; //Get the new camera position
+                Camera.main.transform.position = newCameraPos;                                  //Set camera position
+            }
+            if (Mathf.Abs(input.x) > Mathf.Epsilon)                                             //Movement left/right relative to the screen
+            {
+                Vector3 horDir = Camera.main.transform.right;                                   //Get the camera position 
+                horDir.y = 0f;                                                                  //Set Up/Down movement to 0, so we ignore that direction
+                horDir.Normalize();                                                             //If there is a value make it 1
+                Vector3 newCameraPos = Camera.main.transform.position + horDir * Speed * input.x; //Get the new camera position
+                Camera.main.transform.position = newCameraPos;                                  //Set camera position
+            }
+            float ScrollWheelChange = Input.GetAxis("Mouse ScrollWheel");                       //Get the scrollwheel location
+            if (ScrollWheelChange != 0 && !EventSystem.current.IsPointerOverGameObject())       //If the scrollwheel has changed (and zoom is enabled)
+            {
+                Vector3 newCameraPos = Camera.main.transform.position;
+                Vector3 cameraForward = Camera.main.transform.forward;
+                newCameraPos += cameraForward * JelleWho.ZoomScrollWheelSpeed * ScrollWheelChange * Speed;
+                newCameraPos = new Vector3(
+                    newCameraPos.x,
+                    newCameraPos.y,
+                    newCameraPos.z);
+                Camera.main.transform.position = newCameraPos;
+            }
+        }                                                                                     //Camera stuff
+
+
     }
     Vector3 PolarToCartesian(Vector2 polar, Vector3 Offset)                             //Offset=(Left, Up, Forward)
     {
@@ -404,6 +415,61 @@ Debug.Log("You've clicked on " + hit.collider.name);
         StaticBatchingUtility.Combine(FolderBuildings.gameObject);
     }
 
+    public void _SaveToFile()
+    {
+        SaveLoadTXT.text = "";
+        foreach (Transform child in FolderBuildings)
+        {
+            Building BuildingInfo = CodeInputManager.GetInfo(child.GetComponent<BuildingOption>().BuildingName);
+            string BuildingSaveInfo = child.GetComponent<BuildingOption>().BuildingName.ToString() + "," +
+                child.transform.position.x + "," +
+                child.transform.position.y + "," +
+                child.transform.position.z + "," +
+                child.eulerAngles.y;
+            //Also add special states, like gate is Open/Closed
+            if (SaveLoadTXT.text == "")
+            {
+                SaveLoadTXT.text = SaveLoadTXT.text + BuildingSaveInfo;
+            }
+            else
+            {
+                SaveLoadTXT.text = SaveLoadTXT.text + "\r" + BuildingSaveInfo;
+            }
+        }
+    }
+    public void _Load()
+    {
+        LoadFromData(SaveLoadTXT.text);
+    }
+    private void LoadFromData(string TextFromTheFile)
+    {
+        string[] SplitBlocks = TextFromTheFile.Split(new string[] { "\r" }, StringSplitOptions.None);   //Split at line end (building)
+        for (int B = 0; B < SplitBlocks.Length; B++)                                //Do for each line (building)
+        {
+            string[] SplitBlockData = SplitBlocks[B].Split(new string[] { "," }, StringSplitOptions.None); //Split at each Data section
+            string BuildingTypeName = SplitBlockData[0];
+            int DataX = System.Convert.ToInt32(SplitBlockData[1]);
+            int DataY = System.Convert.ToInt32(SplitBlockData[2]);
+            int DataZ = System.Convert.ToInt32(SplitBlockData[3]);
+            int DataRotation = System.Convert.ToInt32(SplitBlockData[4]);
+
+            if (BuildingTypeName == "Wooden_Wall")
+            {
+                var a = Instantiate(Wooden_Wall, new Vector3(DataX, DataY, DataZ), Quaternion.Euler(0, DataRotation, 0)); //Create object and select it
+                a.transform.SetParent(FolderBuildings);                             //Sort the object in to the Blocks folder
+            }
+            else if(BuildingTypeName == "Wooden_Gate")
+            {
+                var a = Instantiate(Wooden_Gate, new Vector3(DataX, DataY, DataZ), Quaternion.Euler(0, DataRotation, 0)); //Create object and select it
+                a.transform.SetParent(FolderBuildings);                             //Sort the object in to the Blocks folder
+            }
+        }
+    }
+
+    public void _TempSetUserStats()
+    {
+        CodeUserStats.GetComponent<UserStats>().Set(999999, 999999, 999999, 999999);
+    }
 
     //https://answers.unity.com/questions/546045/how-can-i-access-a-bool-for-a-specific-gameobject.html
     //public class MyNewClass

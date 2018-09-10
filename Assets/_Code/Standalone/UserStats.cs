@@ -7,6 +7,7 @@ public class UserStats : MonoBehaviour {
     public long Stone;
     public long Iron;
     public long Money;
+
     public long Grain;
     public long flour;
 
@@ -34,40 +35,45 @@ public class UserStats : MonoBehaviour {
     public long Population;
     public long MaxPopulation;
 
-    public void Start()
+    public void Start()                                                         //Triggered once on start
     {
-        ChangeWood (0);                         //Update the stats bar
-        ChangeStone(0);
-        ChangeIron (0);
-        ChangeMoney(0);
+        UpdateScreen();                                                                  //Make sure the screen is up to date
     }
-    //These code will change the amounts
-    public void ChangeWood(long Amount)
+    
+    public void ChangeWood(long Amount)                                         //This will change the amount by X (TIP use - or +)
     {
-        Wood += Amount;                         //Add or remove the amount (Wood +-10 = Wood-10)
-        TextWood.text = Wood.ToString();        //Update the Stats bar
+        Wood += Amount;                                                                 //Add or remove the amount (Wood +-10 = Wood-10)
+        TextWood.text = Wood.ToString();                                                //Update the Stats bar
     }
-    public void ChangeStone(long Amount)
+    public void ChangeStone(long Amount)                                        //This will change the amount by X (TIP use - or +)
     {
-        Stone += Amount;
-        TextStone.text = Stone.ToString();
+        Stone += Amount;                                                                //Add or remove the amount (Stone +-10 = Stone-10)
+        TextStone.text = Stone.ToString();                                              //Update the Stats bar
     }
-    public void ChangeIron(long Amount)
+    public void ChangeIron(long Amount)                                         //This will change the amount by X (TIP use - or +)
     {
-        Iron += Amount;
-        TextIron.text = Iron.ToString();
+        Iron += Amount;                                                                 //Add or remove the amount (Iron +-10 = Iron-10)
+        TextIron.text = Iron.ToString();                                                //Update the Stats bar
     }
-    public void ChangeMoney(long Amount)
+    public void ChangeMoney(long Amount)                                        //This will change the amount by X (TIP use - or +)
     {
-        Money += Amount;
-        TextMoney.text = Money.ToString();
+        Money += Amount;                                                                //Add or remove the amount (Money +-10 = Money-10)
+        TextMoney.text = Money.ToString();                                              //Update the Stats bar
     }
 
-    public void _TempReset()
+    private void UpdateScreen()                                                 //This will make sure the code runs synchrone with the data the user sees
     {
-        ChangeWood (999999);
-        ChangeStone(999999);
-        ChangeIron (999999);
-        ChangeMoney(999999);
+        ChangeWood(0);                                                                  //Update the stats bar
+        ChangeStone(0);                                                                 //^
+        ChangeIron(0);                                                                  //^
+        ChangeMoney(0);                                                                 //^
+    }
+    public void Set(long AmountWood, long AmountStone, long AmountIron, long AmountMoney)
+    {
+        Wood  = AmountWood;                                                             //Set the given amount
+        Stone = AmountStone;                                                            //^
+        Iron  = AmountIron;                                                             //^
+        Money = AmountMoney;                                                            //^
+        UpdateScreen();                                                                 //Make sure the screen is up to date
     }
 }
