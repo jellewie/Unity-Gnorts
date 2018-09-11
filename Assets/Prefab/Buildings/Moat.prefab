@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4070262203018676}
   - component: {fileID: 114644655206150448}
   - component: {fileID: 65572502184208626}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Moat
   m_TagString: Untagged
   m_Icon: {fileID: 0}

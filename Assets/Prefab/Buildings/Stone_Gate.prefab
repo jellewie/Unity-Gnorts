@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 224639558859665316}
   - component: {fileID: 65693619338560498}
   - component: {fileID: 114027341793503186}
-  m_Layer: 5
+  m_Layer: 10
   m_Name: Stone_Gate
   m_TagString: Untagged
   m_Icon: {fileID: 0}

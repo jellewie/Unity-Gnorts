@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;                   //Required when Using UI elements.
+using UnityEngine.UI;                                                                   //Required when Using UI elements.
 
 public class FPSDisplay : MonoBehaviour
 {
-    public Text FPSCounter;                                                //Text that shows FPS amount
+    public Text FPSCounter;                                                             //Text that shows FPS amount
     public InputField Input;
     float deltaTime = 0.0f;
 
@@ -13,7 +13,7 @@ public class FPSDisplay : MonoBehaviour
     }
     void Start()
     {
-        InvokeRepeating("CalculateFPS", 0, 0.1f);                                //Repeatedly update FPS count (refresh every 0.01s)
+        InvokeRepeating("CalculateFPS", 0, 0.1f);                                               //Repeatedly update FPS count (refresh every 0.01s)
     }
     void CalculateFPS()
     {

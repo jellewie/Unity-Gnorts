@@ -25,7 +25,7 @@ public class MenuSettings : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);                                               //Remove the entry
         }
-        SettingsBool[] buttonName = inputManager.GetBoolSettings();                                     //Gets all button names and plot it in a array
+        SettingsBool[] buttonName = inputManager.GetBoolSettings();                             //Gets all button names and plot it in a array
 
         for (int i = 0; i < buttonName.Length; i++)                                             //For each button name
         {
@@ -76,7 +76,7 @@ public class MenuSettings : MonoBehaviour
                     {
                         // Yes!
                         inputManager.SetButtonForKey(buttonToRebind, kc);
-                        buttonToLabel[buttonToRebind].text = kc.ToString();
+                        buttonToLabel[buttonToRebind].text = System.Convert.ToString(kc);
                         buttonToRebind = null;
                         break;
                     }

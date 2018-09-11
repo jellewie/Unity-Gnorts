@@ -80,9 +80,9 @@ public class ScreenShots : MonoBehaviour
         rect = new Rect(0, 0, Size, Size);                                                      // creates off-screen render texture that can rendered into
         renderTexture = new RenderTexture(Size, Size, 16);
         screenShot = new Texture2D(Size, Size, TextureFormat.ARGB32, false);
-        for (int j = 0; j < Objects.Length; j++)                                                 //For all given gameobjects
+        for (int j = 0; j < Objects.Length; j++)                                                //For all given gameobjects
         {
-            for (int i = 0; i < Objects[j].Length; i++)                                            //For all given gameobjects
+            for (int i = 0; i < Objects[j].Length; i++)                                         //For all given gameobjects
             {
                 if (Objects[j][i])
                 {
@@ -120,8 +120,8 @@ public class ScreenShots : MonoBehaviour
                     //}
                     //CurrentGameObject.transform.position = new Vector3(0, -SIZEY / 2, 0);           //Move them a bit down so there in the middle
                     //Camera.main.transform.localPosition = new Vector3(0, 0, -BiggestSize);          //Change the camera zoom factor
-                    TakeScreenShot(folder + "ICON" + j + "_" + i + "." + format.ToString().ToLower());
-                    CurrentGameObject.SetActive(false);                                             //Cleanup - Hide GameObject 
+                    TakeScreenShot(folder + "ICON" + j + "_" + i + "." + System.Convert.ToString(format).ToLower());
+                    CurrentGameObject.SetActive(false);                                         //Cleanup - Hide GameObject 
                 }
                 else
                 {
@@ -152,8 +152,8 @@ public class ScreenShots : MonoBehaviour
     }
     void TakeScreenShot(string filename)
     {
-        Camera.main.targetTexture = renderTexture;                      //Set the renderTexture output reffrence to the camera
-        Camera.main.Render();                                           //manually force a render
+        Camera.main.targetTexture = renderTexture;                                              //Set the renderTexture output reffrence to the camera
+        Camera.main.Render();                                                                   //manually force a render
 
         // read pixels will read from the currently active render texture so make our offscreen 
         // render texture active and then read the pixels

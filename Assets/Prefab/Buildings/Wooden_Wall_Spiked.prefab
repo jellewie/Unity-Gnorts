@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 4139424030976516}
   - component: {fileID: 65072543143907150}
   - component: {fileID: 114462409768063572}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wooden_Wall_Spiked
   m_TagString: Untagged
   m_Icon: {fileID: 0}

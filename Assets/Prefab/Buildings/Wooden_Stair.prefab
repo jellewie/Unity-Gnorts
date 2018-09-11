@@ -1175,7 +1175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 673f0e666dd3483488064867e6d253e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BuildingName: Stone_Stair
+  BuildingName: Wooden_Stair
   FlagAsUsedAfterSeconds: 10
   MaxHealth: 100
   Used: 0

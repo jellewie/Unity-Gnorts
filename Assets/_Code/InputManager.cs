@@ -6,15 +6,15 @@ using PublicCode;
  */
 public class InputManager : MonoBehaviour
 {
-    void OnEnable()                                                                 //Runned before start and every time the parrent is enabled
+    void OnEnable()                                                                     //Runned before start and every time the parrent is enabled
     {
-        InitaliseKeybindings(false);
-        InitaliseBoolSettings();
-        InitaliseBuildingCost();
+        InitaliseKeybindings(false);                                                            //Initalise all the keybindings (and dont reset to default)
+        InitaliseBoolSettings();                                                                //Initalise all the settings with bools
+        InitaliseBuildingCost();                                                                //Initalise the buildingcost array lookup table
     }
 
-    private Keys[] KeysArray;                                                       //KeysArray Array to store the data in
-    private void InitaliseKeybindings(bool ToDefault)                               //Init the bool settings (set default values)
+    private Keys[] KeysArray;                                                           //KeysArray Array to store the data in
+    private void InitaliseKeybindings(bool ToDefault)                                   //Init the bool settings (set default values)
     {
         int ArrayLength = 22 + 1;                                                               //The total amount of entries, change accordingly (+1 since we have a '0' entry too)
         KeysArray = new Keys[ArrayLength];                                                      //Create a new array with the proper length
@@ -46,12 +46,10 @@ public class InputManager : MonoBehaviour
         if (!ToDefault)                                                                         //If we need to load Playerdata instead of default settings
         {
             for (int i = 0; i < KeysArray.Length; i++)                                          //For each entry in the array
-            {
-                KeysArray[i].Key_ = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(KeysArray[i].Name, KeysArray[i].Key_.ToString()));   //Set the key to the Users bind key, or leave it
-            }
+                KeysArray[i].Key_ = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(KeysArray[i].Name, System.Convert.ToString(KeysArray[i].Key_)));   //Set the key to the Users bind key, or leave it
         }
     }
-    public bool GetButtonDown(string buttonName)                                    //Checks if the button has been pressed
+    public bool GetButtonDown(string buttonName)                                        //Checks if the button has been pressed
     {
         for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
         {
@@ -61,7 +59,7 @@ public class InputManager : MonoBehaviour
         Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error
         return false;
     }
-    public bool GetButtonDownOnce(string buttonName)                                //Checks if the button is pressed (and flag it as processed)
+    public bool GetButtonDownOnce(string buttonName)                                    //Checks if the button is pressed (and flag it as processed)
     {
         for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
         {
@@ -69,11 +67,11 @@ public class InputManager : MonoBehaviour
                 return Input.GetKeyDown(KeysArray[i].Key_);                                     //Return the button state
         }
         Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error
-        return false;
+        return false;                                                                           //Return False (Could not find button, so it's defenetly not pressed)
     }
-    public bool SetButtonForKey(String buttonName, KeyCode keyCode)                 //Set a keybinding
+    public bool SetButtonForKey(String buttonName, KeyCode keyCode)                     //Set a keybinding
     {
-        bool UsedBefore = false;
+        bool UsedBefore = false;                                                                //Create a flag with if this key is already mapped for something
         for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
         {
             if (KeysArray[i].Key_ == keyCode)                                                   //If we alread have set a usecase for this key
@@ -86,28 +84,28 @@ public class InputManager : MonoBehaviour
                         UsedBefore = true;                                                      //Flag that we have used this key already
                 }
                 KeysArray[i].Key_ = keyCode;                                                    //Set the KeyCode, so it will be used in the shortcut
-                PlayerPrefs.SetString(KeysArray[i].Name, keyCode.ToString());                   //Save the button to Playerprefs
+                PlayerPrefs.SetString(KeysArray[i].Name, System.Convert.ToString(keyCode));     //Save the button to Playerprefs
                 return UsedBefore;
             }
         }
         Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error      
         return false;
     }
-    public Keys[] GetAllKeys()                                                      //Returns the whole array
+    public Keys[] GetAllKeys()                                                          //Returns the whole array
     {
         return KeysArray;                                                                       //Return the whole array
     }
-    public void ResetAllShotKeys()                                                  //Reset all Keybindings
+    public void ResetAllShotKeys()                                                      //Reset all Keybindings
     {
         InitaliseKeybindings(true);                                                             //Call the init and set set it to default
         for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
         {
-            PlayerPrefs.SetString(KeysArray[i].Name, KeysArray[i].Key_.ToString());             //Save the default value to PlayerPrefs
+            PlayerPrefs.SetString(KeysArray[i].Name, System.Convert.ToString(KeysArray[i].Key_)); //Save the default value to PlayerPrefs
         }
     }
 
-    private SettingsBool[] SettingsBoolArray;                                       //SettingsBool Array to store the data in
-    private void InitaliseBoolSettings()                                            //Init the bool settings (set default values)
+    private SettingsBool[] SettingsBoolArray;                                           //SettingsBool Array to store the data in
+    private void InitaliseBoolSettings()                                                //Init the bool settings (set default values)
     {
         bool[] DefSetting = new bool[JelleWho.BoolSettingsLength];                              //Gets all default settings out of the int (every bit of the INT is now returned as BOOL[#])
         int X = 1;                                                                              //Set the first bit to read to be bit 1
@@ -119,12 +117,12 @@ public class InputManager : MonoBehaviour
                 DefSetting[i] = false;                                                          //Set this one as false
             X *= 2;                                                                             //Select the next bit
         }
-        int TotalSettingsBool = JelleWho.BoolSettingsLength;                                    //The total amount of entries, change accordingly in the "ResourceManager"
+        int TotalSettingsBool = JelleWho.BoolSettingsLength;                                    //The total amount of entries, change accordingly in the "PublicCode"
         SettingsBoolArray = new SettingsBool[TotalSettingsBool];                                //Create a new array with the proper length
         SettingsBoolArray[0] = new SettingsBool("EdgeScroll",   DefSetting[0], "Turn mouse on edge scroll on/off");  //Add some data
         SettingsBoolArray[1] = new SettingsBool("Option",       DefSetting[1], "Description");
     }
-    public void SetSetting(int Position, bool SetTo)                                //set a single setting
+    public void SetSetting(int Position, bool SetTo)                                    //set a single setting
     {
         SettingsBoolArray[Position].Stat = SetTo;                                               //Update our array with this new info
         if (SetTo)
@@ -133,15 +131,15 @@ public class InputManager : MonoBehaviour
             PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & ~0x02)); //Set bit FALSE
         Debug.Log("BoolSettings SetSetting || Set " + Position + "to be " + SetTo);
     }
-    public SettingsBool GetSetting(int Position)                                    //Returns the current setting (name, stat, desc)
+    public SettingsBool GetSetting(int Position)                                        //Returns the current setting (name, stat, desc)
     {
         return new SettingsBool(SettingsBoolArray[Position].Name, SettingsBoolArray[Position].Stat, SettingsBoolArray[Position].Desc);
     }
-    public SettingsBool[] GetBoolSettings()                                         //Returns the full array
+    public SettingsBool[] GetBoolSettings()                                             //Returns the full array
     {
         return SettingsBoolArray;                                                               //Just return the array as currently is
     }
-    public void ResetBoolSettings()                                                 //Reset all settings
+    public void ResetBoolSettings()                                                     //Reset all settings
     {
         int Hex = 1;                                                                            //Set the first bit to read to be bit 1
         for (int i = 0; i < SettingsBoolArray.Length; i++)                                      //For each item
@@ -162,8 +160,8 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    private Building[] BuildingCostArray;                                           //BuildingCostArray Array to store the data in
-    private void InitaliseBuildingCost()                                            //Init the bool settings (set default values)
+    private Building[] BuildingCostArray;                                               //BuildingCostArray Array to store the data in
+    private void InitaliseBuildingCost()                                                //Init the bool settings (set default values)
     {
         int ArrayLength = 44 + 1;
         BuildingCostArray = new Building[ArrayLength];                                          //Create a new array with the proper length
@@ -217,7 +215,7 @@ public class InputManager : MonoBehaviour
         BuildingCostArray[41] = new Building("Trading_House",           25, 5,  0,  0,  false,	0,  0,  0);
         BuildingCostArray[42] = new Building("Church",                  20, 40, 0,  0,  false,	0,  0,  0);
         BuildingCostArray[43] = new Building("Water_Well",              0,  10, 0,  0,  false,	0,  0,  0);
-        BuildingCostArray[44] = new Building("Alchemist",               10, 10, 0,  0,  false,	0,  0, 0);
+        BuildingCostArray[44] = new Building("Alchemist",               10, 10, 0,  0,  false,	0,  0,  0);
 
         /*
         SpecialBuild
@@ -231,7 +229,7 @@ public class InputManager : MonoBehaviour
 
         */
     }
-    public Building GetInfo(String ItemName)                                        //Get building information about a building
+    public Building GetInfo(String ItemName)                                            //Get building information about a building
     {
         for (int i = 0; i < BuildingCostArray.Length; i++)                                      //Do for all objects in the array
         {
@@ -239,6 +237,6 @@ public class InputManager : MonoBehaviour
                 return BuildingCostArray[i];                                                    //Return this object
         }
         Debug.LogError("InputManager::GetInfo -- No object named: '" + ItemName + "' in the BuildingCostArray");  //Log error, object not found
-        return new Building("N/A", 255, 255, 255, 255, false, 0, 0, 0);                                  //Just give something 'random' back
+        return new Building("N/A", 255, 255, 255, 255, false, 0, 0, 0);                         //Just give something 'random' back
     }
 }

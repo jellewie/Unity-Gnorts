@@ -16,9 +16,7 @@ public class BuildingOption : MonoBehaviour {
     {
         Health = MaxHealth;                                                                     //Set the current health level to max
         if (FlagAsUsedAfterSeconds > 0)                                                         //If used has been flagged. This is called upon placement
-        {
             StartCoroutine(ExecuteAfterTime(FlagAsUsedAfterSeconds));                           //Start a Coroutine to trigger
-        }
     }
     IEnumerator ExecuteAfterTime(float time)                                            //This will be called if the object needs to be flagged as used after x seconds
     {

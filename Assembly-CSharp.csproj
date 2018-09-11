@@ -61,10 +61,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\_Code\BuildingPopUp.cs" />
     <Compile Include="Assets\_Code\InputManager.cs" />
     <Compile Include="Assets\_Code\MenuKeybindings.cs" />
     <Compile Include="Assets\_Code\MenuSettings.cs" />
-    <Compile Include="Assets\_Code\PublicCode\ResourceManager.cs" />
+    <Compile Include="Assets\_Code\PublicCode.cs" />
+    <Compile Include="Assets\_Code\ResourceManager.cs" />
+    <Compile Include="Assets\_Code\SaveLoad.cs" />
     <Compile Include="Assets\_Code\Standalone\AutoHide.cs" />
     <Compile Include="Assets\_Code\Standalone\BuildingOption.cs" />
     <Compile Include="Assets\_Code\Standalone\FPSDisplay.cs" />
@@ -72,9 +75,7 @@
     <Compile Include="Assets\_Code\Standalone\Minimap.cs" />
     <Compile Include="Assets\_Code\Standalone\RotateMe.cs" />
     <Compile Include="Assets\_Code\Standalone\ScreenShots.cs" />
-    <Compile Include="Assets\_Code\Standalone\UserStats.cs" />
     <Compile Include="Assets\_Code\UserInput.cs" />
-    <Compile Include="Assets\BuildingPopUp.cs" />
     <None Include="Assets\NewUnlitShader.shader" />
     <Reference Include="Unity.ProBuilder.AddOns.Editor">
       <HintPath>C:/Users/user/Github/Unity-Gnorts/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>

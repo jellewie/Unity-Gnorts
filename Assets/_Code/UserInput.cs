@@ -8,8 +8,9 @@ using UnityEngine.UI;                                                           
  */
 public class UserInput : MonoBehaviour
 {
-    public InputManager CodeInputManager;
-    public GameObject CodeUserStats;                                                    //The GameObject with the code on it
+    public InputManager CodeInputManager;                                               //The GameObject with the InputManager code on it
+    public GameObject CodeResourceManager;                                              //The GameObject with the ResourceManager code on it
+    public GameObject CodeSaveLoad; 
     public GameObject FolderMenu;                                                       //The folder to enable on MenuOpen
     public GameObject FolderInfo;
     public GameObject FolderTrading;
@@ -53,10 +54,6 @@ public class UserInput : MonoBehaviour
             //some IA stuff here
         }
     }
-    public void CameraControls(bool SetTo)                                              //With this buttons can change the camera mode
-    {
-        StopCameraControls = !SetTo;                                                            //Set the camera mode to what ever there is given (CameraControls FALSE = Stop camera)
-    }
     void OnApplicationFocus(bool hasFocus)                                              //Triggered when the game is in focus
     {
         IsOutOfFocus = !hasFocus;                                                               //Set game to be in focus
@@ -65,42 +62,7 @@ public class UserInput : MonoBehaviour
     {
         IsOutOfFocus = pauseStatus;                                                             //Set game to be out of focus
     }
-    private void AlwaysControls()                                                       //Triggered in LateUpdate (unless the game is out of focus)
-    {
-        if (CodeInputManager.GetButtonDownOnce("Menu"))                                         //If the Open/Close menu button is pressed
-        {
-            StopCameraControls = !FolderMenu.activeSelf;                                        //Flag that the camera controls should be active or not
-            FolderMenu.SetActive(StopCameraControls);                                           //Set the menu's visibility
-        }
-        if (CodeInputManager.GetButtonDownOnce("Pause"))                                        //If the Open/Close menu button is pressed
-            GamePaused = true;
-    }
-    public void _PlaceInHand(GameObject Prefab)                                         //Triggered by menu, with the object to build as prefab, this will hook in to the mouse cursor
-    {
-        Destroy(InHand);                                                                        //Destroy the current held item (If any)
-        PlaceInHand(Prefab);                                                                    //Place the new building on our hand
-    }
-    private void PlaceInHand(GameObject Prefab)                                         //With the object to build as prefab, this will hook in to the mouse cursor
-    {
-        DeconstructToolEquiped = false;                                                         //Make sure the DeconstructTool is NOT Equiped
-        InHand = Instantiate(Prefab, new Vector3(0, -100, 0), Quaternion.identity);             //Create a new building and put it in our hands (coord will be set later)
-        InHand.transform.rotation = PreviousRotation;                                           //Restore the rotation
-        InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
-        InHand.layer = 0;                                                                       //Set to default Layer
-    }
-    public void _DeconstructTool(bool Equiped)                                          //Triggered by menu, Equipe the Deconstruct tool
-    {
-        Destroy(InHand);                                                                        //Destoy the building
-        DeconstructToolEquiped = Equiped;                                                       //Set the given state
-    }
-    public void _HideMenus()                                                            //This will hide the full sub menu
-    {
-        FolderBuildingPopUp.SetActive(false);                                                   //Hide BuildingPopUp
-        foreach (Transform child in FolderSubMenu.transform)                                    //Do for each SubMenu
-        {
-            child.gameObject.SetActive(false);                                                  //Hide the SubMenu
-        }
-    }
+
     private void ExecuteInputs()                                                        //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
     {
         if (!EventSystem.current.IsPointerOverGameObject())                                     //If mouse is not over an UI element
@@ -238,7 +200,7 @@ public class UserInput : MonoBehaviour
                         FolderBuildingPopUp.GetComponent<BuildingPopUp>().SelectBuilding(       //Open Pop-up window
                             hit.collider.gameObject,                                            //Send the gameobject that we have clicked on
                             CodeInputManager.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial); //And it's special stats
-Debug.Log("You've clicked on " + hit.collider.name);
+                        Debug.Log("You've clicked on " + hit.collider.name);
                     }
                 }
             }
@@ -337,8 +299,46 @@ Debug.Log("You've clicked on " + hit.collider.name);
                 Camera.main.transform.position = newCameraPos;
             }
         }                                                                                     //Camera stuff
-
-
+    }
+    public void CameraControls(bool SetTo)                                              //With this buttons can change the camera mode
+    {
+        StopCameraControls = !SetTo;                                                            //Set the camera mode to what ever there is given (CameraControls FALSE = Stop camera)
+    }
+    private void AlwaysControls()                                                       //Triggered in LateUpdate (unless the game is out of focus)
+    {
+        if (CodeInputManager.GetButtonDownOnce("Menu"))                                         //If the Open/Close menu button is pressed
+        {
+            StopCameraControls = !FolderMenu.activeSelf;                                        //Flag that the camera controls should be active or not
+            FolderMenu.SetActive(StopCameraControls);                                           //Set the menu's visibility
+        }
+        if (CodeInputManager.GetButtonDownOnce("Pause"))                                        //If the Open/Close menu button is pressed
+            GamePaused = true;
+    }
+    public void _PlaceInHand(GameObject Prefab)                                         //Triggered by menu, with the object to build as prefab, this will hook in to the mouse cursor
+    {
+        Destroy(InHand);                                                                        //Destroy the current held item (If any)
+        PlaceInHand(Prefab);                                                                    //Place the new building on our hand
+    }
+    private void PlaceInHand(GameObject Prefab)                                         //With the object to build as prefab, this will hook in to the mouse cursor
+    {
+        DeconstructToolEquiped = false;                                                         //Make sure the DeconstructTool is NOT Equiped
+        InHand = Instantiate(Prefab, new Vector3(0, -100, 0), Quaternion.identity);             //Create a new building and put it in our hands (coord will be set later)
+        InHand.transform.rotation = PreviousRotation;                                           //Restore the rotation
+        InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
+        InHand.layer = 0;                                                                       //Set to default Layer
+    }
+    public void _DeconstructTool(bool Equiped)                                          //Triggered by menu, Equipe the Deconstruct tool
+    {
+        Destroy(InHand);                                                                        //Destoy the building
+        DeconstructToolEquiped = Equiped;                                                       //Set the given state
+    }
+    public void _HideMenus()                                                            //This will hide the full sub menu
+    {
+        FolderBuildingPopUp.SetActive(false);                                                   //Hide BuildingPopUp
+        foreach (Transform child in FolderSubMenu.transform)                                    //Do for each SubMenu
+        {
+            child.gameObject.SetActive(false);                                                  //Hide the SubMenu
+        }
     }
     Vector3 PolarToCartesian(Vector2 polar, Vector3 Offset)                             //Offset=(Left, Up, Forward)
     {
@@ -356,17 +356,17 @@ Debug.Log("You've clicked on " + hit.collider.name);
         Building BuildingInfo = CodeInputManager.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName);  //Get the buildings info (like cost etc)
         if (TheBuilding.GetComponent<BuildingOption>().Used)                            //If the building is not brand new
         {
-            CodeUserStats.GetComponent<UserStats>().ChangeWood (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUsed)));  //Return some percentage
-            CodeUserStats.GetComponent<UserStats>().ChangeStone(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUsed)));  //^
-            CodeUserStats.GetComponent<UserStats>().ChangeIron (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUsed)));  //^
-            CodeUserStats.GetComponent<UserStats>().ChangeMoney(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUsed)));  //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeWood (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUsed)));  //Return some percentage
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUsed)));  //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeIron (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUsed)));  //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeMoney(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUsed)));  //^
         }
         else
         {
-            CodeUserStats.GetComponent<UserStats>().ChangeWood (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUnused)));  //Return some percentage
-            CodeUserStats.GetComponent<UserStats>().ChangeStone(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUnused)));  //^
-            CodeUserStats.GetComponent<UserStats>().ChangeIron (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUnused)));  //^
-            CodeUserStats.GetComponent<UserStats>().ChangeMoney(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUnused)));  //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeWood (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUnused)));  //Return some percentage
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUnused)));  //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeIron (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUnused)));  //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeMoney(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUnused)));  //^
         }
         TheBuilding.GetComponent<BuildingOption>()._Destroy();                           //Destroy the building
     }
@@ -374,18 +374,18 @@ Debug.Log("You've clicked on " + hit.collider.name);
     {
         Building BuildingInfo = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName);
         //Debug.Log("Type=" + BuildingInfo.Name +" Cost_Wood=" + BuildingInfo.Cost_Wood +" Cost_Stone=" + BuildingInfo.Cost_Stone +" Cost_Iron=" + BuildingInfo.Cost_Iron +" Cost_Money=" + BuildingInfo.Cost_Money);
-        if (CodeUserStats.GetComponent<UserStats>().Wood >= BuildingInfo.Cost_Wood)             //If we have enough Wood
+        if (CodeResourceManager.GetComponent<ResourceManager>().Wood >= BuildingInfo.Cost_Wood)             //If we have enough Wood
         {
-            if (CodeUserStats.GetComponent<UserStats>().Stone >= BuildingInfo.Cost_Stone)       //If we have enough Stone
+            if (CodeResourceManager.GetComponent<ResourceManager>().Stone >= BuildingInfo.Cost_Stone)       //If we have enough Stone
             {
-                if (CodeUserStats.GetComponent<UserStats>().Iron >= BuildingInfo.Cost_Iron)     //If we have enough Iron
+                if (CodeResourceManager.GetComponent<ResourceManager>().Iron >= BuildingInfo.Cost_Iron)     //If we have enough Iron
                 {
-                    if (CodeUserStats.GetComponent<UserStats>().Money >= BuildingInfo.Cost_Money)//If we have enough Money
+                    if (CodeResourceManager.GetComponent<ResourceManager>().Money >= BuildingInfo.Cost_Money)//If we have enough Money
                     {
-                        CodeUserStats.GetComponent<UserStats>().ChangeWood(-BuildingInfo.Cost_Wood);    //Remove the cost from the wood the player has
-                        CodeUserStats.GetComponent<UserStats>().ChangeStone(-BuildingInfo.Cost_Stone);  //^
-                        CodeUserStats.GetComponent<UserStats>().ChangeIron(-BuildingInfo.Cost_Iron);    //^
-                        CodeUserStats.GetComponent<UserStats>().ChangeMoney(-BuildingInfo.Cost_Money);  //^
+                        CodeResourceManager.GetComponent<ResourceManager>().ChangeWood(-BuildingInfo.Cost_Wood);    //Remove the cost from the wood the player has
+                        CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(-BuildingInfo.Cost_Stone);  //^
+                        CodeResourceManager.GetComponent<ResourceManager>().ChangeIron(-BuildingInfo.Cost_Iron);    //^
+                        CodeResourceManager.GetComponent<ResourceManager>().ChangeMoney(-BuildingInfo.Cost_Money);  //^
                         return "Done";                                                          //Return with; the payed = Done command
                     }
                     else
@@ -400,101 +400,48 @@ Debug.Log("You've clicked on " + hit.collider.name);
         else
             return "Wood";                                                                      //Return with; We dont have enough of this
     }
+    public void _LoadFromFile(String TheFile)                                           //Call this to call the LoadFile handler
+    {
+        CodeSaveLoad.GetComponent<SaveLoad>().LoadFromFile(TheFile);                    //Call the handler
+    }
+    public void _SaveToFile(String TheFile)                                             //Call this to call the SaveFile handler
+    {
+        CodeSaveLoad.GetComponent<SaveLoad>().SaveToFile(TheFile);                      //Call the handler
+    }
+    public void _LoadFromString(String Data)                                            //Call this to call the LoadData handler
+    {
+        CodeSaveLoad.GetComponent<SaveLoad>().LoadFromSring(Data);                      //Call the handler
+    }
+    public void _SaveToString(String Data)                                              //Call this to call the SaveData handler
+    {
+        SaveLoadTXT.text = CodeSaveLoad.GetComponent<SaveLoad>().SaveToSring(Data);     //Call the handler
+    }
+
+
+
+
+
+    
+
+    public InputField SaveLoadTXT;
+    public void _TESTLoad()
+    {
+        _LoadFromString(SaveLoadTXT.text);
+    }
+    public void _TESTSave()
+    {
+        _SaveToString(SaveLoadTXT.text);
+    }
+
+
 
     public void _Opti()
     {
         StaticBatchingUtility.Combine(FolderBuildings.gameObject);
     }
-
-
-
-
-
-    //These next lines should be moved to it's owm code page
-    public GameObject Wooden_Wall;
-    public GameObject Wooden_Gate;
-    public InputField SaveLoadTXT;
-    public void _SaveToFile()
+    public void _TempSetResourceManager()
     {
-        SaveLoadTXT.text = "";
-        foreach (Transform child in FolderBuildings)
-        {
-            /*The format buildup of the string
-                Each new Line (Lines end at "\r") is a new building that consisting of: (each seperated by ",")
-                        BuildingName,       Or rather the type name
-                        Coordinate x,
-                        Coordinate y,
-                        Coordinate z,
-                        Active,             If this building is NOT in sleep mode
-                        SelectedOption,     Which option is selected (like for Gates)
-                        Health,             The current health level
-
-                'FlagAsUsedAfterSeconds' and 'Used' are ignored, all buildings are flagged as Used to conserve some data and make things easier
-                'MaxHealth' is grabbed from the <BuildingOption>
-             */
-            Building BuildingInfo = CodeInputManager.GetInfo(child.GetComponent<BuildingOption>().BuildingName);
-            string BuildingSaveInfo = child.GetComponent<BuildingOption>().BuildingName.ToString()
-                 + "," + child.transform.position.x                         
-                 + "," + child.transform.position.y                         
-                 + "," + child.transform.position.z                         
-                 + "," + child.eulerAngles.y                                
-                 + "," + child.GetComponent<BuildingOption>().Active        
-                 + "," + child.GetComponent<BuildingOption>().SelectedOption
-                 + "," + child.GetComponent<BuildingOption>().Health;
-            if (SaveLoadTXT.text != "")                                             //If if this is the first entry
-                SaveLoadTXT.text += "\r";                                           //Put a enter after this current data
-            SaveLoadTXT.text += BuildingSaveInfo;                                   //add this data
-        }
-    }
-    public void _Load()
-    {
-        LoadFromData(SaveLoadTXT.text);
-    }
-    private void LoadFromData(string TextFromTheFile)
-    {
-        foreach (Transform child in FolderBuildings)
-        {
-            Destroy(child.gameObject);
-        }
-        string[] SplitBlocks = TextFromTheFile.Split(new string[] { "\r" }, StringSplitOptions.None);   //Split at line end (building)
-        for (int B = 0; B < SplitBlocks.Length; B++)                                //Do for each line (building)
-        {
-            string[] SplitBlockData = SplitBlocks[B].Split(new string[] { "," }, StringSplitOptions.None); //Split at each Data section
-            string BuildingTypeName = SplitBlockData[0];
-            int DataX = System.Convert.ToInt32(SplitBlockData[1]);
-            int DataY = System.Convert.ToInt32(SplitBlockData[2]);
-            int DataZ = System.Convert.ToInt32(SplitBlockData[3]);
-            int DataRotation = System.Convert.ToInt32(SplitBlockData[4]);
-            bool DataActive = System.Convert.ToBoolean(SplitBlockData[5]);
-            byte DataSelectedOption = System.Convert.ToByte(SplitBlockData[4]);
-            byte DataHealth = System.Convert.ToByte(SplitBlockData[4]);
-
-
-            if (BuildingTypeName == "Wooden_Wall")
-            {
-                var a = Instantiate(Wooden_Wall, new Vector3(DataX, DataY, DataZ), Quaternion.Euler(0, DataRotation, 0)); //Create object and select it
-                a.transform.SetParent(FolderBuildings);                             //Sort the object in to the Blocks folder
-                a.GetComponent<BuildingOption>().SetStats(DataActive, DataSelectedOption, DataHealth);
-            }
-            else if(BuildingTypeName == "Wooden_Gate")
-            {
-                var a = Instantiate(Wooden_Gate, new Vector3(DataX, DataY, DataZ), Quaternion.Euler(0, DataRotation, 0)); //Create object and select it
-                a.transform.SetParent(FolderBuildings);                             //Sort the object in to the Blocks folder
-                a.GetComponent<BuildingOption>().SetStats(DataActive, DataSelectedOption, DataHealth);
-            }
-
-
-        }
-    }
-
-
-
-
-
-
-    public void _TempSetUserStats()
-    {
-        CodeUserStats.GetComponent<UserStats>().Set(999999, 999999, 999999, 999999);
+        CodeResourceManager.GetComponent<ResourceManager>().Set(999999, 999999, 999999, 999999);
     }
 
     //https://answers.unity.com/questions/546045/how-can-i-access-a-bool-for-a-specific-gameobject.html
