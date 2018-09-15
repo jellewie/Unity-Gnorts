@@ -16,6 +16,7 @@ using System;                                                                   
 public class SaveLoad : MonoBehaviour {
     public InputManager CodeInputManager;                                               //The GameObject with the InputManager code on it
     public Transform FolderBuildings;                                                   //The folder where all the buildings should be put in
+    public GameObject FolderBuildingPopUp;                                              //The folder with the pop-up stuff in it
     public GameObject[] Objects;                                                        //The array with all the PreFabs in it (doesn't need to be in order)
 
     public bool LoadFromFile(string FileLocation)                                       //Call this to load from a file, with FileLocation as the location
@@ -58,6 +59,24 @@ public class SaveLoad : MonoBehaviour {
                         var a = Instantiate(Objects[i], new Vector3(DataX, DataY, DataZ), Quaternion.Euler(0, DataRotation, 0)); //Create object, place and select it
                         a.transform.SetParent(FolderBuildings);                                 //Sort the object in to the Blocks folder
                         a.GetComponent<BuildingOption>().SetStats(DataActive, DataSelectedOption, DataHealth);//Set the BuildingOption
+
+
+
+                        byte SelectedBuildingSpecial = CodeInputManager.GetInfo(a.GetComponent<BuildingOption>().BuildingName).ClickSpecial; //And it's special stats
+                        if (SelectedBuildingSpecial > 0)
+                        {
+                            FolderBuildingPopUp.GetComponent<BuildingPopUp>().ChangeOption(a, SelectedBuildingSpecial, false, DataSelectedOption);
+                        }
+                        
+
+                        /*
+                         * Make a new code sheet that class that changes the building special stats, that is going to be called from this load option. and from the building pop-up window 
+                         * Bla Bla Bla Bla Bla Bla just fix it
+                         */
+
+
+
+
                         i = Objects.Length;                                                     //Stop the loop we have found the building
                     }
                     else if (i + 1 == Objects.Length)                                           //If we have come to the end of the list without finding it

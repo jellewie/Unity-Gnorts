@@ -19888,7 +19888,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 132, y: 792}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1148183691
@@ -28796,6 +28796,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CodeInputManager: {fileID: 981870571}
   FolderBuildings: {fileID: 1040418256}
+  FolderBuildingPopUp: {fileID: 2038742038}
   Objects:
   - {fileID: 1449597463970802, guid: d59882d978470644a8d8d0bff6166a83, type: 2}
   - {fileID: 1518189309683664, guid: 400e3ec5102d3e74392f65cc92dfddd0, type: 2}
