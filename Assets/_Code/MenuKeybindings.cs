@@ -39,7 +39,7 @@ public class MenuKeybindings : MonoBehaviour {
             buttonNameText.text = bn;
 
             Text keyNameText = go.transform.Find("Button/Key Name").GetComponent<Text>();
-            keyNameText.text = KeysArray[i].Key_.ToString();
+            keyNameText.text = System.Convert.ToString(KeysArray[i].Key_);
             buttonToLabel[bn] = keyNameText;
 
             Button keyBindButton = go.transform.Find("Button").GetComponent<Button>();
@@ -72,7 +72,7 @@ public class MenuKeybindings : MonoBehaviour {
                         {
                             buttonToLabel[buttonToRebind].color = Color.black;              //Key hasn't been used for something, so just make the color default black
                         }
-                        buttonToLabel[buttonToRebind].text = kc.ToString();                 //Set the 
+                        buttonToLabel[buttonToRebind].text = System.Convert.ToString(kc);                 //Set the 
                         buttonToRebind = null;
                         TextPressAKey.SetActive(false);
                         break;

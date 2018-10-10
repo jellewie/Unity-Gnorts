@@ -19,7 +19,7 @@ IPointerExitHandler
     private Text TextBox;                                                                       //The child textbox
     private bool MouseIsOver;                                                                   //A bool that keeps track if the mouse is over this object
     private Vector2 HorzontalOffzet;                                                            //Offset direction
-    private void Start()                                                            //Run once on startup
+    private void Start()                                                                //Run once on startup
     {
         ParentHoverOver = GameObject.Find("HoverOver");                                         //Get the Code HoverOver
         CodeInputManager = GameObject.Find("InputManager");                                     //Get the Code InputManager
@@ -28,19 +28,17 @@ IPointerExitHandler
         Image_RectTransform = OBJHoverOver.GetComponent<RectTransform>();                       //Set the RectTransform reference (Needed for size measurement        
         TextBox = OBJHoverOver.GetComponentInChildren<Text>();                                  //Set the Textbox reference (This text will be changed)
         if(HoverText == "" && Prefab != null)                                                   //If no HoverText is given, and there is a Prefab
-        {
             HoverText = Prefab.name;                                                            //Use the Prefab name 
-        }
     }
-    private void MoveToCursos()                                                     //Move the box to the mouse
+    private void MoveToCursos()                                                         //Move the box to the mouse
     {
         OBJHoverOver.transform.localPosition = new Vector2(                                     //Let the box follow the mouse around
             Input.mousePosition.x - Screen.width / 2 + HorzontalOffzet.x,                       //X position of box
             Input.mousePosition.y - Screen.height / 2 - 10 + HorzontalOffzet.y                  //Y position of box
             );
     }
-    private RectTransform Image_RectTransform;                                      //The parrent image
-    public void OnPointerEnter(PointerEventData evd)                                //Run each time the mouse enters this object
+    private RectTransform Image_RectTransform;                                          //The parrent image
+    public void OnPointerEnter(PointerEventData evd)                                    //Run each time the mouse enters this object
     {
         MouseIsOver = true;                                                                     //Flag that the mouse is over this object
         TextBox.text = (                                                                        //Set the text of the textbox
@@ -91,23 +89,19 @@ IPointerExitHandler
         OBJHoverOver.SetActive(true);
         MoveToCursos();                                                                         //Move the box to the mouse
     }
-    public void OnPointerExit(PointerEventData evd)                                 //Run each time the mouse leaves this object
+    public void OnPointerExit(PointerEventData evd)                                     //Run each time the mouse leaves this object
     {
         MouseIsOver = false;                                                                    //Flag that the mouse is NOT over this object
         OBJHoverOver.SetActive(false);                                                          //Disable the box (We dont need it anymore)
     }
-    public void OnPointerClick(PointerEventData evd)                                //Run each time the mouse clicks on this object
+    public void OnPointerClick(PointerEventData evd)                                    //Run each time the mouse clicks on this object
     {
         if (Prefab != null)                                                                     //If a Prefab is set
-        {
             CodeUserInput.GetComponent<UserInput>()._PlaceInHand(Prefab);                       //Put the Prefab in our hands
-        }
     }
-    private void Update()                                                           //Run each frame
+    private void Update()                                                               //Run each frame
     {
         if (MouseIsOver)                                                                        //If the mouse is over this object
-        {
             MoveToCursos();                                                                     //Move the HoverOver box to the mouse
-        }
     }
 }

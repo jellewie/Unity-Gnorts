@@ -28,7 +28,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 127
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1374558329602384
 GameObject:
@@ -48,7 +48,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 127
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1772977213243242
 GameObject:
@@ -60,12 +60,12 @@ GameObject:
   - component: {fileID: 4139424030976516}
   - component: {fileID: 65072543143907150}
   - component: {fileID: 114462409768063572}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wooden_Wall_Spiked
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4139424030976516
 Transform:
@@ -244,10 +244,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BuildingName: Wooden_Wall_Spiked
-  SelectedOption: 0
-  Used: 0
   FlagAsUsedAfterSeconds: 10
+  MaxHealth: 100
+  Used: 0
   Active: 0
+  SelectedOption: 0
+  Health: 0
 --- !u!114 &114548220429517210
 MonoBehaviour:
   m_ObjectHideFlags: 1

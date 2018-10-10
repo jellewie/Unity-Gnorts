@@ -8,8 +8,9 @@ using UnityEngine.UI;                                                           
  */
 public class UserInput : MonoBehaviour
 {
-    public InputManager CodeInputManager;
-    public GameObject CodeUserStats;                                                    //The GameObject with the code on it
+    public InputManager CodeInputManager;                                               //The GameObject with the InputManager code on it
+    public GameObject CodeResourceManager;                                              //The GameObject with the ResourceManager code on it
+    public GameObject CodeSaveLoad; 
     public GameObject FolderMenu;                                                       //The folder to enable on MenuOpen
     public GameObject FolderInfo;
     public GameObject FolderTrading;
@@ -27,10 +28,9 @@ public class UserInput : MonoBehaviour
     private bool GamePaused = false;
     private bool StopCameraControls = false;
     private GameObject InHand;                                                          //When placing down this is stuffed with the object
-    private bool DeconstructToolEquiped;
-    private float deltaTime = 0.0f;
-
-    public float Speed;
+    private bool DeconstructToolEquiped;                                                //If the DeconstructTool is Equiped
+    private float deltaTime = 0.0f;                                                     //The time between this and the last frame
+    public float Speed;                                                                 //Speed multiblecation for controls (zoom out slowdown)
 
     private void Start()                                                                //Triggered on start
     {
@@ -54,10 +54,6 @@ public class UserInput : MonoBehaviour
             //some IA stuff here
         }
     }
-    public void CameraControls(bool SetTo)                                              //With this buttons can change the camera mode
-    {
-        StopCameraControls = !SetTo;                                                            //Set the camera mode to what ever there is given (CameraControls FALSE = Stop camera)
-    }
     void OnApplicationFocus(bool hasFocus)                                              //Triggered when the game is in focus
     {
         IsOutOfFocus = !hasFocus;                                                               //Set game to be in focus
@@ -66,41 +62,7 @@ public class UserInput : MonoBehaviour
     {
         IsOutOfFocus = pauseStatus;                                                             //Set game to be out of focus
     }
-    private void AlwaysControls()                                                       //Triggered in LateUpdate (unless the game is out of focus)
-    {
-        if (CodeInputManager.GetButtonDownOnce("Menu"))                                         //If the Open/Close menu button is pressed
-        {
-            StopCameraControls = !FolderMenu.activeSelf;                                        //Flag that the camera controls should be active or not
-            FolderMenu.SetActive(StopCameraControls);                                           //Set the menu's visibility
-        }
-        if (CodeInputManager.GetButtonDownOnce("Pause"))                                        //If the Open/Close menu button is pressed
-            GamePaused = true;
-    }
-    public void _PlaceInHand(GameObject Prefab)                                         //Triggered by menu, with the object to build as prefab, this will hook in to the mouse cursor
-    {
-        Destroy(InHand);                                                                        //Destroy the current held item (If any)
-        PlaceInHand(Prefab);                                                                    //Place the new building on our hand
-    }
-    private void PlaceInHand(GameObject Prefab)                                         //With the object to build as prefab, this will hook in to the mouse cursor
-    {
-        InHand = Instantiate(Prefab, new Vector3(0, -100, 0), Quaternion.identity);             //Create a new building and put it in our hands (coord will be set later)
-        InHand.transform.rotation = PreviousRotation;                                           //Restore the rotation
-        InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
-        InHand.layer = 0;                                                                       //Set to default Layer
-    }
-    public void _DeconstructTool(bool Equiped)                                          //Triggered by menu, Equipe the Deconstruct tool
-    {
-        Destroy(InHand);                                                                        //Destoy the building
-        DeconstructToolEquiped = Equiped;                                                       //Set the given state
-    }
-    public void _HideMenus()                                                            //This will hide the full sub menu
-    {
-        FolderBuildingPopUp.SetActive(false);                                                   //Hide BuildingPopUp
-        foreach (Transform child in FolderSubMenu.transform)                                    //Do for each SubMenu
-        {
-            child.gameObject.SetActive(false);                                                  //Hide the SubMenu
-        }
-    }
+
     private void ExecuteInputs()                                                        //Triggered in LateUpdate (unless the game is out of focus, or camera controls are disabled) this controlls the camera movement
     {
         if (!EventSystem.current.IsPointerOverGameObject())                                     //If mouse is not over an UI element
@@ -238,11 +200,12 @@ public class UserInput : MonoBehaviour
                         FolderBuildingPopUp.GetComponent<BuildingPopUp>().SelectBuilding(       //Open Pop-up window
                             hit.collider.gameObject,                                            //Send the gameobject that we have clicked on
                             CodeInputManager.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial); //And it's special stats
-Debug.Log("You've clicked on " + hit.collider.name);
+                        Debug.Log("You've clicked on " + hit.collider.name);
                     }
                 }
             }
         }
+
         if (CodeInputManager.GetButtonDownOnce("Walls higher") && LowerObjectBy > 0)            //If we want to higher the object && the object is lower than the max heigth
             LowerObjectBy--;                                                                    //higher the object
         else if (CodeInputManager.GetButtonDownOnce("Walls lower"))                             //If we want to lower the object
@@ -251,83 +214,131 @@ Debug.Log("You've clicked on " + hit.collider.name);
             _HideMenus();                                                                       //Hide the Menu's
         if (CodeInputManager.GetButtonDownOnce("Toggle UI"))                                    //If the Toggle UI button is pressed
             FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
-        Speed = (JelleWho.SpeedC * Camera.main.transform.position.y + JelleWho.SpeedD); //The height has X of speed increase per block (times the time elapsed since last frame)
-        Vector2 input = new Vector2(0f, 0f);                                                    //Create a new (emnthy) movement change vector
-        if (CodeInputManager.GetButtonDown("Left"))                                             //Keyboard move left
-            input.x -= JelleWho.MoveSpeedKeyboard ;
-        if (CodeInputManager.GetButtonDown("Right"))                                            //Keyboard move right
-            input.x += JelleWho.MoveSpeedKeyboard;
-        if (CodeInputManager.GetButtonDown("Up"))                                               //Keyboard move up
-            input.y += JelleWho.MoveSpeedKeyboard;
-        if (CodeInputManager.GetButtonDown("Down"))                                             //Keyboard move down
-            input.y -= JelleWho.MoveSpeedKeyboard;
-        if (CodeInputManager.GetButtonDown("Drag"))                                             //If the Drag button is presse
-        {
-            input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse;                      //Calculate howmuch we need to move in the axes 
-            input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse;                      //^
-        }
-        else if (input == new Vector2(0f, 0f))                                                  //If camera doesn't need to move yet
-        {
-            if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x01) != 0x01)//If EdgeScroll setting is on
+
+        {                                                                                       //Camera stuff
+            Speed = (JelleWho.SpeedC * Camera.main.transform.position.y + JelleWho.SpeedD) * deltaTime; //The height has X of speed increase per block (times the time elapsed since last frame)
+            Vector2 input = new Vector2(0f, 0f);                                                //Create a new (emnthy) movement change vector
+            float Xr = Camera.main.transform.eulerAngles.x;                                     //Get main camera rotation
+            float Yr = Camera.main.transform.eulerAngles.y;                                     //^
+            if (CodeInputManager.GetButtonDown("Rotate left"))                                  //If the given key has been pressed
             {
-                float xpos = Input.mousePosition.x;                                             //Save mouse position
-                float ypos = Input.mousePosition.y;                                             //^        
-                if (xpos >= 0 && xpos < JelleWho.MoveIfThisCloseToTheSides)                     //Edge scroll left
-                    input.x -= JelleWho.MoveEdgeScrollSpeed;                                    //
-                else if (xpos <= Screen.width && xpos > Screen.width - JelleWho.MoveIfThisCloseToTheSides)//Edge scroll right
-                    input.x += JelleWho.MoveEdgeScrollSpeed;                                    //
-                if (ypos >= 0 && ypos < JelleWho.MoveIfThisCloseToTheSides)                     //Edge scroll down
-                    input.y -= JelleWho.MoveEdgeScrollSpeed;                                    //
-                else if (ypos <= Screen.height && ypos > Screen.height - JelleWho.MoveIfThisCloseToTheSides)//Edge scrolll up
-                    input.y += JelleWho.MoveEdgeScrollSpeed;                                    //
+                Yr -= JelleWho.RotateSpeedKeyboard * deltaTime;                                 //Get the mouse movement
+                input.x = JelleWho.MoveSpeedKeyboard;                                           //Also move camera to the left
             }
-        }
-        if (Mathf.Abs(input.y) > Mathf.Epsilon)                                                 //Movement up/down relative to the screen
+            if (CodeInputManager.GetButtonDown("Rotate right"))                                 //If the given key has been pressed
+            {
+                Yr += JelleWho.RotateSpeedKeyboard * deltaTime;                                 //Get the mouse movement
+                input.x -= JelleWho.MoveSpeedKeyboard;                                          //Also move camera to the right
+            }
+            if (CodeInputManager.GetButtonDown("Rotate"))                                       //If the given key has been pressed
+            {
+                Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse * deltaTime;         //Get the mouse movement
+                Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse * deltaTime;         //^
+            }
+            Vector3 C = Camera.main.transform.position;                                         //Get setted camera camera position
+            Camera.main.transform.position = new Vector3(                                       //Limit movement
+                Mathf.Clamp(C.x, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap),//Clamp X horizontal movement
+                Mathf.Clamp(C.y, JelleWho.MinCameraHeight, JelleWho.MaxCameraHeight),           //Clamp Y vertical movement
+                Mathf.Clamp(C.z, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap));//Clamp Z 
+            Camera.main.transform.eulerAngles = new Vector2(Mathf.Clamp(Xr, 0, 89.99f), Yr);    //Clamp Up Down looking angle 
+            if (CodeInputManager.GetButtonDown("Left"))                                         //Keyboard move left
+                input.x -= JelleWho.MoveSpeedKeyboard;
+            if (CodeInputManager.GetButtonDown("Right"))                                        //Keyboard move right
+                input.x += JelleWho.MoveSpeedKeyboard;
+            if (CodeInputManager.GetButtonDown("Up"))                                           //Keyboard move up
+                input.y += JelleWho.MoveSpeedKeyboard;
+            if (CodeInputManager.GetButtonDown("Down"))                                         //Keyboard move down
+                input.y -= JelleWho.MoveSpeedKeyboard;
+            if (CodeInputManager.GetButtonDown("Drag"))                                         //If the Drag button is presse
+            {
+                input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse;                  //Calculate howmuch we need to move in the axes 
+                input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse;                  //^
+            }
+            else if (input == new Vector2(0f, 0f))                                              //If camera doesn't need to move yet
+            {
+                if ((PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & 0x01) != 0x01)//If EdgeScroll setting is on
+                {
+                    float xpos = Input.mousePosition.x;                                         //Save mouse position
+                    float ypos = Input.mousePosition.y;                                         //^        
+                    if (xpos >= 0 && xpos < JelleWho.MoveIfThisCloseToTheSides)                 //Edge scroll left
+                        input.x -= JelleWho.MoveEdgeScrollSpeed;                                //
+                    else if (xpos <= Screen.width && xpos > Screen.width - JelleWho.MoveIfThisCloseToTheSides)//Edge scroll right
+                        input.x += JelleWho.MoveEdgeScrollSpeed;                                //
+                    if (ypos >= 0 && ypos < JelleWho.MoveIfThisCloseToTheSides)                 //Edge scroll down
+                        input.y -= JelleWho.MoveEdgeScrollSpeed;                                //
+                    else if (ypos <= Screen.height && ypos > Screen.height - JelleWho.MoveIfThisCloseToTheSides)//Edge scrolll up
+                        input.y += JelleWho.MoveEdgeScrollSpeed;                                //
+                }
+            }
+            if (Mathf.Abs(input.y) > Mathf.Epsilon)                                             //Movement up/down relative to the screen
+            {
+                Vector3 horDir = Camera.main.transform.forward;                                 //Get the camera position
+                horDir.y = 0f;                                                                  //Set Up/Down movement to 0, so we ignore that direction
+                horDir.Normalize();                                                             //If there is a value make it 1
+                Vector3 newCameraPos = Camera.main.transform.position + horDir * Speed * input.y; //Get the new camera position
+                Camera.main.transform.position = newCameraPos;                                  //Set camera position
+            }
+            if (Mathf.Abs(input.x) > Mathf.Epsilon)                                             //Movement left/right relative to the screen
+            {
+                Vector3 horDir = Camera.main.transform.right;                                   //Get the camera position 
+                horDir.y = 0f;                                                                  //Set Up/Down movement to 0, so we ignore that direction
+                horDir.Normalize();                                                             //If there is a value make it 1
+                Vector3 newCameraPos = Camera.main.transform.position + horDir * Speed * input.x; //Get the new camera position
+                Camera.main.transform.position = newCameraPos;                                  //Set camera position
+            }
+            float ScrollWheelChange = Input.GetAxis("Mouse ScrollWheel");                       //Get the scrollwheel location
+            if (ScrollWheelChange != 0 && !EventSystem.current.IsPointerOverGameObject())       //If the scrollwheel has changed (and zoom is enabled)
+            {
+                Vector3 newCameraPos = Camera.main.transform.position;
+                Vector3 cameraForward = Camera.main.transform.forward;
+                newCameraPos += cameraForward * JelleWho.ZoomScrollWheelSpeed * ScrollWheelChange * Speed;
+                newCameraPos = new Vector3(
+                    newCameraPos.x,
+                    newCameraPos.y,
+                    newCameraPos.z);
+                Camera.main.transform.position = newCameraPos;
+            }
+        }                                                                                     //Camera stuff
+    }
+    public void CameraControls(bool SetTo)                                              //With this buttons can change the camera mode
+    {
+        StopCameraControls = !SetTo;                                                            //Set the camera mode to what ever there is given (CameraControls FALSE = Stop camera)
+    }
+    private void AlwaysControls()                                                       //Triggered in LateUpdate (unless the game is out of focus)
+    {
+        if (CodeInputManager.GetButtonDownOnce("Menu"))                                         //If the Open/Close menu button is pressed
         {
-            Vector3 horDir = Camera.main.transform.forward;                                     //Get the camera position
-            horDir.y = 0f;                                                                      //Set Up/Down movement to 0, so we ignore that direction
-            horDir.Normalize();                                                                 //If there is a value make it 1
-            Vector3 newCameraPos = Camera.main.transform.position + horDir * Speed * input.y;   //Get the new camera position
-            Camera.main.transform.position = newCameraPos;                                      //Set camera position
+            StopCameraControls = !FolderMenu.activeSelf;                                        //Flag that the camera controls should be active or not
+            FolderMenu.SetActive(StopCameraControls);                                           //Set the menu's visibility
         }
-        if (Mathf.Abs(input.x) > Mathf.Epsilon)                                                 //Movement left/right relative to the screen
+        if (CodeInputManager.GetButtonDownOnce("Pause"))                                        //If the Open/Close menu button is pressed
+            GamePaused = true;
+    }
+    public void _PlaceInHand(GameObject Prefab)                                         //Triggered by menu, with the object to build as prefab, this will hook in to the mouse cursor
+    {
+        Destroy(InHand);                                                                        //Destroy the current held item (If any)
+        PlaceInHand(Prefab);                                                                    //Place the new building on our hand
+    }
+    private void PlaceInHand(GameObject Prefab)                                         //With the object to build as prefab, this will hook in to the mouse cursor
+    {
+        DeconstructToolEquiped = false;                                                         //Make sure the DeconstructTool is NOT Equiped
+        InHand = Instantiate(Prefab, new Vector3(0, -100, 0), Quaternion.identity);             //Create a new building and put it in our hands (coord will be set later)
+        InHand.transform.rotation = PreviousRotation;                                           //Restore the rotation
+        InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
+        InHand.layer = 0;                                                                       //Set to default Layer
+    }
+    public void _DeconstructTool(bool Equiped)                                          //Triggered by menu, Equipe the Deconstruct tool
+    {
+        Destroy(InHand);                                                                        //Destoy the building
+        DeconstructToolEquiped = Equiped;                                                       //Set the given state
+    }
+    public void _HideMenus()                                                            //This will hide the full sub menu
+    {
+        FolderBuildingPopUp.SetActive(false);                                                   //Hide BuildingPopUp
+        foreach (Transform child in FolderSubMenu.transform)                                    //Do for each SubMenu
         {
-            Vector3 horDir = Camera.main.transform.right;                                       //Get the camera position 
-            horDir.y = 0f;                                                                      //Set Up/Down movement to 0, so we ignore that direction
-            horDir.Normalize();                                                                 //If there is a value make it 1
-            Vector3 newCameraPos = Camera.main.transform.position + horDir * Speed * input.x;   //Get the new camera position
-            Camera.main.transform.position = newCameraPos;                                      //Set camera position
+            child.gameObject.SetActive(false);                                                  //Hide the SubMenu
         }
-        float ScrollWheelChange = Input.GetAxis("Mouse ScrollWheel");                           //Get the scrollwheel location
-        if (ScrollWheelChange != 0 && !EventSystem.current.IsPointerOverGameObject())           //If the scrollwheel has changed (and zoom is enabled)
-        {
-            Vector3 newCameraPos = Camera.main.transform.position;
-            Vector3 cameraForward = Camera.main.transform.forward;
-            newCameraPos += cameraForward * JelleWho.ZoomScrollWheelSpeed * ScrollWheelChange;
-            newCameraPos = new Vector3(
-                newCameraPos.x,
-                newCameraPos.y,
-                newCameraPos.z);
-            Camera.main.transform.position = newCameraPos;
-        }
-        float Xr = Camera.main.transform.eulerAngles.x;                                         //Get main camera rotation
-        float Yr = Camera.main.transform.eulerAngles.y;                                         //^
-        if (CodeInputManager.GetButtonDown("Rotate left"))                                      //If the given key has been pressed
-            Yr -= JelleWho.RotateSpeedKeyboard;                                                 //Get the mouse movement
-        if (CodeInputManager.GetButtonDown("Rotate right"))                                     //If the given key has been pressed
-            Yr += JelleWho.RotateSpeedKeyboard;                                                 //Get the mouse movement
-        if (CodeInputManager.GetButtonDown("Rotate"))                                           //If the given key has been pressed
-        {
-            Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse;                         //Get the mouse movement
-            Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse;                         //^
-        }
-        Vector3 C = Camera.main.transform.position;                                             //Get setted camera camera position
-        Camera.main.transform.position = new Vector3(                                           //Limit movement
-            Mathf.Clamp(C.x, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap),//Clamp X horizontal movement
-            Mathf.Clamp(C.y, JelleWho.MinCameraHeight, JelleWho.MaxCameraHeight),               //Clamp Y vertical movement
-            Mathf.Clamp(C.z, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap));//Clamp Z 
-        Camera.main.transform.eulerAngles = new Vector2(                                        //Limit camera look angles
-            Mathf.Clamp(Xr,0 ,89.99f), Yr);                                                     //Clamp Up down looking angle 
     }
     Vector3 PolarToCartesian(Vector2 polar, Vector3 Offset)                             //Offset=(Left, Up, Forward)
     {
@@ -345,17 +356,17 @@ Debug.Log("You've clicked on " + hit.collider.name);
         Building BuildingInfo = CodeInputManager.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName);  //Get the buildings info (like cost etc)
         if (TheBuilding.GetComponent<BuildingOption>().Used)                            //If the building is not brand new
         {
-            CodeUserStats.GetComponent<UserStats>().ChangeWood (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUsed)));  //Return some percentage
-            CodeUserStats.GetComponent<UserStats>().ChangeStone(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUsed)));  //^
-            CodeUserStats.GetComponent<UserStats>().ChangeIron (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUsed)));  //^
-            CodeUserStats.GetComponent<UserStats>().ChangeMoney(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUsed)));  //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeWood (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUsed)));  //Return some percentage
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUsed)));  //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeIron (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUsed)));  //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeMoney(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUsed)));  //^
         }
         else
         {
-            CodeUserStats.GetComponent<UserStats>().ChangeWood (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUnused)));  //Return some percentage
-            CodeUserStats.GetComponent<UserStats>().ChangeStone(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUnused)));  //^
-            CodeUserStats.GetComponent<UserStats>().ChangeIron (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUnused)));  //^
-            CodeUserStats.GetComponent<UserStats>().ChangeMoney(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUnused)));  //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeWood (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUnused)));  //Return some percentage
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUnused)));  //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeIron (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUnused)));  //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeMoney(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUnused)));  //^
         }
         TheBuilding.GetComponent<BuildingOption>()._Destroy();                           //Destroy the building
     }
@@ -363,18 +374,18 @@ Debug.Log("You've clicked on " + hit.collider.name);
     {
         Building BuildingInfo = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName);
         //Debug.Log("Type=" + BuildingInfo.Name +" Cost_Wood=" + BuildingInfo.Cost_Wood +" Cost_Stone=" + BuildingInfo.Cost_Stone +" Cost_Iron=" + BuildingInfo.Cost_Iron +" Cost_Money=" + BuildingInfo.Cost_Money);
-        if (CodeUserStats.GetComponent<UserStats>().Wood >= BuildingInfo.Cost_Wood)             //If we have enough Wood
+        if (CodeResourceManager.GetComponent<ResourceManager>().Wood >= BuildingInfo.Cost_Wood)             //If we have enough Wood
         {
-            if (CodeUserStats.GetComponent<UserStats>().Stone >= BuildingInfo.Cost_Stone)       //If we have enough Stone
+            if (CodeResourceManager.GetComponent<ResourceManager>().Stone >= BuildingInfo.Cost_Stone)       //If we have enough Stone
             {
-                if (CodeUserStats.GetComponent<UserStats>().Iron >= BuildingInfo.Cost_Iron)     //If we have enough Iron
+                if (CodeResourceManager.GetComponent<ResourceManager>().Iron >= BuildingInfo.Cost_Iron)     //If we have enough Iron
                 {
-                    if (CodeUserStats.GetComponent<UserStats>().Money >= BuildingInfo.Cost_Money)//If we have enough Money
+                    if (CodeResourceManager.GetComponent<ResourceManager>().Money >= BuildingInfo.Cost_Money)//If we have enough Money
                     {
-                        CodeUserStats.GetComponent<UserStats>().ChangeWood(-BuildingInfo.Cost_Wood);    //Remove the cost from the wood the player has
-                        CodeUserStats.GetComponent<UserStats>().ChangeStone(-BuildingInfo.Cost_Stone);  //^
-                        CodeUserStats.GetComponent<UserStats>().ChangeIron(-BuildingInfo.Cost_Iron);    //^
-                        CodeUserStats.GetComponent<UserStats>().ChangeMoney(-BuildingInfo.Cost_Money);  //^
+                        CodeResourceManager.GetComponent<ResourceManager>().ChangeWood(-BuildingInfo.Cost_Wood);    //Remove the cost from the wood the player has
+                        CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(-BuildingInfo.Cost_Stone);  //^
+                        CodeResourceManager.GetComponent<ResourceManager>().ChangeIron(-BuildingInfo.Cost_Iron);    //^
+                        CodeResourceManager.GetComponent<ResourceManager>().ChangeMoney(-BuildingInfo.Cost_Money);  //^
                         return "Done";                                                          //Return with; the payed = Done command
                     }
                     else
@@ -389,8 +400,49 @@ Debug.Log("You've clicked on " + hit.collider.name);
         else
             return "Wood";                                                                      //Return with; We dont have enough of this
     }
+    public void _LoadFromFile(String TheFile)                                           //Call this to call the LoadFile handler
+    {
+        CodeSaveLoad.GetComponent<SaveLoad>().LoadFromFile(TheFile);                    //Call the handler
+    }
+    public void _SaveToFile(String TheFile)                                             //Call this to call the SaveFile handler
+    {
+        CodeSaveLoad.GetComponent<SaveLoad>().SaveToFile(TheFile);                      //Call the handler
+    }
+    public void _LoadFromString(String Data)                                            //Call this to call the LoadData handler
+    {
+        CodeSaveLoad.GetComponent<SaveLoad>().LoadFromSring(Data);                      //Call the handler
+    }
+    public void _SaveToString(String Data)                                              //Call this to call the SaveData handler
+    {
+        SaveLoadTXT.text = CodeSaveLoad.GetComponent<SaveLoad>().SaveToSring(Data);     //Call the handler
+    }
 
 
+
+
+
+    
+
+    public InputField SaveLoadTXT;
+    public void _TESTLoad()
+    {
+        _LoadFromString(SaveLoadTXT.text);
+    }
+    public void _TESTSave()
+    {
+        _SaveToString(SaveLoadTXT.text);
+    }
+
+
+
+    public void _Opti()
+    {
+        StaticBatchingUtility.Combine(FolderBuildings.gameObject);
+    }
+    public void _TempSetResourceManager()
+    {
+        CodeResourceManager.GetComponent<ResourceManager>().Set(999999, 999999, 999999, 999999);
+    }
 
     //https://answers.unity.com/questions/546045/how-can-i-access-a-bool-for-a-specific-gameobject.html
     //public class MyNewClass

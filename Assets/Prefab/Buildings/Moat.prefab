@@ -21,12 +21,12 @@ GameObject:
   - component: {fileID: 4070262203018676}
   - component: {fileID: 114644655206150448}
   - component: {fileID: 65572502184208626}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Moat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1665363917593112
 GameObject:
@@ -45,7 +45,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 127
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4039184980179044
 Transform:
@@ -433,7 +433,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BuildingName: Moat
-  SelectedOption: 0
-  Used: 0
   FlagAsUsedAfterSeconds: 10
+  MaxHealth: 100
+  Used: 0
   Active: 0
+  SelectedOption: 0
+  Health: 0

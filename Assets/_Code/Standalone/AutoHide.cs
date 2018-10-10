@@ -8,9 +8,7 @@ public class AutoHide : MonoBehaviour {
     private void Start()                                                                //Run on boot
     {
         if (HideOnBoot)                                                                         //If we need to hide this object on boot
-        {
             this.gameObject.SetActive(false);                                                   //Hide this gameObject                           
-        }
     }
     private void OnEnable()                                                             //Run each time the gameObject is enabled
     {

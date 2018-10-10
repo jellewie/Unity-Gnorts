@@ -13,7 +13,7 @@ v
 
 MENU LAYOUT
 ====================
-* __1 Battle__																																			//Change this to "Castle"?
+* __0 Battle__																																			//Change this to "Castle"?
 * 1 Bridge for moat (only posible attached to a gate)
 * 2 Moat
 * 3 Mangonel_Tower (for on top of stone towers)
@@ -23,7 +23,7 @@ MENU LAYOUT
 * 7 Trap_Pit
 * 8 Castle [C key] (Hide if already placed, can change tax for happiness) (Will hold 8 people)
 
-* __2 Military__
+* __1 Military__
 * 1 Armory
 * 2 Barracks (Creates soldiers, with option to buy items if an soldier is ordered but the items are missing)
 * 3 Swords_Maker
@@ -33,7 +33,7 @@ MENU LAYOUT
 * 7 Blacksmith_Armor (Iron/steel jacket maker)
 * 8 Blacksmith_Tools (Iron/steel Ace maker / Iron/steel Sword maker) 
 
-* __3 Castle structures__																																//Change this to "Wall_Buildings"?
+* __2 Castle structures__																																//Change this to "Wall_Buildings"?
 * 1 Wooden_Wall
 * 2 Wooden_Wall_Spiked
 * 3 Wooden_Gate			(Gates give a pop-up window to open/close the gate)
@@ -45,7 +45,7 @@ MENU LAYOUT
 * 9 Stone_Tower
 * 10 Stone_Stair
 
-* __4 Industial__
+* __3 Industial__
 * 1 Stockpile [F key]
 * 2 Lumberjack_Hut
 * 3 Stone_Quarry
@@ -55,7 +55,7 @@ MENU LAYOUT
 * 7 
 * 8 
 
-* __5 Food__
+* __4 Food__
 * 1 Granary [G key]
 * 2 Apple_Farm
 * 3 Cow_Farm
@@ -65,7 +65,7 @@ MENU LAYOUT
 * 7 Baker (for flour)
 * 8 Fischer
 
-* __6 MISC__
+* __5 MISC__
 * 1 Home (Closer to the castle = bigger home??)
 * 2 Trading_House [T key] (This building enables trading + Auto trading ?with an upgrade?; like buy wood if below 100, sell if above 200)
 * 3 Church [H key] (Boost happiness based on amount of homes near. can be bribed to temponary boost more)

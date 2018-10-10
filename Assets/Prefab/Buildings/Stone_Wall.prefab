@@ -26,12 +26,12 @@ GameObject:
   - component: {fileID: 64118271511354790}
   - component: {fileID: 65867786434353656}
   - component: {fileID: 114590407535985574}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Stone_Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 127
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4560480261674802
 Transform:
@@ -474,7 +474,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BuildingName: Stone_Wall
-  SelectedOption: 0
-  Used: 0
   FlagAsUsedAfterSeconds: 10
+  MaxHealth: 100
+  Used: 0
   Active: 0
+  SelectedOption: 0
+  Health: 0
