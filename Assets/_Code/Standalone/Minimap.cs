@@ -5,9 +5,19 @@ using PublicCode;
 
 public class Minimap : MonoBehaviour {
     public Camera FollowCam;                                                            //The camera to follow
+
+    private Plane groundPlane = new Plane(Vector3.up, Vector3.zero);  // A mathematical construct to represent the "floor" of the world
+
     void LateUpdate()                                                                   //Called after each frame after Update
     {
-        FollowCam.transform.position = new Vector3(Camera.main.transform.position.x, 100, Camera.main.transform.position.z);   //Let the minimap follow the camera
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));  // Cast a ray to the center of the camera
+        float distance;
+        if (groundPlane.Raycast(ray, out distance)) // Get where the ray intersects the ground
+        {
+            Vector3 newPosition = Vector3.ClampMagnitude(ray.GetPoint(distance), 1.5f * JelleWho.MaxMoveHorizontalOnMap);  // Clamp to a circle around the center of the world
+            FollowCam.transform.position = new Vector3(newPosition.x, FollowCam.transform.position.y, newPosition.z); // Let the minimap follow where the camera is looking
+        }
+
         FollowCam.transform.rotation = Quaternion.Euler(90f, Camera.main.transform.eulerAngles.y, 0f); //Also follow the angle
         if (EnableZoom)                                                                         //If Zoom is enabled
         {
