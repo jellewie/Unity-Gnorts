@@ -235,12 +235,6 @@ public class UserInput : MonoBehaviour
                 Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse * deltaTime;         //Get the mouse movement
                 Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse * deltaTime;         //^
             }
-            Vector3 C = Camera.main.transform.position;                                         //Get setted camera camera position
-            Camera.main.transform.position = new Vector3(                                       //Limit movement
-                Mathf.Clamp(C.x, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap),//Clamp X horizontal movement
-                Mathf.Clamp(C.y, JelleWho.MinCameraHeight, JelleWho.MaxCameraHeight),           //Clamp Y vertical movement
-                Mathf.Clamp(C.z, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap));//Clamp Z 
-            Camera.main.transform.eulerAngles = new Vector2(Mathf.Clamp(Xr, 0, 89.99f), Yr);    //Clamp Up Down looking angle 
             if (CodeInputManager.GetButtonDown("Left"))                                         //Keyboard move left
                 input.x -= JelleWho.MoveSpeedKeyboard;
             if (CodeInputManager.GetButtonDown("Right"))                                        //Keyboard move right
@@ -289,16 +283,17 @@ public class UserInput : MonoBehaviour
             float ScrollWheelChange = Input.GetAxis("Mouse ScrollWheel");                       //Get the scrollwheel location
             if (ScrollWheelChange != 0 && !EventSystem.current.IsPointerOverGameObject())       //If the scrollwheel has changed (and zoom is enabled)
             {
-                Vector3 newCameraPos = Camera.main.transform.position;
-                Vector3 cameraForward = Camera.main.transform.forward;
-                newCameraPos += cameraForward * JelleWho.ZoomScrollWheelSpeed * ScrollWheelChange * Speed;
-                newCameraPos = new Vector3(
-                    newCameraPos.x,
-                    newCameraPos.y,
-                    newCameraPos.z);
-                Camera.main.transform.position = newCameraPos;
+                Vector3 cameraForward = Camera.main.transform.forward;                          //Get the angle (so forward is relative to the camera and not to North of the world)
+                Vector3 newCameraPos = cameraForward * JelleWho.ZoomScrollWheelSpeed * ScrollWheelChange * Speed; //Create anc calculate new position of the camera
+                Camera.main.transform.position += newCameraPos;                                 //Set camera position
             }
-        }                                                                                     //Camera stuff
+            Vector3 C = Camera.main.transform.position;                                         //Get setted camera camera position
+            Camera.main.transform.position = new Vector3(                                       //Limit movement
+                Mathf.Clamp(C.x, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap),//Clamp X horizontal movement
+                Mathf.Clamp(C.y, JelleWho.MinCameraHeight, JelleWho.MaxCameraHeight),           //Clamp Y vertical movement
+                Mathf.Clamp(C.z, -JelleWho.MaxMoveHorizontalOnMap, JelleWho.MaxMoveHorizontalOnMap));//Clamp Z 
+            Camera.main.transform.eulerAngles = new Vector2(Mathf.Clamp(Xr, 0, 89.99f), Yr);    //Clamp Up Down looking angle 
+        }                                                                                       //Camera stuff
     }
     public void CameraControls(bool SetTo)                                              //With this buttons can change the camera mode
     {
