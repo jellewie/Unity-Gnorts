@@ -86,6 +86,7 @@ public class SaveLoad : MonoBehaviour {
                 }
             }
         }
+        FolderBuildingPopUp.SetActive(false);
         return true;                                                                            //Return true, Scene has been loaden
     }
     public bool SaveToFile(string FileLocation)
