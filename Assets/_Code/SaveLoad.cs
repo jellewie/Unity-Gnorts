@@ -21,7 +21,6 @@ public class SaveLoad : MonoBehaviour {
 
     public bool LoadFromFile(string FileLocation)                                       //Call this to load from a file, with FileLocation as the location
     {
-
         return false;                                                                           //Return false, File could not be loaded
     }
     public bool LoadFromSring(string LevelData)                                         //Call this to load a string, With LevelData as the string of data
