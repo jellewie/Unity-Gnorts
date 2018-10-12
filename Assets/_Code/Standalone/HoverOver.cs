@@ -4,9 +4,12 @@ using UnityEngine.EventSystems;
 using PublicCode;
 
 public class HoverOver : MonoBehaviour, 
-IPointerClickHandler,
+IPointerDownHandler,
 IPointerEnterHandler,
-IPointerExitHandler
+IPointerExitHandler,
+IBeginDragHandler, 
+IDragHandler, 
+IEndDragHandler
 {
     public GameObject Prefab;                                                                   //The preab that needs to be placed when clicked on     Leave emthy to not place anything
     public string Direction = "L";                                                              //The direction of the text                             Can be; Left Righ Up Down
@@ -14,16 +17,16 @@ IPointerExitHandler
 
     private GameObject ParentHoverOver;                                                         //The parrent
     private GameObject OBJHoverOver;                                                            //The child we are going to move and enable/disable (We can't to the parent or we will lose track of the parent)
-    private GameObject CodeUserInput;                                                           //The GameObject with the code on it
-    private GameObject CodeInputManager;                                                        //The GameObject with the code on it
+    private UserInput CodeUserInput;                                                            //The UserInput code
+    private InputManager CodeInputManager;                                                      //The InputManager code
     private Text TextBox;                                                                       //The child textbox
     private bool MouseIsOver;                                                                   //A bool that keeps track if the mouse is over this object
     private Vector2 HorzontalOffzet;                                                            //Offset direction
     private void Start()                                                                //Run once on startup
     {
         ParentHoverOver = GameObject.Find("HoverOver");                                         //Get the Code HoverOver
-        CodeInputManager = GameObject.Find("InputManager");                                     //Get the Code InputManager
-        CodeUserInput = GameObject.Find("UserInput");                                           //Get the Code UserInput
+        CodeInputManager = GameObject.Find("InputManager").GetComponent<InputManager>();        //Get the Code InputManager
+        CodeUserInput = GameObject.Find("UserInput").GetComponent<UserInput>();                 //Get the Code UserInput
         OBJHoverOver = ParentHoverOver.transform.GetChild(0).gameObject;                        //Get the object we are going to move and enable/disable
         Image_RectTransform = OBJHoverOver.GetComponent<RectTransform>();                       //Set the RectTransform reference (Needed for size measurement        
         TextBox = OBJHoverOver.GetComponentInChildren<Text>();                                  //Set the Textbox reference (This text will be changed)
@@ -49,7 +52,7 @@ IPointerExitHandler
             );
         if (Prefab != null)                                                                     //If a Prefab is set
         {
-            Building BuildingInfo = CodeInputManager.GetComponent<InputManager>().GetInfo(Prefab.name); //Get the building info
+            Building BuildingInfo = CodeInputManager.GetInfo(Prefab.name);                      //Get the building info
             if (BuildingInfo.Name != "N/A")                                                     //If we have not encountered an error
             {
                 if (BuildingInfo.Cost_Wood > 0)                                                 //If this building needs wood
@@ -94,14 +97,30 @@ IPointerExitHandler
         MouseIsOver = false;                                                                    //Flag that the mouse is NOT over this object
         OBJHoverOver.SetActive(false);                                                          //Disable the box (We dont need it anymore)
     }
-    public void OnPointerClick(PointerEventData evd)                                    //Run each time the mouse clicks on this object
+    public void OnPointerDown(PointerEventData evd)                                    //Run each time the mouse clicks on this object
     {
         if (Prefab != null)                                                                     //If a Prefab is set
-            CodeUserInput.GetComponent<UserInput>()._PlaceInHand(Prefab);                       //Put the Prefab in our hands
+            CodeUserInput._PlaceInHand(Prefab);                                                 //Put the Prefab in our hands
     }
     private void Update()                                                               //Run each frame
     {
         if (MouseIsOver)                                                                        //If the mouse is over this object
             MoveToCursos();                                                                     //Move the HoverOver box to the mouse
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)                                 //Run before a drag is started
+    {
+        CodeUserInput.StartDragging();
+    }
+
+    public void OnDrag(PointerEventData eventData)                                      //Run when dragging and the cursor is moved
+    {
+        // Empty implementation of IDragHandler.
+        // Needed for OnBeginDrag and OnEndDrag to function.
+    }
+
+    public void OnEndDrag(PointerEventData eventData)                                   //Run when a drag is ended
+    {
+        CodeUserInput.StopDragging();
     }
 }

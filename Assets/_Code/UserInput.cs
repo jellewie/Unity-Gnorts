@@ -25,6 +25,8 @@ public class UserInput : MonoBehaviour
 
     Quaternion PreviousRotation;
 
+    public bool IsDragging { get; set; }                                                //Are we dragging something?
+
     private bool IsOutOfFocus = false;
     private bool GamePaused = false;
     private bool StopCameraControls = false;
@@ -125,35 +127,9 @@ public class UserInput : MonoBehaviour
                 }
                 if (CodeInputManager.GetButtonDownOnce("Cancel build"))                         //If we want to cancel the build
                     Destroy(InHand);                                                            //Destoy the building
-                else if (CodeInputManager.GetButtonDown("Build"))                               //If we need to build the object here
+                else if (CodeInputManager.GetButtonDown("Build") && !IsDragging)                //If we need to build the object here
                 {
-                    InHand.layer = 0;                                                           //Set to default Layer
-                    RaycastHit[] Hit = Physics.BoxCastAll(                                      //Cast a ray to see if there is already a building where we are hovering over
-                        InHand.GetComponent<Collider>().bounds.center,                          //The center of the block
-                        (InHand.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f),  //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
-                        -transform.up,                                                          //Do the ray downwards (in to the ground basicly to check only it's own position)
-                        InHand.GetComponent<Collider>().transform.rotation,                     //The orientation in Quaternion (Always in steps of 90 degrees)
-                        0.5f,                                                                   //Dont go much depth, the building should be inside this block
-                        1 << LayerMask.NameToLayer("Building"));                                //Only try to find buildings
-                    if (Hit.Length > 0)                                                         //If there a building already there
-                    {
-                        //Debug.Log("Can't build on top " + Hit[0].transform.name);
-                        /*TODO FIXME 
-                        If this is hit for more than <1 sec> than show a message that we can't build there
-                         */
-                    }
-                    else
-                    {
-                        string Pay = CanWePayFor(InHand);                                       //Create a new string, will return what we are missing if we can't build
-                        if (Pay == "Done")                                                      //If we do have enough to build this building
-                        {
-                            InHand.layer = LayerMask.NameToLayer("Building");                   //Set this to be in the building layer (so we can't build on this anymore)
-                            InHand.GetComponent<BuildingOption>().StartTimer();                 //Start the 'Used' after timer if this object
-                            PlaceInHand(InHand);                                                //Put a new building on our hands, and leave this one be (this one is now placed down)
-                        }
-                        else
-                            ShowMessage("Not enough " + Pay + " to build that");                //Give the user the warning message
-                    }
+                    Build(InHand);
                 }
                 else if (CodeInputManager.GetButtonDownOnce("Rotate building"))                 //If we want to rotate the building
                 {
@@ -298,6 +274,60 @@ public class UserInput : MonoBehaviour
             Camera.main.transform.eulerAngles = new Vector2(Mathf.Clamp(Xr, 0, 89.99f), Yr);    //Clamp Up Down looking angle 
         }                                                                                       //Camera stuff
     }
+
+    /// <summary>
+    /// Indicate the end of a dragging operation.
+    /// </summary>
+    internal void StopDragging()                                                                
+    {
+        IsDragging = false;                                                                     //Stop drgging
+        if (InHand != null)
+            Build(InHand);                                                                      //Drop a building if we have one
+    }
+
+    /// <summary>
+    /// Indicate the start of a dragging operation.
+    /// </summary>
+    internal void StartDragging()
+    {
+        IsDragging = true;                                                                      //Indicate that we're dragging
+    }
+
+    /// <summary>
+    /// Try to place a building.
+    /// </summary>
+    /// <param name="building">The GameObject to place</param>
+    public void Build(GameObject building)
+    {
+        building.layer = 0;                                                                     //Set to default Layer
+        RaycastHit[] Hit = Physics.BoxCastAll(                                                  //Cast a ray to see if there is already a building where we are hovering over
+            building.GetComponent<Collider>().bounds.center,                                    //The center of the block
+            (building.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f),    //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
+            -transform.up,                                                                      //Do the ray downwards (in to the ground basicly to check only it's own position)
+            building.GetComponent<Collider>().transform.rotation,                               //The orientation in Quaternion (Always in steps of 90 degrees)
+            0.5f,                                                                               //Dont go much depth, the building should be inside this block
+            1 << LayerMask.NameToLayer("Building"));                                            //Only try to find buildings
+        if (Hit.Length > 0)                                                                     //If there a building already there
+        {
+            //Debug.Log("Can't build on top " + Hit[0].transform.name);
+            /*TODO FIXME 
+            If this is hit for more than <1 sec> than show a message that we can't build there
+             */
+        }
+        else
+        {
+            string Pay = CanWePayFor(building);                                                 //Create a new string, will return what we are missing if we can't build
+            if (Pay == "Done")                                                                  //If we do have enough to build this building
+            {
+                building.layer = LayerMask.NameToLayer("Building");                             //Set this to be in the building layer (so we can't build on this anymore)
+                building.GetComponent<BuildingOption>().StartTimer();                           //Start the 'Used' after timer if this object
+                PlaceInHand(building);                                                          //Put a new building on our hands, and leave this one be (this one is now placed down)
+            }
+            else
+                ShowMessage("Not enough " + Pay + " to build that");                            //Give the user the warning message
+        }
+    }
+
     public void CameraControls(bool SetTo)                                              //With this buttons can change the camera mode
     {
         StopCameraControls = !SetTo;                                                            //Set the camera mode to what ever there is given (CameraControls FALSE = Stop camera)
