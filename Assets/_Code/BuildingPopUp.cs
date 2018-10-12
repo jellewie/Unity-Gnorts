@@ -24,7 +24,10 @@ public class BuildingPopUp : MonoBehaviour {
     }
     void InputDropdown(Dropdown change)                                                 //Triggered when the dropdown menu changes
     {
-        ChangeOption(SelectedBuilding, SelectedBuildingSpecial, true, System.Convert.ToByte(change.value));
+        if (SelectedBuilding != null)
+        {
+            ChangeOption(SelectedBuilding, SelectedBuildingSpecial, true, System.Convert.ToByte(change.value));
+        }
     }
     public void ChangeOption(GameObject Building, byte ClickSpecial, bool PopUp, byte ToOption) //ToOption=255 = do not change option
     {
