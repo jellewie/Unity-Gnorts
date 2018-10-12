@@ -47,14 +47,14 @@ public class UserInput : MonoBehaviour
         if (!IsOutOfFocus)                                                                      //If the game isn't paused
         {
             AlwaysControls();                                                                   //Controls that always need to be executed (like the ESC button)
-            if (!StopCameraControls)                                                            //If we are somewhere where we dont want to control the camera
+            if (!StopCameraControls)                                                            //If we are on a place where we want to control the camera
             {
                 ExecuteInputs();                                                                //Check if we need to move the camera                                       
             }
         }
-        if (GamePaused)
+        if (GamePaused)                                                                         //If the game is paused
         {
-            //some IA stuff here
+            //Game is paused (Stop tick count and such)
         }
     }
     void OnApplicationFocus(bool hasFocus)                                              //Triggered when the game is in focus
@@ -177,8 +177,8 @@ public class UserInput : MonoBehaviour
                         _HideMenus();                                                           //Hide the Menu's
                         FolderBuildingPopUp.SetActive(true);                                    //Show BuildingPopUp
                         FolderBuildingPopUp.GetComponent<BuildingPopUp>().SelectBuilding(       //Open Pop-up window
-                            hit.collider.gameObject,                                            //Send the gameobject that we have clicked on
-                            CodeInputManager.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial); //And it's special stats
+                        hit.collider.gameObject,                                                //Send the gameobject that we have clicked on
+                        CodeInputManager.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial); //And it's special stats
                         Debug.Log("You've clicked on " + hit.collider.name);
                     }
                 }
