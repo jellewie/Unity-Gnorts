@@ -7,3 +7,7 @@ I do NOT allow you or annyone to use my codes and sell it without my permission.
 If you want to help on this game, or create your own with it, just contact me and fork it.
 v
 ![Early alpha screenshot of the game](https://i.imgur.com/PZfCLHh.png)
+
+
+Or join the Discord server to talk more about things!
+https://discord.gg/ggfDJHg
