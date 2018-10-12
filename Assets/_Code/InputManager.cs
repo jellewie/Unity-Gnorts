@@ -165,7 +165,7 @@ public class InputManager : MonoBehaviour
     {
         int ArrayLength = 44 + 1;
         BuildingCostArray = new Building[ArrayLength];                                          //Create a new array with the proper length
-                                                                   //Wood Stone Iron Money 1Free SpecialBuild SpecialClick SpecialDestroy SpecialSave
+                                                                   //Wood, Stone, Iron, Money, 1Free, SpecialBuild, SpecialClick, SpecialDestroy, SpecialSave?
         BuildingCostArray[0]  = new Building("Bridge",                  0,  10, 0,  0,  false,	0,  0,  0); //Add some data
         BuildingCostArray[1]  = new Building("Moat",                    0,  0,  0,  2,  false,	0,  0,  0);
         BuildingCostArray[2]  = new Building("Mangonel_Tower",          0,  0,  0,  100,false,	0,  0,  0);
@@ -173,7 +173,7 @@ public class InputManager : MonoBehaviour
         BuildingCostArray[4]  = new Building("Town_Square",             10, 10, 0,  0,  false,	0,  0,  0);
         BuildingCostArray[5]  = new Building("Fire_Pit",                0,  0,  0,  10, false,	0,  0,  0);
         BuildingCostArray[6]  = new Building("Trap_Pit",                5,  0,  0,  0,  false,	0,  0,  0);
-        BuildingCostArray[7]  = new Building("Keep",                    0,  0,  0,  0,  false,	0,  0,  0);
+        BuildingCostArray[7]  = new Building("Keep",                    0,  0,  0,  0,  false,	0,  2,  0);
                                                                                                      
         BuildingCostArray[8]  = new Building("Armory",                  10, 5,  0,	0,  false,	0,  0,  0);
         BuildingCostArray[9]  = new Building("Barracks",                5,  15, 0,  0,  false,	0,  0,  0);
@@ -196,13 +196,13 @@ public class InputManager : MonoBehaviour
         BuildingCostArray[24] = new Building("Stone_Tower",             0,  40, 0,  0,  false,	0,  0,  0);
                                                                                                      
         BuildingCostArray[26] = new Building("Stockpile",               0,  5,  0,  0,  true, 	0,  0,  0);
-        BuildingCostArray[27] = new Building("Lumberjack_Hut",          10, 0,  0,  0,  true, 	0,  0,  0);
-        BuildingCostArray[28] = new Building("Stone_Quarry",            20, 0,  0,  0,  false,	0,  0,  0);
-        BuildingCostArray[29] = new Building("Iron_Mine",               20, 0,  0,  0,  false,	0,  0,  0);
-        BuildingCostArray[30] = new Building("Ox_Transport",            3,  0,  0,  5,  false,	0,  0,  0);
+        BuildingCostArray[27] = new Building("Lumberjack_Hut",          10, 0,  0,  0,  true, 	0,  4,  0);
+        BuildingCostArray[28] = new Building("Stone_Quarry",            20, 0,  0,  0,  false,	0,  5,  0);
+        BuildingCostArray[29] = new Building("Iron_Mine",               20, 0,  0,  0,  false,	0,  6,  0);
+        BuildingCostArray[30] = new Building("Ox_Transport",            3,  0,  0,  5,  false,	0,  3,  0);
         BuildingCostArray[31] = new Building("Repair_Building",         10, 5,  0,  0,  false,	0,  0,  0);
                                                                                                      
-        BuildingCostArray[32] = new Building("Granary",                 25, 0,  0,  0,  true,	0,  0,  0);
+        BuildingCostArray[32] = new Building("Granary",                 25, 0,  0,  0,  true,	0,  7,  0);
         BuildingCostArray[33] = new Building("Apple_Farm",              10, 0,  0,  0,  false,	0,  0,  0);
         BuildingCostArray[34] = new Building("Cow_Farm",                20, 0,  0,  0,  false,	0,  0,  0);
         BuildingCostArray[35] = new Building("Hunter",                  10, 0,  0,  0,  false,	0,  0,  0);
@@ -224,6 +224,13 @@ public class InputManager : MonoBehaviour
 
         SpecialClick
         1 Gate
+    TODO:
+        2 Keep
+        3 Ox_Transport
+        4 Lumberjack_Hut
+        5 Stone_Quarry
+        6 Iron_Mine
+        7 Granary
 
 
 
