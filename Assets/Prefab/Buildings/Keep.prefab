@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 114837512881984918}
   - component: {fileID: 65600892962672006}
   m_Layer: 10
-  m_Name: Castle
+  m_Name: Keep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11615,7 +11615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 673f0e666dd3483488064867e6d253e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BuildingName: Castle
+  BuildingName: Keep
   FlagAsUsedAfterSeconds: 0
   MaxHealth: 100
   Used: 0
