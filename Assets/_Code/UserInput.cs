@@ -20,6 +20,7 @@ public class UserInput : MonoBehaviour
     public Transform FolderBuildings;                                                   //The folder where all the buildings should be put in
     public GameObject FolderBuildingPopUp;                                              //The folder with the pop-up stuff in it
     public GameObject TextMessage;
+    public Texture2D DestructCursor;                                                    //A cursor to indicate we're in destruct mode
     private Byte LowerObjectBy = 0;                                                     //Howmuch the gameobject should be higher (this is used for walls as example)
 
     Quaternion PreviousRotation;
@@ -185,7 +186,7 @@ public class UserInput : MonoBehaviour
                     }
                 }
                 else if (CodeInputManager.GetButtonDownOnce("Cancel build"))                    //If we want to cancel Removing buildings
-                    DeconstructToolEquiped = false;                                             //Stop the DeconstructTool being equiped
+                    _DeconstructTool(false);                                                    //Stop the DeconstructTool being equiped
             }
             else
             {
@@ -316,7 +317,7 @@ public class UserInput : MonoBehaviour
     }
     private void PlaceInHand(GameObject Prefab)                                         //With the object to build as prefab, this will hook in to the mouse cursor
     {
-        DeconstructToolEquiped = false;                                                         //Make sure the DeconstructTool is NOT Equiped
+        _DeconstructTool(false);                                                                //Make sure the DeconstructTool is NOT Equiped
         InHand = Instantiate(Prefab, new Vector3(0, -100, 0), Quaternion.identity);             //Create a new building and put it in our hands (coord will be set later)
         InHand.transform.rotation = PreviousRotation;                                           //Restore the rotation
         InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
@@ -324,7 +325,15 @@ public class UserInput : MonoBehaviour
     }
     public void _DeconstructTool(bool Equiped)                                          //Triggered by menu, Equipe the Deconstruct tool
     {
-        Destroy(InHand);                                                                        //Destoy the building
+        if (Equiped)
+        {
+            Destroy(InHand);                                                                    //Destroy the building in hand
+            Cursor.SetCursor(DestructCursor, new Vector2(DestructCursor.width / 2f, DestructCursor.height / 2f), CursorMode.Auto);  //Set custom cursor
+        }
+        else
+        {
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);                              //Restore default cursor
+        }
         DeconstructToolEquiped = Equiped;                                                       //Set the given state
     }
     public void _HideMenus()                                                            //This will hide the full sub menu

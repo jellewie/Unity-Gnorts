@@ -19247,6 +19247,7 @@ MonoBehaviour:
   FolderBuildings: {fileID: 1040418256}
   FolderBuildingPopUp: {fileID: 2038742038}
   TextMessage: {fileID: 450758157}
+  DestructCursor: {fileID: 2800000, guid: 92586577c237275488cd2686706d90ef, type: 3}
   Speed: 0
   SaveLoadTXT: {fileID: 997199732}
 --- !u!1 &1107932979
