@@ -22,7 +22,7 @@ public class UserInput : MonoBehaviour
     public GameObject TextMessage;
     private Byte LowerObjectBy = 0;                                                     //Howmuch the gameobject should be higher (this is used for walls as example)
     public Texture2D MouseDeconstruct;                                                  //The mouse icon of the deconstruct tool
-
+    public Byte ThisPlayerID;
     Quaternion PreviousRotation;
 
     public bool IsDragging { get; set; }                                                //Are we dragging something?
@@ -177,8 +177,10 @@ public class UserInput : MonoBehaviour
                         _HideMenus();                                                           //Hide the Menu's
                         FolderBuildingPopUp.SetActive(true);                                    //Show BuildingPopUp
                         FolderBuildingPopUp.GetComponent<BuildingPopUp>().SelectBuilding(       //Open Pop-up window
-                        hit.collider.gameObject,                                                //Send the gameobject that we have clicked on
-                        CodeInputManager.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial); //And it's special stats
+                            hit.collider.gameObject,                                            //Send the gameobject that we have clicked on
+                            CodeInputManager.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial, //And it's special stats
+                            ThisPlayerID
+                            );
                         Debug.Log("You've clicked on " + hit.collider.name);
                     }
                 }
@@ -382,7 +384,7 @@ public class UserInput : MonoBehaviour
         var rotation = Quaternion.Euler(polar.x, polar.y, 0);                                   //Convert it
         return rotation * Offset;                                                               //Return the Vector 3 of the target point
     }
-    private void ShowMessage(string Message)                                            //If we need to show the player a message
+    public void ShowMessage(string Message)                                            //If we need to show the player a message
     {
         TextMessage.GetComponentInChildren<Text>().text = Message;                              //Give the user the message
         TextMessage.SetActive(true);                                                            //Show the message (This objects auto hides)
