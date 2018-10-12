@@ -329,10 +329,12 @@ public class UserInput : MonoBehaviour
     {
         if (DeconstructToolEquiped != Equiped)                                                  //If the tool status is not up to date, and need to be changed
         {
-            Destroy(InHand);                                                                    //Destoy the building
             DeconstructToolEquiped = Equiped;                                                   //Set the given state
             if (Equiped)                                                                        //If DeconstructTool is still active
+            {
+                Destroy(InHand);                                                                //Destoy the building (This will cancel 'NowBuilding' if it's ative)
                 SetCursor(MouseDeconstruct);                                                    //Set the mouse cursor to be the Deconstruct Tool
+            }
             else
                 SetCursor(null);                                                                //Reset cursor icon, so it isn't the Deconstruct Tool
         }
