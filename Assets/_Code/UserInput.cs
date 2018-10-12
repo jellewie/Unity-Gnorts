@@ -21,6 +21,7 @@ public class UserInput : MonoBehaviour
     public GameObject FolderBuildingPopUp;                                              //The folder with the pop-up stuff in it
     public GameObject TextMessage;
     private Byte LowerObjectBy = 0;                                                     //Howmuch the gameobject should be higher (this is used for walls as example)
+    public Texture2D MouseDeconstruct;                                                  //The mouse icon of the deconstruct tool
 
     Quaternion PreviousRotation;
 
@@ -165,7 +166,6 @@ public class UserInput : MonoBehaviour
             }
             else if (DeconstructToolEquiped)                                                    //If the Deconstruct tool is aquiped
             {
-                Debug.Log("Deconstruct active");
                 if (CodeInputManager.GetButtonDown("Build"))                                    //If we want to Deconstruct this building
                 {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
@@ -185,7 +185,10 @@ public class UserInput : MonoBehaviour
                     }
                 }
                 else if (CodeInputManager.GetButtonDownOnce("Cancel build"))                    //If we want to cancel Removing buildings
+                {
                     DeconstructToolEquiped = false;                                             //Stop the DeconstructTool being equiped
+                    SetCursor(null);                                                            //Reset cursor icon, so it isn't the Deconstruct Tool
+                }
             }
             else
             {
@@ -316,7 +319,7 @@ public class UserInput : MonoBehaviour
     }
     private void PlaceInHand(GameObject Prefab)                                         //With the object to build as prefab, this will hook in to the mouse cursor
     {
-        DeconstructToolEquiped = false;                                                         //Make sure the DeconstructTool is NOT Equiped
+        _DeconstructTool(false);                                                                //Make sure the DeconstructTool is NOT Equiped
         InHand = Instantiate(Prefab, new Vector3(0, -100, 0), Quaternion.identity);             //Create a new building and put it in our hands (coord will be set later)
         InHand.transform.rotation = PreviousRotation;                                           //Restore the rotation
         InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
@@ -324,8 +327,15 @@ public class UserInput : MonoBehaviour
     }
     public void _DeconstructTool(bool Equiped)                                          //Triggered by menu, Equipe the Deconstruct tool
     {
-        Destroy(InHand);                                                                        //Destoy the building
-        DeconstructToolEquiped = Equiped;                                                       //Set the given state
+        if (DeconstructToolEquiped != Equiped)                                                  //If the tool status is not up to date, and need to be changed
+        {
+            Destroy(InHand);                                                                    //Destoy the building
+            DeconstructToolEquiped = Equiped;                                                   //Set the given state
+            if (Equiped)                                                                        //If DeconstructTool is still active
+                SetCursor(MouseDeconstruct);                                                    //Set the mouse cursor to be the Deconstruct Tool
+            else
+                SetCursor(null);                                                                //Reset cursor icon, so it isn't the Deconstruct Tool
+        }
     }
     public void _HideMenus()                                                            //This will hide the full sub menu
     {
@@ -395,21 +405,26 @@ public class UserInput : MonoBehaviour
         else
             return "Wood";                                                                      //Return with; We dont have enough of this
     }
+    private void SetCursor(Texture2D NewCursorIcon)                                     //Call this to change the mouse icon (Use 'NULL' to reset to normal)
+    {
+        //Make sure to set the texture type of the image to Cursor!
+        Cursor.SetCursor(NewCursorIcon, Vector2.zero, CursorMode.Auto);                         //Set the image as icon
+    }
     public void _LoadFromFile(String TheFile)                                           //Call this to call the LoadFile handler
     {
-        CodeSaveLoad.GetComponent<SaveLoad>().LoadFromFile(TheFile);                    //Call the handler
+        CodeSaveLoad.GetComponent<SaveLoad>().LoadFromFile(TheFile);                            //Call the handler
     }
     public void _SaveToFile(String TheFile)                                             //Call this to call the SaveFile handler
     {
-        CodeSaveLoad.GetComponent<SaveLoad>().SaveToFile(TheFile);                      //Call the handler
+        CodeSaveLoad.GetComponent<SaveLoad>().SaveToFile(TheFile);                              //Call the handler
     }
     public void _LoadFromString(String Data)                                            //Call this to call the LoadData handler
     {
-        CodeSaveLoad.GetComponent<SaveLoad>().LoadFromSring(Data);                      //Call the handler
+        CodeSaveLoad.GetComponent<SaveLoad>().LoadFromSring(Data);                              //Call the handler
     }
     public void _SaveToString(String Data)                                              //Call this to call the SaveData handler
     {
-        SaveLoadTXT.text = CodeSaveLoad.GetComponent<SaveLoad>().SaveToSring(Data);     //Call the handler
+        SaveLoadTXT.text = CodeSaveLoad.GetComponent<SaveLoad>().SaveToSring(Data);             //Call the handler
     }
 
 
@@ -438,6 +453,10 @@ public class UserInput : MonoBehaviour
     {
         CodeResourceManager.GetComponent<ResourceManager>().Set(999999, 999999, 999999, 999999);
     }
+
+
+    
+
 
     //https://answers.unity.com/questions/546045/how-can-i-access-a-bool-for-a-specific-gameobject.html
     //public class MyNewClass
