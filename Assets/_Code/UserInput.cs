@@ -283,7 +283,7 @@ public class UserInput : MonoBehaviour
     internal void StopDragging()                                                                
     {
         IsDragging = false;                                                                     //Stop drgging
-        if (InHand != null)
+        if (InHand != null)                                                                     //If we don't have anything in our hand
             Build(InHand);                                                                      //Drop a building if we have one
     }
 
@@ -324,6 +324,7 @@ public class UserInput : MonoBehaviour
                 building.layer = LayerMask.NameToLayer("Building");                             //Set this to be in the building layer (so we can't build on this anymore)
                 building.GetComponent<BuildingOption>().StartTimer();                           //Start the 'Used' after timer if this object
                 PlaceInHand(building);                                                          //Put a new building on our hands, and leave this one be (this one is now placed down)
+                building.GetComponent<BuildingOption>().OwnerID = ThisPlayerID;                 //Set the current player to be the owner of this building
             }
             else
                 ShowMessage("Not enough " + Pay + " to build that");                            //Give the user the warning message
