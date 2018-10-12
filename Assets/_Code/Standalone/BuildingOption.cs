@@ -10,7 +10,7 @@ public class BuildingOption : MonoBehaviour {
     public bool Active;                                                                         //Flag false when building, and when sleeping
     public byte SelectedOption;                                                                 //Which option is selected (if this option has options, examples Lumberjack(ox), castle(tax), ox(trapsport), etc
     public byte Health;                                                                         //The current health of th building
-
+    public byte OwnerID;                                                                        //Every Player on the field has a unique Id, this way we can track who owns what building
 
     public void StartTimer()                                                            //This code will start the 'Used' after x seconds timer
     {
