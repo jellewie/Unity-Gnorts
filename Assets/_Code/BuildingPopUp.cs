@@ -36,7 +36,6 @@ public class BuildingPopUp : MonoBehaviour {
             GameObject Gate = Building.transform.Find("Gate").gameObject;                       //Get the gate
             if (ToOption < 255)                                                                 //If an (valid) option has been given
             {
-                DropDownMenu.value = ToOption;                                                  //Set the gate to the selected option
                 if (ToOption == 0)                                                              //If value has been changed to 0 (Close Gate)
                     Gate.SetActive(false);                                                      //Hide Gate
                 else
@@ -52,7 +51,8 @@ public class BuildingPopUp : MonoBehaviour {
             if (PopUp)                                                                          //If we need a PopUp window
             {
                 DropDownMenu.ClearOptions();                                                    //Clear the old options of the Dropdown menu
-                DropDownMenu.AddOptions(new List<string> { "Open", "close" });                  //Add the options to the dropdown menu
+                DropDownMenu.AddOptions(new List<string> { "Open", "Close" });                  //Add the options to the dropdown menu
+                DropDownMenu.value = ToOption;                                                  //Set the gate to the selected option
             }
             Building.GetComponent<BuildingOption>().SelectedOption = ToOption;                  //Update the Building with this info
         }
@@ -60,17 +60,17 @@ public class BuildingPopUp : MonoBehaviour {
         {
             if (ToOption < 255)                                                                 //If an (valid) option has been given
             {
-                DropDownMenu.value = ToOption;                                                  //Set the gate to the selected option
-                //Execute something
+                //If option has been given, and we need to do something custom (Like; gate is placed, open gate)
             }
             else
             {
-                //Get the proper values (the building is just placed or something)
+                //Unknow status, read the building state (like 'ToOption = Gate is open')
             }
             if (PopUp)                                                                          //If we need a PopUp window
             {
                 DropDownMenu.ClearOptions();                                                    //Clear the old options of the Dropdown menu
                 DropDownMenu.AddOptions(new List<string> { "Option 1", "Option 2" });           //Add the options to the dropdown menu
+                DropDownMenu.value = ToOption;                                                  //Set the gate to the selected option
             }
             SelectedBuilding.GetComponent<BuildingOption>().SelectedOption = ToOption;          //Update the Building with this info
         }
