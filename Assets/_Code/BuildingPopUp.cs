@@ -8,7 +8,7 @@ public class BuildingPopUp : MonoBehaviour {
     byte SelectedBuildingSpecial;                                                               //The special tag of the building
     public Dropdown DropDownMenu;                                                               //This needs to be set to the Dropdown menu itzelf
 
-    void Start()                                                                        //Triggered on star
+    void Start()                                                                        //Triggered on start
     {
         DropDownMenu.onValueChanged.AddListener(delegate {InputDropdown(DropDownMenu);});       //Create a listner for this Dropdown menu
     }
@@ -46,10 +46,17 @@ public class BuildingPopUp : MonoBehaviour {
             GameObject Gate = Building.transform.Find("Gate").gameObject;                       //Get the gate
             if (ToOption < 255)                                                                 //If an (valid) option has been given
             {
+                GameObject Gate2 = Building.transform.Find("Gate2").gameObject;                 //Get the gate
                 if (ToOption == 0)                                                              //If value has been changed to 0 (Close Gate)
-                    Gate.SetActive(false);                                                      //Hide Gate
+                {
+                    Gate.SetActive(false);                                                      //Hide the closed gate
+                    Gate2.SetActive(true);                                                      //Show the open gate
+                }
                 else
-                    Gate.SetActive(true);                                                       //Show Gate
+                {
+                    Gate.SetActive(true);                                                       //Show the closed gate
+                    Gate2.SetActive(false);                                                     //Hide the open gate
+                }
             }
             else
             {
