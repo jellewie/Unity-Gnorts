@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 114967918783830322}
   - component: {fileID: 64614715853061488}
   m_Layer: 0
-  m_Name: Stock
+  m_Name: Stockpile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
