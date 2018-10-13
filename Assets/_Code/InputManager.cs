@@ -175,8 +175,8 @@ public class InputManager : MonoBehaviour
         BuildingCostArray[6]  = new Building("Trap_Pit",                5,  0,  0,  0,  false,	0,  0,  0);
         BuildingCostArray[7]  = new Building("Keep",                    0,  0,  0,  0,  false,	0,  2,  0);
                                                                                                      
-        BuildingCostArray[8]  = new Building("Armory",                  10, 5,  0,	0,  false,	0,  0,  0);
-        BuildingCostArray[9]  = new Building("Barracks",                5,  15, 0,  0,  false,	0,  0,  0);
+        BuildingCostArray[8]  = new Building("Armory",                  10, 5,  0,	0,  false,	0,  6,  0);
+        BuildingCostArray[9]  = new Building("Barracks",                5,  15, 0,  0,  false,	0,  7,  0);
         BuildingCostArray[10] = new Building("Swords_Maker",            0,  0,  0,  150,false,	0,  0,  0);
         BuildingCostArray[11] = new Building("Bow_Maker",               0,  0,  0,  150,false,	0,  0,  0);
         BuildingCostArray[12] = new Building("Spear_Maker",             0,  0,  0,  150,false,	0,  0,  0);
@@ -195,14 +195,14 @@ public class InputManager : MonoBehaviour
         BuildingCostArray[25] = new Building("Stone_Stair",             0,  5,  0,  0,  false,	2,  0,  0);
         BuildingCostArray[24] = new Building("Stone_Tower",             0,  40, 0,  0,  false,	0,  0,  0);
                                                                                                      
-        BuildingCostArray[26] = new Building("Stockpile",               0,  5,  0,  0,  true, 	0,  0,  0);
+        BuildingCostArray[26] = new Building("Stockpile",               0,  5,  0,  0,  true, 	0,  8,  0);
         BuildingCostArray[27] = new Building("Lumberjack_Hut",          10, 0,  0,  0,  true, 	0,  4,  0);
-        BuildingCostArray[28] = new Building("Stone_Quarry",            20, 0,  0,  0,  false,	0,  5,  0);
-        BuildingCostArray[29] = new Building("Iron_Mine",               20, 0,  0,  0,  false,	0,  6,  0);
+        BuildingCostArray[28] = new Building("Stone_Quarry",            20, 0,  0,  0,  false,	0,  4,  0);
+        BuildingCostArray[29] = new Building("Iron_Mine",               20, 0,  0,  0,  false,	0,  4,  0);
         BuildingCostArray[30] = new Building("Ox_Transport",            3,  0,  0,  5,  false,	0,  3,  0);
         BuildingCostArray[31] = new Building("Repair_Building",         10, 5,  0,  0,  false,	0,  0,  0);
                                                                                                      
-        BuildingCostArray[32] = new Building("Granary",                 25, 0,  0,  0,  true,	0,  7,  0);
+        BuildingCostArray[32] = new Building("Granary",                 25, 0,  0,  0,  true,	0,  5,  0);
         BuildingCostArray[33] = new Building("Apple_Farm",              10, 0,  0,  0,  false,	0,  0,  0);
         BuildingCostArray[34] = new Building("Cow_Farm",                20, 0,  0,  0,  false,	0,  0,  0);
         BuildingCostArray[35] = new Building("Hunter",                  10, 0,  0,  0,  false,	0,  0,  0);
@@ -212,8 +212,8 @@ public class InputManager : MonoBehaviour
         BuildingCostArray[39] = new Building("Fischer",                 10, 0,  0,  0,  false,	0,  0,  0);
                                                                                                      
         BuildingCostArray[40] = new Building("Home",                    15, 0,  0,  0,  false,	0,  0,  0);
-        BuildingCostArray[41] = new Building("Trading_House",           25, 5,  0,  0,  false,	0,  0,  0);
-        BuildingCostArray[42] = new Building("Church",                  20, 40, 0,  0,  false,	0,  0,  0);
+        BuildingCostArray[41] = new Building("Trading_House",           25, 5,  0,  0,  false,	0,  9,  0);
+        BuildingCostArray[42] = new Building("Church",                  20, 40, 0,  0,  false,	0, 10,  0);
         BuildingCostArray[43] = new Building("Water_Well",              0,  10, 0,  0,  false,	0,  0,  0);
         BuildingCostArray[44] = new Building("Alchemist",               10, 10, 0,  0,  false,	0,  0,  0);
 
@@ -222,18 +222,17 @@ public class InputManager : MonoBehaviour
         1 Wall
         2 Stair
 
-        SpecialClick
-        1 Gate  (gate stats: Open, Close)
-        2 Keep  (tax rate= +8tax -8 happy, +4, +2, 0, -2, -4, -8) Default:3 (0 tax)
-        3 Ox_Transport (only move this resource = Wood, Stone, Iron) 254 = not set yet
-    TODO:
-        4 Lumberjack_Hut
-        5 Stone_Quarry
-        6 Iron_Mine
-        7 Granary
-
-
-
+        SpecialClick (Please check BuildingPopUp.cs in the code 'if (PopUp)' to what options we have
+        1 Gate  (gate status) 
+        2 Keep  (tax rate) Default:3-no tax
+        3 Ox_Transport (only move this resource) 254 = not set yet
+        4 Lumberjack_Hut || Stone_Quarry || Iron_Mine  (How to move the products)
+        5 Granary (Rations)[also Needs a new window] See whats in the Granary - ?ban sertain food to be consumed?
+        6 Armory                [Needs a new window] See whats in the Armory
+        7 Barracks              [Needs a new window] Build troops (with auto buy tools option)
+        8 Stockpile             [Needs a new window] See whats in the stockpile
+        9 Trading_House         [Needs a new window] 
+        10 Church               [Needs a new window] Bribe/donate
         */
     }
     public Building GetInfo(String ItemName)                                            //Get building information about a building

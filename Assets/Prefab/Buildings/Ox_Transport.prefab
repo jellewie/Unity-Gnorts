@@ -1369,7 +1369,7 @@ MonoBehaviour:
   MaxHealth: 10
   Used: 0
   Active: 0
-  SelectedOption: 0
+  SelectedOption: 254
   Health: 0
   OwnerID: 0
 --- !u!114 &114399003166486638

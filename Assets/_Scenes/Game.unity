@@ -1989,12 +1989,12 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 300
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -9860,7 +9860,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000030517578}
   m_SizeDelta: {x: 132, y: 792}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1148183691
@@ -10018,7 +10018,7 @@ GameObject:
   - component: {fileID: 1157497908}
   - component: {fileID: 1157497907}
   m_Layer: 5
-  m_Name: NPC
+  m_Name: Granary
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10055,7 +10055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc44a087b920a8478d129c76388d3c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 1218833079520110, guid: d9e0e96bd06be0e49b9acc54349362ac, type: 2}
+  Prefab: {fileID: 1661641720751892, guid: 0e33410c4ac45034b85b61aacb4f3ca4, type: 2}
   Direction: L
   HoverText: 
 --- !u!114 &1157497908
@@ -16840,11 +16840,11 @@ MonoBehaviour:
   FolderBuildings: {fileID: 1040418256}
   FolderBuildingPopUp: {fileID: 2038742038}
   Objects:
-  - {fileID: 1449597463970802, guid: d59882d978470644a8d8d0bff6166a83, type: 2}
+  - {fileID: 1335642426604520, guid: ee0f726c13134e64eadab71ebf6ecf1d, type: 2}
   - {fileID: 1518189309683664, guid: 400e3ec5102d3e74392f65cc92dfddd0, type: 2}
   - {fileID: 1694769588477578, guid: 902764a20dfa34541ada2cfc1874467f, type: 2}
   - {fileID: 1772977213243242, guid: 9cc77d332f2fecd40b4fbc3043d56906, type: 2}
-  - {fileID: 1076742404099274, guid: fb26230672eb9ae43bfeae8bc21ce75b, type: 2}
+  - {fileID: 1248628884232380, guid: b7f97661288525346965cbd5a8b15389, type: 2}
   - {fileID: 1566477341485188, guid: 5df8ec5d34af89b47beb5f971d62b550, type: 2}
   - {fileID: 1776771673142434, guid: 15d4323707a352a47a4a9b123caae998, type: 2}
   - {fileID: 1073011646557830, guid: 86035fefacec54b48af1d1e43b855c6d, type: 2}
@@ -16852,6 +16852,8 @@ MonoBehaviour:
   - {fileID: 1952451221755246, guid: b6f2fc750d6222149ab4b44218f6843a, type: 2}
   - {fileID: 1043776130087816, guid: d997ec61ed63c754690d6ea9633d7679, type: 2}
   - {fileID: 1152311152674546, guid: f6a14ca6c81471548a805b365fcc7842, type: 2}
+  - {fileID: 1592300623626486, guid: f5734411c120ed248a6b166c1c5f2c2f, type: 2}
+  - {fileID: 1671724563529492, guid: fc2a03ac16178584096eb9999f026132, type: 2}
   - {fileID: 1687879694447944, guid: 9ae5f0300bacade46a6641e5469e8875, type: 2}
 --- !u!4 &1887181084
 Transform:
