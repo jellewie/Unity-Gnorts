@@ -39,7 +39,7 @@ public class BuildingPopUp : MonoBehaviour {
             ChangeOption(SelectedBuilding, SelectedBuildingSpecial, true, System.Convert.ToByte(change.value));
         }
     }
-    public void ChangeOption(GameObject Building, byte ClickSpecial, bool PopUp, byte ToOption) //ToOption=255 = do not change option
+    public void ChangeOption(GameObject Building, byte ClickSpecial, bool PopUp, byte ToOption) //when ToOption 255 = Dont know the option.
     {
         if (ClickSpecial == 1)                                                                  //If it's a Gate
         {
@@ -73,7 +73,7 @@ public class BuildingPopUp : MonoBehaviour {
             }
             Building.GetComponent<BuildingOption>().SelectedOption = ToOption;                  //Update the Building with this info
         }
-        else if (ClickSpecial == 2)                                                             //If it's a keep
+        else if (ClickSpecial == 2)                                                             //If it's a Keep
         {
             if (ToOption < 255)                                                                 //If we need to go to an option
             {
@@ -82,7 +82,7 @@ public class BuildingPopUp : MonoBehaviour {
             }
             else
             {
-                ToOption = SelectedBuilding.GetComponent<BuildingOption>().SelectedOption;
+                ToOption = Building.GetComponent<BuildingOption>().SelectedOption;
             }
             if (PopUp)                                                                          //If we need a PopUp window
             {
@@ -90,9 +90,53 @@ public class BuildingPopUp : MonoBehaviour {
                 DropDownMenu.AddOptions(new List<string> { "+8 tax -8 happiness", "+4 tax -4 happiness", "+2 tax -2 happiness", "no tax +1 happiness", "-2 tax +2 happiness", "-2 tax +2 happiness", "-4 tax +4 happiness", "-8 tax +8 happiness"}); //Add the options to the dropdown menu
                 DropDownMenu.value = ToOption;                                                  //Set the gate to the selected option
             }
-            SelectedBuilding.GetComponent<BuildingOption>().SelectedOption = ToOption;          //Update the Building with this info
+            Building.GetComponent<BuildingOption>().SelectedOption = ToOption;          //Update the Building with this info
         }
-        else if(ClickSpecial == 255)                                                            //If it's a XXXX
+        else if(ClickSpecial == 3)                                                              //If it's a Ox_Transport
+        {
+            if (ToOption < 255)                                                                 //If we need to go to an option
+            {
+                //If option has been given, and we need to do something custom (Like; gate is placed, open gate)
+            }
+            else
+            {
+                ToOption = Building.GetComponent<BuildingOption>().SelectedOption;
+                if(ToOption == 254)
+                {
+                    //More code, see issue #61
+                }
+            }
+            if (PopUp)                                                                          //If we need a PopUp window
+            {
+                DropDownMenu.ClearOptions();                                                    //Clear the old options of the Dropdown menu
+                DropDownMenu.AddOptions(new List<string> { "Wood", "Stone", "Iron" });          //Add the options to the dropdown menu
+                DropDownMenu.value = ToOption;                                                  //Set the gate to the selected option
+            }
+            Building.GetComponent<BuildingOption>().SelectedOption = ToOption;                  //Update the Building with this info
+        }
+        else if (ClickSpecial == 4)                                                             //If it's a Lumberjack_Hut || Stone_Quarry || Iron_Mine
+        {
+            if (ToOption < 255)                                                                 //If we need to go to an option
+            {
+                //If option has been given, and we need to do something custom (Like; gate is placed, open gate)
+            }
+            else
+            {
+                ToOption = Building.GetComponent<BuildingOption>().SelectedOption;
+                if (ToOption == 254)
+                {
+                    //More code, see issue #62
+                }
+            }
+            if (PopUp)                                                                          //If we need a PopUp window
+            {
+                DropDownMenu.ClearOptions();                                                    //Clear the old options of the Dropdown menu
+                DropDownMenu.AddOptions(new List<string> {"Ox tether", "Move by itself"});     //Add the options to the dropdown menu
+                DropDownMenu.value = ToOption;                                                  //Set the gate to the selected option
+            }
+            Building.GetComponent<BuildingOption>().SelectedOption = ToOption;                  //Update the Building with this info
+        }
+        else if (ClickSpecial == 4)                                                             //If it's a XXXX
         {
             if (ToOption < 255)                                                                 //If we need to go to an option
             {
@@ -101,6 +145,7 @@ public class BuildingPopUp : MonoBehaviour {
             else
             {
                 //Unknow status, read the building state (like 'ToOption = Gate is open')
+                //ToOption = SelectedBuilding.GetComponent<BuildingOption>().SelectedOption;
             }
             if (PopUp)                                                                          //If we need a PopUp window
             {
@@ -108,7 +153,7 @@ public class BuildingPopUp : MonoBehaviour {
                 DropDownMenu.AddOptions(new List<string> { "Option 1", "Option 2" });           //Add the options to the dropdown menu
                 DropDownMenu.value = ToOption;                                                  //Set the gate to the selected option
             }
-            SelectedBuilding.GetComponent<BuildingOption>().SelectedOption = ToOption;          //Update the Building with this info
+            Building.GetComponent<BuildingOption>().SelectedOption = ToOption;                  //Update the Building with this info
         }
     }
 }
