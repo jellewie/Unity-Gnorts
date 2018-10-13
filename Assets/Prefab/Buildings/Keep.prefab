@@ -11620,8 +11620,9 @@ MonoBehaviour:
   MaxHealth: 100
   Used: 0
   Active: 0
-  SelectedOption: 0
+  SelectedOption: 3
   Health: 0
+  OwnerID: 0
 --- !u!114 &114871091306916940
 MonoBehaviour:
   m_ObjectHideFlags: 1
