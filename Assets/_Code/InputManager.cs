@@ -224,8 +224,8 @@ public class InputManager : MonoBehaviour
 
         SpecialClick
         1 Gate  (gate stats: Open, Close)
+        2 Keep  (tax rate: +8tax -8 happy, +4, +2, 0, -2, -4, -8) Default:3 (0 tax)
     TODO:
-        2 Keep  (tax rate: +8, +4, +2, 0, -2, -4, -8)
         3 Ox_Transport
         4 Lumberjack_Hut
         5 Stone_Quarry
