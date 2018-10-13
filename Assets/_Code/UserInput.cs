@@ -82,6 +82,7 @@ public class UserInput : MonoBehaviour
                         Mathf.Round(hit.point.z));                                              //the rounded Z mouse position
 
                     byte Special = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName).BuildSpecial; //Save this for easy use
+                    //ERROR LINE ABOVE: Building is missing the 'BuildingOption' code, please attach it to the object
                     if (Special == 2)                                                           //If this building is a stair
                     {
                         Vector3 OneForward = new Vector3(                                       //A point 0.5 blocks away from the heigest part of the stair
