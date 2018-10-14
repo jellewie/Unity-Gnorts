@@ -241,9 +241,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 1651010688163786, guid: f0c5bf255ac37e94496e9c05b3333cb2, type: 2}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1952451221755246, guid: b6f2fc750d6222149ab4b44218f6843a, type: 2}
   Objects1:
   - {fileID: 0}
   - {fileID: 0}
@@ -274,7 +274,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   Objects4:
-  - {fileID: 0}
+  - {fileID: 1661641720751892, guid: 0e33410c4ac45034b85b61aacb4f3ca4, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

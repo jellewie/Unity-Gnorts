@@ -407,8 +407,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1428681839}
-  - {fileID: 1863633695}
   - {fileID: 128344766}
+  - {fileID: 1863633695}
   m_Father: {fileID: 469635717}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -982,7 +982,7 @@ RectTransform:
   m_Children:
   - {fileID: 1258186435}
   m_Father: {fileID: 40415544}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -3330,7 +3330,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 9bb9f8c9cbd806849a04023b8738e121, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6492,7 +6492,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 738724156}
-  - component: {fileID: 738724157}
   m_Layer: 0
   m_Name: Cameras
   m_TagString: Untagged
@@ -6515,18 +6514,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &738724157
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 738724155}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 7, y: 8, z: 15}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &741579503
 GameObject:
   m_ObjectHideFlags: 0
@@ -8062,7 +8049,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 2800000, guid: ff045342abb3fa14982df7fcda14e2f5, type: 3}
+  m_Texture: {fileID: 2800000, guid: d495d37d1c69f4e478e5013e18cd1e38, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -10407,7 +10394,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 2800000, guid: ff045342abb3fa14982df7fcda14e2f5, type: 3}
+  m_Texture: {fileID: 2800000, guid: a0c20f3fdaa391f46b672d88c8eb6394, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -12079,7 +12066,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: d104207e106a3214a9248550cf05f78c, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -12147,7 +12134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab: {fileID: 0}
   Direction: L
-  HoverText: Food buildings
+  HoverText: Misc
 --- !u!114 &1279486750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13899,7 +13886,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Texture: {fileID: 2800000, guid: ff045342abb3fa14982df7fcda14e2f5, type: 3}
+  m_Texture: {fileID: 2800000, guid: 9c4a7ae6993ed2545acefad1aa0c0391, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -16225,10 +16212,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f48885baf1b6d74d8782cdb0d5c81ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Wood: 999
-  Stone: 999
-  Iron: 999
-  Money: 999
+  Wood: 9999
+  Stone: 9999
+  Iron: 9999
+  Money: 9999
   Grain: 0
   flour: 0
   TextHappiness: {fileID: 244223895}
@@ -17587,7 +17574,7 @@ RectTransform:
   m_Children:
   - {fileID: 375382533}
   m_Father: {fileID: 40415544}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
