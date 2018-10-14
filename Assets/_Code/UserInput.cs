@@ -130,7 +130,7 @@ public class UserInput : MonoBehaviour
                     Destroy(InHand);                                                            //Destoy the building
                 else if (CodeInputManager.GetButtonDown("Build") && !IsDragging)                //If we need to build the object here
                 {
-                    Build(InHand);
+                    Build(InHand, true);
                 }
                 else if (CodeInputManager.GetButtonDownOnce("Rotate building"))                 //If we want to rotate the building
                 {
@@ -283,9 +283,9 @@ public class UserInput : MonoBehaviour
     /// </summary>
     internal void StopDragging()                                                                
     {
-        IsDragging = false;                                                                     //Stop drgging
+        IsDragging = false;                                                                     //Stop dragging
         if (InHand != null)                                                                     //If we don't have anything in our hand
-            Build(InHand);                                                                      //Drop a building if we have one
+            Build(InHand, false);                                                                      //Drop a building if we have one
     }
 
     /// <summary>
@@ -300,7 +300,7 @@ public class UserInput : MonoBehaviour
     /// Try to place a building.
     /// </summary>
     /// <param name="building">The GameObject to place</param>
-    public void Build(GameObject building)
+    public void Build(GameObject building, bool ContinueBuilding)
     {
         building.layer = 0;                                                                     //Set to default Layer
         RaycastHit[] Hit = Physics.BoxCastAll(                                                  //Cast a ray to see if there is already a building where we are hovering over
@@ -324,7 +324,10 @@ public class UserInput : MonoBehaviour
             {
                 building.layer = LayerMask.NameToLayer("Building");                             //Set this to be in the building layer (so we can't build on this anymore)
                 building.GetComponent<BuildingOption>().StartTimer();                           //Start the 'Used' after timer if this object
-                PlaceInHand(building);                                                          //Put a new building on our hands, and leave this one be (this one is now placed down)
+                if (ContinueBuilding)                                                           //If we need to continue Building
+                    PlaceInHand(building);                                                      //Put a new building on our hands, and leave this one be (this one is now placed down)
+                else
+                    InHand = null;                                                              //Just leave this building be (this one is now placed down)
                 building.GetComponent<BuildingOption>().OwnerID = ThisPlayerID;                 //Set the current player to be the owner of this building
             }
             else
