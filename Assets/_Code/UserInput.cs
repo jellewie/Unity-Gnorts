@@ -97,11 +97,17 @@ public class UserInput : MonoBehaviour
                             && Mathf.RoundToInt(Mathf.Abs(hit.transform.eulerAngles.y - InHand.transform.eulerAngles.y)) == 180) //And the stair is in the oposide direction
                                 InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance) + 1, 0); //Move the stair down, so the top surface would match
                             else
-                                InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance), 0); //Move the stair down, so the top surface would match
+                            {
+                                string N = hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName;
+                                if (N == "Wooden_Wall" || N == "Wooden_Stair" || N == "Stone_Wall" || N == "Stone_Stair")
+                                    InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance), 0); //Move the stair down, so the top surface would match
+                                else
+                                    InHand.transform.position += new Vector3(0, -InHand.GetComponent<Collider>().bounds.size.y + 0.5f, 0); //Move the stair down
+                            }
                         }
                         else
                         {
-                            Vector3 OneBackwards = new Vector3(                                 //A point 0.5 blocks away from the heigest part of the stair
+                            Vector3 OneBackwards = new Vector3(                                 //A point 0.5 blocks away from the highest part of the stair
                                 InHand.transform.position.x - (InHand.transform.forward.x),     //InHand position + forward
                                 InHand.transform.position.y + InHand.GetComponent<Collider>().bounds.size.y - 0.4f, //Height of the stair + a bit
                                 InHand.transform.position.z - (InHand.transform.forward.z)      //InHand position + forward
@@ -113,7 +119,14 @@ public class UserInput : MonoBehaviour
                                 && Mathf.RoundToInt(Mathf.Abs(hit.transform.eulerAngles.y - InHand.transform.eulerAngles.y)) != 180) //And the stair is not in the oposide direction
                                     InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance) + 1, 0); //Move the stair up, the stair is going up  
                                 else
-                                    InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance), 0); //Move the stair down, so the top surface would match
+                                {
+                                    string N = hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName;
+                                    if (N == "Wooden_Wall" || N == "Wooden_Stair" || N == "Stone_Wall" || N == "Stone_Stair")
+                                        InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance), 0); //Move the stair down, so the top surface would match
+                                    else
+                                        InHand.transform.position += new Vector3(0, -InHand.GetComponent<Collider>().bounds.size.y + 0.5f, 0); //Move the stair down
+                                }
+                               
                             }
                             else
                                 InHand.transform.position += new Vector3(0, -InHand.GetComponent<Collider>().bounds.size.y + 0.5f, 0); //Move the stair down
