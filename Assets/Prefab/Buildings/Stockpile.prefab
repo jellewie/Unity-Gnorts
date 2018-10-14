@@ -2336,6 +2336,7 @@ MonoBehaviour:
   Active: 0
   SelectedOption: 0
   Health: 0
+  OwnerID: 0
 --- !u!114 &114861567807894400
 MonoBehaviour:
   m_ObjectHideFlags: 1

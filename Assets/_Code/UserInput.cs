@@ -83,7 +83,13 @@ public class UserInput : MonoBehaviour
 
                     byte Special = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName).BuildSpecial; //Save this for easy use
                     //ERROR LINE ABOVE: Building is missing the 'BuildingOption' code, please attach it to the object
-                    if (Special == 2)                                                           //If this building is a stair
+                    if (Special == 1)                                                           //If this building can move up and down
+                    {
+                        if (LowerObjectBy > InHand.GetComponent<Collider>().bounds.size.y - 2)  //If this building is off the ground
+                            LowerObjectBy = System.Convert.ToByte(InHand.GetComponent<Collider>().bounds.size.y - 2); //set HigherObject to max height of this object
+                        InHand.transform.position -= new Vector3(0, LowerObjectBy, 0);          //Move the wall to it's set hight
+                    }
+                    else if (Special == 2)                                                      //If this building is a stair
                     {
                         Vector3 OneForward = new Vector3(                                       //A point 0.5 blocks away from the heigest part of the stair
                             InHand.transform.position.x + (InHand.transform.forward.x),         //InHand position + forward
@@ -132,11 +138,21 @@ public class UserInput : MonoBehaviour
                                 InHand.transform.position += new Vector3(0, -InHand.GetComponent<Collider>().bounds.size.y + 0.5f, 0); //Move the stair down
                         }
                     }
-                    else if (Special == 1)                                                      //If this building can move up and down
+                    else if (Special == 3)                                                      //If this building is a Fire_Basket
                     {
-                        if (LowerObjectBy > InHand.GetComponent<Collider>().bounds.size.y - 2)  //If this building is off the ground
-                            LowerObjectBy = System.Convert.ToByte(InHand.GetComponent<Collider>().bounds.size.y - 2); //set HigherObject to max height of this object
-                        InHand.transform.position -= new Vector3(0, LowerObjectBy, 0);          //Move the wall to it's set hight
+                        Debug.DrawRay(InHand.transform.position - transform.up, transform.up * 5, Color.red); //Just a debug line 
+                        if (Physics.Raycast(InHand.transform.position - transform.up * 5, transform.up, out hit, 5, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from the ground upwards (This would teturn the wall if there)
+                        {
+                            string N = hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName;//Get obstructing building name
+                            if (N == "Stone_Wall" || N == "Stone_Gate" || N == "Stone_Tower")   //If it's a stone structure
+                            {
+                                InHand.transform.position = new Vector3(                        //Place it on top of the wall
+                                    InHand.transform.position.x,                                //Keep X position the same
+                                    hit.collider.bounds.size.y + hit.transform.position.y,      //Is the colider hight + object height offset (So on top of the collider)
+                                    InHand.transform.position.z                                 //Keep Z position the same
+                                );
+                            }
+                        }
                     }
                 }
                 if (CodeInputManager.GetButtonDownOnce(19))                                     //If we want to cancel the build

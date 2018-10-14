@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 4854833905648850}
   - component: {fileID: 65100347648660392}
   - component: {fileID: 114488172426898680}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Granary
   m_TagString: Untagged
   m_Icon: {fileID: 0}

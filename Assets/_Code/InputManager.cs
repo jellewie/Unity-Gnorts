@@ -179,7 +179,7 @@ public class InputManager : MonoBehaviour
         BuildingCostArray[2]  = new Building("Mangonel_Tower",          0,  0,  0,  100,false,	0,  0,  0);
         BuildingCostArray[3]  = new Building("Balista_Tower",           0,  0,  0,  100,false,	0,  0,  0);
         BuildingCostArray[4]  = new Building("Town_Square",             10, 10, 0,  0,  false,	0,  0,  0);
-        BuildingCostArray[5]  = new Building("Fire_Pit",                0,  0,  0,  10, false,	0,  0,  0);
+        BuildingCostArray[5]  = new Building("Fire_Basket",             0,  0,  0,  10, false,	3,  0,  0);
         BuildingCostArray[6]  = new Building("Trap_Pit",                5,  0,  0,  0,  false,	0,  0,  0);
         BuildingCostArray[7]  = new Building("Keep",                    0,  0,  0,  0,  false,	0,  2,  0);
                                                                                                      
@@ -227,8 +227,9 @@ public class InputManager : MonoBehaviour
 
         /*
         SpecialBuild
-        1 Wall
-        2 Stair
+        1 Wall (Can move up and down)
+        2 Stair (Will move up and down by its suroundings)
+        3 FirePit (Can only be build on top of: Stone_Wall || Stone_Gate || Stone_Tower)
 
         SpecialClick (Please check BuildingPopUp.cs in the code 'if (PopUp)' to what options we have
         1 Gate  (gate status) 

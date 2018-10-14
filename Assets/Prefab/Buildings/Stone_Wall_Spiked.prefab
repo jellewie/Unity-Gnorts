@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 4506653641508190}
   - component: {fileID: 65391399608274214}
   - component: {fileID: 114923277958442806}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Stone_Wall_Spiked
   m_TagString: Untagged
   m_Icon: {fileID: 0}
