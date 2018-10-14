@@ -428,17 +428,17 @@ public class UserInput : MonoBehaviour
         Building BuildingInfo = CodeInputManager.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName);  //Get the buildings info (like cost etc)
         if (TheBuilding.GetComponent<BuildingOption>().Used)                            //If the building is not brand new
         {
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeWood (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUsed)));  //Return some percentage
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUsed)));  //^
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeIron (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUsed)));  //^
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeMoney(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUsed)));  //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeWood (BuildingInfo.Cost_Wood  * JelleWho.DeconstructUsed); //Return some percentage
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(BuildingInfo.Cost_Stone * JelleWho.DeconstructUsed); //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeIron (BuildingInfo.Cost_Iron  * JelleWho.DeconstructUsed); //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeMoney(BuildingInfo.Cost_Money * JelleWho.DeconstructUsed); //^
         }
         else
         {
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeWood (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Wood  * JelleWho.DeconstructUnused)));  //Return some percentage
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Stone * JelleWho.DeconstructUnused)));  //^
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeIron (Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Iron  * JelleWho.DeconstructUnused)));  //^
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeMoney(Convert.ToInt64(Mathf.Round(BuildingInfo.Cost_Money * JelleWho.DeconstructUnused)));  //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeWood (BuildingInfo.Cost_Wood  * JelleWho.DeconstructUnused); //Return some percentage
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(BuildingInfo.Cost_Stone * JelleWho.DeconstructUnused); //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeIron (BuildingInfo.Cost_Iron  * JelleWho.DeconstructUnused); //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeMoney(BuildingInfo.Cost_Money * JelleWho.DeconstructUnused); //^
         }
         TheBuilding.GetComponent<BuildingOption>()._Destroy();                           //Destroy the building
     }

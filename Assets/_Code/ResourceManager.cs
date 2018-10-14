@@ -3,14 +3,13 @@ using UnityEngine.UI;                                                           
 
 public class ResourceManager : MonoBehaviour {
     //Stockpile
-    public long Wood;
-    public long Stone;
-    public long Iron;
-    public long Money;
+    public float Wood;
+    public float Stone;
+    public float Iron;
+    public float Money;
 
     public long Grain;
     public long flour;
-
 
     public Text TextHappiness;
     public Text TextMoney;
@@ -40,25 +39,25 @@ public class ResourceManager : MonoBehaviour {
         UpdateScreen();                                                                          //Make sure the screen is up to date
     }
     
-    public void ChangeWood(long Amount)                                                 //This will change the amount by X (TIP use - or +)
+    public void ChangeWood(float Amount)                                                //This will change the amount by X (TIP use - or +)
     {
         Wood += Amount;                                                                         //Add or remove the amount (Wood +-10 = Wood-10)
-        TextWood.text = System.Convert.ToString(Wood);                                          //Update the Stats bar
+        TextWood.text = System.Convert.ToString(Mathf.Floor(Wood));                             //Update the Stats bar
     }
-    public void ChangeStone(long Amount)                                                //This will change the amount by X (TIP use - or +)
+    public void ChangeStone(float Amount)                                               //This will change the amount by X (TIP use - or +)
     {
         Stone += Amount;                                                                        //Add or remove the amount (Stone +-10 = Stone-10)
-        TextStone.text = System.Convert.ToString(Stone);                                        //Update the Stats bar
+        TextStone.text = System.Convert.ToString(Mathf.Floor(Stone));                           //Update the Stats bar
     }
-    public void ChangeIron(long Amount)                                                 //This will change the amount by X (TIP use - or +)
+    public void ChangeIron(float Amount)                                                //This will change the amount by X (TIP use - or +)
     {
         Iron += Amount;                                                                         //Add or remove the amount (Iron +-10 = Iron-10)
-        TextIron.text = System.Convert.ToString(Iron);                                          //Update the Stats bar
+        TextIron.text = System.Convert.ToString(Mathf.Floor(Iron));                             //Update the Stats bar
     }
-    public void ChangeMoney(long Amount)                                                //This will change the amount by X (TIP use - or +)
+    public void ChangeMoney(float Amount)                                               //This will change the amount by X (TIP use - or +)
     {
         Money += Amount;                                                                        //Add or remove the amount (Money +-10 = Money-10)
-        TextMoney.text = System.Convert.ToString(Money);                                        //Update the Stats bar
+        TextMoney.text = System.Convert.ToString(Mathf.Floor(Money));                           //Update the Stats bar
     }
 
     private void UpdateScreen()                                                         //This will make sure the code runs synchrone with the data the user sees
