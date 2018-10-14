@@ -59,16 +59,20 @@ public class InputManager : MonoBehaviour
         Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error
         return false;
     }
-    public bool GetButtonDownOnce(string buttonName)                                    //Checks if the button is pressed (and flag it as processed)
+    public bool GetButtonDownOnce(int ButtonID)                                    //Checks if the button is pressed (and flag it as processed)
     {
-        for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
-        {
-            if (KeysArray[i].Name == buttonName)                                                //If this is the button we are looking for
-                return Input.GetKeyDown(KeysArray[i].Key_);                                     //Return the button state
-        }
-        Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error
-        return false;                                                                           //Return False (Could not find button, so it's defenetly not pressed)
+        return Input.GetKeyDown(KeysArray[ButtonID].Key_);                                     //Return the button state
     }
+    //public bool GetButtonDownOnce(string buttonName)                                    //Checks if the button is pressed (and flag it as processed)
+    //{
+    //    for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
+    //    {
+    //        if (KeysArray[i].Name == buttonName)                                                //If this is the button we are looking for
+    //            return Input.GetKeyDown(KeysArray[i].Key_);                                     //Return the button state
+    //    }
+    //    Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error
+    //    return false;                                                                           //Return False (Could not find button, so it's defenetly not pressed)
+    //}
     public bool SetButtonForKey(String buttonName, KeyCode keyCode)                     //Set a keybinding
     {
         bool UsedBefore = false;                                                                //Create a flag with if this key is already mapped for something

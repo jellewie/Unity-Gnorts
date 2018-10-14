@@ -126,13 +126,13 @@ public class UserInput : MonoBehaviour
                         InHand.transform.position -= new Vector3(0, LowerObjectBy, 0);          //Move the wall to it's set hight
                     }
                 }
-                if (CodeInputManager.GetButtonDownOnce("Cancel build"))                         //If we want to cancel the build
+                if (CodeInputManager.GetButtonDownOnce(19))                                     //If we want to cancel the build
                     Destroy(InHand);                                                            //Destoy the building
                 else if (CodeInputManager.GetButtonDown("Build") && !IsDragging)                //If we need to build the object here
                 {
                     Build(InHand, true);
                 }
-                else if (CodeInputManager.GetButtonDownOnce("Rotate building"))                 //If we want to rotate the building
+                else if (CodeInputManager.GetButtonDownOnce(10))                                //If we want to rotate the building
                 {
                     if (CodeInputManager.GetButtonDown("Alternative"))                          //If we want to rotate the other way
                         InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y - 90, 0);    //Rotate it 90 degrees counter clock wise
@@ -149,7 +149,7 @@ public class UserInput : MonoBehaviour
                     RaycastHit hit;                                                             //Create a output variable
                     if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
                     {
-                        if (CodeInputManager.GetButtonDownOnce("Build"))                        //If the button is pressed for the first time
+                        if (CodeInputManager.GetButtonDownOnce(18))                             //If the button is pressed for the first time
                         {
                             if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
                                 DeconstructBuilding(hit.transform.gameObject);                  //Deconstruct the selected building
@@ -161,7 +161,7 @@ public class UserInput : MonoBehaviour
                         }
                     }
                 }
-                else if (CodeInputManager.GetButtonDownOnce("Cancel build"))                    //If we want to cancel Removing buildings
+                else if (CodeInputManager.GetButtonDownOnce(19))                                //If we want to cancel Removing buildings
                 {
                     DeconstructToolEquiped = false;                                             //Stop the DeconstructTool being equiped
                     SetCursor(null);                                                            //Reset cursor icon, so it isn't the Deconstruct Tool
@@ -169,7 +169,7 @@ public class UserInput : MonoBehaviour
             }
             else
             {
-                if (CodeInputManager.GetButtonDownOnce("Build"))                                //If the button is pressed for the first time
+                if (CodeInputManager.GetButtonDownOnce(18))                                     //If the button is pressed for the first time
                 {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
                     RaycastHit hit;                                                             //Create a output variable
@@ -188,15 +188,14 @@ public class UserInput : MonoBehaviour
             }
         }
 
-        if (CodeInputManager.GetButtonDownOnce("Walls higher") && LowerObjectBy > 0)            //If we want to higher the object && the object is lower than the max heigth
+        if (CodeInputManager.GetButtonDownOnce(21) && LowerObjectBy > 0)                        //If we want to higher the object && the object is lower than the max heigth
             LowerObjectBy--;                                                                    //higher the object
-        else if (CodeInputManager.GetButtonDownOnce("Walls lower"))                             //If we want to lower the object
+        else if (CodeInputManager.GetButtonDownOnce(22))                                        //If we want to lower the object
             LowerObjectBy++;                                                                    //lower the object
-        if (CodeInputManager.GetButtonDownOnce("Cancel build"))                                 //If we right click to cancel
+        if (CodeInputManager.GetButtonDownOnce(19))                                             //If we right click to cancel
             _HideMenus();                                                                       //Hide the Menu's
-        if (CodeInputManager.GetButtonDownOnce("Toggle UI"))                                    //If the Toggle UI button is pressed
+        if (CodeInputManager.GetButtonDownOnce(9))                                              //If the Toggle UI button is pressed
             FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
-
         {                                                                                       //Camera stuff
             Speed = (JelleWho.SpeedC * Camera.main.transform.position.y + JelleWho.SpeedD) * deltaTime; //The height has X of speed increase per block (times the time elapsed since last frame)
             Vector2 input = new Vector2(0f, 0f);                                                //Create a new (emnthy) movement change vector
@@ -341,12 +340,12 @@ public class UserInput : MonoBehaviour
     }
     private void AlwaysControls()                                                       //Triggered in LateUpdate (unless the game is out of focus)
     {
-        if (CodeInputManager.GetButtonDownOnce("Menu"))                                         //If the Open/Close menu button is pressed
+        if (CodeInputManager.GetButtonDownOnce(8))                                              //If the Open/Close menu button is pressed
         {
             StopCameraControls = !FolderMenu.activeSelf;                                        //Flag that the camera controls should be active or not
             FolderMenu.SetActive(StopCameraControls);                                           //Set the menu's visibility
         }
-        if (CodeInputManager.GetButtonDownOnce("Pause"))                                        //If the Open/Close menu button is pressed
+        if (CodeInputManager.GetButtonDownOnce(17))                                             //If the Open/Close menu button is pressed
             GamePaused = true;
     }
     public void _PlaceInHand(GameObject Prefab)                                         //Triggered by menu, with the object to build as prefab, this will hook in to the mouse cursor
@@ -389,7 +388,7 @@ public class UserInput : MonoBehaviour
         var rotation = Quaternion.Euler(polar.x, polar.y, 0);                                   //Convert it
         return rotation * Offset;                                                               //Return the Vector 3 of the target point
     }
-    public void ShowMessage(string Message)                                            //If we need to show the player a message
+    public void ShowMessage(string Message)                                             //If we need to show the player a message
     {
         TextMessage.GetComponentInChildren<Text>().text = Message;                              //Give the user the message
         TextMessage.SetActive(true);                                                            //Show the message (This objects auto hides)
