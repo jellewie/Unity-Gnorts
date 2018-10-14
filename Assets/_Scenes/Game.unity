@@ -10571,7 +10571,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab: {fileID: 0}
   Direction: L
-  HoverText: 
+  HoverText: PlaceHolder
 --- !u!114 &1157650908
 MonoBehaviour:
   m_ObjectHideFlags: 0
