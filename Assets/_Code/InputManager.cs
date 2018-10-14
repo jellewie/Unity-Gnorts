@@ -242,7 +242,7 @@ public class InputManager : MonoBehaviour
             if (BuildingCostArray[i].Name == ItemName)                                          //If this object has the name we want
                 return BuildingCostArray[i];                                                    //Return this object
         }
-        Debug.LogError("InputManager::GetInfo -- No object named: '" + ItemName + "' in the BuildingCostArray");  //Log error, object not found
-        return new Building("N/A", 255, 255, 255, 255, false, 0, 0, 0);                         //Just give something 'random' back
+        Debug.LogWarning("InputManager::GetInfo -- No object named: '" + ItemName + "' in the BuildingCostArray");  //Log error, object not found
+        return new Building("N/A", 0, 0, 0, 0, false, 0, 0, 0);                         //Just give something 'random' back
     }
 }
