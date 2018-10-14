@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4495218074136632}
   - component: {fileID: 65418535125595364}
+  - component: {fileID: 114625799584119888}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -271,3 +272,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &114625799584119888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1218833079520110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 673f0e666dd3483488064867e6d253e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BuildingName: 
+  FlagAsUsedAfterSeconds: 0
+  MaxHealth: 10
+  Used: 0
+  Active: 0
+  SelectedOption: 0
+  Health: 0
+  OwnerID: 0
