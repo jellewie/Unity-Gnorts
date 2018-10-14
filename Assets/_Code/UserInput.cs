@@ -128,22 +128,22 @@ public class UserInput : MonoBehaviour
                 }
                 if (CodeInputManager.GetButtonDownOnce(19))                                     //If we want to cancel the build
                     Destroy(InHand);                                                            //Destoy the building
-                else if (CodeInputManager.GetButtonDown("Build") && !IsDragging)                //If we need to build the object here
+                else if (CodeInputManager.GetButtonDown(18) && !IsDragging)                     //If we need to build the object here
                 {
                     Build(InHand, true);
                 }
                 else if (CodeInputManager.GetButtonDownOnce(10))                                //If we want to rotate the building
                 {
-                    if (CodeInputManager.GetButtonDown("Alternative"))                          //If we want to rotate the other way
-                        InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y - 90, 0);    //Rotate it 90 degrees counter clock wise
+                    if (CodeInputManager.GetButtonDown(20))                                     //If we want to rotate the other way
+                        InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y - 90, 0); //Rotate it 90 degrees counter clock wise
                     else
-                        InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y + 90, 0);    //Rotate it 90 degrees clock wise
+                        InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y + 90, 0); //Rotate it 90 degrees clock wise
                     PreviousRotation = InHand.transform.rotation;                               //Save the rotation
                 }
             }
             else if (DeconstructToolEquiped)                                                    //If the Deconstruct tool is aquiped
             {
-                if (CodeInputManager.GetButtonDown("Build"))                                    //If we want to Deconstruct this building
+                if (CodeInputManager.GetButtonDown(18))                                         //If we want to Deconstruct this building
                 {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
                     RaycastHit hit;                                                             //Create a output variable
@@ -154,7 +154,7 @@ public class UserInput : MonoBehaviour
                             if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
                                 DeconstructBuilding(hit.transform.gameObject);                  //Deconstruct the selected building
                         }
-                        else if (CodeInputManager.GetButtonDown("Alternative"))                 //If the continue button is pressed
+                        else if (CodeInputManager.GetButtonDown(20))                            //If the continue button is pressed
                         {
                             if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
                                 DeconstructBuilding(hit.transform.gameObject);                  //Deconstruct the selected building
@@ -201,30 +201,30 @@ public class UserInput : MonoBehaviour
             Vector2 input = new Vector2(0f, 0f);                                                //Create a new (emnthy) movement change vector
             float Xr = Camera.main.transform.eulerAngles.x;                                     //Get main camera rotation
             float Yr = Camera.main.transform.eulerAngles.y;                                     //^
-            if (CodeInputManager.GetButtonDown("Rotate left"))                                  //If the given key has been pressed
+            if (CodeInputManager.GetButtonDown(6))                                              //If the given key has been pressed
             {
                 Yr -= JelleWho.RotateSpeedKeyboard * deltaTime;                                 //Get the mouse movement
                 input.x = JelleWho.MoveSpeedKeyboard;                                           //Also move camera to the left
             }
-            if (CodeInputManager.GetButtonDown("Rotate right"))                                 //If the given key has been pressed
+            if (CodeInputManager.GetButtonDown(7))                                              //If the given key has been pressed
             {
                 Yr += JelleWho.RotateSpeedKeyboard * deltaTime;                                 //Get the mouse movement
                 input.x -= JelleWho.MoveSpeedKeyboard;                                          //Also move camera to the right
             }
-            if (CodeInputManager.GetButtonDown("Rotate"))                                       //If the given key has been pressed
+            if (CodeInputManager.GetButtonDown(1))                                              //If the given key has been pressed
             {
                 Xr -= Input.GetAxis("Mouse Y") * JelleWho.RotateSpeedMouse * deltaTime;         //Get the mouse movement
                 Yr += Input.GetAxis("Mouse X") * JelleWho.RotateSpeedMouse * deltaTime;         //^
             }
-            if (CodeInputManager.GetButtonDown("Left"))                                         //Keyboard move left
+            if (CodeInputManager.GetButtonDown(2))                                              //Keyboard move left
                 input.x -= JelleWho.MoveSpeedKeyboard;
-            if (CodeInputManager.GetButtonDown("Right"))                                        //Keyboard move right
+            if (CodeInputManager.GetButtonDown(4))                                              //Keyboard move right
                 input.x += JelleWho.MoveSpeedKeyboard;
-            if (CodeInputManager.GetButtonDown("Up"))                                           //Keyboard move up
+            if (CodeInputManager.GetButtonDown(5))                                              //Keyboard move up
                 input.y += JelleWho.MoveSpeedKeyboard;
-            if (CodeInputManager.GetButtonDown("Down"))                                         //Keyboard move down
+            if (CodeInputManager.GetButtonDown(3))                                              //Keyboard move down
                 input.y -= JelleWho.MoveSpeedKeyboard;
-            if (CodeInputManager.GetButtonDown("Drag"))                                         //If the Drag button is presse
+            if (CodeInputManager.GetButtonDown(0))                                              //If the Drag button is presse
             {
                 input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse;                  //Calculate howmuch we need to move in the axes 
                 input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse;                  //^

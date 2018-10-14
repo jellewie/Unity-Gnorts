@@ -49,20 +49,24 @@ public class InputManager : MonoBehaviour
                 KeysArray[i].Key_ = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(KeysArray[i].Name, System.Convert.ToString(KeysArray[i].Key_)));   //Set the key to the Users bind key, or leave it
         }
     }
-    public bool GetButtonDown(string buttonName)                                        //Checks if the button has been pressed
+    public bool GetButtonDown(int ButtonID)                                             //Checks if the button has been pressed
     {
-        for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
-        {
-            if (KeysArray[i].Name == buttonName)                                                //If this is the button we are looking for
-                return Input.GetKey(KeysArray[i].Key_);                                         //Return the button state
-        }
-        Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error
-        return false;
+        return Input.GetKey(KeysArray[ButtonID].Key_);                                          //Return the button state
     }
-    public bool GetButtonDownOnce(int ButtonID)                                    //Checks if the button is pressed (and flag it as processed)
+    public bool GetButtonDownOnce(int ButtonID)                                         //Checks if the button is pressed (and flag it as processed)
     {
         return Input.GetKeyDown(KeysArray[ButtonID].Key_);                                     //Return the button state
     }
+    //public bool GetButtonDown(string buttonName)                                        //Checks if the button has been pressed
+    //{
+    //    for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
+    //    {
+    //        if (KeysArray[i].Name == buttonName)                                                //If this is the button we are looking for
+    //            return Input.GetKey(KeysArray[i].Key_);                                         //Return the button state
+    //    }
+    //    Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error
+    //    return false;
+    //}
     //public bool GetButtonDownOnce(string buttonName)                                    //Checks if the button is pressed (and flag it as processed)
     //{
     //    for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
