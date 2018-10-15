@@ -25,6 +25,7 @@ public class UserInput : MonoBehaviour
     public Texture2D MouseDeconstruct;                                                  //The mouse icon of the deconstruct tool
     public Byte ThisPlayerID;
     Quaternion PreviousRotation;
+    public float InvalidBuildTimeThreshold = 0.2f;                                      //How long before we show a message about not being able to build
 
     public bool IsDragging { get; set; }                                                //Are we dragging something?
 
@@ -34,6 +35,7 @@ public class UserInput : MonoBehaviour
     private GameObject InHand;                                                          //When placing down this is stuffed with the object
     private bool DeconstructToolEquiped;                                                //If the DeconstructTool is Equiped
     private float deltaTime = 0.0f;                                                     //The time between this and the last frame
+    private float buildKeyDownTime;                                                     //How long the build key has been down
     public float Speed;                                                                 //Speed multiblecation for controls (zoom out slowdown)
 
     private void Start()                                                                //Triggered on start
@@ -160,6 +162,7 @@ public class UserInput : MonoBehaviour
                     Destroy(InHand);                                                            //Destoy the building
                 else if (CodeInputManager.GetButtonDown(Button.Build) && !IsDragging)           //If we need to build the object here
                 {
+                    buildKeyDownTime += Time.deltaTime;                                         //Increase the build key timer
                     Build(InHand);                                                              //Try to place the building
                 }
                 else if (CodeInputManager.GetButtonDownOnce(Button.RotateBuilding))             //If we want to rotate the building
@@ -217,6 +220,9 @@ public class UserInput : MonoBehaviour
                 }
             }
         }
+
+        if (CodeInputManager.GetButtonUp(Button.Build))                                         //Check if the build key was released
+            buildKeyDownTime = 0;                                                               //Reset the timer
 
         if (CodeInputManager.GetButtonDownOnce(Button.WallsHigher) && LowerObjectBy > 0)        //If we want to higher the object && the object is lower than the max heigth
             LowerObjectBy--;                                                                    //higher the object
@@ -334,7 +340,11 @@ public class UserInput : MonoBehaviour
         prefab.layer = 0;                                                                       //Set to default Layer
         InHand inHand = prefab.GetComponent<InHand>();                                          //Get a reference to the in-hand component
         if (inHand == null || !inHand.validPlacement || inHand.CheckCollision())                //Check if everything is clear
-            return;                                                                             //Don't do anything
+        {
+            if (buildKeyDownTime > InvalidBuildTimeThreshold)                                   //Have we been trying to build here long?
+                ShowMessage("Can't build here");                                                //Give player more feedback
+            return;                                                                             //Don't do anything else
+        }
         string Pay = CanWePayFor(prefab);                                                       //Create a new string, will return what we are missing if we can't build
         if (Pay == "Done")                                                                      //If we do have enough to build this building
         {

@@ -85,6 +85,15 @@ public class InputManager : MonoBehaviour
     {
         return Input.GetKeyDown(KeysArray[ButtonID].Key_);                                     //Return the button state
     }
+    /// <summary>
+    /// Check if a button has been released this frame.
+    /// </summary>
+    /// <param name="ButtonID">ID of the button to check</param>
+    /// <returns>True during the frame the user releases the button.</returns>
+    public bool GetButtonUp(int ButtonID)
+    {
+        return Input.GetKeyUp(KeysArray[ButtonID].Key_);                                       //Check if key was released
+    }
     //public bool GetButtonDown(string buttonName)                                        //Checks if the button has been pressed
     //{
     //    for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
