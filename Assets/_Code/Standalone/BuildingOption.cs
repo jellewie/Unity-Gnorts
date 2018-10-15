@@ -37,10 +37,11 @@ public class BuildingOption : MonoBehaviour {
         //Here could be some code that moved NPC's down and remove a bit from there health  
         Destroy(this.gameObject);                                                               //Destroy the object
     }
-    public void SetStats(bool SetActive, byte SetSelectedOption, byte SetHealth)        //Set the settings (for boot & loading)
+    public void SetStats(bool SetActive, byte SetSelectedOption, byte SetHealth,  byte SetOwnerID) //Set the settings (for boot & loading)
     {
         Active = SetActive;                                                                     //Set active flag
         SelectedOption = SetSelectedOption;                                                     //Set selected option
         Health = SetHealth;                                                                     //Set Health
+        OwnerID = SetOwnerID;                                                                   //Set OwnerID
     }
 }
