@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;                                                                           //We need this to convert to bytes
+using System.IO;                                                                    //Required to read write files with the streamreader and streamwriter
 /*  The format buildup of the Save/Load string is as follows
         Each new Line (Lines end at "\r") is a new building that consisting of: (each seperated by ",")
             BuildingName,       Or rather the type name
@@ -19,8 +20,16 @@ public class SaveLoad : MonoBehaviour {
     public GameObject FolderBuildingPopUp;                                              //The folder with the pop-up stuff in it
     public GameObject[] Objects;                                                        //The array with all the PreFabs in it (doesn't need to be in order)
 
-    public bool LoadFromFile(string FileLocation)                                       //Call this to load from a file, with FileLocation as the location
+    public bool LoadFromFile(string TheFile)                                            //Call this to load from a file, with FileLocation as the location
     {
+        if (System.IO.File.Exists(TheFile))
+        {
+            StreamReader SR = new StreamReader(TheFile);
+            String TextFromTheFile = SR.ReadToEnd();
+            Debug.Log(TextFromTheFile);
+            SR.Close();
+            Debug.Log("Loaded file from " + Path.Combine(Application.persistentDataPath, TheFile));
+        }
         return false;                                                                           //Return false, File could not be loaded
     }
     public bool LoadFromSring(string LevelData)                                         //Call this to load a string, With LevelData as the string of data
@@ -88,10 +97,17 @@ public class SaveLoad : MonoBehaviour {
         FolderBuildingPopUp.SetActive(false);
         return true;                                                                            //Return true, Scene has been loaden
     }
-    public bool SaveToFile(string FileLocation)
+    public bool SaveToFile(string TheFile)
     {
-        
+        FileInfo FI = new FileInfo(Path.Combine(Application.persistentDataPath, TheFile));
+        FI.Delete();
+        StreamWriter SW = new StreamWriter(TheFile);
 
+        string NewLine = "I'm JelleWho the writer of these codes";
+        SW.WriteLine(NewLine);
+        //SW.Write(NewLine)
+        Debug.Log("Saved file to " + Path.Combine(Application.persistentDataPath, TheFile));
+        SW.Close();                                                                             //Close the stream so the file isn't locked anymore
         return false;                                                                           //Return false, File could not be saved
     }
     public string SaveToSring(string LevelData)
