@@ -305,7 +305,6 @@ public class UserInput : MonoBehaviour
             Camera.main.transform.eulerAngles = new Vector2(Mathf.Clamp(Xr, 0, 89.99f), Yr);    //Clamp Up Down looking angle 
         }                                                                                       //Camera stuff
     }
-
     /// <summary>
     /// Indicate the end of a dragging operation.
     /// </summary>
@@ -315,7 +314,6 @@ public class UserInput : MonoBehaviour
         if (InHand != null)                                                                     //If we don't have anything in our hand
             Build(InHand, false);                                                                      //Drop a building if we have one
     }
-
     /// <summary>
     /// Indicate the start of a dragging operation.
     /// </summary>
@@ -323,7 +321,6 @@ public class UserInput : MonoBehaviour
     {
         IsDragging = true;                                                                      //Indicate that we're dragging
     }
-
     /// <summary>
     /// Try to place a building.
     /// </summary>
@@ -362,7 +359,6 @@ public class UserInput : MonoBehaviour
                 ShowMessage("Not enough " + Pay + " to build that");                            //Give the user the warning message
         }
     }
-
     public void CameraControls(bool SetTo)                                              //With this buttons can change the camera mode
     {
         StopCameraControls = !SetTo;                                                            //Set the camera mode to what ever there is given (CameraControls FALSE = Stop camera)
@@ -519,33 +515,5 @@ public class UserInput : MonoBehaviour
     public void _TempSetResourceManager()
     {
         CodeResourceManager.GetComponent<ResourceManager>().Set(999999, 999999, 999999, 999999);
-    }
-
-
-    
-
-
-    //https://answers.unity.com/questions/546045/how-can-i-access-a-bool-for-a-specific-gameobject.html
-    //public class MyNewClass
-    //{
-    //    public bool aBool;
-    //}
-    //public BuildingSettings[] myNewClassArray;
-    //public void _Test()
-    //{
-    //    foreach (BuildingSettings thisClass in myNewClassArray)
-    //    {
-    //        thisClass.aBool = !thisClass.aBool;
-    //        Debug.Log(thisClass.aBool);
-    //    }
-    //}
+    }   
 }
-
-/*  public GameObject Tempblock;
-    void Temp()
-    {
-        Vector3 OffsetXYZ = Camera.main.transform.position;                                     //The Starting position
-        Vector2 LookingAt = Camera.main.transform.eulerAngles;                                  //The angles we are looking at
-        Vector3 Range = new Vector3(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));     //The range where we need to go relative to the angles
-        Tempblock.transform.position = OffsetXYZ + PolarToCartesian(LookingAt, Range);          //Calculate and move
-    }*/
