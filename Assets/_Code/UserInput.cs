@@ -3,9 +3,10 @@ using PublicCode;
 using UnityEngine.EventSystems;                                                         //Used to: Check if hovering over UI while building,
 using System;
 using UnityEngine.UI;                                                                   //We need this to interact with the UI
+using System.Collections;                                                               //we need this to use IEnumerator (coroutines)
 /*
-    Written by JelleWho
- */
+Written by JelleWho
+*/
 public class UserInput : MonoBehaviour
 {
     public InputManager CodeInputManager;                                               //The GameObject with the InputManager code on it
@@ -417,6 +418,7 @@ public class UserInput : MonoBehaviour
     {
         TextMessage.GetComponentInChildren<Text>().text = Message;                              //Give the user the message
         TextMessage.SetActive(true);                                                            //Show the message (This objects auto hides)
+        StartCoroutine(ShowMessageAttention());
     }
     public void DeconstructBuilding(GameObject TheBuilding)                             //This code will give stuff back and deconstruct the building
     {
@@ -492,9 +494,24 @@ public class UserInput : MonoBehaviour
 
 
 
+    private IEnumerator ShowMessageAttention()
+    {
+        float StartTime = Time.time;
+        float CurrentTime = StartTime;
+        while (StartTime + 0.05f > CurrentTime)
+        {
+            CurrentTime = Time.time;
+            if (TextMessage.GetComponent<Image>().color == Color.white)
+                TextMessage.GetComponent<Image>().color = new Color(100, 0, 0, 100);
+            else
+                TextMessage.GetComponent<Image>().color = Color.white;
+            yield return null;
+        }
+        TextMessage.GetComponent<Image>().color = Color.white;
+    }
 
 
-    
+
 
     public InputField SaveLoadTXT;
     public void _TESTLoad()
