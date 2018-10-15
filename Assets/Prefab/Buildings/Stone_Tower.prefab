@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 4468489785019224}
   - component: {fileID: 65795439832133992}
   - component: {fileID: 114465055396086366}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Stone_Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
