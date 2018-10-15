@@ -4,6 +4,34 @@ using PublicCode;
 /*
     Written by JelleWho
  */
+
+public struct Button
+{
+    public const int Drag = 0;
+    public const int Rotate = 1;
+    public const int Left = 2;
+    public const int Down = 3;
+    public const int Right = 4;
+    public const int Up = 5;
+    public const int RotateLeft = 6;
+    public const int RotateRight = 7;
+    public const int Menu = 8;
+    public const int ToggleUi = 9;
+    public const int RotateBuilding = 10;
+    public const int Trading = 11;
+    public const int Stockpile = 12;
+    public const int Granary = 13;
+    public const int Church = 14;
+    public const int Barracks = 15;
+    public const int Castle = 16;
+    public const int Pause = 17;
+    public const int Build = 18;
+    public const int CancelBuild = 19;
+    public const int Alternative = 20;
+    public const int WallsHigher = 21;
+    public const int WallsLower = 22;
+};
+
 public class InputManager : MonoBehaviour
 {
     void OnEnable()                                                                     //Runned before start and every time the parrent is enabled
@@ -19,29 +47,29 @@ public class InputManager : MonoBehaviour
         int ArrayLength = 22 + 1;                                                               //The total amount of entries, change accordingly (+1 since we have a '0' entry too)
         KeysArray = new Keys[ArrayLength];                                                      //Create a new array with the proper length
 
-        KeysArray[0] = new Keys("Drag",             KeyCode.Mouse1,         "Drag the camera"); //Add some data
-        KeysArray[1] = new Keys("Rotate",           KeyCode.Mouse2,         "Rotatate the camera");
-        KeysArray[2] = new Keys("Left",             KeyCode.A,              "Move camera left");
-        KeysArray[3] = new Keys("Down",             KeyCode.S,              "Move camera backwards");
-        KeysArray[4] = new Keys("Right",            KeyCode.D,              "Move camera right");
-        KeysArray[5] = new Keys("Up",               KeyCode.W,              "Move camera forward");
-        KeysArray[6] = new Keys("Rotate left",      KeyCode.E,              "Rotatate the camera a bit left");
-        KeysArray[7] = new Keys("Rotate right",     KeyCode.Q,              "Rotatate the camera a bit right");
-        KeysArray[8] = new Keys("Menu",             KeyCode.Escape,         "Open / close the menu");
-        KeysArray[9] = new Keys("Toggle UI",        KeyCode.Tab,            "Make the UI hidden/viseble");
-        KeysArray[10] = new Keys("Rotate building", KeyCode.R,              "");
-        KeysArray[11] = new Keys("Trading",         KeyCode.T,              "");
-        KeysArray[12] = new Keys("Stockpile",       KeyCode.F,              "");
-        KeysArray[13] = new Keys("Granary",         KeyCode.G,              "");
-        KeysArray[14] = new Keys("Church",          KeyCode.H,              "");
-        KeysArray[15] = new Keys("Barracs",         KeyCode.B,              "");
-        KeysArray[16] = new Keys("Castle",          KeyCode.C,              "");
-        KeysArray[17] = new Keys("Pause",           KeyCode.P,              "");
-        KeysArray[18] = new Keys("Build",           KeyCode.Mouse0,         "Place the building");
-        KeysArray[19] = new Keys("Cancel build",    KeyCode.Mouse1,         "Cancel building");
-        KeysArray[20] = new Keys("Alternative",     KeyCode.LeftShift,      "Continue building & Inverse build rotation");
-        KeysArray[21] = new Keys("Walls higher",    KeyCode.KeypadPlus,     "Make the walls higher");
-        KeysArray[22] = new Keys("Walls lower",     KeyCode.KeypadMinus,    "Make the walls lower");
+        KeysArray[Button.Drag]           = new Keys("Drag",             KeyCode.Mouse1,         "Drag the camera"); //Add some data
+        KeysArray[Button.Rotate]         = new Keys("Rotate",           KeyCode.Mouse2,         "Rotatate the camera");
+        KeysArray[Button.Left]           = new Keys("Left",             KeyCode.A,              "Move camera left");
+        KeysArray[Button.Down]           = new Keys("Down",             KeyCode.S,              "Move camera backwards");
+        KeysArray[Button.Right]          = new Keys("Right",            KeyCode.D,              "Move camera right");
+        KeysArray[Button.Up]             = new Keys("Up",               KeyCode.W,              "Move camera forward");
+        KeysArray[Button.RotateLeft]     = new Keys("Rotate left",      KeyCode.E,              "Rotatate the camera a bit left");
+        KeysArray[Button.RotateRight]    = new Keys("Rotate right",     KeyCode.Q,              "Rotatate the camera a bit right");
+        KeysArray[Button.Menu]           = new Keys("Menu",             KeyCode.Escape,         "Open / close the menu");
+        KeysArray[Button.ToggleUi]       = new Keys("Toggle UI",        KeyCode.Tab,            "Make the UI hidden/viseble");
+        KeysArray[Button.RotateBuilding] = new Keys("Rotate building",  KeyCode.R,              "");
+        KeysArray[Button.Trading]        = new Keys("Trading",          KeyCode.T,              "");
+        KeysArray[Button.Stockpile]      = new Keys("Stockpile",        KeyCode.F,              "");
+        KeysArray[Button.Granary]        = new Keys("Granary",          KeyCode.G,              "");
+        KeysArray[Button.Church]         = new Keys("Church",           KeyCode.H,              "");
+        KeysArray[Button.Barracks]       = new Keys("Barracs",          KeyCode.B,              "");
+        KeysArray[Button.Castle]         = new Keys("Castle",           KeyCode.C,              "");
+        KeysArray[Button.Pause]          = new Keys("Pause",            KeyCode.P,              "");
+        KeysArray[Button.Build]          = new Keys("Build",            KeyCode.Mouse0,         "Place the building");
+        KeysArray[Button.CancelBuild]    = new Keys("Cancel build",     KeyCode.Mouse1,         "Cancel building");
+        KeysArray[Button.Alternative]    = new Keys("Alternative",      KeyCode.LeftShift,      "Continue building & Inverse build rotation");
+        KeysArray[Button.WallsHigher]    = new Keys("Walls higher",     KeyCode.KeypadPlus,     "Make the walls higher");
+        KeysArray[Button.WallsLower]     = new Keys("Walls lower",      KeyCode.KeypadMinus,    "Make the walls lower");
 
         if (!ToDefault)                                                                         //If we need to load Playerdata instead of default settings
         {
