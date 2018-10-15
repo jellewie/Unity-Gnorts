@@ -6,13 +6,13 @@ public class ResourceManager : MonoBehaviour {
     public float Wood;
     public float Stone;
     public float Iron;
-    public float Money;
+    public float Gold;
 
     public long Grain;
     public long flour;
 
     public Text TextHappiness;
-    public Text TextMoney;
+    public Text TextGold;
     public Text TextCitizen;
 
     public Text TextFood;
@@ -36,7 +36,7 @@ public class ResourceManager : MonoBehaviour {
 
     public void Start()                                                                 //Triggered once on start
     {
-        UpdateScreen();                                                                          //Make sure the screen is up to date
+        UpdateScreen();                                                                         //Make sure the screen is up to date
     }
     
     public void ChangeWood(float Amount)                                                //This will change the amount by X (TIP use - or +)
@@ -54,10 +54,10 @@ public class ResourceManager : MonoBehaviour {
         Iron += Amount;                                                                         //Add or remove the amount (Iron +-10 = Iron-10)
         TextIron.text = System.Convert.ToString(Mathf.Floor(Iron));                             //Update the Stats bar
     }
-    public void ChangeMoney(float Amount)                                               //This will change the amount by X (TIP use - or +)
+    public void ChangeGold(float Amount)                                               //This will change the amount by X (TIP use - or +)
     {
-        Money += Amount;                                                                        //Add or remove the amount (Money +-10 = Money-10)
-        TextMoney.text = System.Convert.ToString(Mathf.Floor(Money));                           //Update the Stats bar
+        Gold += Amount;                                                                         //Add or remove the amount (Gold +-10 = Gold-10)
+        TextGold.text = System.Convert.ToString(Mathf.Floor(Gold));                             //Update the Stats bar
     }
 
     private void UpdateScreen()                                                         //This will make sure the code runs synchrone with the data the user sees
@@ -65,14 +65,14 @@ public class ResourceManager : MonoBehaviour {
         ChangeWood(0);                                                                          //Update the stats bar
         ChangeStone(0);                                                                         //^
         ChangeIron(0);                                                                          //^
-        ChangeMoney(0);                                                                         //^
+        ChangeGold(0);                                                                          //^
     }
-    public void Set(long AmountWood, long AmountStone, long AmountIron, long AmountMoney) //To set all variables (on boot for example) 
+    public void Set(long AmountWood, long AmountStone, long AmountIron, long AmountGold) //To set all variables (on boot for example) 
     {
         Wood  = AmountWood;                                                                     //Set the given amount
         Stone = AmountStone;                                                                    //^
         Iron  = AmountIron;                                                                     //^
-        Money = AmountMoney;                                                                    //^
+        Gold = AmountGold;                                                                      //^
         UpdateScreen();                                                                         //Make sure the screen is up to date
     }
 }

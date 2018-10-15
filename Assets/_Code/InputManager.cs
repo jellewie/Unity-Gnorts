@@ -173,7 +173,7 @@ public class InputManager : MonoBehaviour
     {
         int ArrayLength = 44 + 1;
         BuildingCostArray = new Building[ArrayLength];                                          //Create a new array with the proper length
-                                                                   //Wood, Stone, Iron, Money, 1Free, SpecialBuild, SpecialClick, SpecialDestroy, SpecialSave?
+                                                                   //Wood, Stone, Iron, Gold, 1Free, SpecialBuild, SpecialClick, SpecialDestroy, SpecialSave?
         BuildingCostArray[0]  = new Building("Bridge",                  0,  10, 0,  0,  false,	0,  0,  0); //Add some data
         BuildingCostArray[1]  = new Building("Moat",                    0,  0,  0,  2,  false,	0,  0,  0);
         BuildingCostArray[2]  = new Building("Mangonel_Tower",          0,  0,  0,  100,false,	0,  0,  0);

@@ -63,9 +63,9 @@ IEndDragHandler
                 {
                     TextBox.text += "\n" + BuildingInfo.Cost_Stone + " Stone";                  //Show howmuch Stone it needs to be build
                 }
-                if (BuildingInfo.Cost_Money > 0)                                                //If this building needs Stone
+                if (BuildingInfo.Cost_Gold > 0)                                                 //If this building needs Stone
                 {
-                    TextBox.text += "\n" + BuildingInfo.Cost_Money + " Money";                  //Show howmuch Money it needs to be build
+                    TextBox.text += "\n" + BuildingInfo.Cost_Gold + " Gold";                    //Show howmuch Gold it needs to be build
                 }
             }
         }

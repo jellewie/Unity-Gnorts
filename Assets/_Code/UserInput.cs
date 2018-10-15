@@ -429,37 +429,37 @@ public class UserInput : MonoBehaviour
             CodeResourceManager.GetComponent<ResourceManager>().ChangeWood (BuildingInfo.Cost_Wood  * JelleWho.DeconstructUsed); //Return some percentage
             CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(BuildingInfo.Cost_Stone * JelleWho.DeconstructUsed); //^
             CodeResourceManager.GetComponent<ResourceManager>().ChangeIron (BuildingInfo.Cost_Iron  * JelleWho.DeconstructUsed); //^
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeMoney(BuildingInfo.Cost_Money * JelleWho.DeconstructUsed); //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeGold (BuildingInfo.Cost_Gold  * JelleWho.DeconstructUsed); //^
         }
         else
         {
             CodeResourceManager.GetComponent<ResourceManager>().ChangeWood (BuildingInfo.Cost_Wood  * JelleWho.DeconstructUnused); //Return some percentage
             CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(BuildingInfo.Cost_Stone * JelleWho.DeconstructUnused); //^
             CodeResourceManager.GetComponent<ResourceManager>().ChangeIron (BuildingInfo.Cost_Iron  * JelleWho.DeconstructUnused); //^
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeMoney(BuildingInfo.Cost_Money * JelleWho.DeconstructUnused); //^
+            CodeResourceManager.GetComponent<ResourceManager>().ChangeGold (BuildingInfo.Cost_Gold  * JelleWho.DeconstructUnused); //^
         }
         TheBuilding.GetComponent<BuildingOption>()._Destroy();                           //Destroy the building
     }
     private string CanWePayFor(GameObject TheBuilding)                                  //Checks if we can pay for a building, and pays if posible. else it will return what we don't have enough off
     {
         Building BuildingInfo = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName);
-        //Debug.Log("Type=" + BuildingInfo.Name +" Cost_Wood=" + BuildingInfo.Cost_Wood +" Cost_Stone=" + BuildingInfo.Cost_Stone +" Cost_Iron=" + BuildingInfo.Cost_Iron +" Cost_Money=" + BuildingInfo.Cost_Money);
+        //Debug.Log("Type=" + BuildingInfo.Name +" Cost_Wood=" + BuildingInfo.Cost_Wood +" Cost_Stone=" + BuildingInfo.Cost_Stone +" Cost_Iron=" + BuildingInfo.Cost_Iron +" Cost_Gold=" + BuildingInfo.Cost_Gold);
         if (CodeResourceManager.GetComponent<ResourceManager>().Wood >= BuildingInfo.Cost_Wood)             //If we have enough Wood
         {
             if (CodeResourceManager.GetComponent<ResourceManager>().Stone >= BuildingInfo.Cost_Stone)       //If we have enough Stone
             {
                 if (CodeResourceManager.GetComponent<ResourceManager>().Iron >= BuildingInfo.Cost_Iron)     //If we have enough Iron
                 {
-                    if (CodeResourceManager.GetComponent<ResourceManager>().Money >= BuildingInfo.Cost_Money)//If we have enough Money
+                    if (CodeResourceManager.GetComponent<ResourceManager>().Gold >= BuildingInfo.Cost_Gold) //If we have enough Gold
                     {
-                        CodeResourceManager.GetComponent<ResourceManager>().ChangeWood(-BuildingInfo.Cost_Wood);    //Remove the cost from the wood the player has
-                        CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(-BuildingInfo.Cost_Stone);  //^
-                        CodeResourceManager.GetComponent<ResourceManager>().ChangeIron(-BuildingInfo.Cost_Iron);    //^
-                        CodeResourceManager.GetComponent<ResourceManager>().ChangeMoney(-BuildingInfo.Cost_Money);  //^
+                        CodeResourceManager.GetComponent<ResourceManager>().ChangeWood (-BuildingInfo.Cost_Wood);  //Remove the cost from the wood the player has
+                        CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(-BuildingInfo.Cost_Stone); //^
+                        CodeResourceManager.GetComponent<ResourceManager>().ChangeIron (-BuildingInfo.Cost_Iron);  //^
+                        CodeResourceManager.GetComponent<ResourceManager>().ChangeGold (-BuildingInfo.Cost_Gold);  //^
                         return "Done";                                                          //Return with; the payed = Done command
                     }
                     else
-                        return "Money";                                                         //Return with; We dont have enough of this
+                        return "Gold";                                                          //Return with; We dont have enough of this
                 }
                 else
                     return "Iron";                                                              //Return with; We dont have enough of this

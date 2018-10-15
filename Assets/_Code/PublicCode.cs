@@ -72,18 +72,18 @@ namespace PublicCode {
         public byte Cost_Wood;                                                                  //(To GET data) 1th part is a byte,     The cost of the building when it's being build
         public byte Cost_Stone;                                                                 //^
         public byte Cost_Iron;                                                                  //^
-        public byte Cost_Money;                                                                 //^
+        public byte Cost_Gold;                                                                  //^
         public bool FirstFree;                                                                  //(To GET data)                         If the first one is free is you can't pay for it (Stockpile, woodcutter)
         public byte BuildSpecial;                                                               //(To GET data)                         If this building has special build code (like walls; higher lower)
         public byte ClickSpecial;                                                               //(To GET data)                         If this building has special click code (like gates; open/close)
         public byte DestroySpecial;
-        public Building(string Name, byte Cost_Wood, byte Cost_Stone, byte Cost_Iron, byte Cost_Money, bool FirstFree, byte BuildSpecial, byte ClickSpecial, byte DestroySpecial)   //Create a way to add all data at once
+        public Building(string Name, byte Cost_Wood, byte Cost_Stone, byte Cost_Iron, byte Cost_Gold, bool FirstFree, byte BuildSpecial, byte ClickSpecial, byte DestroySpecial)   //Create a way to add all data at once
         {
             this.Name = Name;                                                                   //(To SET data) 1th part is a string
             this.Cost_Wood = Cost_Wood;                                                         //^
             this.Cost_Stone = Cost_Stone;                                                       //^
             this.Cost_Iron = Cost_Iron;                                                         //^
-            this.Cost_Money = Cost_Money;                                                       //^
+            this.Cost_Gold = Cost_Gold;                                                         //^
             this.FirstFree = FirstFree;                                                         //^
             this.BuildSpecial = BuildSpecial;                                                   //^
             this.ClickSpecial = ClickSpecial;                                                   //^
