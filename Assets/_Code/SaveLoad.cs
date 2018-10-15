@@ -10,6 +10,7 @@ using System.IO;                                                                
             Active,             If this building is NOT in sleep mode
             SelectedOption,     Which option is selected (like for Gates)
             Health,             The current health level
+            OwnerID,            The owner of this building
 
         'FlagAsUsedAfterSeconds' and 'Used' are ignored, all buildings are flagged as Used to conserve some data and make things easier
         'MaxHealth' is grabbed from the <BuildingOption>
@@ -45,9 +46,9 @@ public class SaveLoad : MonoBehaviour {
         for (int B = 0; B < SplitBlocks.Length; B++)                                            //Do for each line (building)
         {
             string[] SplitBlockData = SplitBlocks[B].Split(new string[] { "," }, StringSplitOptions.None); //Split at each Data section
-            if (SplitBlockData.Length < 8)                                                      //If we dont have enought data to place a building
+            if (SplitBlockData.Length < 9)                                                      //If we dont have enought data to place a building
             {
-                Debug.LogWarning("SaveLoad:LoadFromSring - Not enough data to build object at line " + (B + 1) + " I'm Skipping it...");
+                Debug.LogWarning("SaveLoad:LoadFromString - Not enough data to build object at line " + (B + 1) + " I'm Skipping it...");
             }
             else
             {
@@ -64,28 +65,16 @@ public class SaveLoad : MonoBehaviour {
                         bool DataActive = System.Convert.ToBoolean(SplitBlockData[5]);          //Get if the building should be active or asleep
                         byte DataSelectedOption = System.Convert.ToByte(SplitBlockData[6]);     //Get the current selected mode (Like for the gate if it's open or closed)
                         byte DataHealth = System.Convert.ToByte(SplitBlockData[7]);             //Get the amount of health it should have
+                        byte OwnerID = System.Convert.ToByte(SplitBlockData[8]);                //Get the OwnerID
+
                         var a = Instantiate(Objects[i], new Vector3(DataX, DataY, DataZ), Quaternion.Euler(0, DataRotation, 0)); //Create object, place and select it
                         a.transform.SetParent(FolderBuildings);                                 //Sort the object in to the Blocks folder
-                        a.GetComponent<BuildingOption>().SetStats(DataActive, DataSelectedOption, DataHealth);//Set the BuildingOption
-
-
+                        a.GetComponent<BuildingOption>().SetStats(DataActive, DataSelectedOption, DataHealth, OwnerID);//Set the BuildingOption
 
                         byte SelectedBuildingSpecial = CodeInputManager.GetInfo(a.GetComponent<BuildingOption>().BuildingName).ClickSpecial; //And it's special stats
-                        if (SelectedBuildingSpecial > 0)
-                        {
-                            FolderBuildingPopUp.GetComponent<BuildingPopUp>().ChangeOption(a, SelectedBuildingSpecial, false, DataSelectedOption);
-                        }
-                        
-
-                        /*
-                         * Make a new code sheet that class that changes the building special stats, that is going to be called from this load option. and from the building pop-up window 
-                         * Bla Bla Bla Bla Bla Bla just fix it
-                         */
-
-
-
-
-                        i = Objects.Length;                                                     //Stop the loop we have found the building
+                        if (SelectedBuildingSpecial > 0)                                        //If his building has a special stats
+                            FolderBuildingPopUp.GetComponent<BuildingPopUp>().ChangeOption(a, SelectedBuildingSpecial, false, DataSelectedOption); //Do the special code
+                        i = Objects.Length;                                                     //Stop the loop we have found the building, and are done with it
                     }
                     else if (i + 1 == Objects.Length)                                           //If we have come to the end of the list without finding it
                     {
@@ -122,10 +111,11 @@ public class SaveLoad : MonoBehaviour {
                  + "," + child.eulerAngles.y                                                    //Get the rotation of the building
                  + "," + child.GetComponent<BuildingOption>().Active                            //Get if the building is active or asleep
                  + "," + child.GetComponent<BuildingOption>().SelectedOption                    //Get the current selected mode (Like for the gate if it's open or closed)
-                 + "," + child.GetComponent<BuildingOption>().Health;                           //Get the amount of health it has
+                 + "," + child.GetComponent<BuildingOption>().Health                            //Get the amount of health it has
+                 + "," + child.GetComponent<BuildingOption>().OwnerID;                          //Get who owns this building
             if (ReturnData != "")                                                               //If if this is the first entry
                 ReturnData += "\r\n";                                                           //Put a enter after this current data
-            ReturnData += BuildingSaveInfo;                                                     //add this data
+            ReturnData += BuildingSaveInfo;                                                     //Add this data
         }
         return ReturnData;                                                                      //Return the whole string
     }
