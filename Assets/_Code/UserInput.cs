@@ -160,7 +160,7 @@ public class UserInput : MonoBehaviour
                     Destroy(InHand);                                                            //Destoy the building
                 else if (CodeInputManager.GetButtonDown(18) && !IsDragging)                     //If we need to build the object here
                 {
-                    Build(InHand, true);
+                    Build(InHand);                                                              //Try to place the building
                 }
                 else if (CodeInputManager.GetButtonDownOnce(10))                                //If we want to rotate the building
                 {
@@ -313,7 +313,10 @@ public class UserInput : MonoBehaviour
     {
         IsDragging = false;                                                                     //Stop dragging
         if (InHand != null)                                                                     //If we don't have anything in our hand
-            Build(InHand, false);                                                                      //Drop a building if we have one
+        {
+            Build(InHand);                                                                      //Drop a building if we have one
+            Destroy(InHand);                                                                    //Empty our hand
+        }
     }
     /// <summary>
     /// Indicate the start of a dragging operation.
@@ -325,39 +328,26 @@ public class UserInput : MonoBehaviour
     /// <summary>
     /// Try to place a building.
     /// </summary>
-    /// <param name="building">The GameObject to place</param>
-    public void Build(GameObject building, bool ContinueBuilding)
+    /// <param name="prefab">The GameObject to place</param>
+    public void Build(GameObject prefab)
     {
-        building.layer = 0;                                                                     //Set to default Layer
-        RaycastHit[] Hit = Physics.BoxCastAll(                                                  //Cast a ray to see if there is already a building where we are hovering over
-            building.GetComponent<Collider>().bounds.center,                                    //The center of the block
-            (building.GetComponent<BoxCollider>().size / 2.1f) - new Vector3(0.5f, 0, 0.5f),    //Size of center to side of the block (minus a bit to make sure we dont touch the next block)
-            -transform.up,                                                                      //Do the ray downwards (in to the ground basicly to check only it's own position)
-            building.GetComponent<Collider>().transform.rotation,                               //The orientation in Quaternion (Always in steps of 90 degrees)
-            0.5f,                                                                               //Dont go much depth, the building should be inside this block
-            1 << LayerMask.NameToLayer("Building"));                                            //Only try to find buildings
-        if (Hit.Length > 0)                                                                     //If there a building already there
+        prefab.layer = 0;                                                                       //Set to default Layer
+        InHand inHand = prefab.GetComponent<InHand>();                                          //Get a reference to the in-hand component
+        if (inHand == null || !inHand.validPlacement || inHand.CheckCollision())                //Check if everything is clear
+            return;                                                                             //Don't do anything
+        string Pay = CanWePayFor(prefab);                                                       //Create a new string, will return what we are missing if we can't build
+        if (Pay == "Done")                                                                      //If we do have enough to build this building
         {
-            //Debug.Log("Can't build on top " + Hit[0].transform.name);
-            /*TODO FIXME 
-            If this is hit for more than <1 sec> than show a message that we can't build there
-             */
+            GameObject building = Instantiate(prefab);                                          //Clone the prefab as a new building
+            building.layer = LayerMask.NameToLayer("Building");                                 //Set this to be in the building layer (so we can't build on this anymore)
+            building.transform.SetParent(FolderBuildings);                                      //Sort the building in the right folder
+            building.GetComponent<BuildingOption>().StartTimer();                               //Start the 'Used' after timer if this object
+            building.GetComponent<BuildingOption>().OwnerID = ThisPlayerID;                     //Set the current player to be the owner of this building
+            Destroy(building.GetComponent<InHand>());                                           //Remove the in-hand component
         }
         else
         {
-            string Pay = CanWePayFor(building);                                                 //Create a new string, will return what we are missing if we can't build
-            if (Pay == "Done")                                                                  //If we do have enough to build this building
-            {
-                building.layer = LayerMask.NameToLayer("Building");                             //Set this to be in the building layer (so we can't build on this anymore)
-                building.GetComponent<BuildingOption>().StartTimer();                           //Start the 'Used' after timer if this object
-                if (ContinueBuilding)                                                           //If we need to continue Building
-                    PlaceInHand(building);                                                      //Put a new building on our hands, and leave this one be (this one is now placed down)
-                else
-                    InHand = null;                                                              //Just leave this building be (this one is now placed down)
-                building.GetComponent<BuildingOption>().OwnerID = ThisPlayerID;                 //Set the current player to be the owner of this building
-            }
-            else
-                ShowMessage("Not enough " + Pay + " to build that");                            //Give the user the warning message
+            ShowMessage("Not enough " + Pay + " to build that");                                //Give the user the warning message
         }
     }
     public void CameraControls(bool SetTo)                                              //With this buttons can change the camera mode
@@ -377,15 +367,17 @@ public class UserInput : MonoBehaviour
     public void _PlaceInHand(GameObject Prefab)                                         //Triggered by menu, with the object to build as prefab, this will hook in to the mouse cursor
     {
         Destroy(InHand);                                                                        //Destroy the current held item (If any)
+        Prefab.transform.position = new Vector3(0, -100, 0);                                    //Hide new building
         PlaceInHand(Prefab);                                                                    //Place the new building on our hand
     }
     private void PlaceInHand(GameObject Prefab)                                         //With the object to build as prefab, this will hook in to the mouse cursor
     {
         _DeconstructTool(false);                                                                //Make sure the DeconstructTool is NOT Equiped
-        InHand = Instantiate(Prefab, new Vector3(0, -100, 0), Quaternion.identity);             //Create a new building and put it in our hands (coord will be set later)
+        InHand = Instantiate(Prefab);                                                           //Create a new building and put it in our hands (coord will be set later)
         InHand.transform.rotation = PreviousRotation;                                           //Restore the rotation
-        InHand.transform.SetParent(FolderBuildings);                                            //Sort the building in the right folder
         InHand.layer = 0;                                                                       //Set to default Layer
+        if (InHand.GetComponent<InHand>() == null)                                              //Check for in-hand functionality
+            InHand.AddComponent<InHand>();                                                      //Give the object in-hand functionality
     }
     public void _DeconstructTool(bool Equiped)                                          //Triggered by menu, Equipe the Deconstruct tool
     {
