@@ -485,17 +485,6 @@ public class UserInput : MonoBehaviour
     {
         CodeSaveLoad.GetComponent<SaveLoad>().SaveToFile(TheFile);                              //Call the handler
     }
-    public void _LoadFromString(String Data)                                            //Call this to call the LoadData handler
-    {
-        CodeSaveLoad.GetComponent<SaveLoad>().LoadFromSring(Data);                              //Call the handler
-    }
-    public void _SaveToString(String Data)                                              //Call this to call the SaveData handler
-    {
-        SaveLoadTXT.text = CodeSaveLoad.GetComponent<SaveLoad>().SaveToSring(Data);             //Call the handler
-    }
-
-
-
     private IEnumerator ShowMessageAttention()
     {
         float StartTime = Time.time;
@@ -516,13 +505,26 @@ public class UserInput : MonoBehaviour
 
 
     public InputField SaveLoadTXT;
-    public void _TESTLoad()
+
+    public void _TESTLoad2(InputField TheFile)
     {
-        _LoadFromString(SaveLoadTXT.text);
+        if (TheFile.text == "")
+        {
+            _LoadFromFile("TestFile.txt");
+            Debug.LogWarning("No file name given, taking 'TestFile.txt'");
+        }
+        else
+            _LoadFromFile(TheFile.text);
     }
-    public void _TESTSave()
+    public void _TESTSave2(InputField TheFile)
     {
-        _SaveToString(SaveLoadTXT.text);
+        if (TheFile.text == "")
+        {
+            _SaveToFile("TestFile.txt");
+            Debug.LogWarning("No file name given, taking 'TestFile.txt'");
+        }
+        else
+            _SaveToFile(TheFile.text);
     }
 
 

@@ -23,17 +23,22 @@ public class SaveLoad : MonoBehaviour {
 
     public bool LoadFromFile(string TheFile)                                            //Call this to load from a file, with FileLocation as the location
     {
-        if (System.IO.File.Exists(TheFile))
+        String SaveFolderPath = Path.Combine(Application.persistentDataPath, "Saves");           //The save folder location
+        String TheFilePath = Path.Combine(SaveFolderPath, TheFile);                             //The file location
+        if (File.Exists(TheFilePath))
         {
-            StreamReader SR = new StreamReader(TheFile);
+            StreamReader SR = new StreamReader(TheFilePath);
             String TextFromTheFile = SR.ReadToEnd();
-            Debug.Log(TextFromTheFile);
             SR.Close();
-            Debug.Log("Loaded file from " + Path.Combine(Application.persistentDataPath, TheFile));
+            LoadFromString(TextFromTheFile);
+            Debug.Log("Loaded file from " + TheFilePath);
+        } else
+        {
+            Debug.Log("No save at  " + TheFilePath);
         }
         return false;                                                                           //Return false, File could not be loaded
     }
-    public bool LoadFromSring(string LevelData)                                         //Call this to load a string, With LevelData as the string of data
+    public bool LoadFromString(string LevelData)                                        //Call this to load a string, With LevelData as the string of data
     {
         foreach (Transform child in FolderBuildings)                                            //For each building
             Destroy(child.gameObject);                                                          //Remove it from this scene
@@ -88,18 +93,29 @@ public class SaveLoad : MonoBehaviour {
     }
     public bool SaveToFile(string TheFile)
     {
-        FileInfo FI = new FileInfo(Path.Combine(Application.persistentDataPath, TheFile));
-        FI.Delete();
-        StreamWriter SW = new StreamWriter(TheFile);
+        String SaveFolderPath = Path.Combine(Application.persistentDataPath,"Saves");           //The save folder location
+        String TheFilePath = Path.Combine(SaveFolderPath, TheFile);                             //The file location
+        if (!Directory.Exists(SaveFolderPath))                                                  //If the Save folder does NOT exist
+            Directory.CreateDirectory(SaveFolderPath);                                          //Create save folder
+        if (File.Exists(TheFilePath))
+        {
+            Debug.Log("File already Exist, saving over it...");     
+            FileInfo FI = new FileInfo(TheFilePath);                                            //Get the file
+            FI.Delete();                                                                        //Remove it so we can start over
+        }
+            
+        StreamWriter SW = new StreamWriter(TheFilePath);
 
-        string NewLine = "I'm JelleWho the writer of these codes";
+        string NewLine = "github.com/jellewie/Unity-Gnorts";
         SW.WriteLine(NewLine);
         //SW.Write(NewLine)
-        Debug.Log("Saved file to " + Path.Combine(Application.persistentDataPath, TheFile));
+        SW.WriteLine(SaveToString());
+
+        Debug.Log("Saved to " + TheFilePath);
         SW.Close();                                                                             //Close the stream so the file isn't locked anymore
         return false;                                                                           //Return false, File could not be saved
     }
-    public string SaveToSring(string LevelData)
+    public string SaveToString()
     {
         String ReturnData = "";                                                                 //Create a string to put the data in
         foreach (Transform child in FolderBuildings)                                            //For each building that is in this scene
