@@ -483,7 +483,7 @@ public class UserInput : MonoBehaviour
     }
     public void _SaveToFile(String TheFile)                                             //Call this to call the SaveFile handler
     {
-        CodeSaveLoad.GetComponent<SaveLoad>().SaveToFile(TheFile);                              //Call the handler
+        CodeSaveLoad.GetComponent<SaveLoad>().SaveToFile(TheFile, ThisPlayerID);                              //Call the handler
     }
     private IEnumerator ShowMessageAttention()
     {

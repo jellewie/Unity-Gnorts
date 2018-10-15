@@ -21,6 +21,8 @@ public class SaveLoad : MonoBehaviour {
     public GameObject FolderBuildingPopUp;                                              //The folder with the pop-up stuff in it
     public GameObject[] Objects;                                                        //The array with all the PreFabs in it (doesn't need to be in order)
 
+    private readonly int SaveVersion = 1;
+
     public bool LoadFromFile(string TheFile)                                            //Call this to load from a file, with FileLocation as the location
     {
         String SaveFolderPath = Path.Combine(Application.persistentDataPath, "Saves");           //The save folder location
@@ -45,12 +47,21 @@ public class SaveLoad : MonoBehaviour {
         if (LevelData == "")                                                                    //If the LevelData string is emthy
         {
             Debug.LogWarning("SaveLoad:LoadFromSring - No data has been given");
-            return false;                                                                       //Return False; no scene has been loaded
+            return false;                                                                       //Return False; no save has been loaded
         }
         string[] SplitBlocks = LevelData.Split(new string[] { "\r\n" }, StringSplitOptions.None); //Split at line end (building)
-        for (int B = 0; B < SplitBlocks.Length; B++)                                            //Do for each line (building)
+        string[] SplitBlockData = SplitBlocks[0].Split(new string[] { "," }, StringSplitOptions.None); //Split at each Data section
+
+        Debug.Log("OwnerID of the loaded game = " + SplitBlockData[1]);
+
+        if (SplitBlockData[0] != System.Convert.ToString(SaveVersion))                          //If this Save isn't the latest version
         {
-            string[] SplitBlockData = SplitBlocks[B].Split(new string[] { "," }, StringSplitOptions.None); //Split at each Data section
+            Debug.LogWarning("SaveLoad:LoadFromSring - Saved File is out of date");
+            return false;                                                                       //Return False; no save has been loaded
+        }
+        for (int B = 1; B < SplitBlocks.Length; B++)                                            //Do for each line (building)
+        {
+            SplitBlockData = SplitBlocks[B].Split(new string[] { "," }, StringSplitOptions.None); //Split at each Data section
             if (SplitBlockData.Length < 9)                                                      //If we dont have enought data to place a building
             {
                 Debug.LogWarning("SaveLoad:LoadFromString - Not enough data to build object at line " + (B + 1) + " I'm Skipping it...");
@@ -91,7 +102,7 @@ public class SaveLoad : MonoBehaviour {
         FolderBuildingPopUp.SetActive(false);
         return true;                                                                            //Return true, Scene has been loaden
     }
-    public bool SaveToFile(string TheFile)
+    public bool SaveToFile(string TheFile, byte OwnerID)
     {
         String SaveFolderPath = Path.Combine(Application.persistentDataPath,"Saves");           //The save folder location
         String TheFilePath = Path.Combine(SaveFolderPath, TheFile);                             //The file location
@@ -103,10 +114,19 @@ public class SaveLoad : MonoBehaviour {
             FileInfo FI = new FileInfo(TheFilePath);                                            //Get the file
             FI.Delete();                                                                        //Remove it so we can start over
         }
-            
+
         StreamWriter SW = new StreamWriter(TheFilePath);
 
-        string NewLine = "github.com/jellewie/Unity-Gnorts";
+        byte CampainmapID = 0;
+
+
+        string NewLine = 
+                     SaveVersion
+             + "," + OwnerID
+             + "," + CampainmapID
+             + "," + DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "_" + DateTime.Now.Hour + ":" + DateTime.Now.Minute
+             + "," + "github.com/jellewie/Unity-Gnorts"
+            ;
         SW.WriteLine(NewLine);
         //SW.Write(NewLine)
         SW.WriteLine(SaveToString());
