@@ -2719,7 +2719,7 @@ GameObject:
   - component: {fileID: 368891402}
   - component: {fileID: 368891405}
   m_Layer: 5
-  m_Name: Money
+  m_Name: Gold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16215,11 +16215,11 @@ MonoBehaviour:
   Wood: 9999
   Stone: 9999
   Iron: 9999
-  Money: 9999
+  Gold: 9999
   Grain: 0
   flour: 0
   TextHappiness: {fileID: 244223895}
-  TextMoney: {fileID: 1486123555}
+  TextGold: {fileID: 1486123555}
   TextCitizen: {fileID: 421984800}
   TextFood: {fileID: 1539208359}
   TextWood: {fileID: 1012572889}
