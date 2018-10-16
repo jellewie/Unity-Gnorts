@@ -74,10 +74,10 @@ namespace PublicCode {
         public byte Cost_Iron;                                                                  //^
         public byte Cost_Gold;                                                                  //^
         public bool FirstFree;                                                                  //(To GET data)                         If the first one is free is you can't pay for it (Stockpile, woodcutter)
-        public byte BuildSpecial;                                                               //(To GET data)                         If this building has special build code (like walls; higher lower)
+        public BuildType BuildType;                                                             //(To GET data)                         If this building has special build code (like walls; higher lower)
         public byte ClickSpecial;                                                               //(To GET data)                         If this building has special click code (like gates; open/close)
         public byte DestroySpecial;
-        public Building(string Name, byte Cost_Wood, byte Cost_Stone, byte Cost_Iron, byte Cost_Gold, bool FirstFree, byte BuildSpecial, byte ClickSpecial, byte DestroySpecial)   //Create a way to add all data at once
+        public Building(string Name, byte Cost_Wood, byte Cost_Stone, byte Cost_Iron, byte Cost_Gold, bool FirstFree, BuildType buildType, byte ClickSpecial, byte DestroySpecial)   //Create a way to add all data at once
         {
             this.Name = Name;                                                                   //(To SET data) 1th part is a string
             this.Cost_Wood = Cost_Wood;                                                         //^
@@ -85,7 +85,7 @@ namespace PublicCode {
             this.Cost_Iron = Cost_Iron;                                                         //^
             this.Cost_Gold = Cost_Gold;                                                         //^
             this.FirstFree = FirstFree;                                                         //^
-            this.BuildSpecial = BuildSpecial;                                                   //^
+            this.BuildType = buildType;                                                         //^
             this.ClickSpecial = ClickSpecial;                                                   //^
             this.DestroySpecial = DestroySpecial;                                               //^
         }
@@ -101,6 +101,17 @@ namespace PublicCode {
             this.Key_ = Key_;                                                                   //(To SET data) 2nd part is a bool,     The default state
             this.Desc = Desc;                                                                   //(To SET data) 3rd part is a string,   The description (hoverover text)
         }
+    }
+    
+    /// <summary>
+    /// Indicates the type of building.
+    /// </summary>
+    public enum BuildType
+    {
+        Normal,
+        Wall,
+        Stair,
+        FireBasket
     }
 }
 
