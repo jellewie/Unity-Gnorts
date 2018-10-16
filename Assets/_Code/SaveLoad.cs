@@ -2,18 +2,18 @@
 using System;                                                                           //We need this to convert to bytes
 using System.IO;                                                                    //Required to read write files with the streamreader and streamwriter
 /*  The format buildup of the Save/Load string is as follows
-        Each new Line (Lines end at "\r") is a new building that consisting of: (each seperated by ",")
-            BuildingName,       Or rather the type name
-            Coordinate x,
-            Coordinate y,
-            Coordinate z,
-            Active,             If this building is NOT in sleep mode
-            SelectedOption,     Which option is selected (like for Gates)
-            Health,             The current health level
-            OwnerID,            The owner of this building
+Each new Line (Lines end at "\r") is a new building that consisting of: (each seperated by ",")
+BuildingName,       Or rather the type name
+Coordinate x,
+Coordinate y,
+Coordinate z,
+Active,             If this building is NOT in sleep mode
+SelectedOption,     Which option is selected (like for Gates)
+Health,             The current health level
+OwnerID,            The owner of this building
 
-        'FlagAsUsedAfterSeconds' and 'Used' are ignored, all buildings are flagged as Used to conserve some data and make things easier
-        'MaxHealth' is grabbed from the <BuildingOption>
+'FlagAsUsedAfterSeconds' and 'Used' are ignored, all buildings are flagged as Used to conserve some data and make things easier
+'MaxHealth' is grabbed from the <BuildingOption>
 */
 public class SaveLoad : MonoBehaviour {
     public InputManager CodeInputManager;                                               //The GameObject with the InputManager code on it
@@ -21,18 +21,22 @@ public class SaveLoad : MonoBehaviour {
     public GameObject FolderBuildingPopUp;                                              //The folder with the pop-up stuff in it
     public GameObject[] Objects;                                                        //The array with all the PreFabs in it (doesn't need to be in order)
 
+    private String SaveFolderPath;     //The save folder location
     private readonly int SaveVersion = 1;
-
-    public bool LoadFromFile(string TheFile)                                            //Call this to load from a file, with FileLocation as the location
+    private void Start()
     {
-        String SaveFolderPath = Path.Combine(Application.persistentDataPath, "Saves");           //The save folder location
+        SaveFolderPath = Path.Combine(Application.persistentDataPath, "Saves");     //The save folder location
+    }
+    public bool LoadFromFile(string TheFile)                                            //Call this to load from a file, with TheFile as the file name
+    {
+        TheFile = ValidateName(TheFile);
         String TheFilePath = Path.Combine(SaveFolderPath, TheFile);                             //The file location
-        if (File.Exists(TheFilePath))
+        if (File.Exists(TheFilePath))                                                           //If the file already exists
         {
             StreamReader SR = new StreamReader(TheFilePath);
             String TextFromTheFile = SR.ReadToEnd();
             SR.Close();
-            LoadFromString(TextFromTheFile);
+            StringToWorld(TextFromTheFile);
             Debug.Log("Loaded file from " + TheFilePath);
         } else
         {
@@ -40,7 +44,39 @@ public class SaveLoad : MonoBehaviour {
         }
         return false;                                                                           //Return false, File could not be loaded
     }
-    public bool LoadFromString(string LevelData)                                        //Call this to load a string, With LevelData as the string of data
+    public bool SaveToFile(string TheFile, byte OwnerID)                                //Call this to save the world to a file, with TheFile as file name
+    {
+        TheFile = ValidateName(TheFile);
+        String TheFilePath = Path.Combine(SaveFolderPath, TheFile);                             //The file location
+        if (!Directory.Exists(SaveFolderPath))                                                  //If the Save folder does NOT exist
+            Directory.CreateDirectory(SaveFolderPath);                                          //Create save folder
+        if (File.Exists(TheFilePath))                                                           //If the file already exists
+        {
+            Debug.Log("File already Exist, saving over it...");     
+            FileInfo FI = new FileInfo(TheFilePath);                                            //Get the file
+            FI.Delete();                                                                        //Delete it, so we can start over
+        }
+
+        StreamWriter SW = new StreamWriter(TheFilePath);
+
+        byte CampainmapID = 0;  //TODO FIXME, THIS NEED TO BE CHANGED IF CAMPAIN GETS INPLEMENTED
+
+        string NewLine = 
+                     SaveVersion
+             + "," + OwnerID
+             + "," + CampainmapID
+             + "," + DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "_" + DateTime.Now.Hour + ":" + DateTime.Now.Minute
+             + "," + "github.com/jellewie/Unity-Gnorts"
+            ;
+        SW.WriteLine(NewLine);
+        //SW.Write(NewLine)
+        SW.WriteLine(WorldToString());
+
+        Debug.Log("Saved to " + TheFilePath);
+        SW.Close();                                                                             //Close the stream so the file isn't locked anymore
+        return false;                                                                           //Return false, File could not be saved
+    }
+    private bool StringToWorld(string LevelData)                                        //Call this to build a world from a string
     {
         foreach (Transform child in FolderBuildings)                                            //For each building
             Destroy(child.gameObject);                                                          //Remove it from this scene
@@ -69,7 +105,7 @@ public class SaveLoad : MonoBehaviour {
             else
             {
                 string BuildingTypeName = SplitBlockData[0];                                    //Get the building type
-                
+
                 for (int i = 0; i < Objects.Length; i++)                                        //Do for all Known buildings
                 {
                     if (BuildingTypeName == Objects[i].name)                                    //If this building is the one we need to place
@@ -94,7 +130,7 @@ public class SaveLoad : MonoBehaviour {
                     }
                     else if (i + 1 == Objects.Length)                                           //If we have come to the end of the list without finding it
                     {
-                        Debug.LogWarning("SaveLoad:LoadFromSring - I don't know the building '" + BuildingTypeName + "' I'm Skipping it...");
+                        Debug.LogWarning("SaveLoad: I don't know the building '" + BuildingTypeName + "' I'm Skipping it...");
                     }
                 }
             }
@@ -102,39 +138,7 @@ public class SaveLoad : MonoBehaviour {
         FolderBuildingPopUp.SetActive(false);
         return true;                                                                            //Return true, Scene has been loaden
     }
-    public bool SaveToFile(string TheFile, byte OwnerID)
-    {
-        String SaveFolderPath = Path.Combine(Application.persistentDataPath,"Saves");           //The save folder location
-        String TheFilePath = Path.Combine(SaveFolderPath, TheFile);                             //The file location
-        if (!Directory.Exists(SaveFolderPath))                                                  //If the Save folder does NOT exist
-            Directory.CreateDirectory(SaveFolderPath);                                          //Create save folder
-        if (File.Exists(TheFilePath))
-        {
-            Debug.Log("File already Exist, saving over it...");     
-            FileInfo FI = new FileInfo(TheFilePath);                                            //Get the file
-            FI.Delete();                                                                        //Remove it so we can start over
-        }
-
-        StreamWriter SW = new StreamWriter(TheFilePath);
-
-        byte CampainmapID = 0;  //TODO FIXME, THIS NEED TO BE CHANGED IF CAMPAIN GETS INPLEMENTED
-
-        string NewLine = 
-                     SaveVersion
-             + "," + OwnerID
-             + "," + CampainmapID
-             + "," + DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "_" + DateTime.Now.Hour + ":" + DateTime.Now.Minute
-             + "," + "github.com/jellewie/Unity-Gnorts"
-            ;
-        SW.WriteLine(NewLine);
-        //SW.Write(NewLine)
-        SW.WriteLine(WorldToString());
-
-        Debug.Log("Saved to " + TheFilePath);
-        SW.Close();                                                                             //Close the stream so the file isn't locked anymore
-        return false;                                                                           //Return false, File could not be saved
-    }
-    private string WorldToString()
+    private string WorldToString()                                                      //Call this to get the world in string form
     {
         String ReturnData = "";                                                                 //Create a string to put the data in
         foreach (Transform child in FolderBuildings)                                            //For each building that is in this scene
@@ -153,5 +157,18 @@ public class SaveLoad : MonoBehaviour {
             ReturnData += BuildingSaveInfo;                                                     //Add this data
         }
         return ReturnData;                                                                      //Return the whole string
+    }
+
+    private string ValidateName(String TheFile)
+    {
+        TheFile = TheFile.Trim();                       //Remove spaces in the front and back
+        TheFile = TheFile.Replace("[.]", string.Empty); //Make sure that it doesn't have a dot in it (So it can't be a extention)
+        TheFile = TheFile.ToLower();
+        return TheFile;
+    }
+    public void ShowSaveFolderInExplorer()
+    {
+        string itemPath = SaveFolderPath.Replace(@"/", @"\");   // explorer doesn't like front slashes
+        System.Diagnostics.Process.Start("explorer.exe", "/select," + itemPath);
     }
 }

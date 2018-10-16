@@ -526,7 +526,10 @@ public class UserInput : MonoBehaviour
         else
             _SaveToFile(TheFile.text);
     }
-
+    public void _TEMPExplorder()
+    {
+        CodeSaveLoad.GetComponent<SaveLoad>().ShowSaveFolderInExplorer();
+    }
 
 
     public void _Opti()
