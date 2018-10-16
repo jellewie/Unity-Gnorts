@@ -117,8 +117,7 @@ public class SaveLoad : MonoBehaviour {
 
         StreamWriter SW = new StreamWriter(TheFilePath);
 
-        byte CampainmapID = 0;
-
+        byte CampainmapID = 0;  //TODO FIXME, THIS NEED TO BE CHANGED IF CAMPAIN GETS INPLEMENTED
 
         string NewLine = 
                      SaveVersion
@@ -129,13 +128,13 @@ public class SaveLoad : MonoBehaviour {
             ;
         SW.WriteLine(NewLine);
         //SW.Write(NewLine)
-        SW.WriteLine(SaveToString());
+        SW.WriteLine(WorldToString());
 
         Debug.Log("Saved to " + TheFilePath);
         SW.Close();                                                                             //Close the stream so the file isn't locked anymore
         return false;                                                                           //Return false, File could not be saved
     }
-    public string SaveToString()
+    private string WorldToString()
     {
         String ReturnData = "";                                                                 //Create a string to put the data in
         foreach (Transform child in FolderBuildings)                                            //For each building that is in this scene

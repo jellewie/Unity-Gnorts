@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 33895783650147278}
   - component: {fileID: 114964377761248698}
   m_Layer: 0
-  m_Name: Gate
+  m_Name: GateOpen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -253,7 +253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4037058613271246}
   m_Layer: 0
-  m_Name: Gate2
+  m_Name: GateClose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -397,7 +397,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1248628884232380}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -100, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4353001176650300}

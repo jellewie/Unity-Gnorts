@@ -41,26 +41,26 @@ public class BuildingPopUp : MonoBehaviour {
     }
     public void ChangeOption(GameObject Building, byte ClickSpecial, bool PopUp, byte ToOption) //when ToOption 255 = Dont know the option.
     {
-        if      (ClickSpecial == 1)                                                                  //If it's a Gate
+        if (ClickSpecial == 1)                                                                  //If it's a Gate
         {
-            GameObject Gate = Building.transform.Find("Gate").gameObject;                       //Get the gate
+            GameObject GateOpen = Building.transform.Find("GateOpen").gameObject;                   //Get the gate
             if (ToOption < 255)                                                                 //If we need to go to an option
             {
-                GameObject Gate2 = Building.transform.Find("Gate2").gameObject;                 //Get the gate
+                GameObject GateClose = Building.transform.Find("GateClose").gameObject;             //Get the gate
                 if (ToOption == 0)                                                              //If value has been changed to 0 (Close Gate)
                 {
-                    Gate.SetActive(false);                                                      //Hide the closed gate
-                    Gate2.SetActive(true);                                                      //Show the open gate
+                    GateOpen.SetActive(false);                                                      //Hide the closed gate
+                    GateClose.SetActive(true);                                                      //Show the open gate
                 }
                 else
                 {
-                    Gate.SetActive(true);                                                       //Show the closed gate
-                    Gate2.SetActive(false);                                                     //Hide the open gate
+                    GateOpen.SetActive(true);                                                       //Show the closed gate
+                    GateClose.SetActive(false);                                                     //Hide the open gate
                 }
             }
             else
             {
-                if (Gate.activeSelf)                                                            //If the gate is active
+                if (GateOpen.activeSelf)                                                            //If the gate is active
                     ToOption = 1;                                                               //Set the value to 1 (Open)
                 else
                     ToOption = 0;                                                               //Set the value to 0 (Closed)
