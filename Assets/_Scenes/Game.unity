@@ -1252,7 +1252,7 @@ GameObject:
   m_Component:
   - component: {fileID: 169315537}
   m_Layer: 5
-  m_Name: 2 Castle structures
+  m_Name: 2 Wall_Buildings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12076,7 +12076,7 @@ GameObject:
   - component: {fileID: 1256929720}
   - component: {fileID: 1256929719}
   m_Layer: 5
-  m_Name: 2 Castle structures
+  m_Name: 2 Wall_Buildings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12115,7 +12115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab: {fileID: 0}
   Direction: L
-  HoverText: Castle buildings
+  HoverText: Wall buildings
 --- !u!114 &1256929720
 MonoBehaviour:
   m_ObjectHideFlags: 0
