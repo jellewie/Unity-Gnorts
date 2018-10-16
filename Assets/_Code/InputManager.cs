@@ -5,7 +5,7 @@ using PublicCode;
     Written by JelleWho
  */
 
-public struct Button
+public struct ButtonId
 {
     public const int Drag = 0;
     public const int Rotate = 1;
@@ -47,29 +47,29 @@ public class InputManager : MonoBehaviour
         int ArrayLength = 22 + 1;                                                               //The total amount of entries, change accordingly (+1 since we have a '0' entry too)
         KeysArray = new Keys[ArrayLength];                                                      //Create a new array with the proper length
 
-        KeysArray[Button.Drag]           = new Keys("Drag",             KeyCode.Mouse1,         "Drag the camera"); //Add some data
-        KeysArray[Button.Rotate]         = new Keys("Rotate",           KeyCode.Mouse2,         "Rotatate the camera");
-        KeysArray[Button.Left]           = new Keys("Left",             KeyCode.A,              "Move camera left");
-        KeysArray[Button.Down]           = new Keys("Down",             KeyCode.S,              "Move camera backwards");
-        KeysArray[Button.Right]          = new Keys("Right",            KeyCode.D,              "Move camera right");
-        KeysArray[Button.Up]             = new Keys("Up",               KeyCode.W,              "Move camera forward");
-        KeysArray[Button.RotateLeft]     = new Keys("Rotate left",      KeyCode.E,              "Rotatate the camera a bit left");
-        KeysArray[Button.RotateRight]    = new Keys("Rotate right",     KeyCode.Q,              "Rotatate the camera a bit right");
-        KeysArray[Button.Menu]           = new Keys("Menu",             KeyCode.Escape,         "Open / close the menu");
-        KeysArray[Button.ToggleUi]       = new Keys("Toggle UI",        KeyCode.Tab,            "Make the UI hidden/viseble");
-        KeysArray[Button.RotateBuilding] = new Keys("Rotate building",  KeyCode.R,              "");
-        KeysArray[Button.Trading]        = new Keys("Trading",          KeyCode.T,              "");
-        KeysArray[Button.Stockpile]      = new Keys("Stockpile",        KeyCode.F,              "");
-        KeysArray[Button.Granary]        = new Keys("Granary",          KeyCode.G,              "");
-        KeysArray[Button.Church]         = new Keys("Church",           KeyCode.H,              "");
-        KeysArray[Button.Barracks]       = new Keys("Barracs",          KeyCode.B,              "");
-        KeysArray[Button.Castle]         = new Keys("Castle",           KeyCode.C,              "");
-        KeysArray[Button.Pause]          = new Keys("Pause",            KeyCode.P,              "");
-        KeysArray[Button.Build]          = new Keys("Build",            KeyCode.Mouse0,         "Place the building");
-        KeysArray[Button.CancelBuild]    = new Keys("Cancel build",     KeyCode.Mouse1,         "Cancel building");
-        KeysArray[Button.Alternative]    = new Keys("Alternative",      KeyCode.LeftShift,      "Continue building & Inverse build rotation");
-        KeysArray[Button.WallsHigher]    = new Keys("Walls higher",     KeyCode.KeypadPlus,     "Make the walls higher");
-        KeysArray[Button.WallsLower]     = new Keys("Walls lower",      KeyCode.KeypadMinus,    "Make the walls lower");
+        KeysArray[ButtonId.Drag]           = new Keys("Drag",             KeyCode.Mouse1,         "Drag the camera"); //Add some data
+        KeysArray[ButtonId.Rotate]         = new Keys("Rotate",           KeyCode.Mouse2,         "Rotatate the camera");
+        KeysArray[ButtonId.Left]           = new Keys("Left",             KeyCode.A,              "Move camera left");
+        KeysArray[ButtonId.Down]           = new Keys("Down",             KeyCode.S,              "Move camera backwards");
+        KeysArray[ButtonId.Right]          = new Keys("Right",            KeyCode.D,              "Move camera right");
+        KeysArray[ButtonId.Up]             = new Keys("Up",               KeyCode.W,              "Move camera forward");
+        KeysArray[ButtonId.RotateLeft]     = new Keys("Rotate left",      KeyCode.E,              "Rotatate the camera a bit left");
+        KeysArray[ButtonId.RotateRight]    = new Keys("Rotate right",     KeyCode.Q,              "Rotatate the camera a bit right");
+        KeysArray[ButtonId.Menu]           = new Keys("Menu",             KeyCode.Escape,         "Open / close the menu");
+        KeysArray[ButtonId.ToggleUi]       = new Keys("Toggle UI",        KeyCode.Tab,            "Make the UI hidden/viseble");
+        KeysArray[ButtonId.RotateBuilding] = new Keys("Rotate building",  KeyCode.R,              "");
+        KeysArray[ButtonId.Trading]        = new Keys("Trading",          KeyCode.T,              "");
+        KeysArray[ButtonId.Stockpile]      = new Keys("Stockpile",        KeyCode.F,              "");
+        KeysArray[ButtonId.Granary]        = new Keys("Granary",          KeyCode.G,              "");
+        KeysArray[ButtonId.Church]         = new Keys("Church",           KeyCode.H,              "");
+        KeysArray[ButtonId.Barracks]       = new Keys("Barracs",          KeyCode.B,              "");
+        KeysArray[ButtonId.Castle]         = new Keys("Castle",           KeyCode.C,              "");
+        KeysArray[ButtonId.Pause]          = new Keys("Pause",            KeyCode.P,              "");
+        KeysArray[ButtonId.Build]          = new Keys("Build",            KeyCode.Mouse0,         "Place the building");
+        KeysArray[ButtonId.CancelBuild]    = new Keys("Cancel build",     KeyCode.Mouse1,         "Cancel building");
+        KeysArray[ButtonId.Alternative]    = new Keys("Alternative",      KeyCode.LeftShift,      "Continue building & Inverse build rotation");
+        KeysArray[ButtonId.WallsHigher]    = new Keys("Walls higher",     KeyCode.KeypadPlus,     "Make the walls higher");
+        KeysArray[ButtonId.WallsLower]     = new Keys("Walls lower",      KeyCode.KeypadMinus,    "Make the walls lower");
 
         if (!ToDefault)                                                                         //If we need to load Playerdata instead of default settings
         {
