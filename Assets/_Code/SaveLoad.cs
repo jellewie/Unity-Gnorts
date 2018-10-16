@@ -21,60 +21,80 @@ public class SaveLoad : MonoBehaviour {
     public GameObject FolderBuildingPopUp;                                              //The folder with the pop-up stuff in it
     public GameObject[] Objects;                                                        //The array with all the PreFabs in it (doesn't need to be in order)
 
-    private String SaveFolderPath;     //The save folder location
-    private readonly int SaveVersion = 1;
+    private String SaveFolderPath;                                                      //The save folder location
+    private readonly int SaveVersion = 2;
+    private byte CampainmapID = 0;  //TODO FIXME, THIS NEEDS TO BE CHANGED IF CAMPAIN GETS INPLEMENTED
+
     private void Start()
     {
-        SaveFolderPath = Path.Combine(Application.persistentDataPath, "Saves");     //The save folder location
+        SaveFolderPath = Path.Combine(Application.persistentDataPath, "Saves");                 //The save folder location
+        if (!Directory.Exists(SaveFolderPath))                                                  //If the Save folder does NOT exist
+            Directory.CreateDirectory(SaveFolderPath);                                          //Create the folder
     }
-    public bool LoadFromFile(string TheFile)                                            //Call this to load from a file, with TheFile as the file name
+    public bool LoadFromFile(string SaveName)                                           //Call this to load from a file, with TheFile as the file name
     {
-        TheFile = ValidateName(TheFile);
-        String TheFilePath = Path.Combine(SaveFolderPath, TheFile);                             //The file location
-        if (File.Exists(TheFilePath))                                                           //If the file already exists
+        SaveName = ValidateName(SaveName);                                                      //Check and edit the name of the given save name to be proper
+        String FileFolder = Path.Combine(SaveFolderPath, SaveName);                             //The folder to put the data of the SaveGame in
+        String FileBuildings = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "Buildings"); //The file location of the file with the Buildings
+        String FileWorld = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "World");       //The file location of the file with the Buildings
+        String FileGraph = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "Graph");       //The file location of the file with the Buildings
+
+
+        if (Directory.Exists(FileFolder))                                                       //If we have a save with this name
         {
-            StreamReader SR = new StreamReader(TheFilePath);
-            String TextFromTheFile = SR.ReadToEnd();
-            SR.Close();
-            StringToWorld(TextFromTheFile);
-            Debug.Log("Loaded file from " + TheFilePath);
-        } else
-        {
-            Debug.Log("No save at  " + TheFilePath);
+            if (File.Exists(FileBuildings))                                                //If we have a FileBuildings file
+            {
+                StreamReader SR = new StreamReader(FileBuildings);                              //Start writing from a file
+                String TextFromTheFile = SR.ReadToEnd();                                        //Get all the text that is in this file
+                SR.Close();                                                                     //Close the stream so the file isn't locked anymore
+                StringToWorld(TextFromTheFile);                                                 //Create the world with this string
+                Debug.Log("Loaded file from " + FileBuildings);
+                return true;                                                                    //Return true, succesfull build
+            }
+            else
+                Debug.Log("No Buildins file at " + FileBuildings);
         }
+        else
+            Debug.Log("No save at  " + FileFolder);
         return false;                                                                           //Return false, File could not be loaded
     }
-    public bool SaveToFile(string TheFile, byte OwnerID)                                //Call this to save the world to a file, with TheFile as file name
+    public bool SaveToFile(string SaveName, byte OwnerID)                               //Call this to save the world to a file, with TheFile as file name
     {
-        TheFile = ValidateName(TheFile);
-        String TheFilePath = Path.Combine(SaveFolderPath, TheFile);                             //The file location
-        if (!Directory.Exists(SaveFolderPath))                                                  //If the Save folder does NOT exist
-            Directory.CreateDirectory(SaveFolderPath);                                          //Create save folder
-        if (File.Exists(TheFilePath))                                                           //If the file already exists
+        SaveName = ValidateName(SaveName);                                                      //Check and edit the name of the given save name to be proper
+        String FileFolder = Path.Combine(SaveFolderPath, SaveName);                             //The folder to put the data of the SaveGame in
+        String FileBuildings = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "Buildings"); //The file location of the file with the Buildings
+        String FileWorld = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "World");       //The file location of the file with the Buildings
+        String FileGraph = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "Graph");       //The file location of the file with the Buildings
+
+        if (Directory.Exists(FileFolder))                                                       //If we already have a save with this name
         {
-            Debug.Log("File already Exist, saving over it...");     
-            FileInfo FI = new FileInfo(TheFilePath);                                            //Get the file
-            FI.Delete();                                                                        //Delete it, so we can start over
+            Debug.Log("File already Exist, saving over it...");
+            Directory.Delete(FileFolder, true);                                                 //Delete it, so we can put the new save down
         }
+        Debug.Log("Saving to: " + FileFolder);
+        Directory.CreateDirectory(FileFolder);                                                  //Create the new folder for the save
 
-        StreamWriter SW = new StreamWriter(TheFilePath);
-
-        byte CampainmapID = 0;  //TODO FIXME, THIS NEED TO BE CHANGED IF CAMPAIN GETS INPLEMENTED
-
-        string NewLine = 
-                     SaveVersion
+        //=== Save Buildings file
+        StreamWriter SW = new StreamWriter(FileBuildings);                                      //Start writing to a file
+        SW.WriteLine                                                                            //Write some settings to this file
+            (SaveVersion
              + "," + OwnerID
              + "," + CampainmapID
              + "," + DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "_" + DateTime.Now.Hour + ":" + DateTime.Now.Minute
              + "," + "github.com/jellewie/Unity-Gnorts"
-            ;
-        SW.WriteLine(NewLine);
-        //SW.Write(NewLine)
-        SW.WriteLine(WorldToString());
-
-        Debug.Log("Saved to " + TheFilePath);
+            );
+        SW.WriteLine(WorldToString());                                                          //Get and write all buildings to the file
         SW.Close();                                                                             //Close the stream so the file isn't locked anymore
-        return false;                                                                           //Return false, File could not be saved
+        //=== Save the World data
+        SW = new StreamWriter(FileWorld);                                                       //Start writing to a file
+        SW.WriteLine("Not Yet Implemented");
+        SW.Close();                                                                             //Close the stream so the file isn't locked anymore
+        //=== Save the World data
+        SW = new StreamWriter(FileGraph);                                                       //Start writing to a file
+        SW.WriteLine("Not Yet Implemented");
+        SW.Close();                                                                             //Close the stream so the file isn't locked anymore
+        //=== end of saving
+        return true;                                                                            //Return false, File could not be saved
     }
     private bool StringToWorld(string LevelData)                                        //Call this to build a world from a string
     {
@@ -158,17 +178,16 @@ public class SaveLoad : MonoBehaviour {
         }
         return ReturnData;                                                                      //Return the whole string
     }
-
-    private string ValidateName(String TheFile)
+    private string ValidateName(String SaveName)
     {
-        TheFile = TheFile.Trim();                       //Remove spaces in the front and back
-        TheFile = TheFile.Replace("[.]", string.Empty); //Make sure that it doesn't have a dot in it (So it can't be a extention)
-        TheFile = TheFile.ToLower();
-        return TheFile;
+        SaveName = SaveName.Trim();                                                     //Remove spaces in the front and back
+        SaveName = SaveName.Replace("[.]", string.Empty);                               //Make sure that it doesn't have a dot in it (So it can't be a extention)
+        SaveName = SaveName.ToLower();                                                  //Make sure it's all lower case (just to make sure we dont get double names)
+        return SaveName;
     }
     public void ShowSaveFolderInExplorer()
     {
-        string itemPath = SaveFolderPath.Replace(@"/", @"\");   // explorer doesn't like front slashes
+        string itemPath = SaveFolderPath.Replace(@"/", @"\");                           // explorer doesn't like front slashes
         System.Diagnostics.Process.Start("explorer.exe", "/select," + itemPath);
     }
 }

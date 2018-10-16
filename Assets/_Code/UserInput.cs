@@ -510,8 +510,8 @@ public class UserInput : MonoBehaviour
     {
         if (TheFile.text == "")
         {
-            _LoadFromFile("TestFile.txt");
-            Debug.LogWarning("No file name given, taking 'TestFile.txt'");
+            _LoadFromFile("TestSave");
+            Debug.LogWarning("No file name given, taking 'TestSave'");
         }
         else
             _LoadFromFile(TheFile.text);
@@ -520,8 +520,8 @@ public class UserInput : MonoBehaviour
     {
         if (TheFile.text == "")
         {
-            _SaveToFile("TestFile.txt");
-            Debug.LogWarning("No file name given, taking 'TestFile.txt'");
+            _SaveToFile("TestSave");
+            Debug.LogWarning("No file name given, taking 'TestSave'");
         }
         else
             _SaveToFile(TheFile.text);
