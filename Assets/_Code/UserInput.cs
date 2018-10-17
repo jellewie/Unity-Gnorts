@@ -158,19 +158,19 @@ public class UserInput : MonoBehaviour
                         }
                     }
                 }
-                if (CodeInputManager.GetButtonDownOnce(ButtonId.CancelBuild))                     //If we want to cancel the build
+                if (CodeInputManager.GetButtonDownOnce(ButtonId.CancelBuild))                   //If we want to cancel the build
                     Destroy(InHand);                                                            //Destoy the building
-                else if (CodeInputManager.GetButtonDown(ButtonId.Build) && !IsDragging)           //If we need to build the object here
+                else if (CodeInputManager.GetButtonDown(ButtonId.Build) && !IsDragging)         //If we need to build the object here
                 {
                     buildKeyDownTime += Time.deltaTime;                                         //Increase the build key timer
                     Build(InHand);                                                              //Try to place the building
                 }
-                else if (CodeInputManager.GetButtonDownOnce(ButtonId.RotateBuilding))             //If we want to rotate the building
+                else if (CodeInputManager.GetButtonDownOnce(ButtonId.RotateBuilding))           //If we want to rotate the building
                 {
-                    if (CodeInputManager.GetButtonDown(ButtonId.Alternative))                     //If we want to rotate the other way
-                        InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y - 90, 0); //Rotate it 90 degrees counter clock wise
+                    if (CodeInputManager.GetButtonDown(ButtonId.Alternative))                   //If we want to rotate the other way
+                        InHand.transform.rotation *= Quaternion.Euler(0, -90, 0);               //Rotate it 90 degrees counter clock wise
                     else
-                        InHand.transform.rotation = Quaternion.Euler(0, InHand.transform.eulerAngles.y + 90, 0); //Rotate it 90 degrees clock wise
+                        InHand.transform.rotation *= Quaternion.Euler(0, 90, 0);                //Rotate it 90 degrees clock wise
                     PreviousRotation = InHand.transform.rotation;                               //Save the rotation
                 }
             }
