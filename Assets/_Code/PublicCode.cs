@@ -110,6 +110,7 @@ namespace PublicCode {
     {
         Normal,
         Wall,
+        SpikedWall,
         Stair,
         FireBasket
     }

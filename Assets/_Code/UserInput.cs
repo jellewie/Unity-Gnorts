@@ -86,10 +86,13 @@ public class UserInput : MonoBehaviour
 
                     BuildType type = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName).BuildType; //Save this for easy use
                     //ERROR LINE ABOVE: Building is missing the 'BuildingOption' code, please attach it to the object
-                    if (type == BuildType.Wall)                                                 //If this building can move up and down
+                    if (type == BuildType.Wall || type == BuildType.SpikedWall)                 //If this building can move up and down
                     {
-                        if (LowerObjectBy > InHand.GetComponent<Collider>().bounds.size.y - 2)  //If this building is off the ground
-                            LowerObjectBy = System.Convert.ToByte(InHand.GetComponent<Collider>().bounds.size.y - 2); //set HigherObject to max height of this object
+                        byte MinHeight = 2;                                                     //Set the MinHeight to be 2 blocks (from the ground)
+                        if (type == BuildType.SpikedWall)                                       //If it's a spiked wall
+                            MinHeight = 4;                                                      //Set the MinHeight to be 4 blocks (from the ground) (so the Spikes are 1 block above the Wall)
+                        if (LowerObjectBy > InHand.GetComponent<Collider>().bounds.size.y - MinHeight) //If this building is to far in the ground
+                            LowerObjectBy = System.Convert.ToByte(InHand.GetComponent<Collider>().bounds.size.y - MinHeight); //set HigherObject to be the min height of this building
                         InHand.transform.position -= new Vector3(0, LowerObjectBy, 0);          //Move the wall to it's set hight
                     }
                     else if (type == BuildType.Stair)                                           //If this building is a stair
