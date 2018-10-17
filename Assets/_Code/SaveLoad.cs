@@ -163,11 +163,12 @@ public class SaveLoad : MonoBehaviour {
         String ReturnData = "";                                                                 //Create a string to put the data in
         foreach (Transform child in FolderBuildings)                                            //For each building that is in this scene
         {
+            Vector3Int roundPosition = Vector3Int.RoundToInt(child.transform.position);         //Use position rounded to nearest int
             string BuildingSaveInfo = System.Convert.ToString(child.GetComponent<BuildingOption>().BuildingName) //Get the BuildingName
-                 + "," + child.transform.position.x                                             //Get the X coords of this building
-                 + "," + child.transform.position.y                                             //Get the Y coords of this building
-                 + "," + child.transform.position.z                                             //Get the Z coords of this building
-                 + "," + child.eulerAngles.y                                                    //Get the rotation of the building
+                 + "," + roundPosition.x                                                        //Get the X coords of this building
+                 + "," + roundPosition.y                                                        //Get the Y coords of this building
+                 + "," + roundPosition.z                                                        //Get the Z coords of this building
+                 + "," + Mathf.RoundToInt(child.eulerAngles.y)                                  //Get the rotation of the building
                  + "," + child.GetComponent<BuildingOption>().Active                            //Get if the building is active or asleep
                  + "," + child.GetComponent<BuildingOption>().SelectedOption                    //Get the current selected mode (Like for the gate if it's open or closed)
                  + "," + child.GetComponent<BuildingOption>().Health                            //Get the amount of health it has
