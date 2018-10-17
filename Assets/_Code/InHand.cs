@@ -26,7 +26,7 @@ public class InHand : MonoBehaviour
     private void Start()                                                                //Triggered on start
     {
         // Store references to things we need now rather than get or calulcate them each time they're needed.
-        nonGroundLayerMask = ~(1 << LayerMask.NameToLayer("Terrain") | 1);                      //
+        nonGroundLayerMask = ~(1 << LayerMask.NameToLayer("Terrain") | 1);                      //A mask to ignore 0:Default and 9:Terrain
         boxCollider = gameObject.GetComponent<BoxCollider>();                                   //
         renderers = gameObject.GetComponentsInChildren<Renderer>();                             //
     }
