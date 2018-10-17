@@ -493,52 +493,36 @@ public class UserInput : MonoBehaviour
         TextMessage.GetComponent<Image>().color = Color.white;
     }
 
-    public void _FileLoad(InputField TheFile)
+    public void _FileSave()
     {
-        if (TheFile.text == "")
-            Debug.LogWarning("No file name given");
-        else
-        {
-            bool Responce = CodeSaveLoad.GetComponent<SaveLoad>().LoadFromFile(TheFile.text);
-            if (Responce)
-            {
-                Debug.Log("Loaded!");
-            }
-        }
-    }
-    public void _FileSave(InputField TheFile)
-    {
-        if (TheFile.text == "")
-            Debug.LogWarning("No file name given");
-        else
-        {
-            bool Responce = CodeSaveLoad.GetComponent<SaveLoad>().SaveToFile(TheFile.text, ThisPlayerID);
-            if (Responce)
-            {
-                Debug.Log("Saved!");
-            }
-        }
-            
-    }
-    public void _FileOpenSavesInExplorder()
-    {
-        CodeSaveLoad.GetComponent<SaveLoad>().ShowSaveFolderInExplorer();
-    }
-    public void _FileDeleteSave(InputField TheFile)
-    {
-        bool Responce = CodeSaveLoad.GetComponent<SaveLoad>().DeleteFile(TheFile.text);
+        bool Responce = CodeSaveLoad.GetComponent<SaveLoad>()._SaveToFile(ThisPlayerID);
         if (Responce)
         {
-            Debug.Log("Deleted file!");
+            Debug.Log("Saved!");
         }
-        else
+    }
+    public void _FileLoadFromFile()
+    {
+        bool Responce = CodeSaveLoad.GetComponent<SaveLoad>()._LoadFromFile();
+        if (Responce)
         {
-            Debug.Log("No save called that way");
+            Debug.Log("Loaded!");
+        }
+    }
+    public void _FileDeleteFile()
+    {
+        bool Responce = CodeSaveLoad.GetComponent<SaveLoad>()._DeleteFile();
+        if (Responce)
+        {
+            Debug.Log("Saved!");
         }
     }
 
 
-
+    public void _TEST()
+    {
+        CodeSaveLoad.GetComponent<SaveLoad>().LoadSaveList();
+    }
 
 
     public void _Opti()
