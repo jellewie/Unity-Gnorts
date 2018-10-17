@@ -23,7 +23,7 @@ public class SaveLoad : MonoBehaviour {
     public GameObject[] Objects;                                                        //The array with all the PreFabs in it (doesn't need to be in order)
 
     private String SaveFolderPath;                                                      //The save folder location
-    private readonly int SaveVersion = 2;
+    private readonly int SaveVersion = 2;                                               //The version of the Fileformat
     private byte CampainmapID = 0;  //TODO FIXME, THIS NEEDS TO BE CHANGED IF CAMPAIN GETS INPLEMENTED
 
     private void Start()
@@ -39,7 +39,6 @@ public class SaveLoad : MonoBehaviour {
         String FileBuildings = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "Buildings"); //The file location of the file with the Buildings
         //String FileWorld = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "World");       //The file location of the file with the Buildings
         //String FileGraph = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "Graph");       //The file location of the file with the Buildings
-
 
         if (Directory.Exists(FileFolder))                                                       //If we have a save with this name
         {
@@ -97,6 +96,24 @@ public class SaveLoad : MonoBehaviour {
         //=== end of saving
         return true;                                                                            //Return false, File could not be saved
     }
+    public void ShowSaveFolderInExplorer()                                              //Open the saves folder in Explorer
+    {
+        string itemPath = SaveFolderPath.Replace(@"/", @"\");                                   //Axplorer doesn't like front slashes
+        System.Diagnostics.Process.Start("explorer.exe", "/select," + itemPath);                //Open the saves folder with Explorer
+    }
+    public bool DeleteFile(string SaveName)
+    {
+        SaveName = ValidateName(SaveName);                                                      //Check and edit the name of the given save name to be proper
+        String FileFolder = Path.Combine(SaveFolderPath, SaveName);                             //The folder to put the data of the SaveGame in
+        if (Directory.Exists(FileFolder))                                                       //If we already have a save with this name
+        {
+            Directory.Delete(FileFolder, true);                                                 //Delete it, so we can put the new save down
+            return true;                                                                        //Deleted the save file
+        }
+        Debug.Log("No save called " + SaveName);
+        return false;                                                                           //No save called that way
+    }
+
     private bool StringToWorld(string LevelData)                                        //Call this to build a world from a string
     {
         foreach (Transform child in FolderBuildings)                                            //For each building
@@ -186,10 +203,5 @@ public class SaveLoad : MonoBehaviour {
         SaveName = SaveName.Replace("[.]", string.Empty);                               //Make sure that it doesn't have a dot in it (So it can't be a extention)
         SaveName = SaveName.ToLower();                                                  //Make sure it's all lower case (just to make sure we dont get double names)
         return SaveName;
-    }
-    public void ShowSaveFolderInExplorer()
-    {
-        string itemPath = SaveFolderPath.Replace(@"/", @"\");                           // explorer doesn't like front slashes
-        System.Diagnostics.Process.Start("explorer.exe", "/select," + itemPath);
     }
 }

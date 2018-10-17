@@ -498,20 +498,44 @@ public class UserInput : MonoBehaviour
         if (TheFile.text == "")
             Debug.LogWarning("No file name given");
         else
-            CodeSaveLoad.GetComponent<SaveLoad>().LoadFromFile(TheFile.text);
+        {
+            bool Responce = CodeSaveLoad.GetComponent<SaveLoad>().LoadFromFile(TheFile.text);
+            if (Responce)
+            {
+                Debug.Log("Loaded!");
+            }
+        }
     }
     public void _FileSave(InputField TheFile)
     {
         if (TheFile.text == "")
             Debug.LogWarning("No file name given");
         else
-            CodeSaveLoad.GetComponent<SaveLoad>().SaveToFile(TheFile.text,  ThisPlayerID);
+        {
+            bool Responce = CodeSaveLoad.GetComponent<SaveLoad>().SaveToFile(TheFile.text, ThisPlayerID);
+            if (Responce)
+            {
+                Debug.Log("Saved!");
+            }
+        }
+            
     }
     public void _FileOpenSavesInExplorder()
     {
         CodeSaveLoad.GetComponent<SaveLoad>().ShowSaveFolderInExplorer();
     }
-    
+    public void _FileDeleteSave(InputField TheFile)
+    {
+        bool Responce = CodeSaveLoad.GetComponent<SaveLoad>().DeleteFile(TheFile.text);
+        if (Responce)
+        {
+            Debug.Log("Deleted file!");
+        }
+        else
+        {
+            Debug.Log("No save called that way");
+        }
+    }
 
 
 
