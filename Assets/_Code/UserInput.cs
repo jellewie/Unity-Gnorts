@@ -477,14 +477,6 @@ public class UserInput : MonoBehaviour
         //Make sure to set the texture type of the image to Cursor!
         Cursor.SetCursor(NewCursorIcon, Vector2.zero, CursorMode.Auto);                         //Set the image as icon
     }
-    public void _LoadFromFile(String TheFile)                                           //Call this to call the LoadFile handler
-    {
-        CodeSaveLoad.GetComponent<SaveLoad>().LoadFromFile(TheFile);                            //Call the handler
-    }
-    public void _SaveToFile(String TheFile)                                             //Call this to call the SaveFile handler
-    {
-        CodeSaveLoad.GetComponent<SaveLoad>().SaveToFile(TheFile, ThisPlayerID);                              //Call the handler
-    }
     private IEnumerator ShowMessageAttention()
     {
         float StartTime = Time.time;
@@ -501,35 +493,28 @@ public class UserInput : MonoBehaviour
         TextMessage.GetComponent<Image>().color = Color.white;
     }
 
-
-
-
-    public InputField SaveLoadTXT;
-
-    public void _TESTLoad2(InputField TheFile)
+    public void _FileLoad(InputField TheFile)
     {
         if (TheFile.text == "")
-        {
-            _LoadFromFile("TestSave");
-            Debug.LogWarning("No file name given, taking 'TestSave'");
-        }
+            Debug.LogWarning("No file name given");
         else
-            _LoadFromFile(TheFile.text);
+            CodeSaveLoad.GetComponent<SaveLoad>().LoadFromFile(TheFile.text);
     }
-    public void _TESTSave2(InputField TheFile)
+    public void _FileSave(InputField TheFile)
     {
         if (TheFile.text == "")
-        {
-            _SaveToFile("TestSave");
-            Debug.LogWarning("No file name given, taking 'TestSave'");
-        }
+            Debug.LogWarning("No file name given");
         else
-            _SaveToFile(TheFile.text);
+            CodeSaveLoad.GetComponent<SaveLoad>().SaveToFile(TheFile.text,  ThisPlayerID);
     }
-    public void _TEMPExplorder()
+    public void _FileOpenSavesInExplorder()
     {
         CodeSaveLoad.GetComponent<SaveLoad>().ShowSaveFolderInExplorer();
     }
+    
+
+
+
 
 
     public void _Opti()

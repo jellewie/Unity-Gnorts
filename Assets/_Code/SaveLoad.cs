@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;                                                                           //We need this to convert to bytes
 using System.IO;                                                                    //Required to read write files with the streamreader and streamwriter
+using UnityEngine.UI;
 /*  The format buildup of the Save/Load string is as follows
 Each new Line (Lines end at "\r") is a new building that consisting of: (each seperated by ",")
 BuildingName,       Or rather the type name
@@ -36,8 +37,8 @@ public class SaveLoad : MonoBehaviour {
         SaveName = ValidateName(SaveName);                                                      //Check and edit the name of the given save name to be proper
         String FileFolder = Path.Combine(SaveFolderPath, SaveName);                             //The folder to put the data of the SaveGame in
         String FileBuildings = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "Buildings"); //The file location of the file with the Buildings
-        String FileWorld = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "World");       //The file location of the file with the Buildings
-        String FileGraph = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "Graph");       //The file location of the file with the Buildings
+        //String FileWorld = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "World");       //The file location of the file with the Buildings
+        //String FileGraph = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "Graph");       //The file location of the file with the Buildings
 
 
         if (Directory.Exists(FileFolder))                                                       //If we have a save with this name

@@ -21,10 +21,10 @@ public class MenuSettings : MonoBehaviour
 
     void LoadList()
     {
-        foreach (Transform child in keyList.transform)                                          //For each entry in the list
-        {
-            GameObject.Destroy(child.gameObject);                                               //Remove the entry
-        }
+        //foreach (Transform child in keyList.transform)                                          //For each entry in the list
+        //{
+        //    GameObject.Destroy(child.gameObject);                                               //Remove the entry
+        //}
         SettingsBool[] buttonName = inputManager.GetBoolSettings();                             //Gets all button names and plot it in a array
 
         for (int i = 0; i < buttonName.Length; i++)                                             //For each button name
