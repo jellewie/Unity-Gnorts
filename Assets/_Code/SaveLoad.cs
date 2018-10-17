@@ -2,50 +2,35 @@
 using System;                                                                           //We need this to convert to bytes
 using System.IO;                                                                        //Required to read write files with the streamreader and streamwriter
 using UnityEngine.UI;
-/*  The format buildup of the Save/Load string is as follows
-Each new Line (Lines end at "\r") is a new building that consisting of: (each seperated by ",")
-BuildingName,       Or rather the type name
-Coordinate x,
-Coordinate y,
-Coordinate z,
-Active,             If this building is NOT in sleep mode
-SelectedOption,     Which option is selected (like for Gates)
-Health,             The current health level
-OwnerID,            The owner of this building
-
-'FlagAsUsedAfterSeconds' and 'Used' are ignored, all buildings are flagged as Used to conserve some data and make things easier
-'MaxHealth' is grabbed from the <BuildingOption>
-*/
 public class SaveLoad : MonoBehaviour {
     public InputManager CodeInputManager;                                               //The GameObject with the InputManager code on it
     public Transform FolderBuildings;                                                   //The folder where all the buildings should be put in
     public GameObject FolderBuildingPopUp;                                              //The folder with the pop-up stuff in it
     public GameObject[] Objects;                                                        //The array with all the PreFabs in it (doesn't need to be in order)
-
-    public GameObject PrefabSaveGameItem;
-    public GameObject List;
-    public InputField TextSaveLoad;
+    public GameObject PrefabSaveGameItem;                                               //The prefab of the SaveGameName item list
+    public GameObject List;                                                             //The grid to place the items in
+    public InputField TextSaveLoad;                                                     //The 'active edit' with the current SaveGameName to do stuff with
 
     private String SaveFolderPath;                                                      //The save folder location
     private readonly int SaveVersion = 2;                                               //The version of the Fileformat
     private byte CampainmapID = 0;  //TODO FIXME, THIS NEEDS TO BE CHANGED IF CAMPAIN GETS INPLEMENTED
-    private void Start()
+    private void Start()                                                                //Called once on start (after the object is enabled ofc)
     {
         if (!Directory.Exists(SaveFolderPath))                                                  //If the Save folder does NOT exist
             Directory.CreateDirectory(SaveFolderPath);                                          //Create the folder
     }
-    private void OnEnable()
+    private void OnEnable()                                                             //Executes each time the object gets enabled
     {
-        SaveFolderPath = Path.Combine(Application.persistentDataPath, "Saves");                 //The save folder location
+        SaveFolderPath = Path.Combine(Application.persistentDataPath, "Saves");                 //The save folder location (needs to be here since Enabled is called before Start)
         LoadSaveList();                                                                         //Reload the list
     }
-    public bool _LoadFromFile()                                                          //Call this to load from a file, with TheFile as the file name
+    public bool _LoadFromFile()                                                         //Load from a file, with TheFile as the file name
     {
         string SaveName = ValidateName(TextSaveLoad.text);                                      //Check and edit the name of the given save name to be proper
-        if (TextSaveLoad.text == "")
+        if (TextSaveLoad.text == "")                                                            //If no file name has been given
         {
             Debug.LogWarning("No file name given");
-            return false;
+            return false;                                                                       //We can not load level NULL
         }
         String FileFolder = Path.Combine(SaveFolderPath, SaveName);                             //The folder to put the data of the SaveGame in
         String FileBuildings = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "Buildings"); //The file location of the file with the Buildings
@@ -54,7 +39,7 @@ public class SaveLoad : MonoBehaviour {
 
         if (Directory.Exists(FileFolder))                                                       //If we have a save with this name
         {
-            if (File.Exists(FileBuildings))                                                //If we have a FileBuildings file
+            if (File.Exists(FileBuildings))                                                     //If we have a FileBuildings file
             {
                 StreamReader SR = new StreamReader(FileBuildings);                              //Start writing from a file
                 String TextFromTheFile = SR.ReadToEnd();                                        //Get all the text that is in this file
@@ -64,33 +49,30 @@ public class SaveLoad : MonoBehaviour {
                 return true;                                                                    //Return true, succesfull build
             }
             else
-                Debug.Log("No Buildins file at " + FileBuildings);
-            LoadSaveList();                                                                     //Reload the list
+                Debug.Log("No Buildings file at " + FileBuildings);
         }
         else
-            Debug.Log("No save at  " + FileFolder);
+            Debug.Log("No save at " + FileFolder);
         return false;                                                                           //Return false, File could not be loaded
     }
-    public bool _SaveToFile(byte OwnerID)                                                //Call this to save the world to a file, with TheFile as file name
+    public bool _SaveToFile(byte OwnerID)                                               //Save the world to a file, with TheFile as file name
     {
         string SaveName = ValidateName(TextSaveLoad.text);                                      //Check and edit the name of the given save name to be proper
-        if (TextSaveLoad.text == "")
+        if (TextSaveLoad.text == "")                                                            //If no file name has been given
         {
             Debug.LogWarning("No file name given");
-            return false;
+            return false;                                                                       //We can not load level NULL
         }
         String FileFolder = Path.Combine(SaveFolderPath, SaveName);                             //The folder to put the data of the SaveGame in
         String FileBuildings = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "Buildings"); //The file location of the file with the Buildings
         String FileWorld = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "World");       //The file location of the file with the Buildings
         String FileGraph = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "Graph");       //The file location of the file with the Buildings
-
         if (Directory.Exists(FileFolder))                                                       //If we already have a save with this name
         {
             Debug.Log("File already Exist, saving over it...");
             Directory.Delete(FileFolder, true);                                                 //Delete it, so we can put the new save down
         }
         Directory.CreateDirectory(FileFolder);                                                  //Create the new folder for the save
-
         //=== Save Buildings file
         StreamWriter SW = new StreamWriter(FileBuildings);                                      //Start writing to a file
         SW.WriteLine                                                                            //Write some settings to this file
@@ -111,21 +93,21 @@ public class SaveLoad : MonoBehaviour {
         SW.WriteLine("Not Yet Implemented");
         SW.Close();                                                                             //Close the stream so the file isn't locked anymore
         //=== end of saving
-        LoadSaveList();                                                                     //Reload the list
+        LoadSaveList();                                                                         //Reload the list
         return true;                                                                            //Return false, File could not be saved
     }
-    public void _ShowSaveFolderInExplorer()                                              //Open the saves folder in Explorer
+    public void _ShowSaveFolderInExplorer()                                             //Open the saves folder in Explorer
     {
         string itemPath = SaveFolderPath.Replace(@"/", @"\");                                   //Axplorer doesn't like front slashes
         System.Diagnostics.Process.Start("explorer.exe", "/select," + itemPath);                //Open the saves folder with Explorer
     }
-    public bool _DeleteFile()
+    public bool _DeleteFile()                                                           //Delete a save file
     {
         string SaveName = ValidateName(TextSaveLoad.text);                                      //Check and edit the name of the given save name to be proper
-        if (TextSaveLoad.text == "")
+        if (TextSaveLoad.text == "")                                                            //If no file name has been given
         {
             Debug.LogWarning("No file name given");
-            return false;
+            return false;                                                                       //We can not load level NULL
         }
         String FileFolder = Path.Combine(SaveFolderPath, SaveName);                             //The folder to put the data of the SaveGame in
         if (Directory.Exists(FileFolder))                                                       //If we already have a save with this name
@@ -136,36 +118,27 @@ public class SaveLoad : MonoBehaviour {
         }
         return false;                                                                           //No save called that way
     }
-
-    public void LoadSaveList()
+    public void LoadSaveList()                                                          //Fill the SaveGameList with all saves
     {
         foreach (Transform child in List.transform)                                             //For each entry in the list
             GameObject.Destroy(child.gameObject);                                               //Remove the entry
-        string[] dir = Directory.GetDirectories(SaveFolderPath);
-
+        string[] dir = Directory.GetDirectories(SaveFolderPath);                                //Get all save games folders
         string RemovePath = Path.Combine(SaveFolderPath, "J");                                  //The save path + "J"
         RemovePath = RemovePath.Substring(0, RemovePath.Length - 1);                            //Remove the "J" (This will leave the / or \ behind
-
-        for (int i = 0; i < dir.Length; i++)
+        for (int i = 0; i < dir.Length; i++)                                                    //Do for each save game found
         {
             String SaveName = dir[i].Replace(RemovePath, "");                                   //Remove the save folders path, we only want the SaveGameName
-
-            GameObject go = GameObject.Instantiate(PrefabSaveGameItem);
-            go.transform.SetParent(List.transform);
-            go.transform.localScale = Vector3.one;
-
-            Text keyNameText = go.transform.Find("Button/Text").GetComponent<Text>();
-            keyNameText.text = SaveName;
-
-            Button keyBindButton = go.transform.Find("Button").GetComponent<Button>();
-            keyBindButton.onClick.AddListener(() => { ChangeSaveName(SaveName); });
+            GameObject go = GameObject.Instantiate(PrefabSaveGameItem);                         //Create a new entry
+            go.transform.SetParent(List.transform);                                             //Set there parrent
+            go.transform.Find("Button/Text").GetComponent<Text>().text = SaveName;              //Set the text on the button
+            go.transform.Find("Button").GetComponent<Button>().onClick.AddListener(() => { ChangeSaveName(SaveName); }); //Add the click action
         }
     }
-    void ChangeSaveName(string buttonName)
+    void ChangeSaveName(string buttonName)                                              //Attached to the prefab buttons with SaveGameNames
     {
-        TextSaveLoad.text = buttonName;
+        TextSaveLoad.text = buttonName;                                                         //Set the 'active edit' to be this SaveGameName
     }
-    private bool StringToWorld(string LevelData)                                        //Call this to build a world from a string
+    private bool StringToWorld(string LevelData)                                        //Build a world from a string
     {
         foreach (Transform child in FolderBuildings)                                            //For each building
             Destroy(child.gameObject);                                                          //Remove it from this scene
@@ -227,7 +200,7 @@ public class SaveLoad : MonoBehaviour {
         FolderBuildingPopUp.SetActive(false);
         return true;                                                                            //Return true, Scene has been loaden
     }
-    private string WorldToString()                                                      //Call this to get the world in string form
+    private string WorldToString()                                                      //Get the world in string form
     {
         String ReturnData = "";                                                                 //Create a string to put the data in
         foreach (Transform child in FolderBuildings)                                            //For each building that is in this scene
@@ -248,11 +221,11 @@ public class SaveLoad : MonoBehaviour {
         }
         return ReturnData;                                                                      //Return the whole string
     }
-    private string ValidateName(String SaveName)
+    private string ValidateName(String SaveName)                                        //Change the name to make sure it meets our rules
     {
-        SaveName = SaveName.Trim();                                                     //Remove spaces in the front and back
-        SaveName = SaveName.Replace("[.]", string.Empty);                               //Make sure that it doesn't have a dot in it (So it can't be a extention)
-        SaveName = SaveName.ToLower();                                                  //Make sure it's all lower case (just to make sure we dont get double names)
+        SaveName = SaveName.Trim();                                                             //Remove spaces in the front and back
+        SaveName = SaveName.Replace("[.]", string.Empty);                                       //Make sure that it doesn't have a dot in it (So it can't be a extention)
+        SaveName = SaveName.ToLower();                                                          //Make sure it's all lower case (just to make sure we dont get double names)
         return SaveName;
     }
 }
