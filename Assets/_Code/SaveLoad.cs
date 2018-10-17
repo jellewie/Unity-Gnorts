@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System;                                                                           //We need this to convert to bytes
-using System.IO;                                                                    //Required to read write files with the streamreader and streamwriter
+using System.IO;                                                                        //Required to read write files with the streamreader and streamwriter
 using UnityEngine.UI;
 /*  The format buildup of the Save/Load string is as follows
 Each new Line (Lines end at "\r") is a new building that consisting of: (each seperated by ",")
@@ -142,11 +142,15 @@ public class SaveLoad : MonoBehaviour {
         foreach (Transform child in List.transform)                                             //For each entry in the list
             GameObject.Destroy(child.gameObject);                                               //Remove the entry
         string[] dir = Directory.GetDirectories(SaveFolderPath);
+
+        string RemovePath = Path.Combine(SaveFolderPath, "J");                                  //The save path + "J"
+        RemovePath = RemovePath.Substring(0, RemovePath.Length - 1);                            //Remove the "J" (This will leave the / or \ behind
+
         for (int i = 0; i < dir.Length; i++)
         {
-            String SaveName = dir[i].Replace(SaveFolderPath, "");                               //Remove the save path, we only want the SaveGameName
+            String SaveName = dir[i].Replace(RemovePath, "");                                   //Remove the save folders path, we only want the SaveGameName
 
-            GameObject go = (GameObject)Instantiate(PrefabSaveGameItem);
+            GameObject go = GameObject.Instantiate(PrefabSaveGameItem);
             go.transform.SetParent(List.transform);
             go.transform.localScale = Vector3.one;
 

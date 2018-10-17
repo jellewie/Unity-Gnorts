@@ -514,7 +514,7 @@ public class UserInput : MonoBehaviour
         bool Responce = CodeSaveLoad.GetComponent<SaveLoad>()._DeleteFile();
         if (Responce)
         {
-            Debug.Log("Saved!");
+            Debug.Log("Deleted!");
         }
     }
 
