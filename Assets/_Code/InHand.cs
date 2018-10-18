@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using PublicCode;
 
 [RequireComponent(typeof(BoxCollider))]
 public class InHand : MonoBehaviour
@@ -20,7 +21,27 @@ public class InHand : MonoBehaviour
             boxCollider.size / 2.05f,
             transform.rotation,
             nonGroundLayerMask);
-        return Hits.Length > 0;                                                                 //Return true if there's at least 1 collider.
+
+
+
+        int ObjectsHitAmount = Hits.Length;                                                     //Store the amounts of objects hit so we could remove some if needed
+        string InhandObject = this.gameObject.GetComponent<BuildingOption>().BuildingName;      //Get this Buildings name
+        if (InhandObject == "Stone_Gate" || InhandObject == "Stone_Tower" || InhandObject == "Wooden_Gate") //If this is a Stone or wooden gate or tower
+        {
+            for (int i = 0; i < Hits.Length; i++)                                               //For each item hit
+            {
+                BuildType type = BuildingData.GetInfo(Hits[i].GetComponent<BuildingOption>().BuildingName).BuildType;   //Get it's type
+                if (type == BuildType.Wall || type == BuildType.SpikedWall)                     //If it's a wall or Spiked wall
+                {
+                    ObjectsHitAmount--;                                                         //Remove one from the Amount ObjectsHit list (This entry should be ignored)
+                    Debug.Log("is over a removeable wall " + type);
+                } 
+            }
+        }
+
+
+
+        return ObjectsHitAmount > 0;                                                            //Return true if there's at least 1 collider.
     }
 
     private void Start()                                                                //Triggered on start
