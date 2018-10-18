@@ -84,7 +84,7 @@ public class UserInput : MonoBehaviour
                         Mathf.Round(hit.point.y),                                               //the rounded Y mouse position
                         Mathf.Round(hit.point.z));                                              //the rounded Z mouse position
 
-                    BuildType type = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName).BuildType; //Save this for easy use
+                    BuildType type = BuildingData.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName).BuildType; //Save this for easy use
                     //ERROR LINE ABOVE: Building is missing the 'BuildingOption' code, please attach it to the object
                     if (type == BuildType.Wall || type == BuildType.SpikedWall)                 //If this building can move up and down
                     {
@@ -105,7 +105,7 @@ public class UserInput : MonoBehaviour
                         //Debug.DrawRay(OneForward, -transform.up * InHand.GetComponent<Collider>().bounds.size.y, Color.red);   //Just a debug line 
                         if (Physics.Raycast(OneForward, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from OneForward towards the ground, and mesaure the length to a building
                         {
-                            BuildType typeHit = CodeInputManager.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).BuildType;
+                            BuildType typeHit = BuildingData.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).BuildType;
                             if (typeHit == BuildType.Stair //if the object hit is a stair
                             && Mathf.RoundToInt(Mathf.Abs(hit.transform.eulerAngles.y - InHand.transform.eulerAngles.y)) == 180) //And the stair is in the oposide direction
                                 InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance) + 1, 0); //Move the stair down, so the top surface would match
@@ -127,7 +127,7 @@ public class UserInput : MonoBehaviour
                             //Debug.DrawRay(OneBackwards, -transform.up * (InHand.GetComponent<Collider>().bounds.size.y), Color.red); //Just a debug line 
                             if (Physics.Raycast(OneBackwards, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building"))) //Do a raycast from OneBackwards towards the ground, and mesaure the length to a building
                             {
-                                BuildType typeHit = CodeInputManager.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).BuildType;
+                                BuildType typeHit = BuildingData.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).BuildType;
                                 if (typeHit == BuildType.Stair //if the object hit is a stair
                                 && Mathf.RoundToInt(Mathf.Abs(hit.transform.eulerAngles.y - InHand.transform.eulerAngles.y)) != 180) //And the stair is not in the oposide direction
                                     InHand.transform.position += new Vector3(0, -Mathf.RoundToInt(hit.distance) + 1, 0); //Move the stair up, the stair is going up  
@@ -215,7 +215,7 @@ public class UserInput : MonoBehaviour
                         FolderBuildingPopUp.SetActive(true);                                    //Show BuildingPopUp
                         FolderBuildingPopUp.GetComponent<BuildingPopUp>().SelectBuilding(       //Open Pop-up window
                             hit.collider.gameObject,                                            //Send the gameobject that we have clicked on
-                            CodeInputManager.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial, //And it's special stats
+                            BuildingData.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial, //And it's special stats
                             ThisPlayerID
                             );
                         Debug.Log("You've clicked on " + hit.collider.name);
@@ -427,53 +427,55 @@ public class UserInput : MonoBehaviour
     }
     public void DeconstructBuilding(GameObject TheBuilding)                             //This code will give stuff back and deconstruct the building
     {
-        //If this line gives an error. Check if 'TheBuilding' had the code 'BuildingOption' attached to it. Also check that only this parrent is on the 'Building' layer 
-        Building BuildingInfo = CodeInputManager.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName);  //Get the buildings info (like cost etc)
-        if (TheBuilding.GetComponent<BuildingOption>().Used)                            //If the building is not brand new
+        //If this line gives an error. Check if 'TheBuilding' had the code 'BuildingOption' attached to it. Also check that only this parent is on the 'Building' layer 
+        BuildingInfo buildingInfo = BuildingData.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName);  //Get the buildings info (like cost etc)
+        ResourceManager resourceManager = CodeResourceManager.GetComponent<ResourceManager>();
+        if (TheBuilding.GetComponent<BuildingOption>().Used)                                    //If the building is not brand new
         {
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeWood (BuildingInfo.Cost_Wood  * JelleWho.DeconstructUsed); //Return some percentage
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(BuildingInfo.Cost_Stone * JelleWho.DeconstructUsed); //^
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeIron (BuildingInfo.Cost_Iron  * JelleWho.DeconstructUsed); //^
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeGold (BuildingInfo.Cost_Gold  * JelleWho.DeconstructUsed); //^
+            resourceManager.ChangeWood (buildingInfo.Cost.Wood  * JelleWho.DeconstructUsed);    //Return some percentage
+            resourceManager.ChangeStone(buildingInfo.Cost.Stone * JelleWho.DeconstructUsed);    //^
+            resourceManager.ChangeIron (buildingInfo.Cost.Iron  * JelleWho.DeconstructUsed);    //^
+            resourceManager.ChangeGold (buildingInfo.Cost.Gold  * JelleWho.DeconstructUsed);    //^
         }
         else
         {
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeWood (BuildingInfo.Cost_Wood  * JelleWho.DeconstructUnused); //Return some percentage
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(BuildingInfo.Cost_Stone * JelleWho.DeconstructUnused); //^
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeIron (BuildingInfo.Cost_Iron  * JelleWho.DeconstructUnused); //^
-            CodeResourceManager.GetComponent<ResourceManager>().ChangeGold (BuildingInfo.Cost_Gold  * JelleWho.DeconstructUnused); //^
+            resourceManager.ChangeWood (buildingInfo.Cost.Wood  * JelleWho.DeconstructUnused);  //Return some percentage
+            resourceManager.ChangeStone(buildingInfo.Cost.Stone * JelleWho.DeconstructUnused);  //^
+            resourceManager.ChangeIron (buildingInfo.Cost.Iron  * JelleWho.DeconstructUnused);  //^
+            resourceManager.ChangeGold (buildingInfo.Cost.Gold  * JelleWho.DeconstructUnused);  //^
         }
-        TheBuilding.GetComponent<BuildingOption>()._Destroy();                           //Destroy the building
+        TheBuilding.GetComponent<BuildingOption>()._Destroy();                                  //Destroy the building
     }
-    private string CanWePayFor(GameObject TheBuilding)                                  //Checks if we can pay for a building, and pays if posible. else it will return what we don't have enough off
+    private string CanWePayFor(GameObject TheBuilding)                                  //Checks if we can pay for a building, and pays if possible. else it will return what we don't have enough off
     {
-        Building BuildingInfo = CodeInputManager.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName);
+        BuildingInfo buildingInfo = BuildingData.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName);
         //Debug.Log("Type=" + BuildingInfo.Name +" Cost_Wood=" + BuildingInfo.Cost_Wood +" Cost_Stone=" + BuildingInfo.Cost_Stone +" Cost_Iron=" + BuildingInfo.Cost_Iron +" Cost_Gold=" + BuildingInfo.Cost_Gold);
-        if (CodeResourceManager.GetComponent<ResourceManager>().Wood >= BuildingInfo.Cost_Wood)             //If we have enough Wood
+        ResourceManager resourceManager = CodeResourceManager.GetComponent<ResourceManager>();
+        if (resourceManager.Wood >= buildingInfo.Cost.Wood)                                     //If we have enough Wood
         {
-            if (CodeResourceManager.GetComponent<ResourceManager>().Stone >= BuildingInfo.Cost_Stone)       //If we have enough Stone
+            if (resourceManager.Stone >= buildingInfo.Cost.Stone)                               //If we have enough Stone
             {
-                if (CodeResourceManager.GetComponent<ResourceManager>().Iron >= BuildingInfo.Cost_Iron)     //If we have enough Iron
+                if (resourceManager.Iron >= buildingInfo.Cost.Iron)                             //If we have enough Iron
                 {
-                    if (CodeResourceManager.GetComponent<ResourceManager>().Gold >= BuildingInfo.Cost_Gold) //If we have enough Gold
+                    if (resourceManager.Gold >= buildingInfo.Cost.Gold)                         //If we have enough Gold
                     {
-                        CodeResourceManager.GetComponent<ResourceManager>().ChangeWood (-BuildingInfo.Cost_Wood);  //Remove the cost from the wood the player has
-                        CodeResourceManager.GetComponent<ResourceManager>().ChangeStone(-BuildingInfo.Cost_Stone); //^
-                        CodeResourceManager.GetComponent<ResourceManager>().ChangeIron (-BuildingInfo.Cost_Iron);  //^
-                        CodeResourceManager.GetComponent<ResourceManager>().ChangeGold (-BuildingInfo.Cost_Gold);  //^
+                        resourceManager.ChangeWood (-buildingInfo.Cost.Wood);                   //Remove the cost from the wood the player has
+                        resourceManager.ChangeStone(-buildingInfo.Cost.Stone);                  //^
+                        resourceManager.ChangeIron (-buildingInfo.Cost.Iron);                   //^
+                        resourceManager.ChangeGold (-buildingInfo.Cost.Gold);                   //^
                         return "Done";                                                          //Return with; the payed = Done command
                     }
                     else
-                        return "Gold";                                                          //Return with; We dont have enough of this
+                        return "Gold";                                                          //Return with; We don't have enough of this
                 }
                 else
-                    return "Iron";                                                              //Return with; We dont have enough of this
+                    return "Iron";                                                              //Return with; We don't have enough of this
             }
             else
-                return "Stone";                                                                 //Return with; We dont have enough of this
+                return "Stone";                                                                 //Return with; We don't have enough of this
         }
         else
-            return "Wood";                                                                      //Return with; We dont have enough of this
+            return "Wood";                                                                      //Return with; We don't have enough of this
     }
     private void SetCursor(Texture2D NewCursorIcon)                                     //Call this to change the mouse icon (Use 'NULL' to reset to normal)
     {

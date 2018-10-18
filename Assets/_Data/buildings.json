@@ -1,0 +1,587 @@
+[
+  {
+    "Name": "Bridge",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 10,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Moat",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 2
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Mangonel_Tower",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 100
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Ballista_Tower",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 100
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Town_Square",
+    "Cost": {
+      "Wood": 10,
+      "Stone": 10,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Fire_Basket",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 10
+    },
+    "FirstFree": false,
+    "BuildType": 4,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Trap_Pit",
+    "Cost": {
+      "Wood": 5,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Keep",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 2,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Armory",
+    "Cost": {
+      "Wood": 10,
+      "Stone": 5,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 6,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Barracks",
+    "Cost": {
+      "Wood": 5,
+      "Stone": 15,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 7,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Swords_Maker",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 150
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Bow_Maker",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 150
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Spear_Maker",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 150
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Leather_Jacket_Maker",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 150
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Blacksmith_Armor",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 150
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Blacksmith_Tools",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 150
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Wooden_Wall",
+    "Cost": {
+      "Wood": 1,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 1,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Wooden_Wall_Spiked",
+    "Cost": {
+      "Wood": 1,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 2,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Wooden_Gate",
+    "Cost": {
+      "Wood": 15,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 1,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Wooden_Tower",
+    "Cost": {
+      "Wood": 20,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Wooden_Stair",
+    "Cost": {
+      "Wood": 5,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 3,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Stone_Wall",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 1,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 1,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Stone_Wall_Spiked",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 1,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 2,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Stone_Gate",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 30,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 1,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Stone_Stair",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 5,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 3,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Stone_Tower",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 40,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Stockpile",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 5,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": true,
+    "BuildType": 0,
+    "ClickSpecial": 8,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Lumberjack_Hut",
+    "Cost": {
+      "Wood": 10,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": true,
+    "BuildType": 0,
+    "ClickSpecial": 4,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Stone_Quarry",
+    "Cost": {
+      "Wood": 20,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 4,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Iron_Mine",
+    "Cost": {
+      "Wood": 20,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 4,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Ox_Transport",
+    "Cost": {
+      "Wood": 3,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 5
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 3,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Repair_Building",
+    "Cost": {
+      "Wood": 10,
+      "Stone": 5,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Granary",
+    "Cost": {
+      "Wood": 25,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": true,
+    "BuildType": 0,
+    "ClickSpecial": 5,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Apple_Farm",
+    "Cost": {
+      "Wood": 10,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Cow_Farm",
+    "Cost": {
+      "Wood": 20,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Hunter",
+    "Cost": {
+      "Wood": 10,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Wheat_Farm",
+    "Cost": {
+      "Wood": 10,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Mill",
+    "Cost": {
+      "Wood": 20,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Baker",
+    "Cost": {
+      "Wood": 10,
+      "Stone": 5,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Fishery",
+    "Cost": {
+      "Wood": 10,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Home",
+    "Cost": {
+      "Wood": 15,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Trading_House",
+    "Cost": {
+      "Wood": 25,
+      "Stone": 5,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 9,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Church",
+    "Cost": {
+      "Wood": 20,
+      "Stone": 40,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 10,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Water_Well",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 10,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "Alchemist",
+    "Cost": {
+      "Wood": 10,
+      "Stone": 10,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  }
+]

@@ -66,36 +66,12 @@ namespace PublicCode {
             this.Desc = description;                                                            //(To SET data) 3rd part is a string,   The description (hoverover text)
         }
     }
-    public class Building                                                               //Create a new Class data type to store buildings build price and settings
-    {
-        public string Name;                                                                     //The name of the building (for later lookup)
-        public byte Cost_Wood;                                                                  //(To GET data) 1th part is a byte,     The cost of the building when it's being build
-        public byte Cost_Stone;                                                                 //^
-        public byte Cost_Iron;                                                                  //^
-        public byte Cost_Gold;                                                                  //^
-        public bool FirstFree;                                                                  //(To GET data)                         If the first one is free is you can't pay for it (Stockpile, woodcutter)
-        public BuildType BuildType;                                                             //(To GET data)                         If this building has special build code (like walls; higher lower)
-        public byte ClickSpecial;                                                               //(To GET data)                         If this building has special click code (like gates; open/close)
-        public byte DestroySpecial;
-        public Building(string Name, byte Cost_Wood, byte Cost_Stone, byte Cost_Iron, byte Cost_Gold, bool FirstFree, BuildType buildType, byte ClickSpecial, byte DestroySpecial)   //Create a way to add all data at once
-        {
-            this.Name = Name;                                                                   //(To SET data) 1th part is a string
-            this.Cost_Wood = Cost_Wood;                                                         //^
-            this.Cost_Stone = Cost_Stone;                                                       //^
-            this.Cost_Iron = Cost_Iron;                                                         //^
-            this.Cost_Gold = Cost_Gold;                                                         //^
-            this.FirstFree = FirstFree;                                                         //^
-            this.BuildType = buildType;                                                         //^
-            this.ClickSpecial = ClickSpecial;                                                   //^
-            this.DestroySpecial = DestroySpecial;                                               //^
-        }
-    }
     public class Keys                                                                   //Create a new Class data type to store all keybindings in
     {
         public string Name;                                                                     //(To GET data) 1th part is a string,   The name
-        public UnityEngine.KeyCode Key_;                                                                     //(To GET data) 1th part is a string,   The set key
+        public UnityEngine.KeyCode Key_;                                                        //(To GET data) 1th part is a string,   The set key
         public string Desc;                                                                     //(To GET data) 1th part is a string,   The description (hoverover text)
-        public Keys(string Name, UnityEngine.KeyCode Key_, string Desc)                                       //Create a way to add all data at once
+        public Keys(string Name, UnityEngine.KeyCode Key_, string Desc)                         //Create a way to add all data at once
         {
             this.Name = Name;                                                                   //(To SET data) 1th part is a string,   The name
             this.Key_ = Key_;                                                                   //(To SET data) 2nd part is a bool,     The default state

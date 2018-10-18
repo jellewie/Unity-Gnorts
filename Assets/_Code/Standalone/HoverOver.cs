@@ -18,14 +18,12 @@ IEndDragHandler
     private GameObject ParentHoverOver;                                                         //The parrent
     private GameObject OBJHoverOver;                                                            //The child we are going to move and enable/disable (We can't to the parent or we will lose track of the parent)
     private UserInput CodeUserInput;                                                            //The UserInput code
-    private InputManager CodeInputManager;                                                      //The InputManager code
     private Text TextBox;                                                                       //The child textbox
     private bool MouseIsOver;                                                                   //A bool that keeps track if the mouse is over this object
     private Vector2 HorzontalOffzet;                                                            //Offset direction
     private void Start()                                                                //Run once on startup
     {
         ParentHoverOver = GameObject.Find("HoverOver");                                         //Get the Code HoverOver
-        CodeInputManager = GameObject.Find("InputManager").GetComponent<InputManager>();        //Get the Code InputManager
         CodeUserInput = GameObject.Find("UserInput").GetComponent<UserInput>();                 //Get the Code UserInput
         OBJHoverOver = ParentHoverOver.transform.GetChild(0).gameObject;                        //Get the object we are going to move and enable/disable
         Image_RectTransform = OBJHoverOver.GetComponent<RectTransform>();                       //Set the RectTransform reference (Needed for size measurement        
@@ -52,20 +50,20 @@ IEndDragHandler
             );
         if (Prefab != null)                                                                     //If a Prefab is set
         {
-            Building BuildingInfo = CodeInputManager.GetInfo(Prefab.name);                      //Get the building info
+            BuildingInfo BuildingInfo = BuildingData.GetInfo(Prefab.name);                //Get the building info
             if (BuildingInfo.Name != "N/A")                                                     //If we have not encountered an error
             {
-                if (BuildingInfo.Cost_Wood > 0)                                                 //If this building needs wood
+                if (BuildingInfo.Cost.Wood > 0)                                                 //If this building needs wood
                 {
-                    TextBox.text += "\n" + BuildingInfo.Cost_Wood + " Wood";                    //Show howmuch wood it needs to be build
+                    TextBox.text += "\n" + BuildingInfo.Cost.Wood + " Wood";                    //Show howmuch wood it needs to be build
                 }
-                if (BuildingInfo.Cost_Stone > 0)                                                //If this building needs Stone
+                if (BuildingInfo.Cost.Stone > 0)                                                //If this building needs Stone
                 {
-                    TextBox.text += "\n" + BuildingInfo.Cost_Stone + " Stone";                  //Show howmuch Stone it needs to be build
+                    TextBox.text += "\n" + BuildingInfo.Cost.Stone + " Stone";                  //Show howmuch Stone it needs to be build
                 }
-                if (BuildingInfo.Cost_Gold > 0)                                                 //If this building needs Stone
+                if (BuildingInfo.Cost.Gold > 0)                                                 //If this building needs Stone
                 {
-                    TextBox.text += "\n" + BuildingInfo.Cost_Gold + " Gold";                    //Show howmuch Gold it needs to be build
+                    TextBox.text += "\n" + BuildingInfo.Cost.Gold + " Gold";                    //Show howmuch Gold it needs to be build
                 }
             }
         }
