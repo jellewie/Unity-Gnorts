@@ -30,7 +30,6 @@ public class BuildingPopUp : MonoBehaviour {
             GameObject.Find("UserInput").GetComponent<UserInput>().ShowMessage("You do not own this building");
             this.gameObject.SetActive(false);                                                   //Hide BuildingPopUp
         }
-        
     }
     void InputDropdown(Dropdown change)                                                 //Triggered when the dropdown menu changes
     {
@@ -43,27 +42,27 @@ public class BuildingPopUp : MonoBehaviour {
     {
         if (ClickSpecial == 1)                                                                  //If it's a Gate
         {
-            GameObject GateOpen = Building.transform.Find("GateOpen").gameObject;                   //Get the gate
+            GameObject GateOpen = Building.transform.Find("GateOpen").gameObject;               //Get the gate
             if (ToOption < 255)                                                                 //If we need to go to an option
             {
-                GameObject GateClose = Building.transform.Find("GateClose").gameObject;             //Get the gate
+                GameObject GateClose = Building.transform.Find("GateClose").gameObject;         //Get the gate
                 if (ToOption == 0)                                                              //If value has been changed to 0 (Close Gate)
                 {
-                    GateOpen.SetActive(false);                                                      //Hide the closed gate
-                    GateClose.SetActive(true);                                                      //Show the open gate
+                    GateOpen.SetActive(true);                                                   //Hide the closed gate
+                    GateClose.SetActive(false);                                                 //Show the open gate
                 }
                 else
                 {
-                    GateOpen.SetActive(true);                                                       //Show the closed gate
-                    GateClose.SetActive(false);                                                     //Hide the open gate
+                    GateOpen.SetActive(false);                                                  //Show the closed gate
+                    GateClose.SetActive(true);                                                  //Hide the open gate
                 }
             }
             else
             {
-                if (GateOpen.activeSelf)                                                            //If the gate is active
-                    ToOption = 1;                                                               //Set the value to 1 (Open)
+                if (GateOpen.activeSelf)                                                        //If the gate is active
+                    ToOption = 0;                                                               //Set the value to 1 (Open)
                 else
-                    ToOption = 0;                                                               //Set the value to 0 (Closed)
+                    ToOption = 1;                                                               //Set the value to 0 (Closed)
             }
             if (PopUp)                                                                          //If we need a PopUp window
             {
