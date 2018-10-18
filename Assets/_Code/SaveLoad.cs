@@ -185,7 +185,7 @@ public class SaveLoad : MonoBehaviour {
                         a.transform.SetParent(FolderBuildings);                                 //Sort the object in to the Blocks folder
                         a.GetComponent<BuildingOption>().SetStats(DataActive, DataSelectedOption, DataHealth, OwnerID);//Set the BuildingOption
 
-                        byte SelectedBuildingSpecial = CodeInputManager.GetInfo(a.GetComponent<BuildingOption>().BuildingName).ClickSpecial; //And it's special stats
+                        byte SelectedBuildingSpecial = BuildingData.GetInfo(BuildingTypeName).ClickSpecial; //And it's special stats
                         if (SelectedBuildingSpecial > 0)                                        //If his building has a special stats
                             FolderBuildingPopUp.GetComponent<BuildingPopUp>().ChangeOption(a, SelectedBuildingSpecial, false, DataSelectedOption); //Do the special code
                         i = Objects.Length;                                                     //Stop the loop we have found the building, and are done with it
