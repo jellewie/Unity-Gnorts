@@ -206,7 +206,7 @@ public class UserInput : MonoBehaviour
             }
             else
             {
-                if (CodeInputManager.GetButtonDownOnce(ButtonId.Build))                           //If the button is pressed for the first time
+                if (CodeInputManager.GetButtonDownOnce(ButtonId.Build))                         //If the button is pressed for the first time
                 {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
                     RaycastHit hit;                                                             //Create a output variable
@@ -357,6 +357,10 @@ public class UserInput : MonoBehaviour
         }
         BuildFirstTry = false;                                                                  //Flag that we have processed the start of this button press
         buildKeyDownTime = 0;                                                                   //Reset the message timer (this if for keep dragging support)
+        if (inHand.OverOthers > 0 )
+        {
+            Debug.Log("It's over something we ban build over, so we should remove that (NYI)"); //TODO FIXME
+        }
         string Pay = CanWePayFor(prefab);                                                       //Create a new string, will return what we are missing if we can't build
         if (Pay == "Done")                                                                      //If we do have enough to build this building
         {

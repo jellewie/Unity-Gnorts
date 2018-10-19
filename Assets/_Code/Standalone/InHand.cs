@@ -9,6 +9,7 @@ public class InHand : MonoBehaviour
     private int nonGroundLayerMask;
     public bool validPlacement = true;
     private Renderer[] renderers;
+    public int OverOthers;
 
     /// <summary>
     /// Check if there is something colliding.</summary>
@@ -22,26 +23,22 @@ public class InHand : MonoBehaviour
             transform.rotation,
             nonGroundLayerMask);
 
-
-
-        int ObjectsHitAmount = Hits.Length;                                                     //Store the amounts of objects hit so we could remove some if needed
+        OverOthers = 0;
+        int InvalidObjectsHitAmount = Hits.Length;
         string InhandObject = this.gameObject.GetComponent<BuildingOption>().BuildingName;      //Get this Buildings name
         if (InhandObject == "Stone_Gate" || InhandObject == "Stone_Tower" || InhandObject == "Wooden_Gate") //If this is a Stone or wooden gate or tower
         {
             for (int i = 0; i < Hits.Length; i++)                                               //For each item hit
             {
-                BuildType type = BuildingData.GetInfo(Hits[i].GetComponent<BuildingOption>().BuildingName).BuildType;   //Get it's type
+                BuildType type = BuildingData.GetInfo(Hits[i].GetComponent<BuildingOption>().BuildingName).BuildType; //Get it's type
                 if (type == BuildType.Wall || type == BuildType.SpikedWall)                     //If it's a wall or Spiked wall
-                {
-                    ObjectsHitAmount--;                                                         //Remove one from the Amount ObjectsHit list (This entry should be ignored)
-                    Debug.Log("is over a removeable wall " + type);
-                } 
+                    OverOthers++;                                                               //Add 1 to the counter
+                else
+                    i = Hits.Length;                                                            //Stop the loop code, we have found something invalid. No point in going on
             }
+            InvalidObjectsHitAmount -= OverOthers;
         }
-
-
-
-        return ObjectsHitAmount > 0;                                                            //Return true if there's at least 1 collider.
+        return InvalidObjectsHitAmount > 0;                                                            //Return true if there's at least 1 collider.
     }
 
     private void Start()                                                                //Triggered on start
@@ -106,12 +103,12 @@ public class InHand : MonoBehaviour
     /// <summary>
     /// Ensure the object looks normal again when this component is destroyed.
     /// </summary>
-    private void OnDestroy()                                                            //If the Gamobject InHand gets destroyed
+    private void OnDestroy()                                                            //If the Gamobject InHand gets destroyed (and it's either placed down or canceled)
     {
-            //The renderer references are already gone, so get them again temporarily.
-            renderers = gameObject.GetComponentsInChildren<Renderer>();
-            ShowAsNormal();
-            renderers = null;
+        //The renderer references are already gone, so get them again temporarily.
+        renderers = gameObject.GetComponentsInChildren<Renderer>();
+        ShowAsNormal();
+        renderers = null;
     }
 
 }
