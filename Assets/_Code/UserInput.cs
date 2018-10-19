@@ -219,7 +219,6 @@ public class UserInput : MonoBehaviour
                             BuildingData.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial, //And it's special stats
                             ThisPlayerID
                             );
-                        Debug.Log("You've clicked on " + hit.collider.name);
                     }
                 }
             }
