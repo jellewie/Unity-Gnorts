@@ -355,16 +355,19 @@ public class UserInput : MonoBehaviour
                 ShowMessage("Can't build here ");                                               //Give player more feedback
             return;                                                                             //Don't do anything else
         }
-        BuildFirstTry = false;                                                                  //Flag that we have processed the start of this button press
-        buildKeyDownTime = 0;                                                                   //Reset the message timer (this if for keep dragging support)
-        if (inHand.RemoveObjectsHit.Count > 0 )                                                 //If there are objects we need to remove
-        {
-            for (int i = 0; i < inHand.RemoveObjectsHit.Count; i++)                             //Do for each object
-                Destroy(inHand.RemoveObjectsHit[i]);                                            //Destor it
-        }
+        
         string Pay = CanWePayFor(prefab);                                                       //Create a new string, will return what we are missing if we can't build
         if (Pay == "Done")                                                                      //If we do have enough to build this building
         {
+            BuildFirstTry = false;                                                                  //Flag that we have processed the start of this button press
+            buildKeyDownTime = 0;                                                                   //Reset the message timer (this if for keep dragging support)
+            if (inHand.RemoveObjectsHit.Count > 0)                                                  //If there are objects we need to remove
+            {
+                for (int i = 0; i < inHand.RemoveObjectsHit.Count; i++)                             //Do for each object
+                {
+                    DeconstructBuilding(inHand.RemoveObjectsHit[i]);                                //Deconstruct the building
+                }
+            }
             GameObject building = Instantiate(prefab);                                          //Clone the prefab as a new building
             building.layer = LayerMask.NameToLayer("Building");                                 //Set this to be in the building layer (so we can't build on this anymore)
             building.transform.SetParent(FolderBuildings);                                      //Sort the building in the right folder
