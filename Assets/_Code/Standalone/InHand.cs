@@ -27,13 +27,26 @@ public class InHand : MonoBehaviour
         RemoveObjectsHit = new List<GameObject>();                                              //Make sure the list is emthy
         int InvalidObjectsHitAmount = Hits.Length;                                              //Get the total amount of objects in the way
         string InhandObject = this.gameObject.GetComponent<BuildingOption>().BuildingName;      //Get this Buildings name
-        if (InhandObject == "Stone_Gate" || InhandObject == "Stone_Tower" || InhandObject == "Wooden_Gate") //If this is a Stone or wooden gate or tower
+        if (InhandObject == "Stone_Gate" || InhandObject == "Stone_Tower" || InhandObject == "Wooden_Gate" || InhandObject == "Wooden_Tower") //If this is a Stone or wooden gate or tower
         {
             for (int i = 0; i < Hits.Length; i++)                                               //For each item hit
             {
                 BuildType type = BuildingData.GetInfo(Hits[i].GetComponent<BuildingOption>().BuildingName).BuildType; //Get it's type
                 if (type == BuildType.Wall || type == BuildType.SpikedWall)                     //If it's a wall or Spiked wall
                     RemoveObjectsHit.Add(Hits[i].gameObject);                                   //Store it in the list so we would be able to remove it upon placement
+                else
+                    i = Hits.Length;                                                            //Stop the loop code, we have found something invalid. No point in going on
+            }
+            InvalidObjectsHitAmount -= RemoveObjectsHit.Count;                                  //Calculate the invalid objects in the way of a placement
+        }
+        else if(InhandObject == "Stone_Wall_Spiked" || InhandObject == "Wooden_Wall_Spiked" || InhandObject == "Stone_Wall" || InhandObject == "Wooden_Wall")    //If it's a wall
+        {
+            for (int i = 0; i < Hits.Length; i++)                                               //For each item hit
+            {
+                BuildType type = BuildingData.GetInfo(Hits[i].GetComponent<BuildingOption>().BuildingName).BuildType; //Get it's type
+                if (type == BuildType.Wall || type == BuildType.SpikedWall)                     //If it's a (Spiked) wall
+                    if (Hits[i].GetComponent<BuildingOption>().BuildingName != InhandObject)    //If the object isn't this one
+                        RemoveObjectsHit.Add(Hits[i].gameObject);                               //Store it in the list so we would be able to remove it upon placement
                 else
                     i = Hits.Length;                                                            //Stop the loop code, we have found something invalid. No point in going on
             }
