@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -121,22 +120,3 @@ public struct BuildingInfo
     /// </summary>
     public byte DestroySpecial;
 }
-
-/*
-    SpecialBuild
-    1 Wall (Can move up and down)
-    2 Stair (Will move up and down by its surroundings)
-    3 FirePit (Can only be build on top of: Stone_Wall || Stone_Gate || Stone_Tower)
-
-    SpecialClick (Please check BuildingPopUp.cs in the code 'if (PopUp)' to what options we have
-    1 Gate  (gate status) 
-    2 Keep  (tax rate) Default:3-no tax
-    3 Ox_Transport (only move this resource) 254 = not set yet
-    4 Lumberjack_Hut || Stone_Quarry || Iron_Mine  (How to move the products)
-    5 Granary (Rations)[also Needs a new window] See whats in the Granary - ?ban certain food to be consumed?
-    6 Armory                [Needs a new window] See whats in the Armory
-    7 Barracks              [Needs a new window] Build troops (with auto buy tools option)
-    8 Stockpile             [Needs a new window] See whats in the stockpile
-    9 Trading_House         [Needs a new window] 
-    10 Church               [Needs a new window] Bribe/donate
-*/
