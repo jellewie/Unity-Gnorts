@@ -25,7 +25,7 @@ public class UserInput : MonoBehaviour
     public Texture2D MouseDeconstruct;                                                  //The mouse icon of the deconstruct tool
     public Byte ThisPlayerID;
     Quaternion PreviousRotation;
-    public float InvalidBuildTimeThreshold = 0.2f;                                      //How long before we show a message about not being able to build
+    private readonly float InvalidBuildTimeThreshold = 0.5f;                                //How long before we show a message about not being able to build
 
     public bool IsDragging { get; set; }                                                //Are we dragging something?
 
@@ -36,6 +36,7 @@ public class UserInput : MonoBehaviour
     private bool DeconstructToolEquiped;                                                //If the DeconstructTool is Equiped
     private float deltaTime = 0.0f;                                                     //The time between this and the last frame
     private float buildKeyDownTime;                                                     //How long the build key has been down
+    private bool BuildFirstTry = true;
     public float Speed;                                                                 //Speed multiblecation for controls (zoom out slowdown)
 
     private void Start()                                                                //Triggered on start
@@ -224,10 +225,12 @@ public class UserInput : MonoBehaviour
             }
         }
 
-        if (CodeInputManager.GetButtonUp(ButtonId.Build))                                         //Check if the build key was released
+        if (CodeInputManager.GetButtonUp(ButtonId.Build))                                       //Check if the build key was released
+        {
             buildKeyDownTime = 0;                                                               //Reset the timer
-
-        if (CodeInputManager.GetButtonDownOnce(ButtonId.WallsHigher) && LowerObjectBy > 0)        //If we want to higher the object && the object is lower than the max heigth
+            BuildFirstTry = true;
+        }
+        if (CodeInputManager.GetButtonDownOnce(ButtonId.WallsHigher) && LowerObjectBy > 0)      //If we want to higher the object && the object is lower than the max heigth
             LowerObjectBy--;                                                                    //higher the object
         else if (CodeInputManager.GetButtonDownOnce(ButtonId.WallsLower))                         //If we want to lower the object
             LowerObjectBy++;                                                                    //lower the object
@@ -344,10 +347,17 @@ public class UserInput : MonoBehaviour
         InHand inHand = prefab.GetComponent<InHand>();                                          //Get a reference to the in-hand component
         if (inHand == null || !inHand.validPlacement || inHand.CheckCollision())                //Check if everything is clear
         {
+            if (BuildFirstTry)                                                                  //If the user is starting to trying to build 
+            {
+                ShowMessage("Can't build here");                                                //Give player more feedback
+                BuildFirstTry = false;                                                          //Flag that we have processed the start of this button press
+            }
             if (buildKeyDownTime > InvalidBuildTimeThreshold)                                   //Have we been trying to build here long?
                 ShowMessage("Can't build here");                                                //Give player more feedback
             return;                                                                             //Don't do anything else
         }
+        BuildFirstTry = false;                                                                  //Flag that we have processed the start of this button press
+        buildKeyDownTime = 0;                                                                   //Reset the message timer (this if for keep dragging support)
         string Pay = CanWePayFor(prefab);                                                       //Create a new string, will return what we are missing if we can't build
         if (Pay == "Done")                                                                      //If we do have enough to build this building
         {
