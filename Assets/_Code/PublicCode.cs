@@ -88,7 +88,8 @@ namespace PublicCode {
         Wall,
         SpikedWall,
         Stair,
-        FireBasket
+        FireBasket,
+        ReplaceWall
     }
 }
 

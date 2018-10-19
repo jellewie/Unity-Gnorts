@@ -242,7 +242,7 @@
       "Gold": 0
     },
     "FirstFree": false,
-    "BuildType": 0,
+    "BuildType": 5,
     "ClickSpecial": 1,
     "DestroySpecial": 0
   },
@@ -255,7 +255,7 @@
       "Gold": 0
     },
     "FirstFree": false,
-    "BuildType": 0,
+    "BuildType": 5,
     "ClickSpecial": 0,
     "DestroySpecial": 0
   },
@@ -307,7 +307,7 @@
       "Gold": 0
     },
     "FirstFree": false,
-    "BuildType": 0,
+    "BuildType": 5,
     "ClickSpecial": 1,
     "DestroySpecial": 0
   },
@@ -333,7 +333,7 @@
       "Gold": 0
     },
     "FirstFree": false,
-    "BuildType": 0,
+    "BuildType": 5,
     "ClickSpecial": 0,
     "DestroySpecial": 0
   },
