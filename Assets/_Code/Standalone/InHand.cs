@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using PublicCode;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(BoxCollider))]
 public class InHand : MonoBehaviour
@@ -9,8 +10,8 @@ public class InHand : MonoBehaviour
     private int nonGroundLayerMask;
     public bool validPlacement = true;
     private Renderer[] renderers;
-    public int OverOthers;
-
+    public List<GameObject> RemoveObjectsHit = new List<GameObject>();
+    
     /// <summary>
     /// Check if there is something colliding.</summary>
     /// <returns>Collision indicator</returns>
@@ -23,8 +24,8 @@ public class InHand : MonoBehaviour
             transform.rotation,
             nonGroundLayerMask);
 
-        OverOthers = 0;
-        int InvalidObjectsHitAmount = Hits.Length;
+        RemoveObjectsHit = new List<GameObject>();                                              //Make sure the list is emthy
+        int InvalidObjectsHitAmount = Hits.Length;                                              //Get the total amount of objects in the way
         string InhandObject = this.gameObject.GetComponent<BuildingOption>().BuildingName;      //Get this Buildings name
         if (InhandObject == "Stone_Gate" || InhandObject == "Stone_Tower" || InhandObject == "Wooden_Gate") //If this is a Stone or wooden gate or tower
         {
@@ -32,13 +33,13 @@ public class InHand : MonoBehaviour
             {
                 BuildType type = BuildingData.GetInfo(Hits[i].GetComponent<BuildingOption>().BuildingName).BuildType; //Get it's type
                 if (type == BuildType.Wall || type == BuildType.SpikedWall)                     //If it's a wall or Spiked wall
-                    OverOthers++;                                                               //Add 1 to the counter
+                    RemoveObjectsHit.Add(Hits[i].gameObject);                                   //Store it in the list so we would be able to remove it upon placement
                 else
                     i = Hits.Length;                                                            //Stop the loop code, we have found something invalid. No point in going on
             }
-            InvalidObjectsHitAmount -= OverOthers;
+            InvalidObjectsHitAmount -= RemoveObjectsHit.Count;                                  //Calculate the invalid objects in the way of a placement
         }
-        return InvalidObjectsHitAmount > 0;                                                            //Return true if there's at least 1 collider.
+        return InvalidObjectsHitAmount > 0;                                                     //Return true if there's at least 1 collider.
     }
 
     private void Start()                                                                //Triggered on start

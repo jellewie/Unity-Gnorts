@@ -348,18 +348,19 @@ public class UserInput : MonoBehaviour
         {
             if (BuildFirstTry)                                                                  //If the user is starting to trying to build 
             {
-                ShowMessage("Can't build here");                                                //Give player more feedback
+                ShowMessage("Can't build here ");                                               //Give player more feedback
                 BuildFirstTry = false;                                                          //Flag that we have processed the start of this button press
             }
             if (buildKeyDownTime > InvalidBuildTimeThreshold)                                   //Have we been trying to build here long?
-                ShowMessage("Can't build here");                                                //Give player more feedback
+                ShowMessage("Can't build here ");                                               //Give player more feedback
             return;                                                                             //Don't do anything else
         }
         BuildFirstTry = false;                                                                  //Flag that we have processed the start of this button press
         buildKeyDownTime = 0;                                                                   //Reset the message timer (this if for keep dragging support)
-        if (inHand.OverOthers > 0 )
+        if (inHand.RemoveObjectsHit.Count > 0 )                                                 //If there are objects we need to remove
         {
-            Debug.Log("It's over something we ban build over, so we should remove that (NYI)"); //TODO FIXME
+            for (int i = 0; i < inHand.RemoveObjectsHit.Count; i++)                             //Do for each object
+                Destroy(inHand.RemoveObjectsHit[i]);                                            //Destor it
         }
         string Pay = CanWePayFor(prefab);                                                       //Create a new string, will return what we are missing if we can't build
         if (Pay == "Done")                                                                      //If we do have enough to build this building
