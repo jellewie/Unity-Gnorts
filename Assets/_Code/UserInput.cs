@@ -462,6 +462,12 @@ public class UserInput : MonoBehaviour
             resourceManager.ChangeIron (buildingInfo.Cost.Iron  * JelleWho.DeconstructUnused);  //^
             resourceManager.ChangeGold (buildingInfo.Cost.Gold  * JelleWho.DeconstructUnused);  //^
         }
+
+        byte DestroySpecial = BuildingData.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName).DestroySpecial;
+        if (DestroySpecial > 0)
+            Debug.Log(DestroySpecial);
+
+
         TheBuilding.GetComponent<BuildingOption>()._Destroy();                                  //Destroy the building
     }
     private string CanWePayFor(GameObject TheBuilding)                                  //Checks if we can pay for a building, and pays if possible. else it will return what we don't have enough off

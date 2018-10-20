@@ -218,7 +218,7 @@
     "FirstFree": false,
     "BuildType": 1,
     "ClickSpecial": 0,
-    "DestroySpecial": 0
+    "DestroySpecial": 1
   },
   {
     "Name": "Wooden_Wall_Spiked",
@@ -257,7 +257,7 @@
     "FirstFree": false,
     "BuildType": 5,
     "ClickSpecial": 0,
-    "DestroySpecial": 0
+    "DestroySpecial": 1
   },
   {
     "Name": "Wooden_Stair",
@@ -270,7 +270,7 @@
     "FirstFree": false,
     "BuildType": 3,
     "ClickSpecial": 0,
-    "DestroySpecial": 0
+    "DestroySpecial": 1
   },
   {
     "Name": "Stone_Wall",
@@ -283,7 +283,7 @@
     "FirstFree": false,
     "BuildType": 1,
     "ClickSpecial": 0,
-    "DestroySpecial": 0
+    "DestroySpecial": 2
   },
   {
     "Name": "Stone_Wall_Spiked",
@@ -309,7 +309,7 @@
     "FirstFree": false,
     "BuildType": 5,
     "ClickSpecial": 1,
-    "DestroySpecial": 0
+    "DestroySpecial": 2
   },
   {
     "Name": "Stone_Stair",
@@ -322,7 +322,7 @@
     "FirstFree": false,
     "BuildType": 3,
     "ClickSpecial": 0,
-    "DestroySpecial": 0
+    "DestroySpecial": 1
   },
   {
     "Name": "Stone_Tower",
@@ -335,7 +335,7 @@
     "FirstFree": false,
     "BuildType": 5,
     "ClickSpecial": 0,
-    "DestroySpecial": 0
+    "DestroySpecial": 2
   },
   {
     "Name": "Stockpile",
