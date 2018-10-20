@@ -52,6 +52,12 @@ public class InHand : MonoBehaviour
             }
             InvalidObjectsHitAmount -= RemoveObjectsHit.Count;                                  //Calculate the invalid objects in the way of a placement
         }
+        else if (InhandType == BuildType.FireBasket)                                            //If it's a fire basket
+        {
+            //Debug.DrawRay(gameObject.transform.position + transform.up, -transform.up, Color.red); //Just a debug line 
+            if (!Physics.Raycast(gameObject.transform.position + transform.up, -transform.up, 1, 1 << LayerMask.NameToLayer("Building"))) //If there is no structure (and thus its not on a stone structure)
+                InvalidObjectsHitAmount++;                                                      //Flag this place as invalid
+        }
         return InvalidObjectsHitAmount > 0;                                                     //Return true if there's at least 1 collider.
     }
 
