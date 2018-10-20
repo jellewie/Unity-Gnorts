@@ -464,22 +464,28 @@ public class UserInput : MonoBehaviour
         }
 
         byte DestroySpecial = BuildingData.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName).DestroySpecial;
-        if (DestroySpecial == 1)
+        if (DestroySpecial == 1)                                                                //NO 'ELSE!'. If we need to remove the posible balista
         {
-            Debug.Log("<Remove posible balista code>");
-            DestroySpecial = 2;                                                                 //Also execute the code for DestroySpecial 2 on this object
+            TheBuilding.layer = 0;                                                              //Set the layer of TheBuilding to be default so we wont hit it 
+            Collider[] Hits = Physics.OverlapBox(                                               //Get al objects (FireBaskets) on top
+                TheBuilding.GetComponent<BoxCollider>().bounds.center + transform.up,           //Center + 1 higher so we would get all FireBaskets 1 block above this object
+                TheBuilding.GetComponent<BoxCollider>().size / 2.5f,                            //A bit smaller then it zelf else it might also hit it neighbors 
+                transform.rotation,
+                 ~(1 << LayerMask.NameToLayer("Terrain") | 1));                                 //Skip ground and the object itzelf
+            for (int i = 0; i < Hits.Length; i++)                                               //For each object hit
+            {
+                String Name = Hits[i].gameObject.GetComponent<BuildingOption>().BuildingName;
+                if (Name == "Fire_Basket" || Name == "Ballista_Tower" || Name == "Mangonel_Tower") //If it's a fire basket or balista or Mangonel
+                    DeconstructBuilding(Hits[i].gameObject);                                    //Deconstruct it
+            }
+            DestroySpecial = 2;                                                                 //Also execute the code for DestroySpecial 3 on this object
         }
-        if (DestroySpecial == 2)                                                                //NO 'ELSE!'. If we need to remove the posible balista
-        {
-            Debug.Log("<Remove posible Fire_Baskets>");
-            DestroySpecial = 3;                                                                 //Also execute the code for DestroySpecial 3 on this object
-        }
-        if (DestroySpecial == 3)                                                                //NO 'ELSE!'. If we need to move NPC(s) down
+        if (DestroySpecial == 2)                                                                //NO 'ELSE!'. If we need to move NPC(s) down
         {
             Debug.Log("<Move NPC down code>");
         }
-        else if (DestroySpecial > 0)
-            Debug.Log(DestroySpecial);
+        else if (DestroySpecial > 2)
+            Debug.Log("unprogrammed Destory special found :" + DestroySpecial);
 
 
         TheBuilding.GetComponent<BuildingOption>()._Destroy();                                  //Destroy the building
