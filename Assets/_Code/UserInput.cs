@@ -37,7 +37,7 @@ public class UserInput : MonoBehaviour
     private float deltaTime = 0.0f;                                                     //The time between this and the last frame
     private float buildKeyDownTime;                                                     //How long the build key has been down
     private bool BuildFirstTry = true;
-    public float Speed;                                                                 //Speed multiblecation for controls (zoom out slowdown)
+    private float Speed;                                                                //Speed multiblecation for controls (zoom out slowdown)
 
     private void Start()                                                                //Triggered on start
     {
