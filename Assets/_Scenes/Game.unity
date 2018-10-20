@@ -11011,8 +11011,6 @@ MonoBehaviour:
   TextMessage: {fileID: 450758157}
   MouseDeconstruct: {fileID: 2800000, guid: 47ef6167a3836ad47810a9022d0afe2e, type: 3}
   ThisPlayerID: 0
-  InvalidBuildTimeThreshold: 0.2
-  Speed: 0
 --- !u!1 &1107932979
 GameObject:
   m_ObjectHideFlags: 0
