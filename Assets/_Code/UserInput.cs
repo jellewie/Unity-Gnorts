@@ -147,11 +147,11 @@ public class UserInput : MonoBehaviour
                     }
                     else if (type == BuildType.FireBasket)                                      //If this building is a Fire_Basket
                     {
-                        Debug.DrawRay(InHand.transform.position - transform.up, transform.up * 5, Color.red); //Just a debug line 
-                        if (Physics.Raycast(InHand.transform.position - transform.up * 5, transform.up, out hit, 5, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from the ground upwards (This would teturn the wall if there)
+                        //Debug.DrawRay(InHand.transform.position - transform.up, transform.up * 4, Color.red); //Just a debug line 
+                        if (Physics.Raycast(InHand.transform.position - transform.up * 4, transform.up, out hit, 5, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from the ground upwards (This would teturn the wall if there)(4 long because 1 + 3 lowered wall[so it can be placed on the 2 high wall])
                         {
                             string N = hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName;//Get obstructing building name
-                            if (N == "Stone_Wall" || N == "Stone_Gate" || N == "Stone_Tower")   //If it's a stone structure
+                            if (N == "Stone_Wall" || N == "Stone_Gate" || N == "Stone_Tower" || N == "Keep") //If it's a stone structure
                             {
                                 InHand.transform.position = new Vector3(                        //Place it on top of the wall
                                     InHand.transform.position.x,                                //Keep X position the same
