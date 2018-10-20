@@ -78,7 +78,7 @@
     "DestroySpecial": 0
   },
   {
-    "Name": "Trap_Pit","DestroySpecial": 4
+    "Name": "Trap_Pit",
     "Cost": {
       "Wood": 5,
       "Stone": 0,
