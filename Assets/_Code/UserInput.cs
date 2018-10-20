@@ -464,7 +464,21 @@ public class UserInput : MonoBehaviour
         }
 
         byte DestroySpecial = BuildingData.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName).DestroySpecial;
-        if (DestroySpecial > 0)
+        if (DestroySpecial == 1)
+        {
+            Debug.Log("<Remove posible balista code>");
+            DestroySpecial = 2;                                                                 //Also execute the code for DestroySpecial 2 on this object
+        }
+        if (DestroySpecial == 2)                                                                //NO 'ELSE!'. If we need to remove the posible balista
+        {
+            Debug.Log("<Remove posible Fire_Baskets>");
+            DestroySpecial = 3;                                                                 //Also execute the code for DestroySpecial 3 on this object
+        }
+        if (DestroySpecial == 3)                                                                //NO 'ELSE!'. If we need to move NPC(s) down
+        {
+            Debug.Log("<Move NPC down code>");
+        }
+        else if (DestroySpecial > 0)
             Debug.Log(DestroySpecial);
 
 
