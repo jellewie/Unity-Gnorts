@@ -83,8 +83,8 @@ public class UserInput : MonoBehaviour
                     InHand.transform.position = new Vector3(                                    //Move the block to the mouse position
                         Mathf.Round(hit.point.x),                                               //the rounded X mouse position
                         Mathf.Round(hit.point.y),                                               //the rounded Y mouse position
-                        Mathf.Round(hit.point.z));                                              //the rounded Z mouse position
-
+                        Mathf.Round(hit.point.z)                                                //the rounded Z mouse position
+                    );
                     BuildType type = BuildingData.GetInfo(InHand.GetComponent<BuildingOption>().BuildingName).BuildType; //Save this for easy use
                     //ERROR LINE ABOVE: Building is missing the 'BuildingOption' code, please attach it to the object
                     if (type == BuildType.Wall || type == BuildType.SpikedWall)                 //If this building can move up and down
@@ -147,9 +147,13 @@ public class UserInput : MonoBehaviour
                     }
                     else if (type == BuildType.FireBasket)                                      //If this building is a Fire_Basket
                     {
-                        //Debug.DrawRay(InHand.transform.position - transform.up, transform.up * 4, Color.red); //Just a debug line 
-                        if (Physics.Raycast(InHand.transform.position - transform.up * 4, transform.up, out hit, 5, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from the ground upwards (This would teturn the wall if there)(4 long because 1 + 3 lowered wall[so it can be placed on the 2 high wall])
+                        if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over on the Terrain layer only)
                         {
+                            InHand.transform.position = new Vector3(                            //Move the block to the mouse position
+                                Mathf.Round(hit.point.x),                                       //the rounded X mouse position
+                                Mathf.Round(hit.point.y),                                       //the rounded Y mouse position
+                                Mathf.Round(hit.point.z)                                        //the rounded Z mouse position
+                                );
                             string N = hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName;//Get obstructing building name
                             if (N == "Stone_Wall" || N == "Stone_Gate" || N == "Stone_Tower" || N == "Keep") //If it's a stone structure
                             {
