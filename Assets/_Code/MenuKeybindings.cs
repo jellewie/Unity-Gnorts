@@ -16,6 +16,9 @@ public class MenuKeybindings : MonoBehaviour {
     string buttonToRebind = null;
     Dictionary<string, Text> buttonToLabel;
 
+    private const string MsgAlreadyAssigned =
+        "The key <color=orange>{0}</color> is already assigned to the action <color=orange>{1}</color>. Are you sure you want to rebind it to <color=orange>{2}</color>?";
+
     // Use this for initialization
     void Start () 
     {
@@ -29,11 +32,11 @@ public class MenuKeybindings : MonoBehaviour {
     {
         foreach (Transform child in keyList.transform)                                          //For each entry in the list
             GameObject.Destroy(child.gameObject);                                               //Remove the entry
-        Keys[] KeysArray = inputManager.GetAllKeys();
-        for (int i = 0; i < KeysArray.Length; i++)
+        KeyBinding[] keyBindingArray = inputManager.GetAllKeys();
+        for (int i = 0; i < keyBindingArray.Length; i++)
         {
             string bn;
-            bn = KeysArray[i].Name;
+            bn = keyBindingArray[i].Name;
 
             GameObject go = (GameObject)Instantiate(PrefabKeyBindItem);
             go.transform.SetParent(keyList.transform);
@@ -43,7 +46,14 @@ public class MenuKeybindings : MonoBehaviour {
             buttonNameText.text = bn;
 
             Text keyNameText = go.transform.Find("Button/Key Name").GetComponent<Text>();
-            keyNameText.text = System.Convert.ToString(KeysArray[i].Key_);
+            keyNameText.text = System.Convert.ToString(keyBindingArray[i].KeyCode);
+            // Mark missing key bindings with red.
+            if (keyBindingArray[i].KeyCode == KeyCode.None)
+            {
+                buttonNameText.color = Color.red;
+                keyNameText.text = string.Empty;
+            }
+
             buttonToLabel[bn] = keyNameText;
 
             Button keyBindButton = go.transform.Find("Button").GetComponent<Button>();
@@ -58,24 +68,37 @@ public class MenuKeybindings : MonoBehaviour {
             TextPressAKey.SetActive(true);
             if (Input.anyKeyDown)                                                            //If a key has been pressed
             {
-                foreach(KeyCode kc in Enum.GetValues( typeof(KeyCode)))                     //ForEach posible key
+                var pressedKey = InputManager.GetPressedKey();
+                // Check if that key is already used.
+                string alreadyBound = inputManager.GetButtonForKey(pressedKey);
+                if (string.IsNullOrEmpty(alreadyBound))
                 {
-                    if(Input.GetKeyDown(kc))                                                //Check if this key is pressed down
-                    {
-                        if(inputManager.SetButtonForKey(buttonToRebind, kc))                //Set the key, and check if this key has been used before
-                        {
-                            buttonToLabel[buttonToRebind].color = new Color(1f, 0.5f, 0.16f);  //Warn user that this key has more than one function
-                        }
-                        else
-                        {
-                            buttonToLabel[buttonToRebind].color = Color.black;              //Key hasn't been used for something, so just make the color default black
-                        }
-                        buttonToLabel[buttonToRebind].text = System.Convert.ToString(kc);                 //Set the 
-                        buttonToRebind = null;
-                        TextPressAKey.SetActive(false);
-                        break;
-                    }
+                    // The key is still free so assign it and reload the ui.
+                    inputManager.SetButtonForKey(buttonToRebind, pressedKey);
+                    LoadList();
                 }
+                else if (alreadyBound != buttonToRebind)
+                {
+                    // Create a modal dialog with a text and two buttons.
+                    var text = string.Format(MsgAlreadyAssigned, pressedKey.ToString(), alreadyBound, buttonToRebind);
+                    // The yes button will perform the binding and reload the ui.
+                    var buttonName = buttonToRebind;
+                    var yes = new ModalDialogButton
+                    {
+                        Label = "Yes", Action = () =>
+                        {
+                            inputManager.SetButtonForKey(buttonName, pressedKey);
+                            LoadList();
+                        }
+                    };
+                    // The no button will do nothing.
+                    var no = new ModalDialogButton { Label = "No" };
+
+                    // Show the created dialog.
+                    ModalDialog.Instance().ShowDialog(text, new[] {yes, no});
+                }
+                TextPressAKey.SetActive(false);
+                buttonToRebind = null;
             }
         }
 	}
@@ -86,7 +109,7 @@ public class MenuKeybindings : MonoBehaviour {
     }
     public void ResetAllKeys()
     {
-        inputManager.ResetAllShotKeys();
+        inputManager.ResetAllKeyBindings();
         LoadList();
     }
 }
