@@ -236,7 +236,7 @@ MonoBehaviour:
   StartOnBoot: 1
   Textbox: {fileID: 540106475}
   Objects0:
-  - {fileID: 0}
+  - {fileID: 1734525653642224, guid: 690cea316e6bb584d8a7c802a3a8b96b, type: 2}
   - {fileID: 1152311152674546, guid: f6a14ca6c81471548a805b365fcc7842, type: 2}
   - {fileID: 0}
   - {fileID: 0}
