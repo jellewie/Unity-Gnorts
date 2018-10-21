@@ -149,18 +149,13 @@ public class UserInput : MonoBehaviour
                     {
                         if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over on the Terrain layer only)
                         {
-                            InHand.transform.position = new Vector3(                            //Move the block to the mouse position
-                                Mathf.Round(hit.point.x),                                       //the rounded X mouse position
-                                Mathf.Round(hit.point.y),                                       //the rounded Y mouse position
-                                Mathf.Round(hit.point.z)                                        //the rounded Z mouse position
-                                );
                             string N = hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName;//Get obstructing building name
                             if (N == "Stone_Wall" || N == "Stone_Gate" || N == "Stone_Tower" || N == "Keep") //If it's a stone structure
                             {
                                 InHand.transform.position = new Vector3(                        //Place it on top of the wall
-                                    InHand.transform.position.x,                                //Keep X position the same
+                                    Mathf.Round(hit.point.x),                                   //Keep X position the same
                                     hit.collider.bounds.size.y + hit.transform.position.y,      //Is the colider hight + object height offset (So on top of the collider)
-                                    InHand.transform.position.z                                 //Keep Z position the same
+                                    Mathf.Round(hit.point.z)                                    //Keep Z position the same
                                 );
                             }
                         }

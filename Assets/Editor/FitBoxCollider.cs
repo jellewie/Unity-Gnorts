@@ -27,7 +27,7 @@ public class FitBoxCollider
                     }
                 }
                 collider.center = bounds.center - gameObject.transform.position;
-                collider.size = bounds.size;
+                collider.size = bounds.size - new Vector3(0.01f, 0, 0.01f);
             }
         }
     }
