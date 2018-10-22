@@ -123,6 +123,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 9a512069ddb1c61429e42805c28e3e37, type: 2}
+  - {fileID: 2100000, guid: 32e1986ee858eb041b646d4781c41e70, type: 2}
   - {fileID: 2100000, guid: 5c68704e92a2bef43a3d0fe638f45a17, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -372,7 +373,7 @@ MonoBehaviour:
       localPivot: {x: 1.4534442, y: -1}
       localSize: {x: 0, y: 0}
       anchor: 9
-    _mat: {fileID: 2100000, guid: 9a512069ddb1c61429e42805c28e3e37, type: 2}
+    _mat: {fileID: 2100000, guid: 32e1986ee858eb041b646d4781c41e70, type: 2}
     manualUV: 1
     textureGroup: -1
   - _indices: 120000001100000010000000120000001300000011000000
@@ -400,7 +401,7 @@ MonoBehaviour:
       localPivot: {x: 0.33541018, y: -1}
       localSize: {x: 0, y: 0}
       anchor: 9
-    _mat: {fileID: 2100000, guid: 9a512069ddb1c61429e42805c28e3e37, type: 2}
+    _mat: {fileID: 2100000, guid: 32e1986ee858eb041b646d4781c41e70, type: 2}
     manualUV: 1
     textureGroup: -1
   - _indices: 190000001400000015000000180000001900000015000000150000001600000018000000160000001700000018000000

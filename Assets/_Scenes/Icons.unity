@@ -284,7 +284,7 @@ MonoBehaviour:
   - {fileID: 0}
   Objects5:
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1481481657205854, guid: da3945ea468161147b5f4337a71cbae0, type: 2}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -951,7 +951,7 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
+    m_Bias: 0.5
     m_NormalBias: 0.4
     m_NearPlane: 0.2
   m_Cookie: {fileID: 0}
