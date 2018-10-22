@@ -40,49 +40,51 @@ public class InputManager : MonoBehaviour
         InitaliseBoolSettings();                                                                //Initalise all the settings with bools
     }
 
-    private Keys[] KeysArray;                                                           //KeysArray Array to store the data in
-    private void InitaliseKeybindings(bool ToDefault)                                   //Init the bool settings (set default values)
+    private KeyBinding[] _keyBindings;                                                          //KeysArray Array to store the data in
+    private void InitaliseKeybindings(bool ToDefault)                                           //Init the bool settings (set default values)
     {
         int ArrayLength = 22 + 1;                                                               //The total amount of entries, change accordingly (+1 since we have a '0' entry too)
-        KeysArray = new Keys[ArrayLength];                                                      //Create a new array with the proper length
+        _keyBindings = new KeyBinding[ArrayLength];                                                      //Create a new array with the proper length
 
-        KeysArray[ButtonId.Drag]           = new Keys("Drag",             KeyCode.Mouse1,         "Drag the camera"); //Add some data
-        KeysArray[ButtonId.Rotate]         = new Keys("Rotate",           KeyCode.Mouse2,         "Rotatate the camera");
-        KeysArray[ButtonId.Left]           = new Keys("Left",             KeyCode.A,              "Move camera left");
-        KeysArray[ButtonId.Down]           = new Keys("Down",             KeyCode.S,              "Move camera backwards");
-        KeysArray[ButtonId.Right]          = new Keys("Right",            KeyCode.D,              "Move camera right");
-        KeysArray[ButtonId.Up]             = new Keys("Up",               KeyCode.W,              "Move camera forward");
-        KeysArray[ButtonId.RotateLeft]     = new Keys("Rotate left",      KeyCode.E,              "Rotatate the camera a bit left");
-        KeysArray[ButtonId.RotateRight]    = new Keys("Rotate right",     KeyCode.Q,              "Rotatate the camera a bit right");
-        KeysArray[ButtonId.Menu]           = new Keys("Menu",             KeyCode.Escape,         "Open / close the menu");
-        KeysArray[ButtonId.ToggleUi]       = new Keys("Toggle UI",        KeyCode.Tab,            "Make the UI hidden/viseble");
-        KeysArray[ButtonId.RotateBuilding] = new Keys("Rotate building",  KeyCode.R,              "");
-        KeysArray[ButtonId.Trading]        = new Keys("Trading",          KeyCode.T,              "");
-        KeysArray[ButtonId.Stockpile]      = new Keys("Stockpile",        KeyCode.F,              "");
-        KeysArray[ButtonId.Granary]        = new Keys("Granary",          KeyCode.G,              "");
-        KeysArray[ButtonId.Church]         = new Keys("Church",           KeyCode.H,              "");
-        KeysArray[ButtonId.Barracks]       = new Keys("Barracs",          KeyCode.B,              "");
-        KeysArray[ButtonId.Castle]         = new Keys("Castle",           KeyCode.C,              "");
-        KeysArray[ButtonId.Pause]          = new Keys("Pause",            KeyCode.P,              "");
-        KeysArray[ButtonId.Build]          = new Keys("Build",            KeyCode.Mouse0,         "Place the building");
-        KeysArray[ButtonId.CancelBuild]    = new Keys("Cancel build",     KeyCode.Mouse1,         "Cancel building");
-        KeysArray[ButtonId.Alternative]    = new Keys("Alternative",      KeyCode.LeftShift,      "Continue building & Inverse build rotation");
-        KeysArray[ButtonId.WallsHigher]    = new Keys("Walls higher",     KeyCode.KeypadPlus,     "Make the walls higher");
-        KeysArray[ButtonId.WallsLower]     = new Keys("Walls lower",      KeyCode.KeypadMinus,    "Make the walls lower");
-
-        if (!ToDefault)                                                                         //If we need to load Playerdata instead of default settings
-        {
-            for (int i = 0; i < KeysArray.Length; i++)                                          //For each entry in the array
-                KeysArray[i].Key_ = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(KeysArray[i].Name, System.Convert.ToString(KeysArray[i].Key_)));   //Set the key to the Users bind key, or leave it
+        _keyBindings[ButtonId.Drag]           = new KeyBinding("Drag",             KeyCode.Mouse1,         "Drag the camera"); //Add some data
+        _keyBindings[ButtonId.Rotate]         = new KeyBinding("Rotate",           KeyCode.Mouse2,         "Rotate the camera");
+        _keyBindings[ButtonId.Left]           = new KeyBinding("Left",             KeyCode.A,              "Move camera left");
+        _keyBindings[ButtonId.Down]           = new KeyBinding("Down",             KeyCode.S,              "Move camera backwards");
+        _keyBindings[ButtonId.Right]          = new KeyBinding("Right",            KeyCode.D,              "Move camera right");
+        _keyBindings[ButtonId.Up]             = new KeyBinding("Up",               KeyCode.W,              "Move camera forward");
+        _keyBindings[ButtonId.RotateLeft]     = new KeyBinding("Rotate left",      KeyCode.E,              "Rotate the camera a bit left");
+        _keyBindings[ButtonId.RotateRight]    = new KeyBinding("Rotate right",     KeyCode.Q,              "Rotate the camera a bit right");
+        _keyBindings[ButtonId.Menu]           = new KeyBinding("Menu",             KeyCode.Escape,         "Open / close the menu");
+        _keyBindings[ButtonId.ToggleUi]       = new KeyBinding("Toggle UI",        KeyCode.Tab,            "Make the UI hidden/visible");
+        _keyBindings[ButtonId.RotateBuilding] = new KeyBinding("Rotate building",  KeyCode.R,              "");
+        _keyBindings[ButtonId.Trading]        = new KeyBinding("Trading",          KeyCode.T,              "");
+        _keyBindings[ButtonId.Stockpile]      = new KeyBinding("Stockpile",        KeyCode.F,              "");
+        _keyBindings[ButtonId.Granary]        = new KeyBinding("Granary",          KeyCode.G,              "");
+        _keyBindings[ButtonId.Church]         = new KeyBinding("Church",           KeyCode.H,              "");
+        _keyBindings[ButtonId.Barracks]       = new KeyBinding("Barracks",         KeyCode.B,              "");
+        _keyBindings[ButtonId.Castle]         = new KeyBinding("Castle",           KeyCode.C,              "");
+        _keyBindings[ButtonId.Pause]          = new KeyBinding("Pause",            KeyCode.P,              "");
+        _keyBindings[ButtonId.Build]          = new KeyBinding("Build",            KeyCode.Mouse0,         "Place the building");
+        _keyBindings[ButtonId.CancelBuild]    = new KeyBinding("Cancel build",     KeyCode.Mouse1,         "Cancel building");
+        _keyBindings[ButtonId.Alternative]    = new KeyBinding("Alternative",      KeyCode.LeftShift,      "Continue building & Inverse build rotation");
+        _keyBindings[ButtonId.WallsHigher]    = new KeyBinding("Walls higher",     KeyCode.KeypadPlus,     "Make the walls higher");
+        _keyBindings[ButtonId.WallsLower]     = new KeyBinding("Walls lower",      KeyCode.KeypadMinus,    "Make the walls lower");
+                                                                                
+        if (!ToDefault) {                                                                       //If we need to load Playerdata instead of default settings
+            for (int i = 0; i < _keyBindings.Length; i++)                                       //For each entry in the array
+            {
+                var key = _keyBindings[i];
+                key.KeyCode = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString(key.Name, Convert.ToString(key.KeyCode)));   //Set the key to the Users bind key, or leave it
+            }
         }
     }
     public bool GetButtonDown(int ButtonID)                                             //Checks if the button has been pressed
     {
-        return Input.GetKey(KeysArray[ButtonID].Key_);                                          //Return the button state
+        return Input.GetKey(_keyBindings[ButtonID].KeyCode);                                          //Return the button state
     }
     public bool GetButtonDownOnce(int ButtonID)                                         //Checks if the button is pressed (and flag it as processed)
     {
-        return Input.GetKeyDown(KeysArray[ButtonID].Key_);                                     //Return the button state
+        return Input.GetKeyDown(_keyBindings[ButtonID].KeyCode);                                     //Return the button state
     }
     /// <summary>
     /// Check if a button has been released this frame.
@@ -91,7 +93,7 @@ public class InputManager : MonoBehaviour
     /// <returns>True during the frame the user releases the button.</returns>
     public bool GetButtonUp(int ButtonID)
     {
-        return Input.GetKeyUp(KeysArray[ButtonID].Key_);                                       //Check if key was released
+        return Input.GetKeyUp(_keyBindings[ButtonID].KeyCode);                                       //Check if key was released
     }
     //public bool GetButtonDown(string buttonName)                                        //Checks if the button has been pressed
     //{
@@ -113,38 +115,52 @@ public class InputManager : MonoBehaviour
     //    Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error
     //    return false;                                                                           //Return False (Could not find button, so it's defenetly not pressed)
     //}
-    public bool SetButtonForKey(String buttonName, KeyCode keyCode)                     //Set a keybinding
+    /// <summary>
+    /// Bind a key to a button.
+    /// </summary>
+    /// <param name="buttonName">The name of the button</param>
+    /// <param name="keyCode">The code of the key</param>
+    public void SetButtonForKey(string buttonName, KeyCode keyCode)
     {
-        bool UsedBefore = false;                                                                //Create a flag with if this key is already mapped for something
-        for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
+        // If the key is already bound to something else, we unbind it.
+        string alreadyBound = GetButtonForKey(keyCode);
+        if (!string.IsNullOrEmpty(alreadyBound))
         {
-            if (KeysArray[i].Key_ == keyCode)                                                   //If we alread have set a usecase for this key
-                UsedBefore = true;                                                              //Flag that we have used this key already
-            if (KeysArray[i].Name == buttonName)                                                //If this is the button we are looking for
+            PlayerPrefs.SetString(alreadyBound, "None");
+        }
+        // Save the new binding.
+        PlayerPrefs.SetString(buttonName, Convert.ToString(keyCode));
+        InitaliseKeybindings(false);
+    }
+
+    /// <summary>
+    /// Get the name of the button assigned to a keycode.
+    /// </summary>
+    /// <param name="key">The keycode to check.</param>
+    /// <returns>The name of the button or an empty string if not found.</returns>
+    public string GetButtonForKey(KeyCode key)
+    {
+        foreach (var keyBinding in _keyBindings)
+        {
+            if (keyBinding.KeyCode == key)
             {
-                for (int j = i + 1; j < KeysArray.Length; j++)                                  //Continue with the loop
-                {
-                    if (KeysArray[j].Key_ == keyCode)                                           //If we alread have set a usecase for this key
-                        UsedBefore = true;                                                      //Flag that we have used this key already
-                }
-                KeysArray[i].Key_ = keyCode;                                                    //Set the KeyCode, so it will be used in the shortcut
-                PlayerPrefs.SetString(KeysArray[i].Name, System.Convert.ToString(keyCode));     //Save the button to Playerprefs
-                return UsedBefore;
+                return keyBinding.Name;
             }
         }
-        Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error      
-        return false;
+
+        return string.Empty;
     }
-    public Keys[] GetAllKeys()                                                          //Returns the whole array
+    
+    public KeyBinding[] GetAllKeys()                                                            //Returns the whole array
     {
-        return KeysArray;                                                                       //Return the whole array
+        return _keyBindings;                                                                    //Return the whole array
     }
-    public void ResetAllShotKeys()                                                      //Reset all Keybindings
+    public void ResetAllKeyBindings()                                                      //Reset all Keybindings
     {
         InitaliseKeybindings(true);                                                             //Call the init and set set it to default
-        for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
+        for (int i = 0; i < _keyBindings.Length; i++)                                           //For each entry in the array
         {
-            PlayerPrefs.SetString(KeysArray[i].Name, System.Convert.ToString(KeysArray[i].Key_)); //Save the default value to PlayerPrefs
+            PlayerPrefs.SetString(_keyBindings[i].Name, Convert.ToString(_keyBindings[i].KeyCode)); //Save the default value to PlayerPrefs
         }
     }
 
@@ -204,4 +220,18 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Find out which key is pressed.
+    /// </summary>
+    /// <returns>The keycode of the pressed key</returns>
+    public static KeyCode GetPressedKey()
+    {
+        foreach (KeyCode key in Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKeyDown(key))
+                return key;
+        }
+
+        return KeyCode.None;
+    }
 }

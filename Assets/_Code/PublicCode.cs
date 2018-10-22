@@ -66,16 +66,19 @@ namespace PublicCode {
             this.Desc = description;                                                            //(To SET data) 3rd part is a string,   The description (hoverover text)
         }
     }
-    public class Keys                                                                   //Create a new Class data type to store all keybindings in
+    /// <summary>
+    /// Describes a keybinding.
+    /// </summary>
+    public class KeyBinding                                                             //Create a new data type to store all keybindings in
     {
         public string Name;                                                                     //(To GET data) 1th part is a string,   The name
-        public UnityEngine.KeyCode Key_;                                                        //(To GET data) 1th part is a string,   The set key
-        public string Desc;                                                                     //(To GET data) 1th part is a string,   The description (hoverover text)
-        public Keys(string Name, UnityEngine.KeyCode Key_, string Desc)                         //Create a way to add all data at once
+        public UnityEngine.KeyCode KeyCode;                                                     //(To GET data) 1th part is a string,   The set key
+        public string Description;                                                              //(To GET data) 1th part is a string,   The description (hoverover text)
+        public KeyBinding(string name, UnityEngine.KeyCode keyCode, string description)         //Create a way to add all data at once
         {
-            this.Name = Name;                                                                   //(To SET data) 1th part is a string,   The name
-            this.Key_ = Key_;                                                                   //(To SET data) 2nd part is a bool,     The default state
-            this.Desc = Desc;                                                                   //(To SET data) 3rd part is a string,   The description (hoverover text)
+            Name = name;                                                                        //(To SET data) 1th part is a string,   The name
+            KeyCode = keyCode;                                                                  //(To SET data) 2nd part is a bool,     The default state
+            Description = description;                                                          //(To SET data) 3rd part is a string,   The description (hoverover text)
         }
     }
     
