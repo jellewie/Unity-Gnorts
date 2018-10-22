@@ -463,7 +463,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 9a512069ddb1c61429e42805c28e3e37, type: 2}
+  - {fileID: 2100000, guid: 8a00da67591ed8645a936d261c4f1073, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -714,7 +714,7 @@ MonoBehaviour:
       localPivot: {x: -1, y: 0.1}
       localSize: {x: 0, y: 0}
       anchor: 9
-    _mat: {fileID: 2100000, guid: 9a512069ddb1c61429e42805c28e3e37, type: 2}
+    _mat: {fileID: 2100000, guid: 8a00da67591ed8645a936d261c4f1073, type: 2}
     manualUV: 1
     textureGroup: -1
   - _indices: 040000000500000006000000050000000700000006000000
@@ -742,7 +742,7 @@ MonoBehaviour:
       localPivot: {x: 1, y: 0.1}
       localSize: {x: 0, y: 0}
       anchor: 9
-    _mat: {fileID: 2100000, guid: 9a512069ddb1c61429e42805c28e3e37, type: 2}
+    _mat: {fileID: 2100000, guid: 8a00da67591ed8645a936d261c4f1073, type: 2}
     manualUV: 1
     textureGroup: -1
   - _indices: 08000000090000000a000000090000000b0000000a000000
@@ -770,7 +770,7 @@ MonoBehaviour:
       localPivot: {x: 0.1, y: -1}
       localSize: {x: 0, y: 0}
       anchor: 9
-    _mat: {fileID: 2100000, guid: 9a512069ddb1c61429e42805c28e3e37, type: 2}
+    _mat: {fileID: 2100000, guid: 8a00da67591ed8645a936d261c4f1073, type: 2}
     manualUV: 1
     textureGroup: -1
   - _indices: 0c0000000d0000000e0000000d0000000f0000000e000000
@@ -798,7 +798,7 @@ MonoBehaviour:
       localPivot: {x: -0.1, y: -1}
       localSize: {x: 0, y: 0}
       anchor: 9
-    _mat: {fileID: 2100000, guid: 9a512069ddb1c61429e42805c28e3e37, type: 2}
+    _mat: {fileID: 2100000, guid: 8a00da67591ed8645a936d261c4f1073, type: 2}
     manualUV: 1
     textureGroup: -1
   _sharedIndices:
