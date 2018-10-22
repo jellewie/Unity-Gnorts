@@ -93,7 +93,7 @@ public class MenuSettings : MonoBehaviour
     }
     public void ResetAllKeys()
     {
-        inputManager.ResetAllShotKeys();
+        inputManager.ResetAllKeyBindings();
         LoadList();
     }
 }
