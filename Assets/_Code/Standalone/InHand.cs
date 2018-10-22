@@ -57,8 +57,6 @@ public class InHand : MonoBehaviour
             //Debug.DrawRay(gameObject.transform.position + transform.up, -transform.up, Color.red); //Just a debug line 
             if (!Physics.Raycast(gameObject.transform.position + transform.up, -transform.up, 1, 1 << LayerMask.NameToLayer("Building"))) //If there is no structure (and thus its not on a stone structure)
                 InvalidObjectsHitAmount++;                                                      //Flag this place as invalid
-            else
-                Debug.Log(InvalidObjectsHitAmount);
         }
         return InvalidObjectsHitAmount > 0;                                                     //Return true if there's at least 1 collider.
     }
