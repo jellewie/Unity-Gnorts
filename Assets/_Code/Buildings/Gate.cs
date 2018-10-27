@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 public class Gate : MonoBehaviour, InteractableMenu
@@ -35,7 +37,11 @@ public class Gate : MonoBehaviour, InteractableMenu
     {
         // Find some of the components we need.
         _gateOpen = transform.Find("GateOpen").gameObject;
+        if (_gateOpen == null)
+            Debug.LogWarning("A gate should have a \"GateOpen\" gameObject");
         _gateClose = transform.Find("GateClose").gameObject;
+        if (_gateOpen == null)
+            Debug.LogWarning("A gate should have a \"GateClose\" gameObject");
         _menu = GetComponentInChildren<StickyMenu>(true);
 
         // Set the gate to the state specified in the prefab.
@@ -48,8 +54,8 @@ public class Gate : MonoBehaviour, InteractableMenu
     /// <param name="state">true for closed and false for open</param>
     private void SetClosed(bool state)
     {
-        _gateOpen.SetActive(!state);
-        _gateClose.SetActive(state);
+        if (_gateOpen != null) _gateOpen.SetActive(!state);
+        if (_gateClose != null) _gateClose.SetActive(state);
         _closed = state;
     }
 
@@ -58,8 +64,10 @@ public class Gate : MonoBehaviour, InteractableMenu
     /// </summary>
     public void OpenMenu()
     {
+        if (_menu == null) return;
         // Set the button text to the current state.
         var button = _menu.GetComponentInChildren<Button>();
+        Assert.IsNotNull(button, "A gate menu needs a button");
         button.GetComponentInChildren<Text>().text = _closed ? "Open" : "Close";
         // Tell the button to toggle the state and the close the menu when clicked.
         button.onClick.AddListener(() =>

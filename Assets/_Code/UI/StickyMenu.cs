@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 /// <summary>
 /// A menu that sticks to the gameObject it belongs to.
@@ -22,11 +23,19 @@ public class StickyMenu : MonoBehaviour
     /// </summary>
     private Vector3 _menuOffset;
 
-    protected virtual void Awake()
+    /// <summary>
+    /// The camera to use for moving between screen and world coordinates.
+    /// </summary>
+    private Camera _mainCam;
+
+    private void Awake()
     {
         // Get some of the components we need.
         _inputManager = FindObjectOfType<InputManager>();
         _panel = GetFirstChild(gameObject);
+        Assert.IsNotNull(_panel, gameObject.name + " should have a panel as it's first child.");
+        _mainCam = Camera.main;
+        Assert.IsNotNull(_mainCam, "Cannot find main Camera");
     }
 
     private void OnEnable()
@@ -36,16 +45,16 @@ public class StickyMenu : MonoBehaviour
         // Remember the offset between that point and the gameObject's position.
         // We do this so that the menu appears where you click and then stays in the same position relative to the
         // gameObject. 
-        _menuOffset = _panel.transform.position - Camera.main.WorldToScreenPoint(transform.parent.position);
+        _menuOffset = _panel.transform.position - WorldToScreen(transform.parent.position);
     }
 
     private void Update()
     {
         // Move the menu panel to the location of the gameObject, keeping it in roughly the same place as where ot was
         // activated.
-        _panel.transform.position = Camera.main.WorldToScreenPoint(transform.parent.position) + _menuOffset;
+        _panel.transform.position = WorldToScreen(transform.parent.position) + _menuOffset;
         // Close the menu when the user cancel-clicks.
-        if (_inputManager.GetButtonDownOnce(ButtonId.CancelBuild))
+        if (_inputManager != null && _inputManager.GetButtonDownOnce(ButtonId.CancelBuild))
         {
             gameObject.SetActive(false);
         }
@@ -62,5 +71,15 @@ public class StickyMenu : MonoBehaviour
         return (from transform in parent.GetComponentsInChildren<RectTransform>()
             where transform.gameObject != parent
             select transform.gameObject).FirstOrDefault();
+    }
+
+    /// <summary>
+    /// Helper method to convert from world to screen coordinates.
+    /// </summary>
+    /// <param name="position">World position</param>
+    /// <returns>Screen position</returns>
+    private Vector3 WorldToScreen(Vector3 position)
+    {
+        return _mainCam.WorldToScreenPoint(position);
     }
 }
