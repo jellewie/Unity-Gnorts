@@ -212,6 +212,7 @@ public class UserInput : MonoBehaviour
                     if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray 
                     {
                         _HideMenus();                                                           //Hide the Menu's
+                        hit.collider.gameObject.GetComponent<InteractableMenu>().OpenMenu();    //Show building menu
                         FolderBuildingPopUp.SetActive(true);                                    //Show BuildingPopUp
                         FolderBuildingPopUp.GetComponent<BuildingPopUp>().SelectBuilding(       //Open Pop-up window
                             hit.collider.gameObject,                                            //Send the gameobject that we have clicked on
