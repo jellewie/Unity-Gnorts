@@ -215,12 +215,13 @@ public class UserInput : MonoBehaviour
                             HideBuildMenus();                                                   //Hide the Build Menu's
                         else
                             _HideMenus();                                                       //Hide all menu's (this will also deselect pop-up building)
+
+                        FolderBuildingPopUp.SetActive(true);                                    //Show BuildingPopUp
                         FolderBuildingPopUp.GetComponent<BuildingPopUp>().SelectBuilding(       //Open Pop-up window
                             hit.collider.gameObject,                                            //Send the gameobject that we have clicked on
                             BuildingData.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial, //And it's special stats
                             ThisPlayerID                                                        //And the ID of the player
                         );
-                        FolderBuildingPopUp.SetActive(true);                                    //Show BuildingPopUp
                     }
                 }
             }

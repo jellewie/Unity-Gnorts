@@ -20,7 +20,7 @@ public class BuildingPopUp : MonoBehaviour {
     {
         if (FolderGate == null)                                                                 //If no reffrence is yet set
         {
-            FolderGate = transform.Find("Gate").gameObject;
+            FolderGate = transform.Find("Gate").gameObject;                                     //Set the reference to the Gate folder
             //Other references
         }
     }
@@ -30,25 +30,25 @@ public class BuildingPopUp : MonoBehaviour {
         {
             if (SelectedBuildingSpecial == 0)                                                   //If this building has a special
             {
-                gameObject.SetActive(false);                                                    //This object doesn't have a special drop down menu, so hide it
-                if (ClickSpecial > 0)
-                    SelectedBuildingSpecial = ClickSpecial;                                     //Remember the ClickSpecial of this 
+                if (ClickSpecial == 0)                                                          //If this building has no ClickSpecial
+                    gameObject.SetActive(false);                                                //This object doesn't have a pop-up menu, so hide it
+                else
+                    SelectedBuildingSpecial = ClickSpecial;                                     //Save the selected buildin(s) special tag
             }
-            if (SelectedBuildingSpecial == ClickSpecial)
+            if (SelectedBuildingSpecial == ClickSpecial)                                        //If this building has the same tag as stored (for multible selection)
             {
                 SelectedBuildings.Add(Building);                                                //Add this building to our list
-
-                bool Multi = false;
-                if (SelectedBuildings.Count > 1)
-                    Multi = true;
-                if (SelectedBuildingSpecial == 1)
+                bool Multible = false;                                                          //Default to no multible selection
+                if (SelectedBuildings.Count > 1)                                                //If we have selected more than 1
+                    Multible = true;                                                            //Flag we have multible buildings
+                if (SelectedBuildingSpecial == 1)                                               //If this is a Gate
                 {
-                    if (Multi)
-                        FolderGate.GetComponentInChildren<Text>().text = "Multible Gates";
+                    if (Multible)                                                               //If we have multible buildings
+                        FolderGate.GetComponentInChildren<Text>().text = "Multible Gates";      //Change the text to reflect that
                     else
-                        FolderGate.GetComponentInChildren<Text>().text = SelectedBuildings[0].GetComponent<BuildingOption>().BuildingName;
-                    FolderGate.SetActive(true);
-                    ChangeOption(SelectedBuildings[0], SelectedBuildingSpecial, true, 255, Multi);
+                        FolderGate.GetComponentInChildren<Text>().text = Building.GetComponent<BuildingOption>().BuildingName; //Set the building name in the pop-up window 
+                    FolderGate.SetActive(true);                                                 //Show the gate folder
+                    ChangeOption(SelectedBuildings[0], SelectedBuildingSpecial, true, 255, Multible); //Load the settings 
                 }
             }
         }
@@ -93,14 +93,14 @@ public class BuildingPopUp : MonoBehaviour {
             }
             if (PopUp)                                                                          //If we need a PopUp window
             {
-                gameObject.transform.Find("Gate/Open").gameObject.GetComponent<Button>().interactable = true;
-                gameObject.transform.Find("Gate/Close").gameObject.GetComponent<Button>().interactable = true;
-                if (!Multible)
+                gameObject.transform.Find("Gate/Open") .gameObject.GetComponent<Button>().interactable = true; //By default enable the button
+                gameObject.transform.Find("Gate/Close").gameObject.GetComponent<Button>().interactable = true; //By default enable the button
+                if (!Multible)                                                                  //If we have multible buildings
                 {
-                    if (ToOption == 0)
-                        gameObject.transform.Find("Gate/Open").gameObject.GetComponent<Button>().interactable = false;
+                    if (ToOption == 0)                                                          //If the Gate should be in stage '0'
+                        gameObject.transform.Find("Gate/Open") .gameObject.GetComponent<Button>().interactable = false; //Disable this button, gate already in this stage
                     else
-                        gameObject.transform.Find("Gate/Close").gameObject.GetComponent<Button>().interactable = false;
+                        gameObject.transform.Find("Gate/Close").gameObject.GetComponent<Button>().interactable = false; //Disable this button, gate already in this stage
                 }
             }
             Building.GetComponent<BuildingOption>().SelectedOption = ToOption;                  //Update the Building with this info
