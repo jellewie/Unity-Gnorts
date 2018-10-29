@@ -2,9 +2,11 @@
 
 # This is a Real Time Strategy game in Unity
 Although the Code is public for people to see, if you want to use it in any commercial way you need to contact me.
-I do NOT allow you or anyone to use my code and just sell it without my permission.
+I do NOT allow you or anyone to use my code and just sell it. (Mostly called 'asset flips')
 
-If you want to help on this game, or create your own with it, just contact me and/or fork it.
+If you want to help on this game, or create your own with it, just contact me and/or fork it. 
+All people who want to help are welcome to do so! 
+This project is mostly a learning project, but if it would ever hit the market you would for sure be credited for the things you've done and such!
 
 ![Early alpha screenshot of the game](https://i.imgur.com/PZfCLHh.png)
 
