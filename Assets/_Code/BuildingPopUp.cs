@@ -4,39 +4,66 @@ using UnityEngine.UI;                                                           
 
 public class BuildingPopUp : MonoBehaviour {
 
+    
+
+
     public GameObject SelectedBuilding;                                                         //The selected building
     byte SelectedBuildingSpecial;                                                               //The special tag of the building
     public Dropdown DropDownMenu;                                                               //This needs to be set to the Dropdown menu itzelf
 
-    void Start()                                                                        //Triggered on start
+    GameObject FolderGate;
+
+    void OnDisable()
     {
-        DropDownMenu.onValueChanged.AddListener(delegate {InputDropdown(DropDownMenu);});       //Create a listner for this Dropdown menu
+        SelectedBuildings = new List<GameObject>();                                              //Make sure the list is emthy
+
+        //SelectedBuildings.Add(Hits[i].gameObject)
+    }
+    private void OnEnable()
+    {
+        if (FolderGate == null)                                                                 //If no reffrence is yet set
+        {
+            FolderGate = transform.Find("Gate").gameObject;
+            //Other references
+        }
+        byte Click = BuildingData.GetInfo(SelectedBuilding.GetComponent<BuildingOption>().BuildingName).ClickSpecial; //Save this for easy use
+        string BuildingName = SelectedBuilding.GetComponent<BuildingOption>().BuildingName;
+        if (Click == 1)
+        {
+            FolderGate.SetActive(true);
+            FolderGate.GetComponentInChildren<Text>().text = BuildingName;
+
+            //GameObject Open = FolderGate.transform.Find("Open").gameObject;
+            //GameObject Close = FolderGate.transform.Find("Close").gameObject;
+            //Button keyBindButton = FolderGate.transform.Find("Button").GetComponent<Button>();
+            //keyBindButton.onClick.AddListener(() => { SomeCode; });
+            ChangeOption(SelectedBuilding, SelectedBuildingSpecial, true, 255);
+        }
+        else
+        {
+            FolderGate.SetActive(false);
+        }
     }
     public void SelectBuilding(GameObject Building, byte ClickSpecial, byte ThePlayerID)        //If a building is being selected
     {
-        
+
+
         if (ThePlayerID == Building.GetComponent<BuildingOption>().OwnerID)                     //If the building is placed by this user
         {
             SelectedBuildingSpecial = ClickSpecial;                                             //Remember the ClickSpecial of this building
             SelectedBuilding = Building;                                                        //Remember this building
-            DropDownMenu.ClearOptions();                                                        //Clear the old options of the Dropdown menu
-            if (SelectedBuildingSpecial > 0)                                                    //If this building has a special
-                ChangeOption(Building, SelectedBuildingSpecial, true, 255);                     //Do the special code
-            else
+            if (SelectedBuildingSpecial == 0)                                                   //If this building has a special
                 gameObject.SetActive(false);                                                    //This object doesn't have a special drop down menu, so hide it
         }
         else
         {
             GameObject.Find("UserInput").GetComponent<UserInput>().ShowMessage("You do not own this building");
-            this.gameObject.SetActive(false);                                                   //Hide BuildingPopUp
+            gameObject.SetActive(false);                                                        //Hide BuildingPopUp
         }
     }
-    void InputDropdown(Dropdown change)                                                 //Triggered when the dropdown menu changes
+    public void ChangeOption(int ChangeTo)
     {
-        if (SelectedBuilding != null)
-        {
-            ChangeOption(SelectedBuilding, SelectedBuildingSpecial, true, System.Convert.ToByte(change.value));
-        }
+        ChangeOption(SelectedBuilding, SelectedBuildingSpecial, true, System.Convert.ToByte(ChangeTo));
     }
     public void ChangeOption(GameObject Building, byte ClickSpecial, bool PopUp, byte ToOption) //when ToOption 255 = Dont know the option.
     {
@@ -66,9 +93,16 @@ public class BuildingPopUp : MonoBehaviour {
             }
             if (PopUp)                                                                          //If we need a PopUp window
             {
-                DropDownMenu.ClearOptions();                                                    //Clear the old options of the Dropdown menu
-                DropDownMenu.AddOptions(new List<string> { "Open", "Close" });                  //Add the options to the dropdown menu
-                DropDownMenu.value = ToOption;                                                  //Set the gate to the selected option
+                if (ToOption == 0)
+                {
+                    gameObject.transform.Find("Gate/Open").gameObject.GetComponent<Button>().interactable = false;
+                    gameObject.transform.Find("Gate/Close").gameObject.GetComponent<Button>().interactable = true;
+                } 
+                else
+                {
+                    gameObject.transform.Find("Gate/Open").gameObject.GetComponent<Button>().interactable = true;
+                    gameObject.transform.Find("Gate/Close").gameObject.GetComponent<Button>().interactable = false;
+                }
             }
             Building.GetComponent<BuildingOption>().SelectedOption = ToOption;                  //Update the Building with this info
         }

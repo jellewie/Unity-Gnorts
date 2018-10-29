@@ -212,12 +212,12 @@ public class UserInput : MonoBehaviour
                     if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray 
                     {
                         _HideMenus();                                                           //Hide the Menu's
-                        FolderBuildingPopUp.SetActive(true);                                    //Show BuildingPopUp
                         FolderBuildingPopUp.GetComponent<BuildingPopUp>().SelectBuilding(       //Open Pop-up window
                             hit.collider.gameObject,                                            //Send the gameobject that we have clicked on
                             BuildingData.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial, //And it's special stats
-                            ThisPlayerID
-                            );
+                            ThisPlayerID                                                        //And the ID of the player
+                        );
+                        FolderBuildingPopUp.SetActive(true);                                    //Show BuildingPopUp
                     }
                 }
             }
