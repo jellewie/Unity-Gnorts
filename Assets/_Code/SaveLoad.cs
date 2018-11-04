@@ -187,7 +187,7 @@ public class SaveLoad : MonoBehaviour {
 
                         byte SelectedBuildingSpecial = BuildingData.GetInfo(BuildingTypeName).ClickSpecial; //And it's special stats
                         if (SelectedBuildingSpecial > 0)                                        //If his building has a special stats
-                            FolderBuildingPopUp.GetComponent<BuildingPopUp>().ChangeOption(a, SelectedBuildingSpecial, false, DataSelectedOption); //Do the special code
+                            FolderBuildingPopUp.GetComponent<BuildingPopUp>().ChangeOption(a, SelectedBuildingSpecial, false, DataSelectedOption, false); //Do the special code
                         i = Objects.Length;                                                     //Stop the loop we have found the building, and are done with it
                     }
                     else if (i + 1 == Objects.Length)                                           //If we have come to the end of the list without finding it
