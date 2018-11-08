@@ -92,7 +92,9 @@ namespace PublicCode {
         SpikedWall,
         Stair,
         FireBasket,
-        ReplaceWall
+        ReplaceWall,
+        Bridge,
+        BridgeStickTo
     }
 }
 
