@@ -21585,7 +21585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d912b1a5d9a3c3546910d38b671e3ea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectedBuilding: {fileID: 0}
+  SelectedBuildings: []
   DropDownMenu: {fileID: 0}
 --- !u!1 &2056332511
 GameObject:

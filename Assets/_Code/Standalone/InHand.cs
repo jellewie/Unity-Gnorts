@@ -60,23 +60,43 @@ public class InHand : MonoBehaviour
                 ErrorMSG = "That can only be attached to a Stone_Gate";
                 InvalidObjectsHitAmount++;                                                      //Flag this place as invalid by default
                 RaycastHit hit;                                                                 //Create a output variable
-                //Debug.DrawRay(gameObject.transform.position + transform.up + transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, transform.forward, Color.red); //Just a debug line 
-                //Debug.DrawRay(gameObject.transform.position + transform.up - transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2 + transform.forward, -transform.forward, Color.red); //Just a debug line 
-                if (Physics.Raycast(gameObject.transform.position + transform.up + transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, transform.forward, out hit, 1, 1 << LayerMask.NameToLayer("Building")) 
-                    || Physics.Raycast(gameObject.transform.position + transform.up + transform.forward - transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, -transform.forward, out hit, 1, 1 << LayerMask.NameToLayer("Building")))
+                //Debug.DrawRay(gameObject.transform.position + transform.up + transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, transform.forward, Color.red); //Forward
+                //Debug.DrawRay(gameObject.transform.position + transform.up - transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, -transform.forward, Color.blue);
+                //Debug.DrawRay(gameObject.transform.position + transform.up + transform.right * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, transform.right, Color.blue);
+                //Debug.DrawRay(gameObject.transform.position + transform.up - transform.right * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, -transform.right, Color.blue);
+                if (   Physics.Raycast(gameObject.transform.position + transform.up + transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2,  transform.forward, out hit, 1, 1 << LayerMask.NameToLayer("Building")) 
+                    || Physics.Raycast(gameObject.transform.position + transform.up - transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, -transform.forward, out hit, 1, 1 << LayerMask.NameToLayer("Building"))
+                    || Physics.Raycast(gameObject.transform.position + transform.up + transform.right   * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2,  transform.right  , out hit, 1, 1 << LayerMask.NameToLayer("Building"))
+                    || Physics.Raycast(gameObject.transform.position + transform.up - transform.right   * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, -transform.right  , out hit, 1, 1 << LayerMask.NameToLayer("Building")))
                 {
-                    if (hit.collider.gameObject.GetComponent<BuildingOption>().BuildingName == "Stone_Gate")
+                    if (hit.collider.gameObject.GetComponent<BuildingOption>().BuildingName == "Stone_Gate")//If the object next ot it is a Stone_Gate
                     {
-                        InvalidObjectsHitAmount--;                                                  //Flag this place as valid
+                        if (Mathf.Abs(hit.collider.transform.eulerAngles.y - 180) == 90)        //If the object is rotated 90 degrees either way
+                        {
+                            if (hit.collider.bounds.center.z == gameObject.GetComponent<Collider>().bounds.center.z)//If it does align with the Gate
+                            {
+                                InvalidObjectsHitAmount--;                                      //Flag this place as valid
+                                if (hit.collider.bounds.center.x > gameObject.GetComponent<Collider>().bounds.center.x)
+                                    gameObject.transform.rotation = Quaternion.Euler(0, 90, 0); //Rotate it to face the gate   
+                                else
+                                    gameObject.transform.rotation = Quaternion.Euler(0, 270, 0);//Rotate it to face the gate
+                            }
+                        }
+                        else
+                        {
+                            if (hit.collider.bounds.center.x == gameObject.GetComponent<Collider>().bounds.center.x)//If it does align with the Gate
+                            {
+                                InvalidObjectsHitAmount--;                                      //Flag this place as valid
+                                if (hit.collider.bounds.center.z > gameObject.GetComponent<Collider>().bounds.center.z)
+                                    gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);  //Rotate it to face the gate   
+                                else
+                                    gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);//Rotate it to face the gate
+                            }
+                        }
                     }
                 }
             }
         }
-
-        
-
-
-
         return InvalidObjectsHitAmount > 0;                                                     //Return true if there's at least 1 collider.
     }
 
