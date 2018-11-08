@@ -51,6 +51,32 @@ public class InHand : MonoBehaviour
                 InvalidObjectsHitAmount++;                                                      //Flag this place as invalid
             }
         }
+
+
+        else if (InvalidObjectsHitAmount == 0)
+        {
+            if (InhandType == BuildType.Bridge)
+            {
+                ErrorMSG = "That can only be attached to a Stone_Gate";
+                InvalidObjectsHitAmount++;                                                      //Flag this place as invalid by default
+                RaycastHit hit;                                                                 //Create a output variable
+                //Debug.DrawRay(gameObject.transform.position + transform.up + transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, transform.forward, Color.red); //Just a debug line 
+                //Debug.DrawRay(gameObject.transform.position + transform.up - transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2 + transform.forward, -transform.forward, Color.red); //Just a debug line 
+                if (Physics.Raycast(gameObject.transform.position + transform.up + transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, transform.forward, out hit, 1, 1 << LayerMask.NameToLayer("Building")) 
+                    || Physics.Raycast(gameObject.transform.position + transform.up + transform.forward - transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, -transform.forward, out hit, 1, 1 << LayerMask.NameToLayer("Building")))
+                {
+                    if (hit.collider.gameObject.GetComponent<BuildingOption>().BuildingName == "Stone_Gate")
+                    {
+                        InvalidObjectsHitAmount--;                                                  //Flag this place as valid
+                    }
+                }
+            }
+        }
+
+        
+
+
+
         return InvalidObjectsHitAmount > 0;                                                     //Return true if there's at least 1 collider.
     }
 
