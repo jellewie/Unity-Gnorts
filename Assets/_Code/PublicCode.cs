@@ -94,7 +94,6 @@ namespace PublicCode {
         FireBasket,
         ReplaceWall,
         Bridge,
-        BridgeStickTo
     }
 }
 

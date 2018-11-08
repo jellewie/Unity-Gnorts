@@ -12,6 +12,7 @@ public class InHand : MonoBehaviour
     private Renderer[] renderers;
     public List<GameObject> RemoveObjectsHit = new List<GameObject>();
     
+    public string ErrorMSG = "";
     /// <summary>
     /// Check if there is something colliding.</summary>
     /// <returns>Collision indicator</returns>
@@ -24,22 +25,11 @@ public class InHand : MonoBehaviour
             transform.rotation,
             nonGroundLayerMask);
 
+        ErrorMSG = "";                                                                          //reset the error message
         RemoveObjectsHit = new List<GameObject>();                                              //Make sure the list is emthy
         int InvalidObjectsHitAmount = Hits.Length;                                              //Get the total amount of objects in the way
         BuildType InhandType = BuildingData.GetInfo(gameObject.GetComponent<BuildingOption>().BuildingName).BuildType; //Get this Buildings name
-        if (InhandType == BuildType.ReplaceWall)                                                //If this is a Stone or wooden gate or tower
-        {
-            for (int i = 0; i < Hits.Length; i++)                                               //For each item hit
-            {
-                BuildType type = BuildingData.GetInfo(Hits[i].GetComponent<BuildingOption>().BuildingName).BuildType; //Get it's type
-                if (type == BuildType.Wall || type == BuildType.SpikedWall)                     //If it's a wall or Spiked wall
-                    RemoveObjectsHit.Add(Hits[i].gameObject);                                   //Store it in the list so we would be able to remove it upon placement
-                else
-                    i = Hits.Length;                                                            //Stop the loop code, we have found something invalid. No point in going on
-            }
-            InvalidObjectsHitAmount -= RemoveObjectsHit.Count;                                  //Calculate the invalid objects in the way of a placement
-        }
-        else if(InhandType == BuildType.Wall || InhandType == BuildType.SpikedWall)             //If it's a wall
+        if(InhandType == BuildType.ReplaceWall || InhandType == BuildType.Wall || InhandType == BuildType.SpikedWall)             //If it's a wall
         {
             for (int i = 0; i < Hits.Length; i++)                                               //For each item hit
             {
@@ -56,7 +46,10 @@ public class InHand : MonoBehaviour
         {
             //Debug.DrawRay(gameObject.transform.position + transform.up, -transform.up, Color.red); //Just a debug line 
             if (!Physics.Raycast(gameObject.transform.position + transform.up, -transform.up, 1, 1 << LayerMask.NameToLayer("Building"))) //If there is no structure (and thus its not on a stone structure)
+            {
+                ErrorMSG = "That can only be build on Stone_Walls";
                 InvalidObjectsHitAmount++;                                                      //Flag this place as invalid
+            }
         }
         return InvalidObjectsHitAmount > 0;                                                     //Return true if there's at least 1 collider.
     }
