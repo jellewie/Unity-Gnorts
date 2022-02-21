@@ -80,7 +80,7 @@ public class SaveLoad : MonoBehaviour {
              + "," + OwnerID
              + "," + CampainmapID
              + "," + DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "_" + DateTime.Now.Hour + ":" + DateTime.Now.Minute
-             + "," + "github.com/jellewie/Unity-Gnorts"
+             + "," + "github.com/andreiserbanrazvan/Unity-Gnorts"
             );
         SW.WriteLine(WorldToString());                                                          //Get and write all buildings to the file
         SW.Close();                                                                             //Close the stream so the file isn't locked anymore
