@@ -187,7 +187,7 @@ public class UserInput : MonoBehaviour
                     RaycastHit hit;                                                             //Create a output variable
                     if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
                     {
-                        if (CodeInputManager.GetButtonDownOnce(ButtonId.Build))                   //If the button is pressed for the first time
+                        if (CodeInputManager.GetButtonDown(ButtonId.Build))                   //If the button is pressed for the first time
                         {
                             if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
                                 DeconstructBuilding(hit.transform.gameObject);                  //Deconstruct the selected building
@@ -488,7 +488,7 @@ public class UserInput : MonoBehaviour
             Debug.Log("<Move NPC down code>");
         }
         else if (DestroySpecial > 2)
-            Debug.Log("unprogrammed Destory special found :" + DestroySpecial);
+            Debug.Log("unprogrammed Destroy special found :" + DestroySpecial);
 
 
         TheBuilding.GetComponent<BuildingOption>()._Destroy();                                  //Destroy the building
