@@ -21,7 +21,8 @@ public class UserInput : MonoBehaviour
     public Transform FolderBuildings;                                                   //The folder where all the buildings should be put in
     public GameObject FolderBuildingPopUp;                                              //The folder with the pop-up stuff in it
     public GameObject TextMessage;
-    private Byte LowerObjectBy = 0;                                                     //Howmuch the gameobject should be higher (this is used for walls as example)
+    private Byte LowerObjectBy = 0;                                                     //How much the gameobject should be higher (this is used for walls as example)
+    public Texture2D MouseDefault;                                                      //The default mouse icon   
     public Texture2D MouseDeconstruct;                                                  //The mouse icon of the deconstruct tool
     public Byte ThisPlayerID;
     Quaternion PreviousRotation;
@@ -41,6 +42,7 @@ public class UserInput : MonoBehaviour
 
     private void Start()                                                                //Triggered on start
     {
+        SetCursor(MouseDefault);
     }
     private void Update()                                                               //Triggered before frame update
     {
@@ -200,7 +202,7 @@ public class UserInput : MonoBehaviour
                 else if (CodeInputManager.GetButtonDownOnce(ButtonId.CancelBuild))                //If we want to cancel Removing buildings
                 {
                     DeconstructToolEquiped = false;                                             //Stop the DeconstructTool being equiped
-                    SetCursor(null);                                                            //Reset cursor icon, so it isn't the Deconstruct Tool
+                    SetCursor(MouseDefault);                                                            //Reset cursor icon, so it isn't the Deconstruct Tool
                 }
             }
             else
@@ -419,8 +421,6 @@ public class UserInput : MonoBehaviour
                 Destroy(InHand);                                                                //Destoy the building (This will cancel 'NowBuilding' if it's ative)
                 SetCursor(MouseDeconstruct);                                                    //Set the mouse cursor to be the Deconstruct Tool
             }
-            else
-                SetCursor(null);                                                                //Reset cursor icon, so it isn't the Deconstruct Tool
         }
     }
     public void _HideMenus()                                                            //This will hide the full sub menu

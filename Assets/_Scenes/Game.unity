@@ -12269,7 +12269,8 @@ MonoBehaviour:
   FolderBuildings: {fileID: 1040418256}
   FolderBuildingPopUp: {fileID: 2038742038}
   TextMessage: {fileID: 450758157}
-  MouseDeconstruct: {fileID: 2800000, guid: 47ef6167a3836ad47810a9022d0afe2e, type: 3}
+  MouseDefault: {fileID: 2800000, guid: 4d09ffd71a49d7747ac2653db8c56353, type: 3}
+  MouseDeconstruct: {fileID: 2800000, guid: f10818a711f2ff64385290cdb3550977, type: 3}
   ThisPlayerID: 0
 --- !u!1 &1107932979
 GameObject:

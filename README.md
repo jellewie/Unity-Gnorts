@@ -20,3 +20,8 @@ https://discord.gg/ggfDJHg
 2) Clone (Download) the whole project, I recommend a program like __GitHub desktop__ if you want to help
 3) Open Unity and do 'File-Open project' Select the 'Unity-Gnorts' folder and open the project (This will take a long time if it's the first time)
 4) Don't forget to open the game scene; In your project window under /Assets/_Scenes/Game
+
+
+
+ ## Acknowledgement
+ 1)Icons created by Freepik - Flaticon : https://www.flaticon.com/free-icons/finger, https://www.flaticon.com/free-icons/mace
