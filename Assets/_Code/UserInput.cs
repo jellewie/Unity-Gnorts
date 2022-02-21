@@ -200,8 +200,7 @@ public class UserInput : MonoBehaviour
                     }
                 }
                 else if (CodeInputManager.GetButtonDownOnce(ButtonId.CancelBuild))                //If we want to cancel Removing buildings
-                {
-                    DeconstructToolEquiped = false;                                             //Stop the DeconstructTool being equiped
+                {                                          
                     SetCursor(MouseDefault);                                                            //Reset cursor icon, so it isn't the Deconstruct Tool
                 }
             }
@@ -421,10 +420,13 @@ public class UserInput : MonoBehaviour
                 Destroy(InHand);                                                                //Destoy the building (This will cancel 'NowBuilding' if it's ative)
                 SetCursor(MouseDeconstruct);                                                    //Set the mouse cursor to be the Deconstruct Tool
             }
+            else
+                SetCursor(MouseDefault);
         }
     }
     public void _HideMenus()                                                            //This will hide the full sub menu
     {
+        SetCursor(MouseDefault);
         FolderBuildingPopUp.SetActive(false);                                                   //Hide BuildingPopUp
         HideBuildMenus();
     }
@@ -526,6 +528,9 @@ public class UserInput : MonoBehaviour
     }
     private void SetCursor(Texture2D NewCursorIcon)                                     //Call this to change the mouse icon (Use 'NULL' to reset to normal)
     {
+        if (NewCursorIcon == MouseDefault)
+            DeconstructToolEquiped = false;                                             //Stop the DeconstructTool being equiped
+     
         //Make sure to set the texture type of the image to Cursor!
         Cursor.SetCursor(NewCursorIcon, Vector2.zero, CursorMode.Auto);                         //Set the image as icon
     }
