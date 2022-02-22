@@ -3,6 +3,17 @@
  */
 
 namespace PublicCode {
+
+
+    public class Globals
+    {
+        public bool BuildingSelected = false;
+
+        public void SetBuildingSelected(bool val){
+            BuildingSelected = val;
+        }
+    }
+
     public static class JelleWho {
 
         //https://www.desmos.com/calculator     y=\frac{-C}{99}\cdot x+B+\frac{C}{99}      X = height     B =SpeedAtHeigh1    and C = SpeedAtHeigh100     //Current added Speed = y=C\cdot x\ +D

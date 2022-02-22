@@ -235,6 +235,8 @@ public class UserInput : MonoBehaviour
                             .DisplayGameObjectInformation
                             .GetComponentInChildren<Image>().sprite = 
                             hit.collider.GetComponent<BuildingOption>().Sprite;                  //Set Image Component to building Sprite
+
+                      //  IsSelected = true;
                     }
                 }
             }
