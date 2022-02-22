@@ -223,6 +223,18 @@ public class UserInput : MonoBehaviour
                             BuildingData.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial, //And it's special stats
                             ThisPlayerID                                                        //And the ID of the player
                         );
+
+
+                        FolderBuildingPopUp
+                            .GetComponent<BuildingPopUp>()
+                            .DisplayGameObjectInformation
+                            .GetComponentInChildren<Image>().enabled = true;                      //Activate Image Component on UI    
+
+                        FolderBuildingPopUp
+                            .GetComponent<BuildingPopUp>()
+                            .DisplayGameObjectInformation
+                            .GetComponentInChildren<Image>().sprite = 
+                            hit.collider.GetComponent<BuildingOption>().Sprite;                  //Set Image Component to building Sprite
                     }
                 }
             }
@@ -240,7 +252,7 @@ public class UserInput : MonoBehaviour
         if (CodeInputManager.GetButtonDownOnce(ButtonId.CancelBuild))                           //If we right click to cancel
             _HideMenus();                                                                       //Hide the Menu's
         if (CodeInputManager.GetButtonDownOnce(ButtonId.ToggleUi))                              //If the Toggle UI button is pressed
-            FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
+            FolderUI.SetActive(!FolderUI.activeSelf);                                           //Toggle the UI
         {                                                                                       //Camera stuff
             Speed = (JelleWho.SpeedC * Camera.main.transform.position.y + JelleWho.SpeedD) * deltaTime; //The height has X of speed increase per block (times the time elapsed since last frame)
             Vector2 input = new Vector2(0f, 0f);                                                //Create a new (emnthy) movement change vector
