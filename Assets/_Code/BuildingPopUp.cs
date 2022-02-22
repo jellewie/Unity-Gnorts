@@ -7,6 +7,7 @@ public class BuildingPopUp : MonoBehaviour {
     public List<GameObject> SelectedBuildings = new List<GameObject>();
     byte SelectedBuildingSpecial;                                                               //The special tag of the building
     public Dropdown DropDownMenu;                                                               //This needs to be set to the Dropdown menu itzelf
+    public GameObject DisplayGameObjectInformation;
 
     GameObject FolderGate;
 
@@ -35,20 +36,20 @@ public class BuildingPopUp : MonoBehaviour {
                 else
                     SelectedBuildingSpecial = ClickSpecial;                                     //Save the selected buildin(s) special tag
             }
-            if (SelectedBuildingSpecial == ClickSpecial)                                        //If this building has the same tag as stored (for multible selection)
+            if (SelectedBuildingSpecial == ClickSpecial)                                        //If this building has the same tag as stored (for multiple selection)
             {
                 SelectedBuildings.Add(Building);                                                //Add this building to our list
-                bool Multible = false;                                                          //Default to no multible selection
+                bool Multiple = false;                                                          //Default to no multiple selection
                 if (SelectedBuildings.Count > 1)                                                //If we have selected more than 1
-                    Multible = true;                                                            //Flag we have multible buildings
+                    Multiple = true;                                                            //Flag we have multiple buildings
                 if (SelectedBuildingSpecial == 1)                                               //If this is a Gate
                 {
-                    if (Multible)                                                               //If we have multible buildings
-                        FolderGate.GetComponentInChildren<Text>().text = "Multible Gates";      //Change the text to reflect that
+                    if (Multiple)                                                               //If we have multiple buildings
+                        FolderGate.GetComponentInChildren<Text>().text = "Multiple Gates";      //Change the text to reflect that
                     else
                         FolderGate.GetComponentInChildren<Text>().text = Building.GetComponent<BuildingOption>().BuildingName; //Set the building name in the pop-up window 
                     FolderGate.SetActive(true);                                                 //Show the gate folder
-                    ChangeOption(SelectedBuildings[0], SelectedBuildingSpecial, true, 255, Multible); //Load the settings 
+                    ChangeOption(SelectedBuildings[0], SelectedBuildingSpecial, true, 255, Multiple); //Load the settings 
                 }
             }
         }
