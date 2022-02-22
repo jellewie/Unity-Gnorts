@@ -366,6 +366,7 @@ MonoBehaviour:
   SelectedOption: 0
   Health: 0
   OwnerID: 0
+  Sprite: {fileID: 21300000, guid: 252cd5c37cba3ff408fe921a83a54595, type: 3}
 --- !u!65 &65622009785802946
 BoxCollider:
   m_ObjectHideFlags: 0
