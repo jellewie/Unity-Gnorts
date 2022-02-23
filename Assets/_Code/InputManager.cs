@@ -95,26 +95,7 @@ public class InputManager : MonoBehaviour
     {
         return Input.GetKeyUp(_keyBindings[ButtonID].KeyCode);                                       //Check if key was released
     }
-    //public bool GetButtonDown(string buttonName)                                        //Checks if the button has been pressed
-    //{
-    //    for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
-    //    {
-    //        if (KeysArray[i].Name == buttonName)                                                //If this is the button we are looking for
-    //            return Input.GetKey(KeysArray[i].Key_);                                         //Return the button state
-    //    }
-    //    Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error
-    //    return false;
-    //}
-    //public bool GetButtonDownOnce(string buttonName)                                    //Checks if the button is pressed (and flag it as processed)
-    //{
-    //    for (int i = 0; i < KeysArray.Length; i++)                                              //For each entry in the array
-    //    {
-    //        if (KeysArray[i].Name == buttonName)                                                //If this is the button we are looking for
-    //            return Input.GetKeyDown(KeysArray[i].Key_);                                     //Return the button state
-    //    }
-    //    Debug.LogError("InputManager::GetButtonDown -- No button named: '" + buttonName + "'"); //Show an error
-    //    return false;                                                                           //Return False (Could not find button, so it's defenetly not pressed)
-    //}
+
     /// <summary>
     /// Bind a key to a button.
     /// </summary>

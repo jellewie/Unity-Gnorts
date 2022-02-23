@@ -39,29 +39,8 @@ namespace PublicCode {
         public static int BoolSettingsDefault = 0x01;                                           //Set the default value of the Bool Settings
         public static int BoolSettingsLength = 4;                                               //How many settings we are storing
 
-
         public static float DeconstructUnused = 0.9f;
         public static float DeconstructUsed = 0.5f;
-        /*
-            Layout of playerPrefs 'BoolSettings' (1/0):
-                Bit 1 = 0x01 = EdgeScroll (on/off)
-                Bit 2 = 0x02 = 
-                Bit 3 = 0x04 = 
-                Bit 4 = 0x08 = 
-                Bit 5 = 0x10 = 
-                Bit 6 = 0x20 = 
-                Bit 7 = 0x40 = 
-                Bit 8 = 0x80 = 
-
-            Read
-                if ((PlayerPrefs.GetInt("BoolSettings",JelleWho.BoolSettingsDefault) & 0x02) == 0x02){}                         //Read the bit
-            Set
-                PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) | 0x02));  //Set bit TRUE
-            Clear
-                 PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) & ~0x02));//Set bit FALSE
-            Toggle
-                PlayerPrefs.SetInt("BoolSettings", (PlayerPrefs.GetInt("BoolSettings", JelleWho.BoolSettingsDefault) ^ 0x02));  //Toggle
-        */
     }
     public class SettingsBool                                                           //Create a new Class data type to store the bools in
     {

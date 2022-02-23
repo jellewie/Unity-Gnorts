@@ -19,9 +19,7 @@ public class OutlineScript : MonoBehaviour
 	}
 
 	void OnRenderImage(RenderTexture src, RenderTexture dst)
-	{
-		//if ( == true)
-		//{
+	{		
 			TempCam.CopyFrom(Camera.current);
 			TempCam.backgroundColor = Color.black;
 			TempCam.clearFlags = CameraClearFlags.Color;
@@ -43,6 +41,5 @@ public class OutlineScript : MonoBehaviour
 			Graphics.Blit(rt, dst, _outlineMaterial);
 			TempCam.targetTexture = src;
 			RenderTexture.ReleaseTemporary(rt);
-		//}
 	}
 }

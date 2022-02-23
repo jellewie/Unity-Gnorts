@@ -591,24 +591,6 @@ public class UserInput : MonoBehaviour
     public void _BackToMenu()                                                           //Menu button that let you go back to the main menu
     {
         Application.Quit();                                                                     //Since there is a lack of main menu right now, let's quit the application
-
-
-        /*//(Part of) The old Code I use to use (this enabled loading bar animations)
-         
-        StartCoroutine(LoadScene("Game"));                                              //Start loading screen in background, and go to it when done
-
-        IEnumerator LoadScene(string SceneToLoad)
-        {
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneToLoad);
-            asyncLoad.allowSceneActivation = false;                                     //Don't jump to the scene when loading is complete
-            while (asyncLoad.progress < 0.9f)                                           //While loading isn't done
-            {
-                Debug.Log("Loading is at " + (asyncLoad.progress *100));
-                yield return null;
-            }
-            asyncLoad.allowSceneActivation = true;                                      //Go to the screen
-        }
-        */
     }
 
     public void _TEST()
