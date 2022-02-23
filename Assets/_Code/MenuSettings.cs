@@ -9,20 +9,19 @@ using PublicCode;
  */
 public class MenuSettings : MonoBehaviour
 {
-    // Use this for initialization
     void Start()
     {
         inputManager = GameObject.FindObjectOfType<InputManager>();
         // Create one "Key List Item" per button in inputManager
         buttonToLabel = new Dictionary<string, Text>();
-        LoadList();                                             //Put all the entries in the list
+        LoadList();                                                         //Put all the entries in the list
     }
-
 
     void LoadList()
     {
-        SettingsBool[] buttonName = inputManager.GetBoolSettings();                             //Gets all button names and plot it in a array
+        SettingsBool[] buttonName = inputManager.GetBoolSettings();         //Gets all button names and plot it in a array
     }
+
     InputManager inputManager;
     public GameObject keyItemPrefab;
     public GameObject keyList;
@@ -30,10 +29,8 @@ public class MenuSettings : MonoBehaviour
     string buttonToRebind = null;
     Dictionary<string, Text> buttonToLabel;
 
-    // Update is called once per frame
     void Update()
     {
-
         if (buttonToRebind != null)
         {
             if (Input.anyKeyDown)
@@ -56,7 +53,6 @@ public class MenuSettings : MonoBehaviour
 
             }
         }
-
     }
 
     void StartRebindFor(string buttonName)

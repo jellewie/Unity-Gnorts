@@ -1,7 +1,7 @@
 ﻿using PublicCode;
 using UnityEngine;
 
-public class OutlineScript : MonoBehaviour
+public class Outliner : MonoBehaviour
 {
 	[SerializeField]
 	public Shader DrawAsSolidColor;
@@ -19,7 +19,9 @@ public class OutlineScript : MonoBehaviour
 	}
 
 	void OnRenderImage(RenderTexture src, RenderTexture dst)
-	{		
+	{
+		if (false)
+		{
 			TempCam.CopyFrom(Camera.current);
 			TempCam.backgroundColor = Color.black;
 			TempCam.clearFlags = CameraClearFlags.Color;
@@ -41,5 +43,6 @@ public class OutlineScript : MonoBehaviour
 			Graphics.Blit(rt, dst, _outlineMaterial);
 			TempCam.targetTexture = src;
 			RenderTexture.ReleaseTemporary(rt);
+		}
 	}
 }

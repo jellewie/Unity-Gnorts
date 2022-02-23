@@ -27,9 +27,7 @@ public class UserInput : MonoBehaviour
     public Byte ThisPlayerID;
     Quaternion PreviousRotation;
     private readonly float InvalidBuildTimeThreshold = 0.5f;                                //How long before we show a message about not being able to build
-
     public bool IsDragging { get; set; }                                                //Are we dragging something?
-
     private bool IsOutOfFocus = false;
     private bool GamePaused = false;
     private bool StopCameraControls = false;
@@ -44,10 +42,12 @@ public class UserInput : MonoBehaviour
     {
         SetCursor(MouseDefault);
     }
+
     private void Update()                                                               //Triggered before frame update
     {
         deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;                               //Calculate time elapsed since last frame
     }
+
     private void LateUpdate()                                                           //Triggered after frame update
     {
         if (!IsOutOfFocus)                                                                      //If the game isn't paused
@@ -63,10 +63,12 @@ public class UserInput : MonoBehaviour
             //Game is paused (Stop tick count and such)
         }
     }
+
     void OnApplicationFocus(bool hasFocus)                                              //Triggered when the game is in focus
     {
         IsOutOfFocus = !hasFocus;                                                               //Set game to be in focus
     }
+
     void OnApplicationPause(bool pauseStatus)                                           //Triggered when the game is out focus
     {
         IsOutOfFocus = pauseStatus;                                                             //Set game to be out of focus
@@ -105,7 +107,6 @@ public class UserInput : MonoBehaviour
                             InHand.transform.position.y + InHand.GetComponent<Collider>().bounds.size.y + 0.6f, //Height of the stair + a bit
                             InHand.transform.position.z + (InHand.transform.forward.z)          //InHand position + forward
                             );
-                        //Debug.DrawRay(OneForward, -transform.up * InHand.GetComponent<Collider>().bounds.size.y, Color.red);   //Just a debug line 
                         if (Physics.Raycast(OneForward, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from OneForward towards the ground, and mesaure the length to a building
                         {
                             BuildType typeHit = BuildingData.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).BuildType;
@@ -127,7 +128,6 @@ public class UserInput : MonoBehaviour
                                 InHand.transform.position.y + InHand.GetComponent<Collider>().bounds.size.y - 0.4f, //Height of the stair + a bit
                                 InHand.transform.position.z - (InHand.transform.forward.z)      //InHand position + forward
                                 );
-                            //Debug.DrawRay(OneBackwards, -transform.up * (InHand.GetComponent<Collider>().bounds.size.y), Color.red); //Just a debug line 
                             if (Physics.Raycast(OneBackwards, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building"))) //Do a raycast from OneBackwards towards the ground, and mesaure the length to a building
                             {
                                 BuildType typeHit = BuildingData.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).BuildType;
@@ -141,7 +141,6 @@ public class UserInput : MonoBehaviour
                                     else
                                         InHand.transform.position += new Vector3(0, -InHand.GetComponent<Collider>().bounds.size.y + 0.5f, 0); //Move the stair down
                                 }
-                               
                             }
                             else
                                 InHand.transform.position += new Vector3(0, -InHand.GetComponent<Collider>().bounds.size.y + 0.5f, 0); //Move the stair down
@@ -224,24 +223,19 @@ public class UserInput : MonoBehaviour
                             ThisPlayerID                                                        //And the ID of the player
                         );
 
-
                         FolderBuildingPopUp
                             .GetComponent<BuildingPopUp>()
                             .DisplayGameObjectInformation
                             .GetComponentInChildren<Image>().enabled = true;                      //Activate Image Component on UI    
-
                         FolderBuildingPopUp
                             .GetComponent<BuildingPopUp>()
                             .DisplayGameObjectInformation
                             .GetComponentInChildren<Image>().sprite = 
                             hit.collider.GetComponent<BuildingOption>().Sprite;                  //Set Image Component to building Sprite
-
-                      //  IsSelected = true;
                     }
                 }
             }
         }
-
         if (CodeInputManager.GetButtonUp(ButtonId.Build))                                       //Check if the build key was released
         {
             buildKeyDownTime = 0;                                                               //Reset the timer
