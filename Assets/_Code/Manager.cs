@@ -14,4 +14,12 @@ public class Manager : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
     }
+
+    private void Update()
+    {
+        if (isSelected)
+            Camera.main.GetComponent<Outliner>().enabled = false;        // disable the outliner camera to stop the outlining
+        else
+            Camera.main.GetComponent<Outliner>().enabled = true;
+    }
 }

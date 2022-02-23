@@ -24,8 +24,6 @@ public class Outliner : MonoBehaviour
 
 	void OnRenderImage(RenderTexture src, RenderTexture dst)
 	{
-		if (Manager.instance.isSelected == true)
-		{
 			TempCam.CopyFrom(Camera.current);
 			TempCam.backgroundColor = Color.black;
 			TempCam.clearFlags = CameraClearFlags.Color;
@@ -41,6 +39,5 @@ public class Outliner : MonoBehaviour
 			Graphics.Blit(rt, dst, _outlineMaterial);
 			TempCam.targetTexture = src;
 			RenderTexture.ReleaseTemporary(rt);
-		}
 	}
 }
