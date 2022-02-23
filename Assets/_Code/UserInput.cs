@@ -277,9 +277,9 @@ public class UserInput : MonoBehaviour
                 input.y += JelleWho.MoveSpeedKeyboard;
             if (CodeInputManager.GetButtonDown(ButtonId.Down))                                  //Keyboard move down
                 input.y -= JelleWho.MoveSpeedKeyboard;
-            if (CodeInputManager.GetButtonDown(ButtonId.Drag))                                  //If the Drag button is presse
+            if (CodeInputManager.GetButtonDown(ButtonId.Drag))                                  //If the Drag button is pressed
             {
-                input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse;                  //Calculate howmuch we need to move in the axes 
+                input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse;                  //Calculate how much we need to move in the axes 
                 input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse;                  //^
             }
             else if (input == new Vector2(0f, 0f))                                              //If camera doesn't need to move yet
@@ -464,16 +464,16 @@ public class UserInput : MonoBehaviour
         if (TheBuilding.GetComponent<BuildingOption>().Used)                                    //If the building is not brand new
         {
             resourceManager.ChangeWood (buildingInfo.Cost.Wood  * JelleWho.DeconstructUsed);    //Return some percentage
-            resourceManager.ChangeStone(buildingInfo.Cost.Stone * JelleWho.DeconstructUsed);    //^
-            resourceManager.ChangeIron (buildingInfo.Cost.Iron  * JelleWho.DeconstructUsed);    //^
-            resourceManager.ChangeGold (buildingInfo.Cost.Gold  * JelleWho.DeconstructUsed);    //^
+            resourceManager.ChangeStone(buildingInfo.Cost.Stone * JelleWho.DeconstructUsed);
+            resourceManager.ChangeIron (buildingInfo.Cost.Iron  * JelleWho.DeconstructUsed);
+            resourceManager.ChangeGold (buildingInfo.Cost.Gold  * JelleWho.DeconstructUsed); 
         }
         else
         {
             resourceManager.ChangeWood (buildingInfo.Cost.Wood  * JelleWho.DeconstructUnused);  //Return some percentage
-            resourceManager.ChangeStone(buildingInfo.Cost.Stone * JelleWho.DeconstructUnused);  //^
-            resourceManager.ChangeIron (buildingInfo.Cost.Iron  * JelleWho.DeconstructUnused);  //^
-            resourceManager.ChangeGold (buildingInfo.Cost.Gold  * JelleWho.DeconstructUnused);  //^
+            resourceManager.ChangeStone(buildingInfo.Cost.Stone * JelleWho.DeconstructUnused);
+            resourceManager.ChangeIron (buildingInfo.Cost.Iron  * JelleWho.DeconstructUnused);
+            resourceManager.ChangeGold (buildingInfo.Cost.Gold  * JelleWho.DeconstructUnused);
         }
 
         byte DestroySpecial = BuildingData.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName).DestroySpecial;
@@ -489,7 +489,7 @@ public class UserInput : MonoBehaviour
             {
                 String Name = Hits[i].gameObject.GetComponent<BuildingOption>().BuildingName;
                 if (Name == "Fire_Basket" || Name == "Ballista_Tower" || Name == "Mangonel_Tower") //If it's a fire basket or balista or Mangonel
-                    DeconstructBuilding(Hits[i].gameObject);                                    //Deconstruct it
+                    DeconstructBuilding(Hits[i].gameObject);                                       //Deconstruct it
             }
             DestroySpecial = 2;                                                                 //Also execute the code for DestroySpecial 3 on this object
         }
@@ -540,7 +540,7 @@ public class UserInput : MonoBehaviour
             DeconstructToolEquiped = false;                                             //Stop the DeconstructTool being equiped
      
         //Make sure to set the texture type of the image to Cursor!
-        Cursor.SetCursor(NewCursorIcon, Vector2.zero, CursorMode.Auto);                         //Set the image as icon
+        Cursor.SetCursor(NewCursorIcon, Vector2.zero, CursorMode.Auto);                 //Set the image as icon
     }
     private IEnumerator ShowMessageAttention()
     {
@@ -582,9 +582,9 @@ public class UserInput : MonoBehaviour
             Debug.Log("Deleted!");
         }
     }
-    public void _BackToMenu()                                                           //Menu button that let you go back to the main menu
-    {
-        Application.Quit();                                                                     //Since there is a lack of main menu right now, let's quit the application
+    public void _BackToMenu()                                               //Menu button that let you go back to the main menu
+    {                                                                       //^
+        Application.Quit();                                                 //Since there is a lack of main menu right now, let's quit the application
     }
 
     public void _TEST()
