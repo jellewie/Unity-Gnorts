@@ -23,8 +23,8 @@ public class Manager : MonoBehaviour
     private void Update()
     {
         if (isSelected)
-            Camera.main.GetComponent<Outliner>().enabled = true;        // disable the outliner camera to stop the outlining
-        else
-            Camera.main.GetComponent<Outliner>().enabled = false;
+            Camera.main.GetComponent<Outliner>().enabled = true;        //enable the outliner camera to stop the outlining
+        else                                                            //^
+            Camera.main.GetComponent<Outliner>().enabled = false;       //disable the outliner camera to stop the outlining
     }
 }

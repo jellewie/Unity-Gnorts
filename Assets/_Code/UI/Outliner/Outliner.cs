@@ -27,7 +27,7 @@ public class Outliner : MonoBehaviour
 			TempCam.CopyFrom(Camera.current);
 			TempCam.backgroundColor = Color.black;
 			TempCam.clearFlags = CameraClearFlags.Color;
-			TempCam.cullingMask = 1 << LayerMask.NameToLayer("Building");
+			TempCam.cullingMask = 1 << LayerMask.NameToLayer("Outliner");
 			var rt = RenderTexture.GetTemporary(src.width, src.height, 0, RenderTextureFormat.R8);
 			TempCam.targetTexture = rt;
 			TempCam.RenderWithShader(DrawAsSolidColor, "");

@@ -224,6 +224,7 @@ public class UserInput : MonoBehaviour
                         );
 
                         Manager.instance.isSelected = true;                                     //Activate flag for selection outline
+                        ChangeChildrenLayer(11);                                                //Changes child game object to outliner layer
                         hit.collider.gameObject.GetComponent<BuildingOption>().SetSelected(true);                      
 
                         FolderBuildingPopUp
@@ -244,14 +245,9 @@ public class UserInput : MonoBehaviour
                     RaycastHit hit;
                     
                     if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Terrain")))
-                    {                      
+                    {
                         Manager.instance.isSelected = false;
-                        GameObject buildings = GameObject.Find("Buildings");
-                        foreach (Transform go in buildings.transform)
-                        {
-                            go.GetComponent<BuildingOption>().SetSelected(false);
-                            go.transform.gameObject.layer = 11;
-                        }
+                        ChangeChildrenLayer(10);                                                //Changes child game object to building layer
                     }
                 }
             }
@@ -349,6 +345,41 @@ public class UserInput : MonoBehaviour
             Camera.main.transform.eulerAngles = new Vector2(Mathf.Clamp(Xr, 0, 89.99f), Yr);    //Clamp Up Down looking angle 
         }                                                                                       //Camera stuff
     }
+
+    private void ChangeChildrenLayer(int layer)
+    {
+        GameObject buildings = GameObject.Find("Buildings");
+        if (layer == 10)
+        {            
+            foreach (Transform go in buildings.transform)
+            {
+                go.GetComponent<BuildingOption>().SetSelected(false);
+                SetMeshChildren(layer, go);
+            }
+        }
+        if (layer == 11)
+        {
+            foreach (Transform go in buildings.transform)
+            {
+                if (go.GetComponent<BuildingOption>().GetSelected() == true)
+                {
+                    go.transform.gameObject.layer = layer;
+                    SetMeshChildren(layer, go);
+                }                
+            }
+        }       
+    }
+
+    private static void SetMeshChildren(int layer, Transform go)
+    {
+        go.transform.gameObject.layer = layer;
+        Transform[] meshChildren = go.Find("Mesh").GetComponentsInChildren<Transform>();
+        foreach (Transform child in meshChildren)
+        {
+            child.gameObject.layer = layer;
+        }
+    }
+
     /// <summary>
     /// Indicate the end of a dragging operation.
     /// </summary>

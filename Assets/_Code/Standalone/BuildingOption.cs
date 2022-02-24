@@ -26,6 +26,11 @@ public class BuildingOption : MonoBehaviour {
         }
     }
 
+    public bool GetSelected()
+    {
+        return selected;
+    }
+
     public void SetSelected(bool val)
     {
         selected = val;
