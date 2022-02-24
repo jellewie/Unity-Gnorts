@@ -224,8 +224,9 @@ public class UserInput : MonoBehaviour
                         );
 
                         Manager.instance.isSelected = true;                                     //Activate flag for selection outline
+                        hit.collider.gameObject.GetComponent<BuildingOption>().SetSelected(true);
                         ChangeChildrenLayer(11);                                                //Changes child game object to outliner layer
-                        hit.collider.gameObject.GetComponent<BuildingOption>().SetSelected(true);                      
+                                             
 
                         FolderBuildingPopUp
                             .GetComponent<BuildingPopUp>()
