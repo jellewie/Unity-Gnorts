@@ -20,7 +20,7 @@ public class InHand : MonoBehaviour
     {
         // Get all the colliders within a box slightly smaller than our collider, except those in the ground layer.
         Collider[] Hits = Physics.OverlapBox(
-            boxCollider.bounds.center,                                                          //From the center
+            boxCollider.bounds.center/2,                                                          //From the center
             boxCollider.size / 2 - new Vector3(0.01f, 0.01f, 0.01f),                            //Size from the center to the edge
             transform.rotation,
             nonGroundLayerMask);

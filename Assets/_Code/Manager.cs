@@ -5,7 +5,12 @@
 public class Manager : MonoBehaviour
 {
     public static Manager instance = null;
-    public bool isSelected = false;
+    public bool isSelected;
+
+    private void Start()
+    {
+        isSelected = false;    //Because we cant define false value in definition 
+    }
 
     private void Awake()
     {
@@ -18,8 +23,8 @@ public class Manager : MonoBehaviour
     private void Update()
     {
         if (isSelected)
-            Camera.main.GetComponent<Outliner>().enabled = false;        // disable the outliner camera to stop the outlining
+            Camera.main.GetComponent<Outliner>().enabled = true;        // disable the outliner camera to stop the outlining
         else
-            Camera.main.GetComponent<Outliner>().enabled = true;
+            Camera.main.GetComponent<Outliner>().enabled = false;
     }
 }

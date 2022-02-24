@@ -36,7 +36,7 @@ public class UserInput : MonoBehaviour
     private float deltaTime = 0.0f;                                                     //The time between this and the last frame
     private float buildKeyDownTime;                                                     //How long the build key has been down
     private bool BuildFirstTry = true;
-    private float Speed;                                                                //Speed multiblecation for controls (zoom out slowdown)
+    private float Speed;                                                                //Speed multiplication for controls (zoom out slowdown)
 
     private void Start()                                                                //Triggered on start
     {
@@ -164,7 +164,7 @@ public class UserInput : MonoBehaviour
                 }
                 if (CodeInputManager.GetButtonDownOnce(ButtonId.CancelBuild))                   //If we want to cancel the build
                     Destroy(InHand);                                                            //Destoy the building
-                else if (CodeInputManager.GetButtonDown(ButtonId.Build) && !IsDragging)         //If we need to build the object here
+                else if (CodeInputManager.GetButtonDownOnce(ButtonId.Build) && !IsDragging)         //If we need to build the object here
                 {
                     buildKeyDownTime += Time.deltaTime;                                         //Increase the build key timer
                     Build(InHand);                                                              //Try to place the building
@@ -223,6 +223,9 @@ public class UserInput : MonoBehaviour
                             ThisPlayerID                                                        //And the ID of the player
                         );
 
+                        Manager.instance.isSelected = true;                                     //Activate flag for selection outline
+                        hit.collider.gameObject.GetComponent<BuildingOption>().SetSelected(true);                      
+
                         FolderBuildingPopUp
                             .GetComponent<BuildingPopUp>()
                             .DisplayGameObjectInformation
@@ -232,6 +235,23 @@ public class UserInput : MonoBehaviour
                             .DisplayGameObjectInformation
                             .GetComponentInChildren<Image>().sprite = 
                             hit.collider.GetComponent<BuildingOption>().Sprite;                  //Set Image Component to building Sprite
+                    }
+                }
+
+                if (CodeInputManager.GetButtonDown(ButtonId.CancelBuild))                        //Deselect buildings
+                {
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);               
+                    RaycastHit hit;
+                    
+                    if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Terrain")))
+                    {                      
+                        Manager.instance.isSelected = false;
+                        GameObject buildings = GameObject.Find("Buildings");
+                        foreach (Transform go in buildings.transform)
+                        {
+                            go.GetComponent<BuildingOption>().SetSelected(false);
+                            go.transform.gameObject.layer = 11;
+                        }
                     }
                 }
             }
