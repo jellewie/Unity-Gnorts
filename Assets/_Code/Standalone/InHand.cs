@@ -25,6 +25,9 @@ public class InHand : MonoBehaviour
             transform.rotation,
             nonGroundLayerMask);
 
+        if (Hits.Length == 1)                                                       //an ugly workaround cant find the reason why the boxcolider hits
+            Hits = RemoveElementArray.removeAtIndexColliderArray(Hits, 0);          //still this is the only implementation that keeps the placement colision code intact                      
+
         ErrorMSG = "";                                                                          //reset the error message
         RemoveObjectsHit = new List<GameObject>();                                              //Make sure the list is emthy
         int InvalidObjectsHitAmount = Hits.Length;                                              //Get the total amount of objects in the way
@@ -99,7 +102,7 @@ public class InHand : MonoBehaviour
     private void Start()                                                                //Triggered on start
     {
         // Store references to things we need now rather than get or calulcate them each time they're needed.
-        nonGroundLayerMask = ~((1 << 0) | (1 << 9) | (1 << 10));                               //A mask to ignore 0:Default and 9:Terrain
+        nonGroundLayerMask = ~((1 << 0) | (1 << 9));                               //A mask to ignore 0:Default and 9:Terrain
         boxCollider = gameObject.GetComponent<BoxCollider>();                      //
         renderers = gameObject.GetComponentsInChildren<Renderer>();                //
     }
