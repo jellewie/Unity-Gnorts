@@ -21,14 +21,13 @@ public class UserInput : MonoBehaviour
     public Transform FolderBuildings;                                                   //The folder where all the buildings should be put in
     public GameObject FolderBuildingPopUp;                                              //The folder with the pop-up stuff in it
     public GameObject TextMessage;
-    private Byte LowerObjectBy = 0;                                                     //Howmuch the gameobject should be higher (this is used for walls as example)
+    private Byte LowerObjectBy = 0;                                                     //How much the gameobject should be higher (this is used for walls as example)
+    public Texture2D MouseDefault;                                                      //The default mouse icon   
     public Texture2D MouseDeconstruct;                                                  //The mouse icon of the deconstruct tool
     public Byte ThisPlayerID;
     Quaternion PreviousRotation;
     private readonly float InvalidBuildTimeThreshold = 0.5f;                                //How long before we show a message about not being able to build
-
     public bool IsDragging { get; set; }                                                //Are we dragging something?
-
     private bool IsOutOfFocus = false;
     private bool GamePaused = false;
     private bool StopCameraControls = false;
@@ -37,15 +36,18 @@ public class UserInput : MonoBehaviour
     private float deltaTime = 0.0f;                                                     //The time between this and the last frame
     private float buildKeyDownTime;                                                     //How long the build key has been down
     private bool BuildFirstTry = true;
-    private float Speed;                                                                //Speed multiblecation for controls (zoom out slowdown)
+    private float Speed;                                                                //Speed multiplication for controls (zoom out slowdown)
 
     private void Start()                                                                //Triggered on start
     {
+        SetCursor(MouseDefault);
     }
+
     private void Update()                                                               //Triggered before frame update
     {
         deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;                               //Calculate time elapsed since last frame
     }
+
     private void LateUpdate()                                                           //Triggered after frame update
     {
         if (!IsOutOfFocus)                                                                      //If the game isn't paused
@@ -61,10 +63,12 @@ public class UserInput : MonoBehaviour
             //Game is paused (Stop tick count and such)
         }
     }
+
     void OnApplicationFocus(bool hasFocus)                                              //Triggered when the game is in focus
     {
         IsOutOfFocus = !hasFocus;                                                               //Set game to be in focus
     }
+
     void OnApplicationPause(bool pauseStatus)                                           //Triggered when the game is out focus
     {
         IsOutOfFocus = pauseStatus;                                                             //Set game to be out of focus
@@ -103,7 +107,6 @@ public class UserInput : MonoBehaviour
                             InHand.transform.position.y + InHand.GetComponent<Collider>().bounds.size.y + 0.6f, //Height of the stair + a bit
                             InHand.transform.position.z + (InHand.transform.forward.z)          //InHand position + forward
                             );
-                        //Debug.DrawRay(OneForward, -transform.up * InHand.GetComponent<Collider>().bounds.size.y, Color.red);   //Just a debug line 
                         if (Physics.Raycast(OneForward, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building")))//Do a raycast from OneForward towards the ground, and mesaure the length to a building
                         {
                             BuildType typeHit = BuildingData.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).BuildType;
@@ -125,7 +128,6 @@ public class UserInput : MonoBehaviour
                                 InHand.transform.position.y + InHand.GetComponent<Collider>().bounds.size.y - 0.4f, //Height of the stair + a bit
                                 InHand.transform.position.z - (InHand.transform.forward.z)      //InHand position + forward
                                 );
-                            //Debug.DrawRay(OneBackwards, -transform.up * (InHand.GetComponent<Collider>().bounds.size.y), Color.red); //Just a debug line 
                             if (Physics.Raycast(OneBackwards, -transform.up, out hit, InHand.GetComponent<Collider>().bounds.size.y, 1 << LayerMask.NameToLayer("Building"))) //Do a raycast from OneBackwards towards the ground, and mesaure the length to a building
                             {
                                 BuildType typeHit = BuildingData.GetInfo(hit.transform.gameObject.GetComponent<BuildingOption>().BuildingName).BuildType;
@@ -139,7 +141,6 @@ public class UserInput : MonoBehaviour
                                     else
                                         InHand.transform.position += new Vector3(0, -InHand.GetComponent<Collider>().bounds.size.y + 0.5f, 0); //Move the stair down
                                 }
-                               
                             }
                             else
                                 InHand.transform.position += new Vector3(0, -InHand.GetComponent<Collider>().bounds.size.y + 0.5f, 0); //Move the stair down
@@ -163,7 +164,7 @@ public class UserInput : MonoBehaviour
                 }
                 if (CodeInputManager.GetButtonDownOnce(ButtonId.CancelBuild))                   //If we want to cancel the build
                     Destroy(InHand);                                                            //Destoy the building
-                else if (CodeInputManager.GetButtonDown(ButtonId.Build) && !IsDragging)         //If we need to build the object here
+                else if (CodeInputManager.GetButtonDownOnce(ButtonId.Build) && !IsDragging)         //If we need to build the object here
                 {
                     buildKeyDownTime += Time.deltaTime;                                         //Increase the build key timer
                     Build(InHand);                                                              //Try to place the building
@@ -185,7 +186,7 @@ public class UserInput : MonoBehaviour
                     RaycastHit hit;                                                             //Create a output variable
                     if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
                     {
-                        if (CodeInputManager.GetButtonDownOnce(ButtonId.Build))                   //If the button is pressed for the first time
+                        if (CodeInputManager.GetButtonDown(ButtonId.Build))                   //If the button is pressed for the first time
                         {
                             if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
                                 DeconstructBuilding(hit.transform.gameObject);                  //Deconstruct the selected building
@@ -198,9 +199,8 @@ public class UserInput : MonoBehaviour
                     }
                 }
                 else if (CodeInputManager.GetButtonDownOnce(ButtonId.CancelBuild))                //If we want to cancel Removing buildings
-                {
-                    DeconstructToolEquiped = false;                                             //Stop the DeconstructTool being equiped
-                    SetCursor(null);                                                            //Reset cursor icon, so it isn't the Deconstruct Tool
+                {                                          
+                    SetCursor(MouseDefault);                                                            //Reset cursor icon, so it isn't the Deconstruct Tool
                 }
             }
             else
@@ -222,11 +222,36 @@ public class UserInput : MonoBehaviour
                             BuildingData.GetInfo(hit.collider.GetComponent<BuildingOption>().BuildingName).ClickSpecial, //And it's special stats
                             ThisPlayerID                                                        //And the ID of the player
                         );
+
+                        Manager.instance.isSelected = true;                                     //Activate flag for selection outline
+                        ChangeChildrenLayer(11);                                                //Changes child game object to outliner layer
+                        hit.collider.gameObject.GetComponent<BuildingOption>().SetSelected(true);                      
+
+                        FolderBuildingPopUp
+                            .GetComponent<BuildingPopUp>()
+                            .DisplayGameObjectInformation
+                            .GetComponentInChildren<Image>().enabled = true;                      //Activate Image Component on UI    
+                        FolderBuildingPopUp
+                            .GetComponent<BuildingPopUp>()
+                            .DisplayGameObjectInformation
+                            .GetComponentInChildren<Image>().sprite = 
+                            hit.collider.GetComponent<BuildingOption>().Sprite;                  //Set Image Component to building Sprite
+                    }
+                }
+
+                if (CodeInputManager.GetButtonDown(ButtonId.CancelBuild))                        //Deselect buildings
+                {
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);               
+                    RaycastHit hit;
+                    
+                    if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Terrain")))
+                    {
+                        Manager.instance.isSelected = false;
+                        ChangeChildrenLayer(10);                                                //Changes child game object to building layer
                     }
                 }
             }
         }
-
         if (CodeInputManager.GetButtonUp(ButtonId.Build))                                       //Check if the build key was released
         {
             buildKeyDownTime = 0;                                                               //Reset the timer
@@ -239,7 +264,7 @@ public class UserInput : MonoBehaviour
         if (CodeInputManager.GetButtonDownOnce(ButtonId.CancelBuild))                           //If we right click to cancel
             _HideMenus();                                                                       //Hide the Menu's
         if (CodeInputManager.GetButtonDownOnce(ButtonId.ToggleUi))                              //If the Toggle UI button is pressed
-            FolderUI.SetActive(!FolderUI.activeSelf);                                           //Goggle the UI
+            FolderUI.SetActive(!FolderUI.activeSelf);                                           //Toggle the UI
         {                                                                                       //Camera stuff
             Speed = (JelleWho.SpeedC * Camera.main.transform.position.y + JelleWho.SpeedD) * deltaTime; //The height has X of speed increase per block (times the time elapsed since last frame)
             Vector2 input = new Vector2(0f, 0f);                                                //Create a new (emnthy) movement change vector
@@ -268,9 +293,9 @@ public class UserInput : MonoBehaviour
                 input.y += JelleWho.MoveSpeedKeyboard;
             if (CodeInputManager.GetButtonDown(ButtonId.Down))                                  //Keyboard move down
                 input.y -= JelleWho.MoveSpeedKeyboard;
-            if (CodeInputManager.GetButtonDown(ButtonId.Drag))                                  //If the Drag button is presse
+            if (CodeInputManager.GetButtonDown(ButtonId.Drag))                                  //If the Drag button is pressed
             {
-                input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse;                  //Calculate howmuch we need to move in the axes 
+                input.x -= Input.GetAxis("Mouse X") * JelleWho.MoveSpeedMouse;                  //Calculate how much we need to move in the axes 
                 input.y -= Input.GetAxis("Mouse Y") * JelleWho.MoveSpeedMouse;                  //^
             }
             else if (input == new Vector2(0f, 0f))                                              //If camera doesn't need to move yet
@@ -320,6 +345,41 @@ public class UserInput : MonoBehaviour
             Camera.main.transform.eulerAngles = new Vector2(Mathf.Clamp(Xr, 0, 89.99f), Yr);    //Clamp Up Down looking angle 
         }                                                                                       //Camera stuff
     }
+
+    private void ChangeChildrenLayer(int layer)
+    {
+        GameObject buildings = GameObject.Find("Buildings");
+        if (layer == 10)
+        {            
+            foreach (Transform go in buildings.transform)
+            {
+                go.GetComponent<BuildingOption>().SetSelected(false);
+                SetMeshChildren(layer, go);
+            }
+        }
+        if (layer == 11)
+        {
+            foreach (Transform go in buildings.transform)
+            {
+                if (go.GetComponent<BuildingOption>().GetSelected() == true)
+                {
+                    go.transform.gameObject.layer = layer;
+                    SetMeshChildren(layer, go);
+                }                
+            }
+        }       
+    }
+
+    private static void SetMeshChildren(int layer, Transform go)
+    {
+        go.transform.gameObject.layer = layer;
+        Transform[] meshChildren = go.Find("Mesh").GetComponentsInChildren<Transform>();
+        foreach (Transform child in meshChildren)
+        {
+            child.gameObject.layer = layer;
+        }
+    }
+
     /// <summary>
     /// Indicate the end of a dragging operation.
     /// </summary>
@@ -420,11 +480,12 @@ public class UserInput : MonoBehaviour
                 SetCursor(MouseDeconstruct);                                                    //Set the mouse cursor to be the Deconstruct Tool
             }
             else
-                SetCursor(null);                                                                //Reset cursor icon, so it isn't the Deconstruct Tool
+                SetCursor(MouseDefault);
         }
     }
     public void _HideMenus()                                                            //This will hide the full sub menu
     {
+        SetCursor(MouseDefault);
         FolderBuildingPopUp.SetActive(false);                                                   //Hide BuildingPopUp
         HideBuildMenus();
     }
@@ -454,16 +515,16 @@ public class UserInput : MonoBehaviour
         if (TheBuilding.GetComponent<BuildingOption>().Used)                                    //If the building is not brand new
         {
             resourceManager.ChangeWood (buildingInfo.Cost.Wood  * JelleWho.DeconstructUsed);    //Return some percentage
-            resourceManager.ChangeStone(buildingInfo.Cost.Stone * JelleWho.DeconstructUsed);    //^
-            resourceManager.ChangeIron (buildingInfo.Cost.Iron  * JelleWho.DeconstructUsed);    //^
-            resourceManager.ChangeGold (buildingInfo.Cost.Gold  * JelleWho.DeconstructUsed);    //^
+            resourceManager.ChangeStone(buildingInfo.Cost.Stone * JelleWho.DeconstructUsed);
+            resourceManager.ChangeIron (buildingInfo.Cost.Iron  * JelleWho.DeconstructUsed);
+            resourceManager.ChangeGold (buildingInfo.Cost.Gold  * JelleWho.DeconstructUsed); 
         }
         else
         {
             resourceManager.ChangeWood (buildingInfo.Cost.Wood  * JelleWho.DeconstructUnused);  //Return some percentage
-            resourceManager.ChangeStone(buildingInfo.Cost.Stone * JelleWho.DeconstructUnused);  //^
-            resourceManager.ChangeIron (buildingInfo.Cost.Iron  * JelleWho.DeconstructUnused);  //^
-            resourceManager.ChangeGold (buildingInfo.Cost.Gold  * JelleWho.DeconstructUnused);  //^
+            resourceManager.ChangeStone(buildingInfo.Cost.Stone * JelleWho.DeconstructUnused);
+            resourceManager.ChangeIron (buildingInfo.Cost.Iron  * JelleWho.DeconstructUnused);
+            resourceManager.ChangeGold (buildingInfo.Cost.Gold  * JelleWho.DeconstructUnused);
         }
 
         byte DestroySpecial = BuildingData.GetInfo(TheBuilding.GetComponent<BuildingOption>().BuildingName).DestroySpecial;
@@ -479,7 +540,7 @@ public class UserInput : MonoBehaviour
             {
                 String Name = Hits[i].gameObject.GetComponent<BuildingOption>().BuildingName;
                 if (Name == "Fire_Basket" || Name == "Ballista_Tower" || Name == "Mangonel_Tower") //If it's a fire basket or balista or Mangonel
-                    DeconstructBuilding(Hits[i].gameObject);                                    //Deconstruct it
+                    DeconstructBuilding(Hits[i].gameObject);                                       //Deconstruct it
             }
             DestroySpecial = 2;                                                                 //Also execute the code for DestroySpecial 3 on this object
         }
@@ -488,7 +549,7 @@ public class UserInput : MonoBehaviour
             Debug.Log("<Move NPC down code>");
         }
         else if (DestroySpecial > 2)
-            Debug.Log("unprogrammed Destory special found :" + DestroySpecial);
+            Debug.Log("unprogrammed Destroy special found :" + DestroySpecial);
 
 
         TheBuilding.GetComponent<BuildingOption>()._Destroy();                                  //Destroy the building
@@ -526,8 +587,11 @@ public class UserInput : MonoBehaviour
     }
     private void SetCursor(Texture2D NewCursorIcon)                                     //Call this to change the mouse icon (Use 'NULL' to reset to normal)
     {
+        if (NewCursorIcon == MouseDefault)
+            DeconstructToolEquiped = false;                                             //Stop the DeconstructTool being equiped
+     
         //Make sure to set the texture type of the image to Cursor!
-        Cursor.SetCursor(NewCursorIcon, Vector2.zero, CursorMode.Auto);                         //Set the image as icon
+        Cursor.SetCursor(NewCursorIcon, Vector2.zero, CursorMode.Auto);                 //Set the image as icon
     }
     private IEnumerator ShowMessageAttention()
     {
@@ -569,27 +633,9 @@ public class UserInput : MonoBehaviour
             Debug.Log("Deleted!");
         }
     }
-    public void _BackToMenu()                                                           //Menu button that let you go back to the main menu
-    {
-        Application.Quit();                                                                     //Since there is a lack of main menu right now, let's quit the application
-
-
-        /*//(Part of) The old Code I use to use (this enabled loading bar animations)
-         
-        StartCoroutine(LoadScene("Game"));                                              //Start loading screen in background, and go to it when done
-
-        IEnumerator LoadScene(string SceneToLoad)
-        {
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneToLoad);
-            asyncLoad.allowSceneActivation = false;                                     //Don't jump to the scene when loading is complete
-            while (asyncLoad.progress < 0.9f)                                           //While loading isn't done
-            {
-                Debug.Log("Loading is at " + (asyncLoad.progress *100));
-                yield return null;
-            }
-            asyncLoad.allowSceneActivation = true;                                      //Go to the screen
-        }
-        */
+    public void _BackToMenu()                                               //Menu button that let you go back to the main menu
+    {                                                                       //^
+        Application.Quit();                                                 //Since there is a lack of main menu right now, let's quit the application
     }
 
     public void _TEST()

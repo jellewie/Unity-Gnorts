@@ -20,7 +20,7 @@ public class InHand : MonoBehaviour
     {
         // Get all the colliders within a box slightly smaller than our collider, except those in the ground layer.
         Collider[] Hits = Physics.OverlapBox(
-            boxCollider.bounds.center,                                                          //From the center
+            boxCollider.bounds.center/2,                                                          //From the center
             boxCollider.size / 2 - new Vector3(0.01f, 0.01f, 0.01f),                            //Size from the center to the edge
             transform.rotation,
             nonGroundLayerMask);
@@ -60,10 +60,6 @@ public class InHand : MonoBehaviour
                 ErrorMSG = "That can only be attached to a Stone_Gate";
                 InvalidObjectsHitAmount++;                                                      //Flag this place as invalid by default
                 RaycastHit hit;                                                                 //Create a output variable
-                //Debug.DrawRay(gameObject.transform.position + transform.up + transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, transform.forward, Color.red); //Forward
-                //Debug.DrawRay(gameObject.transform.position + transform.up - transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, -transform.forward, Color.blue);
-                //Debug.DrawRay(gameObject.transform.position + transform.up + transform.right * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, transform.right, Color.blue);
-                //Debug.DrawRay(gameObject.transform.position + transform.up - transform.right * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, -transform.right, Color.blue);
                 if (   Physics.Raycast(gameObject.transform.position + transform.up + transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2,  transform.forward, out hit, 1, 1 << LayerMask.NameToLayer("Building")) 
                     || Physics.Raycast(gameObject.transform.position + transform.up - transform.forward * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2, -transform.forward, out hit, 1, 1 << LayerMask.NameToLayer("Building"))
                     || Physics.Raycast(gameObject.transform.position + transform.up + transform.right   * System.Convert.ToByte(gameObject.GetComponent<Collider>().bounds.size.z) / 2,  transform.right  , out hit, 1, 1 << LayerMask.NameToLayer("Building"))
