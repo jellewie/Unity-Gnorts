@@ -48,6 +48,7 @@ IEndDragHandler
                     HoverText.Substring(1, HoverText.Length - 1).ToLower()                      //Make sure the others are lower case
                 ).Replace("_", " ")                                                             //Replace all underlines by spaces
             );
+        TextBox.fontSize = 25;
         if (Prefab != null)                                                                     //If a Prefab is set
         {
             BuildingInfo BuildingInfo = BuildingData.GetInfo(Prefab.name);                //Get the building info

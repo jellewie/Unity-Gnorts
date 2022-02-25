@@ -80,10 +80,11 @@ public class UserInput : MonoBehaviour
         {
             if (InHand)                                                                         //If we have something in our hands
             {
+                var goName = InHand.gameObject.name;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                    //Set a Ray from the cursor + lookation
                 RaycastHit hit;                                                                 //Create a output variable
                 if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Terrain")))  //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over on the Terrain layer only)
-                {
+                {                    
                     InHand.transform.position = new Vector3(                                    //Move the block to the mouse position
                         Mathf.Round(hit.point.x),                                               //the rounded X mouse position
                         Mathf.Round(hit.point.y),                                               //the rounded Y mouse position
@@ -163,9 +164,16 @@ public class UserInput : MonoBehaviour
                     }
                 }
                 if (CodeInputManager.GetButtonDownOnce(ButtonId.CancelBuild))                   //If we want to cancel the build
-                    Destroy(InHand);                                                            //Destoy the building
-                else if (CodeInputManager.GetButtonDownOnce(ButtonId.Build) && !IsDragging)         //If we need to build the object here
+                    Destroy(InHand);                                                            //Destroy the building               
+                else if(CodeInputManager.GetButtonDown(ButtonId.Build) && !IsDragging           //Walls should be placed continously 
+                    &&                                                                          //Is more satisfying :)
+                    IsWallBuilding(goName) == true)
                 {
+                    buildKeyDownTime += Time.deltaTime;                                         //Increase the build key timer
+                    Build(InHand);
+                }                                                                              // .. Buildings should be place 1 by 1
+                else if (CodeInputManager.GetButtonDownOnce(ButtonId.Build) && !IsDragging)         //If we need to build the object here
+                {                                                                                
                     buildKeyDownTime += Time.deltaTime;                                         //Increase the build key timer
                     Build(InHand);                                                              //Try to place the building
                 }
@@ -224,8 +232,9 @@ public class UserInput : MonoBehaviour
                         );
 
                         Manager.instance.isSelected = true;                                     //Activate flag for selection outline
+                        hit.collider.gameObject.GetComponent<BuildingOption>().SetSelected(true);
                         ChangeChildrenLayer(11);                                                //Changes child game object to outliner layer
-                        hit.collider.gameObject.GetComponent<BuildingOption>().SetSelected(true);                      
+                                             
 
                         FolderBuildingPopUp
                             .GetComponent<BuildingPopUp>()
@@ -346,10 +355,20 @@ public class UserInput : MonoBehaviour
         }                                                                                       //Camera stuff
     }
 
+    private bool IsWallBuilding(string name)
+    {
+        if (name.Contains("Wall"))
+            return true;
+        if (name.Contains("Stair"))
+            return true;
+        else
+            return false;
+    }
+
     private void ChangeChildrenLayer(int layer)
     {
         GameObject buildings = GameObject.Find("Buildings");
-        if (layer == 10)
+        if (layer == 10)                                            // Building layer
         {            
             foreach (Transform go in buildings.transform)
             {
@@ -357,11 +376,11 @@ public class UserInput : MonoBehaviour
                 SetMeshChildren(layer, go);
             }
         }
-        if (layer == 11)
+        if (layer == 11)                                            // Outliner layer 
         {
             foreach (Transform go in buildings.transform)
             {
-                if (go.GetComponent<BuildingOption>().GetSelected() == true)
+                if (go.GetComponent<BuildingOption>().GetSelected() == true)        // Changes only selected game objects that are selected to outliner layer
                 {
                     go.transform.gameObject.layer = layer;
                     SetMeshChildren(layer, go);

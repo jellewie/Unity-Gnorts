@@ -20,10 +20,13 @@ public class InHand : MonoBehaviour
     {
         // Get all the colliders within a box slightly smaller than our collider, except those in the ground layer.
         Collider[] Hits = Physics.OverlapBox(
-            boxCollider.bounds.center/2,                                                          //From the center
+            boxCollider.bounds.center,                                                          //From the center
             boxCollider.size / 2 - new Vector3(0.01f, 0.01f, 0.01f),                            //Size from the center to the edge
             transform.rotation,
             nonGroundLayerMask);
+
+        if (Hits.Length == 1)                                                       //an ugly workaround cant find the reason why the boxcolider hits
+            Hits = RemoveElementArray.removeAtIndexColliderArray(Hits, 0);          //still this is the only implementation that keeps the placement colision code intact                      
 
         ErrorMSG = "";                                                                          //reset the error message
         RemoveObjectsHit = new List<GameObject>();                                              //Make sure the list is emthy
@@ -99,9 +102,9 @@ public class InHand : MonoBehaviour
     private void Start()                                                                //Triggered on start
     {
         // Store references to things we need now rather than get or calulcate them each time they're needed.
-        nonGroundLayerMask = ~(1 << LayerMask.NameToLayer("Terrain") | 1);                      //A mask to ignore 0:Default and 9:Terrain
-        boxCollider = gameObject.GetComponent<BoxCollider>();                                   //
-        renderers = gameObject.GetComponentsInChildren<Renderer>();                             //
+        nonGroundLayerMask = ~((1 << 0) | (1 << 9));                               //A mask to ignore 0:Default and 9:Terrain
+        boxCollider = gameObject.GetComponent<BoxCollider>();                      //
+        renderers = gameObject.GetComponentsInChildren<Renderer>();                //
     }
 
     private void Update()                                                               //Triggered before frame update

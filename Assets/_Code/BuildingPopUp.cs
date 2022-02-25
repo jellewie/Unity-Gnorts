@@ -70,10 +70,10 @@ public class BuildingPopUp : MonoBehaviour {
     {
         if (ClickSpecial == 1)                                                                  //If it's a Gate
         {
-            GameObject GateOpen = Building.transform.Find("GateOpen").gameObject;               //Get the gate
+            GameObject GateOpen = Building.transform.Find("Mesh").gameObject.transform.Find("GateOpen").gameObject;  //Get the gate... // Lazy fix after the prefab changed
             if (ToOption < 255)                                                                 //If we need to go to an option
             {
-                GameObject GateClose = Building.transform.Find("GateClose").gameObject;         //Get the gate
+                GameObject GateClose = Building.transform.Find("Mesh").gameObject.transform.Find("GateClose").gameObject;   //Get the gate... // Lazy fix after the prefab changed
                 if (ToOption == 0)                                                              //If value has been changed to 0 (Close Gate)
                 {
                     GateOpen.SetActive(true);                                                   //Hide the closed gate
