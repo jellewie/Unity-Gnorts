@@ -167,7 +167,7 @@ public class UserInput : MonoBehaviour
                     Destroy(InHand);                                                            //Destroy the building               
                 else if(CodeInputManager.GetButtonDown(ButtonId.Build) && !IsDragging           //Walls should be placed continously 
                     &&                                                                          //Is more satisfying :)
-                    IsWallBuilding(goName) == true)
+                    IsBuildingMeantToBePlacedContinuously(goName) == true)
                 {
                     buildKeyDownTime += Time.deltaTime;                                         //Increase the build key timer
                     Build(InHand);
@@ -355,11 +355,13 @@ public class UserInput : MonoBehaviour
         }                                                                                       //Camera stuff
     }
 
-    private bool IsWallBuilding(string name)
+    private bool IsBuildingMeantToBePlacedContinuously(string name)
     {
         if (name.Contains("Wall"))
             return true;
         if (name.Contains("Stair"))
+            return true;
+        if (name.Contains("Moat"))          //Moats should also be able to placed continuously
             return true;
         else
             return false;
@@ -670,6 +672,6 @@ public class UserInput : MonoBehaviour
     public void _TempSetResourceManager()
     {
         CodeResourceManager.GetComponent<ResourceManager>().Set(999999, 999999, 999999, 999999);
-    }   
+    }
 }
  

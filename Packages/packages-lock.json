@@ -83,10 +83,12 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.progrids": {
-      "version": "3.0.3-preview.0",
+      "version": "3.0.3-preview.6",
       "depth": 0,
       "source": "registry",
-      "dependencies": {},
+      "dependencies": {
+        "com.unity.settings-manager": "1.0.2"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.purchasing": {
