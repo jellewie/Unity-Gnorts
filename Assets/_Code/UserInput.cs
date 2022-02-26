@@ -37,7 +37,7 @@ public class UserInput : MonoBehaviour
     private float buildKeyDownTime;                                                     //How long the build key has been down
     private bool BuildFirstTry = true;
     private float Speed;                                                                //Speed multiplication for controls (zoom out slowdown)
-    float doubleClickTime = .2f, lastClickTime;
+    private float doubleClickTime = .3f, lastClickTime;
 
     private void Start()                                                                //Triggered on start
     {
@@ -50,12 +50,11 @@ public class UserInput : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             float timeSinceLastClick = Time.time - lastClickTime;
-
             if (timeSinceLastClick <= doubleClickTime)
+            {
                 Debug.Log("Double click");
-            else
-                Debug.Log("Normal click");
-
+                Manager.instance.isDoubleClick = true;                                               //Activate double click flag 
+            }             
             lastClickTime = Time.time;
         }
     }
@@ -243,10 +242,27 @@ public class UserInput : MonoBehaviour
                             ThisPlayerID                                                        //And the ID of the player
                         );
 
+                       
                         Manager.instance.isSelected = true;                                     //Activate flag for selection outline
-                        hit.collider.gameObject.GetComponent<BuildingOption>().SetSelected(true);
+                        if (Manager.instance.isDoubleClick)                                     //If player makes multiple selection of the same object
+                        {
+                            string name = hit.collider.gameObject.name;
+                            GameObject buildings = GameObject.Find("Buildings");
+                            foreach(Transform go in buildings.transform)
+                            {
+                                if(go.name == name)
+                                {
+                                    go.transform.GetComponent<BuildingOption>().SetSelected(true);
+                                }                             
+                            }
+                            Debug.Log("Implement double click select all buildings of a type in scene");
+                        }
+                        else
+                        {
+                            hit.collider.gameObject.GetComponent<BuildingOption>().SetSelected(true);
+                        }
+
                         ChangeChildrenLayer(11);                                                //Changes child game object to outliner layer
-                                             
 
                         FolderBuildingPopUp
                             .GetComponent<BuildingPopUp>()
