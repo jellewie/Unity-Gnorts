@@ -37,6 +37,7 @@ public class UserInput : MonoBehaviour
     private float buildKeyDownTime;                                                     //How long the build key has been down
     private bool BuildFirstTry = true;
     private float Speed;                                                                //Speed multiplication for controls (zoom out slowdown)
+    float doubleClickTime = .2f, lastClickTime;
 
     private void Start()                                                                //Triggered on start
     {
@@ -46,6 +47,17 @@ public class UserInput : MonoBehaviour
     private void Update()                                                               //Triggered before frame update
     {
         deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;                               //Calculate time elapsed since last frame
+        if (Input.GetMouseButtonDown(0))
+        {
+            float timeSinceLastClick = Time.time - lastClickTime;
+
+            if (timeSinceLastClick <= doubleClickTime)
+                Debug.Log("Double click");
+            else
+                Debug.Log("Normal click");
+
+            lastClickTime = Time.time;
+        }
     }
 
     private void LateUpdate()                                                           //Triggered after frame update
@@ -80,7 +92,7 @@ public class UserInput : MonoBehaviour
         {
             if (InHand)                                                                         //If we have something in our hands
             {
-                var goName = InHand.gameObject.name;
+                var goName = InHand.gameObject.name;                                            //Get object in hand name
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                    //Set a Ray from the cursor + lookation
                 RaycastHit hit;                                                                 //Create a output variable
                 if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Terrain")))  //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over on the Terrain layer only)
