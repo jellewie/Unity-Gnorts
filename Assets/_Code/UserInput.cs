@@ -284,6 +284,7 @@ public class UserInput : MonoBehaviour
                     if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Terrain")))
                     {
                         Manager.instance.isSelected = false;
+                        Manager.instance.isDoubleClick = false;
                         ChangeChildrenLayer(10);                                                //Changes child game object to building layer
                     }
                 }
