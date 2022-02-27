@@ -3,9 +3,15 @@ using UnityEngine;
 public class AssignedBuilding : MonoBehaviour
 {
     public GameObject Building;
-    public int offsetX=9;
-    public int offsetZ=12;
-    
+    public int offsetX;
+    public int offsetZ;
+
+    public void Start()
+    {
+        offsetX = 10;
+        offsetZ = 10;
+    }
+
     public void MoveCameraToBulding()
     {
         var buildingPos = Building.transform.position;
