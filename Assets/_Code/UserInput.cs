@@ -251,17 +251,7 @@ public class UserInput : MonoBehaviour
                         }
                         else
                             hit.collider.gameObject.GetComponent<BuildingOption>().SetSelected(true);
-                        ChangeChildrenLayer(11);                                                //Changes child game object to outliner layer
-
-                        //FolderBuildingPopUp
-                        //    .GetComponent<BuildingPopUp>()
-                        //    .DisplayGameObjectInformation
-                        //    .GetComponentInChildren<Image>().enabled = true;                      //Activate Image Component on UI    
-                        //FolderBuildingPopUp
-                        //    .GetComponent<BuildingPopUp>()
-                        //    .DisplayGameObjectInformation
-                        //    .GetComponentInChildren<Image>().sprite =
-                        //    hit.collider.GetComponent<BuildingOption>().Sprite;                  //Set Image Component to building Sprite
+                        ChangeChildrenLayer(11);                                                //Changes child game object to outliner layer           
                     }
                 }
 
@@ -429,6 +419,7 @@ public class UserInput : MonoBehaviour
         Texture2D croppedTexture = GetTextureFromSprite(sprite);
         btn.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
         btn.GetComponent<RawImage>().texture = croppedTexture;
+        btn.GetComponent<AssignedBuilding>().Building = go.gameObject;
     }
 
     private static Texture2D GetTextureFromSprite(Sprite sprite)
@@ -720,7 +711,6 @@ public class UserInput : MonoBehaviour
     {
         CodeSaveLoad.GetComponent<SaveLoad>().LoadSaveList();
     }
-
 
     public void _Opti()
     {
