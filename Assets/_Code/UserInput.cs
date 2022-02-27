@@ -38,6 +38,7 @@ public class UserInput : MonoBehaviour
     private bool BuildFirstTry = true;
     private float Speed;                                                                //Speed multiplication for controls (zoom out slowdown)
     private float doubleClickTime = .3f, lastClickTime;
+    public GameObject buttonPrefab;
 
     private void Start()                                                                //Triggered on start
     {
@@ -51,10 +52,7 @@ public class UserInput : MonoBehaviour
         {
             float timeSinceLastClick = Time.time - lastClickTime;
             if (timeSinceLastClick <= doubleClickTime)
-            {
-                Debug.Log("Double click");
-                Manager.instance.isDoubleClick = true;                                               //Activate double click flag 
-            }             
+                Manager.instance.isDoubleClick = true;                                          //Activate double click flag       
             lastClickTime = Time.time;
         }
     }
@@ -242,37 +240,28 @@ public class UserInput : MonoBehaviour
                             ThisPlayerID                                                        //And the ID of the player
                         );
 
-                       
                         Manager.instance.isSelected = true;                                     //Activate flag for selection outline
                         if (Manager.instance.isDoubleClick)                                     //If player makes multiple selection of the same object
                         {
                             string name = hit.collider.gameObject.name;
                             GameObject buildings = GameObject.Find("Buildings");
                             foreach(Transform go in buildings.transform)
-                            {
                                 if(go.name == name)
-                                {
-                                    go.transform.GetComponent<BuildingOption>().SetSelected(true);
-                                }                             
-                            }
-                            Debug.Log("Implement double click select all buildings of a type in scene");
+                                    go.transform.GetComponent<BuildingOption>().SetSelected(true);                           
                         }
                         else
-                        {
                             hit.collider.gameObject.GetComponent<BuildingOption>().SetSelected(true);
-                        }
-
                         ChangeChildrenLayer(11);                                                //Changes child game object to outliner layer
 
-                        FolderBuildingPopUp
-                            .GetComponent<BuildingPopUp>()
-                            .DisplayGameObjectInformation
-                            .GetComponentInChildren<Image>().enabled = true;                      //Activate Image Component on UI    
-                        FolderBuildingPopUp
-                            .GetComponent<BuildingPopUp>()
-                            .DisplayGameObjectInformation
-                            .GetComponentInChildren<Image>().sprite = 
-                            hit.collider.GetComponent<BuildingOption>().Sprite;                  //Set Image Component to building Sprite
+                        //FolderBuildingPopUp
+                        //    .GetComponent<BuildingPopUp>()
+                        //    .DisplayGameObjectInformation
+                        //    .GetComponentInChildren<Image>().enabled = true;                      //Activate Image Component on UI    
+                        //FolderBuildingPopUp
+                        //    .GetComponent<BuildingPopUp>()
+                        //    .DisplayGameObjectInformation
+                        //    .GetComponentInChildren<Image>().sprite =
+                        //    hit.collider.GetComponent<BuildingOption>().Sprite;                  //Set Image Component to building Sprite
                     }
                 }
 
@@ -399,25 +388,64 @@ public class UserInput : MonoBehaviour
     private void ChangeChildrenLayer(int layer)
     {
         GameObject buildings = GameObject.Find("Buildings");
+        GameObject content = GameObject.Find("Content");
         if (layer == 10)                                            // Building layer
-        {            
+        {
             foreach (Transform go in buildings.transform)
             {
                 go.GetComponent<BuildingOption>().SetSelected(false);
                 SetMeshChildren(layer, go);
+
             }
+            DestroyButtons(content);
         }
         if (layer == 11)                                            // Outliner layer 
         {
+            DestroyButtons(content); // Reset buttons before they get recreated
             foreach (Transform go in buildings.transform)
             {
                 if (go.GetComponent<BuildingOption>().GetSelected() == true)        // Changes only selected game objects that are selected to outliner layer
                 {
                     go.transform.gameObject.layer = layer;
                     SetMeshChildren(layer, go);
-                }                
+                    InstantiateButton(content, go);
+                }
             }
         }       
+    }
+
+    private static void DestroyButtons(GameObject content)
+    {
+        foreach (Transform child in content.transform)
+            GameObject.Destroy(child.gameObject);
+    }
+
+    private void InstantiateButton(GameObject content, Transform go)
+    {
+        //Instantiate button in selection menu
+        GameObject btn = Instantiate(buttonPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        btn.transform.SetParent(content.transform);
+        var sprite = go.GetComponent<BuildingOption>().Sprite;
+        Texture2D croppedTexture = GetTextureFromSprite(sprite);
+        btn.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        btn.GetComponent<RawImage>().texture = croppedTexture;
+    }
+
+    private static Texture2D GetTextureFromSprite(Sprite sprite)
+    {
+        if (sprite.rect.width != sprite.texture.width)
+        {
+            Texture2D newText = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
+            Color[] newColors = sprite.texture.GetPixels((int)sprite.textureRect.x,
+                                                         (int)sprite.textureRect.y,
+                                                         (int)sprite.textureRect.width,
+                                                         (int)sprite.textureRect.height);
+            newText.SetPixels(newColors);
+            newText.Apply();
+            return newText;
+        }
+        else
+            return sprite.texture;
     }
 
     private static void SetMeshChildren(int layer, Transform go)
