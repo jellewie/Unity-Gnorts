@@ -17367,7 +17367,7 @@ MonoBehaviour:
   m_CellSize: {x: 140, y: 140}
   m_Spacing: {x: 10, y: 20}
   m_Constraint: 2
-  m_ConstraintCount: 2
+  m_ConstraintCount: 1
 --- !u!114 &1425632900
 MonoBehaviour:
   m_ObjectHideFlags: 0
