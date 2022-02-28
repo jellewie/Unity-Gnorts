@@ -201,7 +201,7 @@ public class UserInput : MonoBehaviour
                 {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
                     RaycastHit hit;                                                             //Create a output variable
-                    if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
+                    if (Physics.Raycast(ray, out hit, 512, (1 << LayerMask.NameToLayer("Building")) | (1 << LayerMask.NameToLayer("Outliner") ))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
                     {
                         if (CodeInputManager.GetButtonDown(ButtonId.Build))                   //If the button is pressed for the first time
                         {
