@@ -7,7 +7,7 @@ public class BuildingPopUp : MonoBehaviour {
     public List<GameObject> SelectedBuildings = new List<GameObject>();
     byte SelectedBuildingSpecial;                                                               //The special tag of the building
     public Dropdown DropDownMenu;                                                               //This needs to be set to the Dropdown menu itzelf
-    public GameObject DisplayGameObjectInformation;
+    //public GameObject DisplayGameObjectInformation;
 
     GameObject FolderGate;
 

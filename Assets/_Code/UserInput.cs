@@ -37,6 +37,8 @@ public class UserInput : MonoBehaviour
     private float buildKeyDownTime;                                                     //How long the build key has been down
     private bool BuildFirstTry = true;
     private float Speed;                                                                //Speed multiplication for controls (zoom out slowdown)
+    private float doubleClickTime = .3f, lastClickTime;
+    public GameObject buttonPrefab;
 
     private void Start()                                                                //Triggered on start
     {
@@ -46,6 +48,13 @@ public class UserInput : MonoBehaviour
     private void Update()                                                               //Triggered before frame update
     {
         deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;                               //Calculate time elapsed since last frame
+        if (Input.GetMouseButtonDown(0))
+        {
+            float timeSinceLastClick = Time.time - lastClickTime;
+            if (timeSinceLastClick <= doubleClickTime)
+                Manager.instance.isDoubleClick = true;                                          //Activate double click flag       
+            lastClickTime = Time.time;
+        }
     }
 
     private void LateUpdate()                                                           //Triggered after frame update
@@ -80,7 +89,7 @@ public class UserInput : MonoBehaviour
         {
             if (InHand)                                                                         //If we have something in our hands
             {
-                var goName = InHand.gameObject.name;
+                var goName = InHand.gameObject.name;                                            //Get object in hand name
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                    //Set a Ray from the cursor + lookation
                 RaycastHit hit;                                                                 //Create a output variable
                 if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Terrain")))  //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over on the Terrain layer only)
@@ -167,7 +176,7 @@ public class UserInput : MonoBehaviour
                     Destroy(InHand);                                                            //Destroy the building               
                 else if(CodeInputManager.GetButtonDown(ButtonId.Build) && !IsDragging           //Walls should be placed continously 
                     &&                                                                          //Is more satisfying :)
-                    IsWallBuilding(goName) == true)
+                    IsBuildingMeantToBePlacedContinuously(goName) == true)
                 {
                     buildKeyDownTime += Time.deltaTime;                                         //Increase the build key timer
                     Build(InHand);
@@ -192,7 +201,7 @@ public class UserInput : MonoBehaviour
                 {
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
                     RaycastHit hit;                                                             //Create a output variable
-                    if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
+                    if (Physics.Raycast(ray, out hit, 512, (1 << LayerMask.NameToLayer("Building")) | (1 << LayerMask.NameToLayer("Outliner") ))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
                     {
                         if (CodeInputManager.GetButtonDown(ButtonId.Build))                   //If the button is pressed for the first time
                         {
@@ -232,19 +241,17 @@ public class UserInput : MonoBehaviour
                         );
 
                         Manager.instance.isSelected = true;                                     //Activate flag for selection outline
-                        hit.collider.gameObject.GetComponent<BuildingOption>().SetSelected(true);
-                        ChangeChildrenLayer(11);                                                //Changes child game object to outliner layer
-                                             
-
-                        FolderBuildingPopUp
-                            .GetComponent<BuildingPopUp>()
-                            .DisplayGameObjectInformation
-                            .GetComponentInChildren<Image>().enabled = true;                      //Activate Image Component on UI    
-                        FolderBuildingPopUp
-                            .GetComponent<BuildingPopUp>()
-                            .DisplayGameObjectInformation
-                            .GetComponentInChildren<Image>().sprite = 
-                            hit.collider.GetComponent<BuildingOption>().Sprite;                  //Set Image Component to building Sprite
+                        if (Manager.instance.isDoubleClick)                                     //If player makes multiple selection of the same object
+                        {
+                            string name = hit.collider.gameObject.name;
+                            GameObject buildings = GameObject.Find("Buildings");
+                            foreach(Transform go in buildings.transform)
+                                if(go.name == name)
+                                    go.transform.GetComponent<BuildingOption>().SetSelected(true);                           
+                        }
+                        else
+                            hit.collider.gameObject.GetComponent<BuildingOption>().SetSelected(true);
+                        ChangeChildrenLayer(11);                                                //Changes child game object to outliner layer           
                     }
                 }
 
@@ -256,6 +263,7 @@ public class UserInput : MonoBehaviour
                     if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Terrain")))
                     {
                         Manager.instance.isSelected = false;
+                        Manager.instance.isDoubleClick = false;
                         ChangeChildrenLayer(10);                                                //Changes child game object to building layer
                     }
                 }
@@ -355,11 +363,13 @@ public class UserInput : MonoBehaviour
         }                                                                                       //Camera stuff
     }
 
-    private bool IsWallBuilding(string name)
+    private bool IsBuildingMeantToBePlacedContinuously(string name)
     {
         if (name.Contains("Wall"))
             return true;
         if (name.Contains("Stair"))
+            return true;
+        if (name.Contains("Moat"))          //Moats should also be able to placed continuously
             return true;
         else
             return false;
@@ -368,25 +378,65 @@ public class UserInput : MonoBehaviour
     private void ChangeChildrenLayer(int layer)
     {
         GameObject buildings = GameObject.Find("Buildings");
+        GameObject content = GameObject.Find("Content");
         if (layer == 10)                                            // Building layer
-        {            
+        {
             foreach (Transform go in buildings.transform)
             {
                 go.GetComponent<BuildingOption>().SetSelected(false);
                 SetMeshChildren(layer, go);
+
             }
+            DestroyButtons(content);
         }
         if (layer == 11)                                            // Outliner layer 
         {
+            DestroyButtons(content); // Reset buttons before they get recreated
             foreach (Transform go in buildings.transform)
             {
                 if (go.GetComponent<BuildingOption>().GetSelected() == true)        // Changes only selected game objects that are selected to outliner layer
                 {
                     go.transform.gameObject.layer = layer;
                     SetMeshChildren(layer, go);
-                }                
+                    InstantiateButton(content, go);
+                }
             }
         }       
+    }
+
+    private static void DestroyButtons(GameObject content)
+    {
+        foreach (Transform child in content.transform)
+            GameObject.Destroy(child.gameObject);
+    }
+
+    private void InstantiateButton(GameObject content, Transform go)
+    {
+        //Instantiate button in selection menu
+        GameObject btn = Instantiate(buttonPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        btn.transform.SetParent(content.transform);
+        var sprite = go.GetComponent<BuildingOption>().Sprite;
+        Texture2D croppedTexture = GetTextureFromSprite(sprite);
+        btn.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        btn.GetComponent<RawImage>().texture = croppedTexture;
+        btn.GetComponent<AssignedBuilding>().Building = go.gameObject;
+    }
+
+    private static Texture2D GetTextureFromSprite(Sprite sprite)
+    {
+        if (sprite.rect.width != sprite.texture.width)
+        {
+            Texture2D newText = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
+            Color[] newColors = sprite.texture.GetPixels((int)sprite.textureRect.x,
+                                                         (int)sprite.textureRect.y,
+                                                         (int)sprite.textureRect.width,
+                                                         (int)sprite.textureRect.height);
+            newText.SetPixels(newColors);
+            newText.Apply();
+            return newText;
+        }
+        else
+            return sprite.texture;
     }
 
     private static void SetMeshChildren(int layer, Transform go)
@@ -662,7 +712,6 @@ public class UserInput : MonoBehaviour
         CodeSaveLoad.GetComponent<SaveLoad>().LoadSaveList();
     }
 
-
     public void _Opti()
     {
         StaticBatchingUtility.Combine(FolderBuildings.gameObject);
@@ -670,6 +719,6 @@ public class UserInput : MonoBehaviour
     public void _TempSetResourceManager()
     {
         CodeResourceManager.GetComponent<ResourceManager>().Set(999999, 999999, 999999, 999999);
-    }   
+    }
 }
  

@@ -83,8 +83,8 @@ public class InputManager : MonoBehaviour
         return Input.GetKey(_keyBindings[ButtonID].KeyCode);                                          //Return the button state
     }
     public bool GetButtonDownOnce(int ButtonID)                                         //Checks if the button is pressed (and flag it as processed)
-    {
-        return Input.GetKeyDown(_keyBindings[ButtonID].KeyCode);                                     //Return the button state
+    { 
+            return Input.GetKeyDown(_keyBindings[ButtonID].KeyCode);                                     //Return the button state  
     }
     /// <summary>
     /// Check if a button has been released this frame.

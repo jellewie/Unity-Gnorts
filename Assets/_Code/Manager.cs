@@ -6,6 +6,7 @@ public class Manager : MonoBehaviour
 {
     public static Manager instance = null;
     public bool isSelected;
+    public bool isDoubleClick=false;
 
     private void Start()
     {
