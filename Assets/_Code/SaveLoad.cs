@@ -10,6 +10,7 @@ public class SaveLoad : MonoBehaviour {
     public GameObject PrefabSaveGameItem;                                               //The prefab of the SaveGameName item list
     public GameObject List;                                                             //The grid to place the items in
     public InputField TextSaveLoad;                                                     //The 'active edit' with the current SaveGameName to do stuff with
+    public bool EmptyLevel;
 
     private String SaveFolderPath;                                                      //The save folder location
     private readonly int SaveVersion = 2;                                               //The version of the Fileformat
@@ -29,8 +30,16 @@ public class SaveLoad : MonoBehaviour {
         string SaveName = ValidateName(TextSaveLoad.text);                                      //Check and edit the name of the given save name to be proper
         if (TextSaveLoad.text == "")                                                            //If no file name has been given
         {
-            Debug.LogWarning("No file name given");
-            return false;                                                                       //We can not load level NULL
+            if (EmptyLevel)
+            {
+                Debug.LogWarning("No file name given");
+                return false;                                                                       //We can not load level NULL
+            }
+            else
+            {
+                TextSaveLoad.text = "TestEnv1";                                                     //Load Default Level at Runtime
+                SaveName = "TestEnv1";                                                              //Make sure to have name of level in the loading list
+            }                
         }
         String FileFolder = Path.Combine(SaveFolderPath, SaveName);                             //The folder to put the data of the SaveGame in
         String FileBuildings = Path.Combine(Path.Combine(SaveFolderPath, SaveName), "Buildings"); //The file location of the file with the Buildings

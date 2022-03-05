@@ -43,6 +43,7 @@ public class UserInput : MonoBehaviour
     private void Start()                                                                //Triggered on start
     {
         SetCursor(MouseDefault);
+        CodeSaveLoad.GetComponent<SaveLoad>()._LoadFromFile();
     }
 
     private void Update()                                                               //Triggered before frame update
