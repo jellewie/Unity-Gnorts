@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;                                                 
 using System;
 using UnityEngine.UI;                                                                   //We need this to interact with the UI
 using System.Collections;                                                               //we need this to use IEnumerator (coroutines)
+using AI;
 /*
 Written by JelleWho
 */
@@ -21,6 +22,7 @@ public class UserInput : MonoBehaviour
     public Transform FolderBuildings;                                                   //The folder where all the buildings should be put in
     public GameObject FolderBuildingPopUp;                                              //The folder with the pop-up stuff in it
     public GameObject TextMessage;
+    public GameObject PathfindingGrid;                                                  //Pathfinding gizmo grid generation
     private Byte LowerObjectBy = 0;                                                     //How much the gameobject should be higher (this is used for walls as example)
     public Texture2D MouseDefault;                                                      //The default mouse icon   
     public Texture2D MouseDeconstruct;                                                  //The mouse icon of the deconstruct tool
@@ -37,12 +39,13 @@ public class UserInput : MonoBehaviour
     private float buildKeyDownTime;                                                     //How long the build key has been down
     private bool BuildFirstTry = true;
     private float Speed;                                                                //Speed multiplication for controls (zoom out slowdown)
-    private float doubleClickTime = .3f, lastClickTime;
+    private float doubleClickTime = .4f, lastClickTime;
     public GameObject buttonPrefab;
 
     private void Start()                                                                //Triggered on start
     {
         SetCursor(MouseDefault);
+        CodeSaveLoad.GetComponent<SaveLoad>()._LoadFromFile();
     }
 
     private void Update()                                                               //Triggered before frame update
@@ -53,7 +56,7 @@ public class UserInput : MonoBehaviour
             float timeSinceLastClick = Time.time - lastClickTime;
             if (timeSinceLastClick <= doubleClickTime)
                 Manager.instance.isDoubleClick = true;                                          //Activate double click flag       
-            lastClickTime = Time.time;
+            lastClickTime = Time.time;            
         }
     }
 
@@ -64,7 +67,8 @@ public class UserInput : MonoBehaviour
             AlwaysControls();                                                                   //Controls that always need to be executed (like the ESC button)
             if (!StopCameraControls)                                                            //If we are on a place where we want to control the camera
             {
-                ExecuteInputs();                                                                //Check if we need to move the camera                                       
+                ExecuteInputs();                                                                //Check if we need to move the camera
+                PathfindingGrid.GetComponent<PathfindingGrid>().CreateGrid();  
             }
         }
         if (GamePaused)                                                                         //If the game is paused

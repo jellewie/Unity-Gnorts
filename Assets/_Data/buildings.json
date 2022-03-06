@@ -583,5 +583,31 @@
     "BuildType": 0,
     "ClickSpecial": 0,
     "DestroySpecial": 0
+  },
+  {
+    "Name": "Tree_Small",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 0,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
+  },
+  {
+    "Name": "NPC",
+    "Cost": {
+      "Wood": 0,
+      "Stone": 10,
+      "Iron": 0,
+      "Gold": 0
+    },
+    "FirstFree": false,
+    "BuildType": 0,
+    "ClickSpecial": 0,
+    "DestroySpecial": 0
   }
 ]
