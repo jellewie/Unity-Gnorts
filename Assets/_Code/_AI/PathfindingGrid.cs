@@ -2,14 +2,12 @@ using UnityEngine;
 
 namespace AI
 {
-    [ExecuteInEditMode]
     public class PathfindingGrid : MonoBehaviour
     {
         public Transform Player;
         public LayerMask unwalkableMasks;
         public Vector2 gridWorldSize;
         public float nodeRadius;
-        private Vector3 offset;
 
         Node[,] grid;
         float nodeDiameter;
@@ -17,7 +15,6 @@ namespace AI
 
         private void Start()
         {
-            offset = new Vector3(7, 0, 3);
             nodeDiameter = nodeRadius * 2;
             gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
             gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
@@ -42,8 +39,8 @@ namespace AI
         {
             float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
             float percentY = (worldPosition.z + gridWorldSize.y / 2) / gridWorldSize.y;
-            int x = Mathf.RoundToInt((gridSizeX) * percentX) + 1;
-            int y = Mathf.RoundToInt((gridSizeY) * percentY) + 1;
+            int x = Mathf.RoundToInt((gridSizeX) * percentX);
+            int y = Mathf.RoundToInt((gridSizeY) * percentY)-1;
             return grid[x, y];
         }
         private void OnDrawGizmos()
