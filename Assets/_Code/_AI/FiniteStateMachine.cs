@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace FiniteStateMachine
+namespace AI
 {
     public class State
     {

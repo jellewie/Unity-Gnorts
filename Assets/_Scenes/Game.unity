@@ -3273,7 +3273,7 @@ RectTransform:
   - {fileID: 785005186}
   - {fileID: 381728294}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -8316,7 +8316,7 @@ Transform:
   - {fileID: 872035677}
   - {fileID: 1040418256}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &706123445
 GameObject:
@@ -12533,6 +12533,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1048350749}
   m_CullTransparentMesh: 0
+--- !u!1 &1055873134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1055873135}
+  - component: {fileID: 1055873136}
+  m_Layer: 0
+  m_Name: _Pathfinding_
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1055873135
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055873134}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 11, y: 0, z: 58.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1175596812}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1055873136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055873134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 529c7bbf1f81d3b478df10f3b52d8880, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unwalkableMasks:
+    serializedVersion: 2
+    m_Bits: 1024
+  gridWorldSize: {x: 160, y: 160}
+  nodeRadius: 1
 --- !u!1 &1058090998
 GameObject:
   m_ObjectHideFlags: 0
@@ -13230,6 +13279,7 @@ MonoBehaviour:
   FolderBuildings: {fileID: 1040418256}
   FolderBuildingPopUp: {fileID: 2038742038}
   TextMessage: {fileID: 450758157}
+  PathfindingGrid: {fileID: 1055873134}
   MouseDefault: {fileID: 2800000, guid: 4d09ffd71a49d7747ac2653db8c56353, type: 3}
   MouseDeconstruct: {fileID: 2800000, guid: f10818a711f2ff64385290cdb3550977, type: 3}
   ThisPlayerID: 0
@@ -14476,6 +14526,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1172291802}
   m_CullTransparentMesh: 0
+--- !u!1 &1175596811
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1175596812}
+  m_Layer: 0
+  m_Name: _AI_
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1175596812
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175596811}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1055873135}
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1176213187
 GameObject:
   m_ObjectHideFlags: 0
@@ -14703,7 +14785,7 @@ Transform:
   - {fileID: 1686145421}
   - {fileID: 1887181084}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1214469373
 GameObject:
@@ -17905,8 +17987,8 @@ RectTransform:
   m_Father: {fileID: 1443253175}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.0017536811, y: 0}
+  m_AnchorMax: {x: 0.7425562, y: 1}
   m_AnchoredPosition: {x: -2.2088013, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
