@@ -76,3 +76,4 @@ Assets/ProBuilder Data/*
 *.asset
 !ProjectSettings/TagManager.asset
 UserSettings/*
+ProjectSettings/Packages/com.unity.probuilder/Settings.json
