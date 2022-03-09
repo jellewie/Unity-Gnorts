@@ -68,3 +68,5 @@ $RECYCLE.BIN/
 *.lnk
 *.log
 *.blend1
+Assets/Resources/BillingMode.json.meta
+Assets/Resources/BillingMode.json
