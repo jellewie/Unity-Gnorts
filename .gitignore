@@ -68,5 +68,10 @@ $RECYCLE.BIN/
 *.lnk
 *.log
 *.blend1
+
+# Manual removed files and folders
 Assets/Resources/BillingMode.json.meta
 Assets/Resources/BillingMode.json
+Assets/ProBuilder Data/*
+*.asset
+UserSettings/*
