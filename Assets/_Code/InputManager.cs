@@ -46,8 +46,8 @@ public class InputManager : MonoBehaviour
         int ArrayLength = 22 + 1;                                                               //The total amount of entries, change accordingly (+1 since we have a '0' entry too)
         _keyBindings = new KeyBinding[ArrayLength];                                                      //Create a new array with the proper length
 
-        _keyBindings[ButtonId.Drag]           = new KeyBinding("Drag",             KeyCode.Mouse1,         "Drag the camera"); //Add some data
-        _keyBindings[ButtonId.Rotate]         = new KeyBinding("Rotate",           KeyCode.Mouse2,         "Rotate the camera");
+        _keyBindings[ButtonId.Drag]           = new KeyBinding("Drag screen",      KeyCode.Mouse1,         "Drag the camera"); //Add some data
+        _keyBindings[ButtonId.Rotate]         = new KeyBinding("Rotate camera",    KeyCode.Mouse2,         "Rotate the camera");
         _keyBindings[ButtonId.Left]           = new KeyBinding("Left",             KeyCode.A,              "Move camera left");
         _keyBindings[ButtonId.Down]           = new KeyBinding("Down",             KeyCode.S,              "Move camera backwards");
         _keyBindings[ButtonId.Right]          = new KeyBinding("Right",            KeyCode.D,              "Move camera right");
