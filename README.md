@@ -25,5 +25,5 @@ https://discord.gg/ggfDJHg
 
 
  ## Acknowledgement
- 1)Icons created by Freepik - Flaticon : https://www.flaticon.com/free-icons/finger, https://www.flaticon.com/free-icons/mace
- 2)Outline shader for selected objects : https://willweissman.com/unity-outlines
+ 1) Icons created by Freepik - Flaticon : https://www.flaticon.com/free-icons/finger, https://www.flaticon.com/free-icons/mace
+ 2) Outline shader for selected objects : https://willweissman.com/unity-outlines
