@@ -37,8 +37,10 @@ public class SaveLoad : MonoBehaviour {
             }
             else
             {
-                TextSaveLoad.text = "TestEnv1";                                                     //Load Default Level at Runtime
-                SaveName = "TestEnv1";                                                              //Make sure to have name of level in the loading list
+                //TextSaveLoad.text = "TestEnv1";                                                     //Load Default Level at Runtime
+                //SaveName = "TestEnv1";                                                              //Make sure to have name of level in the loading list
+                TextAsset textFile = Resources.Load<TextAsset>("testWorld");// Loads file
+                StringToWorld(textFile.text);                                                 //Create the world with this string
             }                
         }
         String FileFolder = Path.Combine(SaveFolderPath, SaveName);                             //The folder to put the data of the SaveGame in
@@ -89,7 +91,7 @@ public class SaveLoad : MonoBehaviour {
              + "," + OwnerID
              + "," + CampainmapID
              + "," + DateTime.Now.Year + "-" + DateTime.Now.Month + "-" + DateTime.Now.Day + "_" + DateTime.Now.Hour + ":" + DateTime.Now.Minute
-             + "," + "github.com/andreiserbanrazvan/openStronghold"
+             + "," + "dev/unity-gnorts"
             );
         SW.WriteLine(WorldToString());                                                          //Get and write all buildings to the file
         SW.Close();                                                                             //Close the stream so the file isn't locked anymore

@@ -41,11 +41,14 @@ public class UserInput : MonoBehaviour
     private float Speed;                                                                //Speed multiplication for controls (zoom out slowdown)
     private float doubleClickTime = .4f, lastClickTime;
     public GameObject buttonPrefab;
+    private GameObject selectionMenu;
 
     private void Start()                                                                //Triggered on start
     {
         SetCursor(MouseDefault);
         CodeSaveLoad.GetComponent<SaveLoad>()._LoadFromFile();
+        selectionMenu = GameObject.Find("SelectionMenu");
+        selectionMenu.SetActive(false);
     }
 
     private void Update()                                                               //Triggered before frame update
@@ -232,6 +235,8 @@ public class UserInput : MonoBehaviour
                     RaycastHit hit;                                                             //Create a output variable
                     if (Physics.Raycast(ray, out hit, 512, 1 << LayerMask.NameToLayer("Building"))) //Send the Ray 
                     {
+                        if (!selectionMenu.active)
+                            selectionMenu.SetActive(true);
                         if (CodeInputManager.GetButtonDown(ButtonId.Alternative))
                             HideBuildMenus();                                                   //Hide the Build Menu's
                         else
@@ -270,6 +275,8 @@ public class UserInput : MonoBehaviour
                         Manager.instance.isDoubleClick = false;
                         ChangeChildrenLayer(10);                                                //Changes child game object to building layer
                     }
+                    if (selectionMenu.active)
+                        selectionMenu.SetActive(false);
                 }
             }
         }
@@ -389,9 +396,9 @@ public class UserInput : MonoBehaviour
             {
                 go.GetComponent<BuildingOption>().SetSelected(false);
                 SetMeshChildren(layer, go);
-
             }
-            DestroyButtons(content);
+            if(selectionMenu.active)
+                DestroyButtons(content);
         }
         if (layer == 11)                                            // Outliner layer 
         {

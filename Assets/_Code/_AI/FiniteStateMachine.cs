@@ -67,5 +67,5 @@ namespace AI
         }
     }
 }
-    
+
 
