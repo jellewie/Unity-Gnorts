@@ -183,7 +183,7 @@ public class UserInput : MonoBehaviour
                     Destroy(InHand);                                                            //Destroy the building               
                 else if(CodeInputManager.GetButtonDown(ButtonId.Build) && !IsDragging           //Walls should be placed continously 
                     &&                                                                          //Is more satisfying :)
-                    IsBuildingMeantToBePlacedContinuously(goName) == true)
+                    IsBuildingMeantToBePlacedErasedContinuously(goName) == true)
                 {
                     buildKeyDownTime += Time.deltaTime;                                         //Increase the build key timer
                     Build(InHand);
@@ -204,23 +204,15 @@ public class UserInput : MonoBehaviour
             }
             else if (DeconstructToolEquiped)                                                    //If the Deconstruct tool is aquiped
             {
-                if (CodeInputManager.GetButtonDown(ButtonId.Build))                               //If we want to Deconstruct this building
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
+                RaycastHit hit;                                                             //Create a output variable
+                if (Physics.Raycast(ray, out hit, 512, (1 << LayerMask.NameToLayer("Building")) | (1 << LayerMask.NameToLayer("Outliner")))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
                 {
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);                //Set a Ray from the cursor + lookation
-                    RaycastHit hit;                                                             //Create a output variable
-                    if (Physics.Raycast(ray, out hit, 512, (1 << LayerMask.NameToLayer("Building")) | (1 << LayerMask.NameToLayer("Outliner") ))) //Send the Ray (This will return "hit" with the exact XYZ coords the mouse is over                                      
-                    {
-                        if (CodeInputManager.GetButtonDown(ButtonId.Build))                   //If the button is pressed for the first time
-                        {
-                            if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
-                                DeconstructBuilding(hit.transform.gameObject);                  //Deconstruct the selected building
-                        }
-                        else if (CodeInputManager.GetButtonDown(ButtonId.Alternative))            //If the continue button is pressed
-                        {
-                            if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
-                                DeconstructBuilding(hit.transform.gameObject);                  //Deconstruct the selected building
-                        }
-                    }
+                    if (CodeInputManager.GetButtonDownOnce(ButtonId.Build))                 //If we want to Deconstruct this building
+                        DeconstructBuilding(hit);
+                   else if (CodeInputManager.GetButtonDown(ButtonId.Build)                  //If we want to Deconstruct multiple buildings                
+                        && IsBuildingMeantToBePlacedErasedContinuously(hit.transform.gameObject.name))
+                        DeconstructBuilding(hit);
                 }
                 else if (CodeInputManager.GetButtonDownOnce(ButtonId.CancelBuild))                //If we want to cancel Removing buildings
                 {                                          
@@ -374,7 +366,21 @@ public class UserInput : MonoBehaviour
         }                                                                                       //Camera stuff
     }
 
-    private bool IsBuildingMeantToBePlacedContinuously(string name)
+    private void DeconstructBuilding(RaycastHit hit)
+    {
+        if (CodeInputManager.GetButtonDown(ButtonId.Build))                   //If the button is pressed for the first time
+        {
+            if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
+                DeconstructBuilding(hit.transform.gameObject);                  //Deconstruct the selected building
+        }
+        else if (CodeInputManager.GetButtonDown(ButtonId.Alternative))            //If the continue button is pressed
+        {
+            if (!EventSystem.current.IsPointerOverGameObject())                 //If mouse is not over an UI element
+                DeconstructBuilding(hit.transform.gameObject);                  //Deconstruct the selected building
+        }
+    }
+
+    private bool IsBuildingMeantToBePlacedErasedContinuously(string name)
     {
         if (name.Contains("Wall"))
             return true;
