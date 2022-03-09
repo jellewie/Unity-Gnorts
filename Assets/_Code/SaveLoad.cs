@@ -143,6 +143,7 @@ public class SaveLoad : MonoBehaviour {
             go.transform.SetParent(List.transform);                                             //Set there parrent
             go.transform.Find("Button/Text").GetComponent<Text>().text = SaveName;              //Set the text on the button
             go.transform.Find("Button").GetComponent<Button>().onClick.AddListener(() => { ChangeSaveName(SaveName); }); //Add the click action
+            go.transform.localScale = new Vector3(1,1,1);                                       //Fixes scale to 1 otherwise they had 1.837 etc
         }
     }
     void ChangeSaveName(string buttonName)                                              //Attached to the prefab buttons with SaveGameNames
